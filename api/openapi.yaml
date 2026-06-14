@@ -1,0 +1,11 @@
+openapi: 3.0.3
+info:
+  title: 受注データ品質管理・検証システム API
+  version: 0.1.0
+paths:
+  /resources:
+    get:
+      summary: /resources GET
+      responses:
+        '200':
+          description: OK
