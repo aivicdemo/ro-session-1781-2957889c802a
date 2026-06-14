@@ -1,0 +1,5330 @@
+[
+  {
+    "systemId": "itg-2",
+    "systemName": "基幹システム連携・データ検証インターフェース",
+    "screens": [
+      {
+        "id": "scr-1781408454309",
+        "name": "受注データバリデーション・エラー管理画面",
+        "purpose": "受注データのバリデーション結果を監視し、エラーを分類・管理・追跡し、基幹システム連携の品質を確保する",
+        "items": [
+          "受注データ検索フィルター",
+          "バリデーション実行ボタン",
+          "エラー一覧テーブル",
+          "エラー詳細パネル",
+          "エラー分類ドロップダウン",
+          "エラー重要度フィルター",
+          "責任者割当セレクト",
+          "エラーステータス更新ボタン",
+          "通知送信ボタン",
+          "エラーログ表示",
+          "バリデーションルール確認リンク",
+          "基幹システム連携履歴表示"
+        ]
+      },
+      {
+        "id": "scr-1781408467707",
+        "name": "バリデーション失敗詳細ログ・原因分類画面",
+        "purpose": "受注データのバリデーション失敗ログを詳細表示し、エラー原因を分類・分析するための画面",
+        "items": [
+          "失敗ログ検索フィルター",
+          "日付範囲指定",
+          "エラーコード検索",
+          "受注ID検索",
+          "チャネル絞り込み",
+          "ステータス絞り込み",
+          "失敗ログ一覧テーブル",
+          "ログID",
+          "受注ID",
+          "エラー発生日時",
+          "エラーコード",
+          "エラーメッセージ"
+        ]
+      },
+      {
+        "id": "scr-1781408480585",
+        "name": "エラー通知・責任者別対応画面",
+        "purpose": "基幹システム連携時に発生したバリデーションエラーを責任者別に分類・通知し、各責任者が対応状況を管理・追跡するための画面",
+        "items": [
+          "エラー件数サマリーパネル",
+          "責任者別フィルタ",
+          "エラー分類フィルタ",
+          "優先度フィルタ",
+          "ステータスフィルタ",
+          "日付範囲選択",
+          "エラー一覧テーブル",
+          "エラーID",
+          "受注番号",
+          "エラー分類",
+          "エラー内容",
+          "発生日時"
+        ]
+      },
+      {
+        "id": "scr-1781408495526",
+        "name": "受注データ集計・差異検証画面",
+        "purpose": "受注データの集計結果と基幹システムとの差異を検証し、エラーを分類・管理して承認・連携反映を行う",
+        "items": [
+          "集計期間選択",
+          "チャネル絞り込み",
+          "顧客絞り込み",
+          "集計データ表示テーブル",
+          "受注件数サマリー",
+          "売上金額サマリー",
+          "差異検証結果表示",
+          "差異件数カウント",
+          "エラー分類別集計",
+          "エラー詳細テーブル",
+          "エラー内容表示",
+          "エラー分類ドロップダウン"
+        ]
+      },
+      {
+        "id": "scr-1781408509581",
+        "name": "基幹システム連携実行・反映状況画面",
+        "purpose": "受注データの基幹システムへの連携実行状況と反映結果をリアルタイムで監視・管理し、エラー対応と承認プロセスを統括する",
+        "items": [
+          "ログインユーザー情報表示",
+          "ユーザー権限確認",
+          "連携実行ステータス一覧",
+          "受注データ検索フィルター",
+          "バリデーション結果表示",
+          "エラー内容詳細表示",
+          "エラー分類別集計",
+          "連携反映状況タイムライン",
+          "承認済み受注一覧",
+          "月次差異検証結果",
+          "連携実行ボタン",
+          "再実行ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781408522985",
+        "name": "基幹システム連携処理",
+        "purpose": "受注データを基幹システムと連携し、バリデーション検証と承認フローを管理する画面",
+        "items": [
+          "受注データ検索フィルター",
+          "受注データ一覧表",
+          "バリデーションルール選択",
+          "バリデーション実行ボタン",
+          "バリデーション結果表示",
+          "エラー分類別集計",
+          "エラー詳細ビューア",
+          "責任者割当セレクト",
+          "承認ステータス表示",
+          "承認実行ボタン",
+          "却下理由入力欄",
+          "却下ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781408534590",
+        "name": "連携結果確認・エラー表示画面",
+        "purpose": "基幹システムとの連携処理の実行結果を確認し、発生したエラーを表示・分類・対応するための画面",
+        "items": [
+          "連携実行日時フィルター",
+          "連携ステータス表示",
+          "連携件数サマリー",
+          "成功件数表示",
+          "エラー件数表示",
+          "警告件数表示",
+          "連携結果一覧テーブル",
+          "受注ID検索欄",
+          "エラー分類フィルター",
+          "責任者フィルター",
+          "エラー詳細表示パネル",
+          "エラーメッセージ表示"
+        ]
+      },
+      {
+        "id": "scr-1781408548598",
+        "name": "基幹システム連携データ検証・送信処理",
+        "purpose": "受注データを基幹システムと連携する前に、バリデーションルールに基づいてデータを検証し、エラーを分類・通知した上で承認・送信を行う",
+        "items": [
+          "受注データ検索フィルター",
+          "検索実行ボタン",
+          "受注データ一覧表",
+          "バリデーション実行ボタン",
+          "バリデーション結果表示パネル",
+          "エラー件数サマリー",
+          "エラー分類別タブ",
+          "エラー詳細表",
+          "エラーログ表示",
+          "責任者割当ドロップダウン",
+          "通知送信ボタン",
+          "チャネル選択チェックボックス"
+        ]
+      },
+      {
+        "id": "scr-1781408562987",
+        "name": "バリデーション失敗時の自動通知機能を実装",
+        "purpose": "バリデーション失敗時に自動的に関連する責任者へ通知を送信し、エラー内容の追跡と対応を効率化する",
+        "items": [
+          "バリデーション失敗一覧",
+          "失敗内容詳細表示",
+          "エラー分類フィルター",
+          "責任者自動割り当て",
+          "通知対象者選択",
+          "通知チャネル選択（メール/SMS/システム内通知）",
+          "通知テンプレート選択",
+          "通知内容プレビュー",
+          "即時通知ボタン",
+          "定期通知スケジュール設定",
+          "通知ルール設定",
+          "受注データ参照"
+        ]
+      },
+      {
+        "id": "scr-1781408588985",
+        "name": "テストデータ検証処理",
+        "purpose": "受注データの検証ルールに基づいたテストデータの妥当性を検証し、エラーを分類・記録・通知する",
+        "items": [
+          "検証対象受注データ選択",
+          "バリデーションルール一覧表示",
+          "テストデータアップロード",
+          "検証実行ボタン",
+          "検証進捗表示",
+          "検証結果サマリー",
+          "エラー一覧表示",
+          "エラー分類フィルタ",
+          "エラー詳細表示",
+          "責任者割当",
+          "通知チャネル選択",
+          "通知送信ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781408601476",
+        "name": "基幹システム連携実行画面",
+        "purpose": "受注データを基幹システムと連携し、バリデーション実行、エラー検証、承認・反映状況を一元管理する画面",
+        "items": [
+          "ログインユーザー情報表示",
+          "ユーザー権限確認",
+          "受注データ一覧表",
+          "連携対象期間選択",
+          "チャネル選択フィルタ",
+          "顧客マスタ参照",
+          "バリデーションルール選択",
+          "バリデーション実行ボタン",
+          "バリデーション結果表示",
+          "エラー分類別集計表",
+          "エラーログ詳細表示",
+          "エラー責任者割当"
+        ]
+      },
+      {
+        "id": "scr-1781408614677",
+        "name": "連携結果確認画面",
+        "purpose": "基幹システムとの受注データ連携結果を確認し、バリデーション状況、エラー内容、連携反映状況を一元管理する画面",
+        "items": [
+          "連携実行日時フィルター",
+          "連携ステータス表示",
+          "受注データ一覧テーブル",
+          "バリデーション結果サマリー",
+          "エラー件数集計",
+          "エラー分類別集計",
+          "エラー詳細表示パネル",
+          "エラーログ検索欄",
+          "チャネル別フィルター",
+          "顧客別フィルター",
+          "月次差異検証結果",
+          "承認済み受注ステータス"
+        ]
+      },
+      {
+        "id": "scr-1781408626891",
+        "name": "基幹システム連携インターフェース",
+        "purpose": "受注データを基幹システムと連携し、データ検証・エラー管理・承認フローを一元管理するインターフェース",
+        "items": [
+          "受注データ一覧表",
+          "連携ステータスフィルタ",
+          "検索・絞り込みパネル",
+          "バリデーション実行ボタン",
+          "エラー内容表示パネル",
+          "エラー分類別集計",
+          "承認待ち受注リスト",
+          "承認・却下ボタン",
+          "基幹システム連携ボタン",
+          "連携履歴タブ",
+          "月次差異検証結果",
+          "通知履歴ビューア"
+        ]
+      },
+      {
+        "id": "scr-1781408640983",
+        "name": "連携仕様設定・テスト画面",
+        "purpose": "基幹システムとの連携仕様を設定・管理し、データ検証ルールをテストするための画面",
+        "items": [
+          "連携仕様マスタ検索フォーム",
+          "連携仕様一覧テーブル",
+          "連携仕様新規作成ボタン",
+          "連携仕様編集ボタン",
+          "連携仕様削除ボタン",
+          "連携仕様詳細パネル",
+          "チャネル選択ドロップダウン",
+          "データマッピング設定エリア",
+          "バリデーションルール設定エリア",
+          "バリデーションルール追加ボタン",
+          "バリデーションルール削除ボタン",
+          "テストデータ入力フォーム"
+        ]
+      },
+      {
+        "id": "scr-1781408655472",
+        "name": "連携テスト・ログ記録処理",
+        "purpose": "基幹システムとの連携テストを実行し、検証結果とエラーログを記録・管理する画面",
+        "items": [
+          "連携テスト実行ボタン",
+          "テスト対象システム選択",
+          "テストデータ入力フォーム",
+          "バリデーションルール選択",
+          "テスト実行履歴一覧",
+          "バリデーション結果表示",
+          "エラーログ表示",
+          "エラー分類フィルター",
+          "エラー詳細ビューア",
+          "ログ出力形式選択",
+          "ログダウンロードボタン",
+          "責任者割当機能"
+        ]
+      },
+      {
+        "id": "scr-1781408667902",
+        "name": "基幹システム連携検証画面",
+        "purpose": "受注データの基幹システム連携前の検証、エラー確認、承認処理を行う画面",
+        "items": [
+          "受注データ検索フィルター",
+          "検索実行ボタン",
+          "受注一覧テーブル",
+          "バリデーション結果表示",
+          "エラー内容詳細表示",
+          "エラー分類フィルター",
+          "エラーログ表示",
+          "責任者割当ドロップダウン",
+          "承認ボタン",
+          "却下ボタン",
+          "修正指示入力欄",
+          "通知送信ボタン"
+        ]
+      }
+    ],
+    "tableDefinitions": [
+      {
+        "tableName": "受注データ",
+        "purpose": "受注の基本情報を管理し、品質検証・監査対象となる顧客注文の記録を保持する",
+        "columns": [
+          {
+            "name": "受注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "受注の一意識別子"
+          },
+          {
+            "name": "受注番号",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ビジネス上の受注番号（外部参照用）"
+          },
+          {
+            "name": "顧客ID",
+            "type": "uuid",
+            "required": true,
+            "description": "顧客マスタへの外部キー"
+          },
+          {
+            "name": "受注日",
+            "type": "timestamp",
+            "required": true,
+            "description": "受注が発生した日時"
+          },
+          {
+            "name": "納期",
+            "type": "timestamp",
+            "required": true,
+            "description": "納品予定日時"
+          },
+          {
+            "name": "受注金額",
+            "type": "integer",
+            "required": true,
+            "description": "受注総額（単位：円）"
+          },
+          {
+            "name": "ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "受注ステータス（未処理/処理中/完了/キャンセル等）"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "受注に関する特記事項"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者ID"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード最終更新者ID"
+          }
+        ]
+      },
+      {
+        "tableName": "ログインユーザー",
+        "purpose": "受注データ品質管理・検証システムのユーザー認証・認可管理。ユーザーの基本情報、ロール、アクセス権限、ログイン履歴を管理する。",
+        "columns": [
+          {
+            "name": "ユーザーID",
+            "type": "uuid",
+            "required": true,
+            "description": "ユーザーの一意識別子"
+          },
+          {
+            "name": "ユーザー名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ログイン時に使用するユーザー名"
+          },
+          {
+            "name": "メールアドレス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ユーザーのメールアドレス"
+          },
+          {
+            "name": "パスワードハッシュ",
+            "type": "varchar(255)",
+            "required": true,
+            "description": "暗号化されたパスワード"
+          },
+          {
+            "name": "ロール",
+            "type": "varchar(50)",
+            "required": true,
+            "description": "ユーザーのロール（管理者/検証者/承認者/閲覧者等）"
+          },
+          {
+            "name": "部門",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "ユーザーが属する部門"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "ユーザーアカウントの有効/無効状態"
+          },
+          {
+            "name": "最終ログイン日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "最後にログインした日時"
+          },
+          {
+            "name": "ログイン失敗回数",
+            "type": "integer",
+            "required": true,
+            "description": "連続ログイン失敗回数（アカウントロック判定用）"
+          },
+          {
+            "name": "アカウントロック状態",
+            "type": "boolean",
+            "required": true,
+            "description": "セキュリティ上の理由によるアカウントロック状態"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "ユーザーアカウント作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "ユーザー情報最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ユーザーアカウント作成者"
+          }
+        ]
+      },
+      {
+        "tableName": "ユーザー権限",
+        "purpose": "ユーザーのシステムアクセス権限と機能利用権限を管理し、受注データ品質管理・検証システムにおける操作制御を実現する",
+        "columns": [
+          {
+            "name": "ユーザー権限ID",
+            "type": "uuid",
+            "required": true,
+            "description": "ユーザー権限レコードの一意識別子"
+          },
+          {
+            "name": "ユーザーID",
+            "type": "uuid",
+            "required": true,
+            "description": "ログインユーザーテーブルへの外部キー"
+          },
+          {
+            "name": "権限コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "権限の種類を示すコード（例：ADMIN、VALIDATOR、APPROVER、VIEWER）"
+          },
+          {
+            "name": "権限名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "権限の日本語名称"
+          },
+          {
+            "name": "データ検証実行権限",
+            "type": "boolean",
+            "required": true,
+            "description": "受注データ検証の実行可否"
+          },
+          {
+            "name": "データ修正権限",
+            "type": "boolean",
+            "required": true,
+            "description": "受注データ修正の実行可否"
+          },
+          {
+            "name": "承認権限",
+            "type": "boolean",
+            "required": true,
+            "description": "修正内容の承認可否"
+          },
+          {
+            "name": "レポート閲覧権限",
+            "type": "boolean",
+            "required": true,
+            "description": "検証結果レポートの閲覧可否"
+          },
+          {
+            "name": "ユーザー管理権限",
+            "type": "boolean",
+            "required": true,
+            "description": "ユーザーおよび権限管理の実行可否"
+          },
+          {
+            "name": "システム設定権限",
+            "type": "boolean",
+            "required": true,
+            "description": "システム設定変更の実行可否"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "権限の有効/無効状態"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "権限レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "権限レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "権限レコード作成者のユーザーID"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "権限レコード最終更新者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "バリデーションルール",
+        "purpose": "基幹システム連携時のデータ検証ルールを一元管理し、受注データ等の入力値妥当性チェックを制御する",
+        "columns": [
+          {
+            "name": "ルールID",
+            "type": "uuid",
+            "required": true,
+            "description": "バリデーションルールの一意識別子"
+          },
+          {
+            "name": "ルール名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ルールの名称（例：受注金額チェック、顧客コード形式検証）"
+          },
+          {
+            "name": "対象テーブル名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証対象のテーブル名（例：受注データ）"
+          },
+          {
+            "name": "対象カラム名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証対象のカラム名"
+          },
+          {
+            "name": "ルールタイプ",
+            "type": "varchar(50)",
+            "required": true,
+            "description": "検証タイプ（例：必須、形式、範囲、リスト値、カスタム）"
+          },
+          {
+            "name": "検証条件",
+            "type": "text",
+            "required": true,
+            "description": "検証ロジック（例：正規表現、数値範囲、許可値リスト）"
+          },
+          {
+            "name": "エラーメッセージ",
+            "type": "varchar(255)",
+            "required": true,
+            "description": "検証失敗時に表示するエラーメッセージ"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "ルールが有効か否か"
+          },
+          {
+            "name": "優先度",
+            "type": "integer",
+            "required": false,
+            "description": "複数ルール適用時の実行順序（小さい値から実行）"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "ルール作成日時"
+          },
+          {
+            "name": "作成者",
+            "type": "uuid",
+            "required": true,
+            "description": "ルール作成者のユーザーID（ログインユーザーテーブルへの外部キー）"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "ルール最終更新日時"
+          },
+          {
+            "name": "更新者",
+            "type": "uuid",
+            "required": true,
+            "description": "ルール最終更新者のユーザーID（ログインユーザーテーブルへの外部キー）"
+          }
+        ]
+      },
+      {
+        "tableName": "バリデーション結果",
+        "purpose": "受注データおよび基幹システム連携時のバリデーション実行結果を記録・追跡するトランザクションテーブル。検証ルール適用状況、エラー内容、再検証履歴を管理し、データ品質保証と監査証跡を実現する。",
+        "columns": [
+          {
+            "name": "バリデーション結果ID",
+            "type": "uuid",
+            "required": true,
+            "description": "バリデーション結果の一意識別子"
+          },
+          {
+            "name": "受注データID",
+            "type": "uuid",
+            "required": true,
+            "description": "対象となる受注データの外部キー"
+          },
+          {
+            "name": "バリデーションルールID",
+            "type": "uuid",
+            "required": true,
+            "description": "適用されたバリデーションルールの外部キー"
+          },
+          {
+            "name": "検証ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証結果ステータス（成功/失敗/警告/スキップ）"
+          },
+          {
+            "name": "エラーメッセージ",
+            "type": "text",
+            "required": false,
+            "description": "バリデーション失敗時の詳細エラーメッセージ"
+          },
+          {
+            "name": "エラーフィールド",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "エラーが発生したデータフィールド名"
+          },
+          {
+            "name": "エラー値",
+            "type": "text",
+            "required": false,
+            "description": "バリデーション失敗の原因となった実際の値"
+          },
+          {
+            "name": "実行ユーザーID",
+            "type": "uuid",
+            "required": true,
+            "description": "バリデーション実行者のログインユーザーID"
+          },
+          {
+            "name": "実行日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "バリデーション実行日時"
+          },
+          {
+            "name": "再検証フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "再検証対象かどうかを示すフラグ"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          }
+        ]
+      },
+      {
+        "tableName": "エラーログ",
+        "purpose": "基幹システム連携時のデータ検証エラーを記録・追跡し、問題解析と再処理管理を支援する",
+        "columns": [
+          {
+            "name": "エラーログID",
+            "type": "uuid",
+            "required": true,
+            "description": "エラーログの一意識別子"
+          },
+          {
+            "name": "受注データID",
+            "type": "uuid",
+            "required": false,
+            "description": "関連する受注データの識別子（エラー発生元）"
+          },
+          {
+            "name": "バリデーション結果ID",
+            "type": "uuid",
+            "required": false,
+            "description": "関連するバリデーション結果の識別子"
+          },
+          {
+            "name": "バリデーションルールID",
+            "type": "uuid",
+            "required": false,
+            "description": "違反したバリデーションルールの識別子"
+          },
+          {
+            "name": "エラーコード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "エラーの分類コード（例：VAL_001, SYS_002）"
+          },
+          {
+            "name": "エラーメッセージ",
+            "type": "text",
+            "required": true,
+            "description": "エラーの詳細説明"
+          },
+          {
+            "name": "エラー詳細",
+            "type": "text",
+            "required": false,
+            "description": "スタックトレースやシステム詳細情報"
+          },
+          {
+            "name": "エラー種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "エラーの種類（例：バリデーションエラー、システムエラー、連携エラー）"
+          },
+          {
+            "name": "重要度",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "エラーの重要度レベル（例：INFO, WARNING, ERROR, CRITICAL）"
+          },
+          {
+            "name": "発生モジュール",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "エラーが発生したシステムモジュール名"
+          },
+          {
+            "name": "ユーザーID",
+            "type": "uuid",
+            "required": false,
+            "description": "エラーを引き起こしたユーザーの識別子"
+          },
+          {
+            "name": "ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "エラーの状態（例：未対応, 対応中, 解決済み, 無視）"
+          },
+          {
+            "name": "再処理可能フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "エラー解決後の再処理が可能かどうか"
+          },
+          {
+            "name": "再処理日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "エラーが再処理された日時"
+          },
+          {
+            "name": "対応者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "エラーに対応したユーザーの識別子"
+          },
+          {
+            "name": "対応コメント",
+            "type": "text",
+            "required": false,
+            "description": "対応者による対応内容のコメント"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "エラーログが記録された日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "エラーログが最後に更新された日時"
+          }
+        ]
+      },
+      {
+        "tableName": "エラー分類マスタ",
+        "purpose": "システム連携・データ検証時に発生するエラーを分類・管理し、バリデーション結果やエラーログで参照される基準マスタ",
+        "columns": [
+          {
+            "name": "エラー分類ID",
+            "type": "uuid",
+            "required": true,
+            "description": "エラー分類の一意識別子"
+          },
+          {
+            "name": "エラーコード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "エラーを識別するコード（例：ERR_001、VAL_INVALID_FORMAT）"
+          },
+          {
+            "name": "エラー分類名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "エラー分類の名称（例：データ型エラー、必須項目エラー）"
+          },
+          {
+            "name": "エラー説明",
+            "type": "text",
+            "required": true,
+            "description": "エラーの詳細説明と対応方法"
+          },
+          {
+            "name": "重要度レベル",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "エラーの重要度（例：CRITICAL、WARNING、INFO）"
+          },
+          {
+            "name": "対象システム",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "このエラーが適用されるシステム名"
+          },
+          {
+            "name": "自動復旧可能フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "自動復旧が可能かどうか"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "エラー分類が有効かどうか"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "レコード最終更新者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "責任者マスタ",
+        "purpose": "受注データおよびバリデーション業務における責任者情報を一元管理し、権限管理・監査証跡・エスカレーション対象の特定に使用",
+        "columns": [
+          {
+            "name": "責任者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "責任者の一意識別子"
+          },
+          {
+            "name": "責任者名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "責任者の氏名"
+          },
+          {
+            "name": "部門コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "所属部門を識別するコード"
+          },
+          {
+            "name": "部門名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "所属部門の名称"
+          },
+          {
+            "name": "メールアドレス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連絡用メールアドレス"
+          },
+          {
+            "name": "電話番号",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "連絡用電話番号"
+          },
+          {
+            "name": "権限レベル",
+            "type": "integer",
+            "required": true,
+            "description": "バリデーション・承認権限のレベル（1:確認者、2:承認者、3:管理者）"
+          },
+          {
+            "name": "ユーザーID",
+            "type": "uuid",
+            "required": false,
+            "description": "ログインユーザーテーブルへの外部キー"
+          },
+          {
+            "name": "ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "責任者の状態（有効/無効）"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード最終更新者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "通知履歴",
+        "purpose": "基幹システムのデータ検証結果に基づく通知の送受信履歴を記録し、通知の追跡、再送、ステータス管理を実現する",
+        "columns": [
+          {
+            "name": "通知履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "通知履歴の一意識別子"
+          },
+          {
+            "name": "バリデーション結果ID",
+            "type": "uuid",
+            "required": true,
+            "description": "バリデーション結果テーブルへの外部キー"
+          },
+          {
+            "name": "受注データID",
+            "type": "uuid",
+            "required": true,
+            "description": "受注データテーブルへの外部キー"
+          },
+          {
+            "name": "エラー分類ID",
+            "type": "uuid",
+            "required": false,
+            "description": "エラー分類マスタへの外部キー（エラー時のみ）"
+          },
+          {
+            "name": "責任者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "責任者マスタへの外部キー（通知先）"
+          },
+          {
+            "name": "通知タイプ",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知の種類（例：エラー通知、警告通知、完了通知）"
+          },
+          {
+            "name": "通知ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "通知の状態（例：未送信、送信済、既読、失敗）"
+          },
+          {
+            "name": "通知内容",
+            "type": "text",
+            "required": true,
+            "description": "通知の本文内容"
+          },
+          {
+            "name": "送信日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "実際の送信日時"
+          },
+          {
+            "name": "既読日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "受信者が既読にした日時"
+          },
+          {
+            "name": "再送回数",
+            "type": "integer",
+            "required": true,
+            "description": "再送の試行回数"
+          },
+          {
+            "name": "最終送信日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "最後の送信試行日時"
+          },
+          {
+            "name": "送信失敗理由",
+            "type": "text",
+            "required": false,
+            "description": "送信失敗時の理由"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "通知履歴レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "通知履歴レコード更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "uuid",
+            "required": true,
+            "description": "ログインユーザーへの外部キー（作成者）"
+          }
+        ]
+      },
+      {
+        "tableName": "チャネルマスタ",
+        "purpose": "販売チャネル（オンライン、店舗、卸売等）の基本情報を管理し、受注データの紐付けやバリデーションルールの適用対象を定義するマスタテーブル",
+        "columns": [
+          {
+            "name": "チャネルID",
+            "type": "uuid",
+            "required": true,
+            "description": "チャネルの一意識別子（主キー）"
+          },
+          {
+            "name": "チャネルコード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "チャネルの業務コード（例：ONLINE、STORE、WHOLESALE）"
+          },
+          {
+            "name": "チャネル名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "チャネルの表示名"
+          },
+          {
+            "name": "説明",
+            "type": "text",
+            "required": false,
+            "description": "チャネルの詳細説明"
+          },
+          {
+            "name": "責任者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "責任者マスタへの外部キー"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "チャネルが有効か否か（受注データ検証時に使用）"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者（ログインユーザーID）"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード最終更新者（ログインユーザーID）"
+          }
+        ]
+      },
+      {
+        "tableName": "顧客マスタ",
+        "purpose": "顧客の基本情報を一元管理し、受注データ、バリデーション、通知などの基幹システム連携の起点となるマスタテーブル",
+        "columns": [
+          {
+            "name": "顧客ID",
+            "type": "uuid",
+            "required": true,
+            "description": "顧客を一意に識別するプライマリキー"
+          },
+          {
+            "name": "顧客コード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "顧客の業務用コード（ユニーク）"
+          },
+          {
+            "name": "顧客名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "顧客の正式名称"
+          },
+          {
+            "name": "顧客名カナ",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "顧客名のカナ表記"
+          },
+          {
+            "name": "郵便番号",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "顧客の郵便番号"
+          },
+          {
+            "name": "住所",
+            "type": "text",
+            "required": false,
+            "description": "顧客の住所"
+          },
+          {
+            "name": "電話番号",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "顧客の電話番号"
+          },
+          {
+            "name": "メールアドレス",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "顧客のメールアドレス（通知先として使用）"
+          },
+          {
+            "name": "チャネルID",
+            "type": "uuid",
+            "required": false,
+            "description": "チャネルマスタへの外部キー（販売チャネル分類）"
+          },
+          {
+            "name": "責任者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "責任者マスタへの外部キー（担当営業など）"
+          },
+          {
+            "name": "顧客ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "顧客ステータス（有効/無効/休止など）"
+          },
+          {
+            "name": "与信限度額",
+            "type": "integer",
+            "required": false,
+            "description": "顧客の与信限度額（バリデーション用）"
+          },
+          {
+            "name": "バリデーション対象フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "この顧客のデータをバリデーション対象とするか"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者（ユーザーID）"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード最終更新者（ユーザーID）"
+          }
+        ]
+      },
+      {
+        "tableName": "受注集計",
+        "purpose": "受注データの集計結果を保持し、ビジネス分析・レポーティング・データ検証の基盤となる集計テーブル",
+        "columns": [
+          {
+            "name": "集計ID",
+            "type": "uuid",
+            "required": true,
+            "description": "集計レコードの一意識別子"
+          },
+          {
+            "name": "集計日",
+            "type": "timestamp",
+            "required": true,
+            "description": "集計対象の日付"
+          },
+          {
+            "name": "チャネルID",
+            "type": "uuid",
+            "required": true,
+            "description": "チャネルマスタへの外部キー"
+          },
+          {
+            "name": "受注件数",
+            "type": "integer",
+            "required": true,
+            "description": "当日の受注件数"
+          },
+          {
+            "name": "受注金額合計",
+            "type": "integer",
+            "required": true,
+            "description": "当日の受注金額の合計（単位：円）"
+          },
+          {
+            "name": "キャンセル件数",
+            "type": "integer",
+            "required": true,
+            "description": "当日のキャンセル件数"
+          },
+          {
+            "name": "キャンセル金額合計",
+            "type": "integer",
+            "required": true,
+            "description": "当日のキャンセル金額の合計（単位：円）"
+          },
+          {
+            "name": "返品件数",
+            "type": "integer",
+            "required": true,
+            "description": "当日の返品件数"
+          },
+          {
+            "name": "返品金額合計",
+            "type": "integer",
+            "required": true,
+            "description": "当日の返品金額の合計（単位：円）"
+          },
+          {
+            "name": "検証ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "集計データの検証状態（未検証/検証済/エラー）"
+          },
+          {
+            "name": "エラー件数",
+            "type": "integer",
+            "required": false,
+            "description": "検証時に検出されたエラー件数"
+          },
+          {
+            "name": "責任者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "責任者マスタへの外部キー"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "集計レコード作成日時"
+          },
+          {
+            "name": "作成者",
+            "type": "uuid",
+            "required": true,
+            "description": "ログインユーザーへの外部キー（作成者）"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "集計レコード最終更新日時"
+          },
+          {
+            "name": "更新者",
+            "type": "uuid",
+            "required": true,
+            "description": "ログインユーザーへの外部キー（更新者）"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "集計に関する備考・説明"
+          }
+        ]
+      },
+      {
+        "tableName": "月次差異検証",
+        "purpose": "月次の受注データと基幹システムデータの差異を検証・記録し、差異内容の追跡と責任者への通知を管理するトランザクションテーブル",
+        "columns": [
+          {
+            "name": "差異検証ID",
+            "type": "uuid",
+            "required": true,
+            "description": "月次差異検証レコードの一意識別子"
+          },
+          {
+            "name": "検証年月",
+            "type": "varchar(7)",
+            "required": true,
+            "description": "検証対象の年月（YYYY-MM形式）"
+          },
+          {
+            "name": "受注データID",
+            "type": "uuid",
+            "required": true,
+            "description": "受注データテーブルへの外部キー"
+          },
+          {
+            "name": "基幹システム参照ID",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "基幹システム側の対応レコード識別子"
+          },
+          {
+            "name": "差異タイプ",
+            "type": "varchar(50)",
+            "required": true,
+            "description": "差異の種類（金額差異/数量差異/日付差異/ステータス差異等）"
+          },
+          {
+            "name": "差異内容",
+            "type": "text",
+            "required": true,
+            "description": "差異の詳細説明"
+          },
+          {
+            "name": "受注側値",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "受注データ側の値"
+          },
+          {
+            "name": "基幹側値",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "基幹システム側の値"
+          },
+          {
+            "name": "差異金額",
+            "type": "integer",
+            "required": false,
+            "description": "金額差異の場合の差異額（単位：円）"
+          },
+          {
+            "name": "検証ステータス",
+            "type": "varchar(50)",
+            "required": true,
+            "description": "検証状態（未確認/確認中/解決済/保留中）"
+          },
+          {
+            "name": "責任者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "責任者マスタへの外部キー"
+          },
+          {
+            "name": "対応内容",
+            "type": "text",
+            "required": false,
+            "description": "差異に対する対応内容・備考"
+          },
+          {
+            "name": "解決日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "差異が解決された日時"
+          },
+          {
+            "name": "バリデーションルールID",
+            "type": "uuid",
+            "required": false,
+            "description": "バリデーションルールテーブルへの外部キー"
+          },
+          {
+            "name": "通知済フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "責任者への通知が完了したかどうか"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "差異検証レコード作成日時"
+          },
+          {
+            "name": "作成者",
+            "type": "uuid",
+            "required": true,
+            "description": "ログインユーザーテーブルへの外部キー"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "差異検証レコード最終更新日時"
+          },
+          {
+            "name": "更新者",
+            "type": "uuid",
+            "required": true,
+            "description": "最終更新を行ったログインユーザーへの外部キー"
+          }
+        ]
+      },
+      {
+        "tableName": "基幹システム連携履歴",
+        "purpose": "基幹システムとの連携処理の実行履歴を記録し、データ同期状況、エラー発生、処理結果を追跡・検証するための履歴管理テーブル",
+        "columns": [
+          {
+            "name": "連携履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "連携履歴の一意識別子"
+          },
+          {
+            "name": "連携種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携の種類（受注同期、在庫同期、顧客同期等）"
+          },
+          {
+            "name": "連携方向",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携の方向（送信、受信、双方向）"
+          },
+          {
+            "name": "処理ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "処理状態（実行中、成功、失敗、部分成功、キャンセル）"
+          },
+          {
+            "name": "送信データ件数",
+            "type": "integer",
+            "required": true,
+            "description": "連携対象のデータ件数"
+          },
+          {
+            "name": "成功件数",
+            "type": "integer",
+            "required": true,
+            "description": "正常に処理された件数"
+          },
+          {
+            "name": "失敗件数",
+            "type": "integer",
+            "required": true,
+            "description": "処理に失敗した件数"
+          },
+          {
+            "name": "エラーログID",
+            "type": "uuid",
+            "required": false,
+            "description": "エラーログテーブルへの外部キー"
+          },
+          {
+            "name": "エラー詳細",
+            "type": "text",
+            "required": false,
+            "description": "エラーの詳細情報・メッセージ"
+          },
+          {
+            "name": "実行開始日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "連携処理の開始日時"
+          },
+          {
+            "name": "実行終了日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "連携処理の終了日時"
+          },
+          {
+            "name": "処理時間秒",
+            "type": "integer",
+            "required": false,
+            "description": "処理にかかった時間（秒）"
+          },
+          {
+            "name": "実行ユーザーID",
+            "type": "uuid",
+            "required": false,
+            "description": "連携を実行したユーザーID"
+          },
+          {
+            "name": "実行トリガー",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "実行のきっかけ（手動、スケジュール、API、イベント）"
+          },
+          {
+            "name": "基幹システムレスポンスコード",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "基幹システムから返却されたレスポンスコード"
+          },
+          {
+            "name": "リトライ回数",
+            "type": "integer",
+            "required": true,
+            "description": "失敗時のリトライ実行回数"
+          },
+          {
+            "name": "リトライ予定日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "次回リトライ予定日時"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "連携に関する備考・補足情報"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "連携仕様マスタ",
+        "purpose": "基幹システムとの連携における仕様定義・マッピング・バリデーションルールを一元管理するマスタテーブル",
+        "columns": [
+          {
+            "name": "連携仕様ID",
+            "type": "uuid",
+            "required": true,
+            "description": "連携仕様の一意識別子"
+          },
+          {
+            "name": "連携仕様名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携仕様の名称（例：受注データ連携、顧客マスタ連携）"
+          },
+          {
+            "name": "連携方向",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携方向（受信/送信/双方向）"
+          },
+          {
+            "name": "連携対象システム",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携対象の基幹システム名"
+          },
+          {
+            "name": "連携対象テーブル",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携対象のテーブル名"
+          },
+          {
+            "name": "連携周期",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携周期（リアルタイム/日次/週次/月次等）"
+          },
+          {
+            "name": "ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携仕様のステータス（有効/無効/テスト中）"
+          },
+          {
+            "name": "説明",
+            "type": "text",
+            "required": false,
+            "description": "連携仕様の詳細説明"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "作成者のユーザーID"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "更新者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "承認済み受注",
+        "purpose": "承認済みの受注データを管理し、基幹システム連携前の最終検証状態を記録するテーブル。受注の承認履歴、承認者情報、連携ステータスを追跡する。",
+        "columns": [
+          {
+            "name": "承認済み受注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "承認済み受注の一意識別子"
+          },
+          {
+            "name": "受注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "受注データテーブルへの外部キー"
+          },
+          {
+            "name": "承認ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "承認状態（承認済み、却下、保留中等）"
+          },
+          {
+            "name": "承認者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "ログインユーザーテーブルへの外部キー"
+          },
+          {
+            "name": "承認日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "承認が実施された日時"
+          },
+          {
+            "name": "承認コメント",
+            "type": "text",
+            "required": false,
+            "description": "承認者による承認時のコメント"
+          },
+          {
+            "name": "連携ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "基幹システム連携状態（未連携、連携済み、連携失敗等）"
+          },
+          {
+            "name": "基幹システム連携履歴ID",
+            "type": "uuid",
+            "required": false,
+            "description": "基幹システム連携履歴テーブルへの外部キー"
+          },
+          {
+            "name": "最終連携日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "基幹システムへの最後の連携実施日時"
+          },
+          {
+            "name": "バリデーション結果ID",
+            "type": "uuid",
+            "required": false,
+            "description": "バリデーション結果テーブルへの外部キー"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "ログインユーザーテーブルへの外部キー"
+          }
+        ]
+      },
+      {
+        "tableName": "連携反映状況",
+        "purpose": "基幹システムからの受注データ連携の反映状況を追跡・管理し、各連携バッチの成功/失敗、反映済み件数、エラー内容を記録する",
+        "columns": [
+          {
+            "name": "連携反映状況ID",
+            "type": "uuid",
+            "required": true,
+            "description": "連携反映状況の一意識別子"
+          },
+          {
+            "name": "基幹システム連携履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "基幹システム連携履歴テーブルへの外部キー"
+          },
+          {
+            "name": "連携バッチ番号",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "基幹システムから送信されたバッチの一意識別番号"
+          },
+          {
+            "name": "反映ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "反映状況：処理中/成功/部分成功/失敗"
+          },
+          {
+            "name": "受信件数",
+            "type": "integer",
+            "required": true,
+            "description": "基幹システムから受信した受注データの総件数"
+          },
+          {
+            "name": "反映成功件数",
+            "type": "integer",
+            "required": true,
+            "description": "正常に反映された受注データの件数"
+          },
+          {
+            "name": "反映失敗件数",
+            "type": "integer",
+            "required": true,
+            "description": "反映に失敗した受注データの件数"
+          },
+          {
+            "name": "スキップ件数",
+            "type": "integer",
+            "required": false,
+            "description": "バリデーション不合格等でスキップされた件数"
+          },
+          {
+            "name": "反映開始日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "連携反映処理の開始日時"
+          },
+          {
+            "name": "反映完了日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "連携反映処理の完了日時"
+          },
+          {
+            "name": "処理時間秒",
+            "type": "integer",
+            "required": false,
+            "description": "反映処理にかかった時間（秒）"
+          },
+          {
+            "name": "エラー内容",
+            "type": "text",
+            "required": false,
+            "description": "反映失敗時の詳細エラーメッセージ"
+          },
+          {
+            "name": "エラー分類マスタID",
+            "type": "uuid",
+            "required": false,
+            "description": "エラー分類マスタテーブルへの外部キー"
+          },
+          {
+            "name": "責任者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "対応責任者（責任者マスタへの外部キー）"
+          },
+          {
+            "name": "対応状況",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "エラー対応状況：未対応/対応中/対応完了"
+          },
+          {
+            "name": "対応完了日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "エラー対応の完了日時"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "連携反映に関する備考・メモ"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "uuid",
+            "required": true,
+            "description": "ログインユーザーテーブルへの外部キー（作成者）"
+          },
+          {
+            "name": "更新者",
+            "type": "uuid",
+            "required": true,
+            "description": "ログインユーザーテーブルへの外部キー（更新者）"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "systemId": "itg-3",
+    "systemName": "営業支援・クライアント情報統合ダッシュボード",
+    "screens": [
+      {
+        "id": "scr-1781408811435",
+        "name": "クライアント統合ダッシュボード",
+        "purpose": "営業支援における全クライアント情報、対応履歴、受注案件を一元管理し、営業活動の進捗状況をリアルタイムで把握するダッシュボード",
+        "items": [
+          "クライアント一覧表",
+          "クライアント検索フィルター",
+          "クライアント詳細パネル",
+          "対応履歴タイムライン",
+          "対応方針表示エリア",
+          "受注案件リスト",
+          "案件ステータスフィルター",
+          "売上サマリーカード",
+          "対応状況サマリーカード",
+          "新規対応記録ボタン",
+          "対応方針編集ボタン",
+          "案件作成ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781408824557",
+        "name": "クライアント詳細情報画面",
+        "purpose": "クライアントの基本情報、対応履歴、対応方針、受注・案件情報を一元管理・確認する画面",
+        "items": [
+          "クライアント基本情報パネル",
+          "クライアント名表示",
+          "業種・業態表示",
+          "代表者名表示",
+          "住所表示",
+          "電話番号表示",
+          "メールアドレス表示",
+          "クライアント編集ボタン",
+          "対応履歴タブ",
+          "対応履歴一覧テーブル",
+          "対応日時表示",
+          "対応内容表示"
+        ]
+      },
+      {
+        "id": "scr-1781408840123",
+        "name": "対応履歴・対応方針管理画面",
+        "purpose": "クライアントごとの対応履歴を記録・管理し、対応方針を策定・更新することで、営業活動の一貫性と顧客対応品質を向上させる",
+        "items": [
+          "クライアント検索・絞り込み",
+          "クライアント一覧表示",
+          "対応履歴タイムライン",
+          "対応日時入力欄",
+          "対応者名選択",
+          "対応内容テキストエリア",
+          "対応種別選択（電話・メール・訪問等）",
+          "対応結果選択",
+          "対応履歴追加ボタン",
+          "対応履歴編集ボタン",
+          "対応履歴削除ボタン",
+          "対応方針表示エリア"
+        ]
+      },
+      {
+        "id": "scr-1781408853048",
+        "name": "受注・案件統合検索画面",
+        "purpose": "受注と案件を統合して検索・管理し、クライアント情報と対応履歴を一元的に確認できる営業支援ダッシュボード",
+        "items": [
+          "統合検索バー",
+          "検索条件フィルター",
+          "クライアント名検索",
+          "受注ステータスフィルター",
+          "案件ステータスフィルター",
+          "対応方針フィルター",
+          "日付範囲指定",
+          "担当者フィルター",
+          "受注一覧テーブル",
+          "案件一覧テーブル",
+          "クライアント情報パネル",
+          "対応履歴タイムライン"
+        ]
+      },
+      {
+        "id": "scr-1781408865891",
+        "name": "対応履歴登録画面",
+        "purpose": "営業担当者がクライアントとの対応内容を記録・登録し、対応方針や受注情報と連携させるための画面",
+        "items": [
+          "クライアント選択ドロップダウン",
+          "案件選択ドロップダウン",
+          "対応日時入力欄",
+          "対応方法選択（電話・メール・訪問等）",
+          "対応内容テキストエリア",
+          "対応方針選択ドロップダウン",
+          "次回対応予定日入力欄",
+          "受注情報リンク表示",
+          "添付ファイルアップロード",
+          "ユーザー（担当者）表示欄",
+          "登録ボタン",
+          "キャンセルボタン"
+        ]
+      },
+      {
+        "id": "scr-1781408878914",
+        "name": "対応方針設定画面",
+        "purpose": "クライアントごとの営業対応方針を設定・管理し、営業活動の方向性を統一する",
+        "items": [
+          "クライアント選択ドロップダウン",
+          "対応方針名入力欄",
+          "対応方針説明テキストエリア",
+          "対応優先度選択ラジオボタン",
+          "対応頻度選択ドロップダウン",
+          "担当営業者選択マルチセレクト",
+          "対応チャネル選択チェックボックス",
+          "開始日付ピッカー",
+          "終了日付ピッカー",
+          "対応方針テンプレート選択",
+          "過去の対応履歴プレビュー",
+          "関連案件一覧表示"
+        ]
+      },
+      {
+        "id": "scr-1781408891768",
+        "name": "受注登録画面",
+        "purpose": "営業支援ダッシュボードにおいて、新規受注情報を登録・管理し、クライアント情報、案件、対応履歴と連携させるための入力画面",
+        "items": [
+          "受注番号",
+          "クライアント選択",
+          "案件選択",
+          "受注日",
+          "受注金額",
+          "受注内容",
+          "納期",
+          "担当営業",
+          "対応方針選択",
+          "対応履歴参照",
+          "添付ファイル",
+          "備考"
+        ]
+      },
+      {
+        "id": "scr-1781408904580",
+        "name": "案件登録画面",
+        "purpose": "営業案件の新規登録と基本情報の入力を行う画面",
+        "items": [
+          "案件名入力欄",
+          "クライアント選択ドロップダウン",
+          "案件ステータス選択",
+          "案件種別選択",
+          "予想売上金額入力欄",
+          "案件開始日選択",
+          "案件終了日選択",
+          "担当者選択ドロップダウン",
+          "対応方針選択チェックボックス",
+          "案件説明テキストエリア",
+          "添付ファイルアップロード",
+          "対応履歴参照ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781408917617",
+        "name": "過去受注履歴検索・照合画面",
+        "purpose": "過去の受注履歴を検索・照合し、クライアント情報と対応履歴を統合的に確認する",
+        "items": [
+          "クライアント名検索欄",
+          "受注日範囲指定（開始日）",
+          "受注日範囲指定（終了日）",
+          "受注ステータスフィルタ",
+          "案件名検索欄",
+          "営業担当者フィルタ",
+          "受注金額範囲指定（最小値）",
+          "受注金額範囲指定（最大値）",
+          "検索実行ボタン",
+          "検索条件リセットボタン",
+          "受注履歴一覧表",
+          "クライアント情報パネル"
+        ]
+      },
+      {
+        "id": "scr-1781408931979",
+        "name": "クライアント情報・案件履歴検索画面",
+        "purpose": "営業支援において、クライアント情報と案件履歴を統合的に検索・閲覧し、対応履歴や受注状況を把握するための検索・表示画面",
+        "items": [
+          "クライアント名検索欄",
+          "クライアントID検索欄",
+          "業種フィルタ",
+          "地域フィルタ",
+          "案件ステータスフィルタ",
+          "対応方針フィルタ",
+          "受注状況フィルタ",
+          "対応日時範囲指定",
+          "検索ボタン",
+          "リセットボタン",
+          "クライアント一覧テーブル",
+          "クライアント詳細パネル"
+        ]
+      },
+      {
+        "id": "scr-1781408945964",
+        "name": "クライアント情報統合ダッシュボード",
+        "purpose": "営業支援における全クライアント情報、対応履歴、案件進捗、受注状況を一元管理・可視化し、営業活動の効率化と顧客対応の最適化を実現する",
+        "items": [
+          "クライアント一覧表",
+          "クライアント検索・フィルター",
+          "クライアント詳細情報パネル",
+          "対応履歴タイムライン",
+          "対応方針表示",
+          "案件進捗ボード",
+          "受注情報サマリー",
+          "売上予測チャート",
+          "対応ステータス別集計",
+          "クライアント追加ボタン",
+          "対応履歴記録ボタン",
+          "案件作成ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781408958792",
+        "name": "営業支援ダッシュボード表示",
+        "purpose": "営業チームが顧客情報、対応履歴、案件進捗、受注状況を一元的に把握し、営業活動を効率的に管理・支援するためのダッシュボード",
+        "items": [
+          "ユーザープロフィール表示",
+          "クライアント一覧",
+          "クライアント検索フィルター",
+          "対応履歴タイムライン",
+          "対応方針表示",
+          "案件進捗ボード",
+          "受注状況サマリー",
+          "売上予測チャート",
+          "タスク一覧",
+          "クライアント詳細パネル",
+          "対応履歴追加ボタン",
+          "案件作成ボタン"
+        ]
+      }
+    ],
+    "tableDefinitions": [
+      {
+        "tableName": "ユーザー",
+        "purpose": "営業支援・クライアント情報統合ダッシュボードにおけるユーザー（営業担当者・管理者等）の基本情報と認証情報を管理",
+        "columns": [
+          {
+            "name": "ユーザーID",
+            "type": "uuid",
+            "required": true,
+            "description": "ユーザーの一意識別子"
+          },
+          {
+            "name": "ログインID",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ログイン時に使用するID（ユニーク）"
+          },
+          {
+            "name": "メールアドレス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ユーザーのメールアドレス（ユニーク）"
+          },
+          {
+            "name": "氏名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ユーザーの氏名"
+          },
+          {
+            "name": "部門",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "所属部門（営業部等）"
+          },
+          {
+            "name": "役職",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "役職名"
+          },
+          {
+            "name": "ロール",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "システム上のロール（管理者・営業・閲覧者等）"
+          },
+          {
+            "name": "パスワードハッシュ",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ログイン用パスワードのハッシュ値"
+          },
+          {
+            "name": "ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ユーザーステータス（有効・無効・休止等）"
+          },
+          {
+            "name": "最終ログイン日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "最後にログインした日時"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "ユーザーレコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "ユーザーレコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "ユーザーレコード作成者"
+          }
+        ]
+      },
+      {
+        "tableName": "クライアント",
+        "purpose": "営業支援における顧客情報の一元管理。営業担当者が顧客の基本情報、連絡先、取引状況を参照・更新し、営業活動の効率化を支援する。",
+        "columns": [
+          {
+            "name": "クライアントID",
+            "type": "uuid",
+            "required": true,
+            "description": "クライアントの一意識別子"
+          },
+          {
+            "name": "クライアント名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "顧客企業名または個人名"
+          },
+          {
+            "name": "業種",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "顧客の業種分類"
+          },
+          {
+            "name": "代表者名",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "企業の代表者名または主要連絡先"
+          },
+          {
+            "name": "メールアドレス",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "主要連絡先のメールアドレス"
+          },
+          {
+            "name": "電話番号",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "主要連絡先の電話番号"
+          },
+          {
+            "name": "住所",
+            "type": "text",
+            "required": false,
+            "description": "顧客の住所"
+          },
+          {
+            "name": "担当営業ユーザーID",
+            "type": "uuid",
+            "required": false,
+            "description": "ユーザーテーブルへの外部キー。担当営業者を指定"
+          },
+          {
+            "name": "ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "顧客ステータス（見込み客、既存顧客、休止中など）"
+          },
+          {
+            "name": "最終接触日",
+            "type": "timestamp",
+            "required": false,
+            "description": "営業担当者が最後に接触した日時"
+          },
+          {
+            "name": "契約状況",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "契約状況（未契約、契約中、契約終了など）"
+          },
+          {
+            "name": "推定売上額",
+            "type": "integer",
+            "required": false,
+            "description": "見込み売上額（円）"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "営業活動に関する備考・メモ"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者ユーザーID",
+            "type": "uuid",
+            "required": true,
+            "description": "ユーザーテーブルへの外部キー。レコード作成者"
+          }
+        ]
+      },
+      {
+        "tableName": "対応履歴",
+        "purpose": "営業支援・クライアント情報統合ダッシュボードにおいて、クライアントとの全ての対応（接触、商談、提案等）を記録・追跡し、営業活動の進捗管理と顧客関係構築を支援する",
+        "columns": [
+          {
+            "name": "対応履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "対応履歴の一意識別子"
+          },
+          {
+            "name": "クライアントID",
+            "type": "uuid",
+            "required": true,
+            "description": "クライアントテーブルへの外部キー"
+          },
+          {
+            "name": "ユーザーID",
+            "type": "uuid",
+            "required": true,
+            "description": "対応を実施したユーザー（営業担当者）のID"
+          },
+          {
+            "name": "対応種別",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "対応の種類（電話、メール、訪問、商談、提案等）"
+          },
+          {
+            "name": "対応日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "対応が実施された日時"
+          },
+          {
+            "name": "対応内容",
+            "type": "text",
+            "required": true,
+            "description": "対応の詳細内容・メモ"
+          },
+          {
+            "name": "次回対応予定日",
+            "type": "timestamp",
+            "required": false,
+            "description": "次回の対応予定日時"
+          },
+          {
+            "name": "ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "対応のステータス（完了、保留、進行中等）"
+          },
+          {
+            "name": "成果",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "対応の成果・結果（受注、見積提出、資料送付等）"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "対応方針",
+        "purpose": "クライアントごとの営業対応方針を管理し、営業チームが統一された対応戦略に基づいて活動するための基準を提供する",
+        "columns": [
+          {
+            "name": "対応方針ID",
+            "type": "uuid",
+            "required": true,
+            "description": "対応方針の一意識別子"
+          },
+          {
+            "name": "クライアントID",
+            "type": "uuid",
+            "required": true,
+            "description": "クライアントテーブルへの外部キー"
+          },
+          {
+            "name": "方針名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "対応方針の名称（例：積極営業、保守的対応、定期フォローアップ）"
+          },
+          {
+            "name": "方針内容",
+            "type": "text",
+            "required": true,
+            "description": "対応方針の詳細説明と具体的な対応内容"
+          },
+          {
+            "name": "優先度",
+            "type": "integer",
+            "required": true,
+            "description": "対応優先度（1=高、2=中、3=低）"
+          },
+          {
+            "name": "対応頻度",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "推奨される対応頻度（例：週1回、月1回、四半期ごと）"
+          },
+          {
+            "name": "担当者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "ユーザーテーブルへの外部キー、この方針の主担当者"
+          },
+          {
+            "name": "開始日",
+            "type": "timestamp",
+            "required": true,
+            "description": "対応方針の適用開始日"
+          },
+          {
+            "name": "終了日",
+            "type": "timestamp",
+            "required": false,
+            "description": "対応方針の適用終了日（nullの場合は継続中）"
+          },
+          {
+            "name": "ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "方針のステータス（有効/無効/保留中）"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "ユーザーテーブルへの外部キー、作成者"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "ユーザーテーブルへの外部キー、最終更新者"
+          }
+        ]
+      },
+      {
+        "tableName": "受注",
+        "purpose": "営業支援ダッシュボードにおける受注トランザクション管理。クライアントとの契約成立、金額、ステータス、営業担当者を一元管理し、売上予測・進捗追跡・営業分析を支援する。",
+        "columns": [
+          {
+            "name": "受注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "受注レコードの一意識別子"
+          },
+          {
+            "name": "クライアントID",
+            "type": "uuid",
+            "required": true,
+            "description": "クライアントテーブルへの外部キー"
+          },
+          {
+            "name": "営業担当者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "ユーザーテーブルへの外部キー（営業担当者）"
+          },
+          {
+            "name": "受注日",
+            "type": "timestamp",
+            "required": true,
+            "description": "受注確定日"
+          },
+          {
+            "name": "受注金額",
+            "type": "integer",
+            "required": true,
+            "description": "受注総額（税抜き、単位：円）"
+          },
+          {
+            "name": "税額",
+            "type": "integer",
+            "required": false,
+            "description": "消費税額（単位：円）"
+          },
+          {
+            "name": "税込金額",
+            "type": "integer",
+            "required": false,
+            "description": "受注総額（税込み、単位：円）"
+          },
+          {
+            "name": "ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "受注ステータス（例：受注確定、納品待ち、完了、キャンセル）"
+          },
+          {
+            "name": "商品・サービス名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "受注対象の商品またはサービス名"
+          },
+          {
+            "name": "納期",
+            "type": "timestamp",
+            "required": false,
+            "description": "納品予定日"
+          },
+          {
+            "name": "納品日",
+            "type": "timestamp",
+            "required": false,
+            "description": "実際の納品日"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "受注に関する特記事項・条件"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "ユーザーテーブルへの外部キー（レコード作成者）"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "ユーザーテーブルへの外部キー（最終更新者）"
+          }
+        ]
+      },
+      {
+        "tableName": "案件",
+        "purpose": "営業支援ダッシュボードにおける営業案件の一元管理。クライアント、対応履歴、受注との関連付けを通じて、案件進捗の追跡、営業活動の可視化、受注予測を実現する。",
+        "columns": [
+          {
+            "name": "案件ID",
+            "type": "uuid",
+            "required": true,
+            "description": "案件の一意識別子"
+          },
+          {
+            "name": "クライアントID",
+            "type": "uuid",
+            "required": true,
+            "description": "関連するクライアントへの外部キー"
+          },
+          {
+            "name": "案件名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "案件の名称"
+          },
+          {
+            "name": "案件説明",
+            "type": "text",
+            "required": false,
+            "description": "案件の詳細説明"
+          },
+          {
+            "name": "ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "案件の進捗状況（例：新規、進行中、提案済み、受注、失注）"
+          },
+          {
+            "name": "予想金額",
+            "type": "integer",
+            "required": false,
+            "description": "案件の予想売上金額（円）"
+          },
+          {
+            "name": "成約確度",
+            "type": "integer",
+            "required": false,
+            "description": "受注確度（0-100のパーセンテージ）"
+          },
+          {
+            "name": "予想受注日",
+            "type": "timestamp",
+            "required": false,
+            "description": "予想される受注予定日"
+          },
+          {
+            "name": "担当ユーザーID",
+            "type": "uuid",
+            "required": true,
+            "description": "案件の担当営業ユーザーへの外部キー"
+          },
+          {
+            "name": "対応方針ID",
+            "type": "uuid",
+            "required": false,
+            "description": "適用される対応方針への外部キー"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "案件の作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "案件の最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "案件を作成したユーザーへの外部キー"
+          }
+        ]
+      },
+      {
+        "tableName": "クライアント_対応方針",
+        "purpose": "クライアント毎の営業対応方針を管理し、営業戦略・アプローチ方法・優先度などを一元化するマスタテーブル",
+        "columns": [
+          {
+            "name": "対応方針ID",
+            "type": "uuid",
+            "required": true,
+            "description": "対応方針の一意識別子"
+          },
+          {
+            "name": "クライアントID",
+            "type": "uuid",
+            "required": true,
+            "description": "クライアントテーブルへの外部キー"
+          },
+          {
+            "name": "対応方針名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "対応方針の名称（例：積極営業、定期フォロー、保守対応）"
+          },
+          {
+            "name": "対応方針説明",
+            "type": "text",
+            "required": false,
+            "description": "対応方針の詳細説明・背景"
+          },
+          {
+            "name": "営業担当者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "ユーザーテーブルへの外部キー（担当営業）"
+          },
+          {
+            "name": "優先度",
+            "type": "integer",
+            "required": true,
+            "description": "営業優先度（1:高、2:中、3:低）"
+          },
+          {
+            "name": "対応頻度",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "対応頻度（例：週1回、月1回、四半期1回）"
+          },
+          {
+            "name": "次回対応予定日",
+            "type": "timestamp",
+            "required": false,
+            "description": "次回営業対応の予定日時"
+          },
+          {
+            "name": "対応方針ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ステータス（有効/無効/一時停止）"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "ユーザーテーブルへの外部キー（作成者）"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "ユーザーテーブルへの外部キー（更新者）"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "systemId": "itg-1",
+    "systemName": "受注データ品質管理・検証システム",
+    "screens": [
+      {
+        "id": "scr-1781406322572",
+        "name": "受注データ検証ダッシュボード",
+        "purpose": "受注データの品質を一元管理し、検証結果の可視化、データ修正の優先順位付け、AI_OCR読込結果の確認、チャネル間矛盾の検出、重複受注の検出、承認フローの進捗管理を行うための統合ダッシュボード",
+        "items": [
+          "受注データ検証サマリーパネル",
+          "検証ステータス別集計グラフ",
+          "信頼度スコア分布チャート",
+          "受注データ一覧テーブル",
+          "検証エラー詳細表示パネル",
+          "AI_OCR読込結果確認ビューア",
+          "重複受注検出アラート",
+          "チャネル間矛盾検出リスト",
+          "修正対象優先度ランク表示",
+          "修正履歴タイムライン",
+          "連携承認フロー進捗表示",
+          "承認者判定履歴ログ"
+        ]
+      },
+      {
+        "id": "scr-1781406337850",
+        "name": "受注データ詳細確認・修正画面",
+        "purpose": "受注データの詳細情報を確認し、検証結果に基づいて必要な修正を行い、品質管理と基幹システムへの連携を実施する",
+        "items": [
+          "受注ID表示",
+          "受注チャネル表示",
+          "顧客情報パネル",
+          "受注日時表示",
+          "商品・数量情報表示",
+          "金額情報表示",
+          "配送先住所表示",
+          "検証結果サマリーパネル",
+          "信頼度スコア表示",
+          "エラー・警告リスト",
+          "AI_OCR読込結果表示",
+          "チャネル間矛盾検出結果表示"
+        ]
+      },
+      {
+        "id": "scr-1781406353513",
+        "name": "AI-OCR読込結果確認画面",
+        "purpose": "AI-OCRで読み込んだ受注データの認識結果を確認し、精度検証と修正を行うための画面",
+        "items": [
+          "OCR読込画像表示エリア",
+          "認識テキスト表示パネル",
+          "信頼度スコア表示",
+          "フィールド別信頼度インジケータ",
+          "修正入力フォーム",
+          "重複受注警告表示",
+          "チャネル間矛盾表示",
+          "過去受注履歴参照ボタン",
+          "修正内容確認チェックボックス",
+          "修正対象優先度ランク表示",
+          "承認者判定結果表示",
+          "修正履歴タイムライン"
+        ]
+      },
+      {
+        "id": "scr-1781406366334",
+        "name": "重複受注検出・比較画面",
+        "purpose": "受注データの重複を検出し、複数チャネルからの受注データを比較・検証して、データ品質を確保するための画面",
+        "items": [
+          "重複受注一覧テーブル",
+          "受注ID検索フィルター",
+          "顧客情報検索フィルター",
+          "チャネル別フィルター",
+          "日付範囲フィルター",
+          "重複度スコア表示",
+          "信頼度スコア表示",
+          "左右比較パネル",
+          "受注データ詳細表示（左側）",
+          "受注データ詳細表示（右側）",
+          "差分ハイライト表示",
+          "チャネル間矛盾検出結果"
+        ]
+      },
+      {
+        "id": "scr-1781406379487",
+        "name": "チャネル間矛盾検出画面",
+        "purpose": "複数の受注チャネルから入力された受注データの矛盾を検出し、データ品質を確保するための検証・修正画面",
+        "items": [
+          "矛盾検出結果一覧表",
+          "チャネル別受注データ比較ビュー",
+          "矛盾内容詳細表示パネル",
+          "信頼度スコア表示",
+          "修正提案表示",
+          "修正内容入力フォーム",
+          "承認者割り当てセレクタ",
+          "修正履歴タイムライン",
+          "チャネル間差分ハイライト表示",
+          "一括修正チェックボックス",
+          "修正実行ボタン",
+          "承認フロー遷移ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781406393104",
+        "name": "信頼度スコアフィルタリング画面",
+        "purpose": "受注データの信頼度スコアに基づいてデータを絞り込み、品質検証対象を効率的に選別するための画面",
+        "items": [
+          "信頼度スコア範囲スライダー",
+          "最小スコア入力フィールド",
+          "最大スコア入力フィールド",
+          "信頼度レベル選択チェックボックス（高・中・低・要確認）",
+          "受注チャネルフィルタ",
+          "検証ステータスフィルタ",
+          "修正対象優先度ランクフィルタ",
+          "AI_OCR読込結果信頼度フィルタ",
+          "重複受注検出フラグフィルタ",
+          "チャネル間矛盾検出フラグフィルタ",
+          "承認ステータスフィルタ",
+          "日付範囲ピッカー（受注日）"
+        ]
+      },
+      {
+        "id": "scr-1781406407813",
+        "name": "修正対象優先度一覧画面",
+        "purpose": "受注データの修正対象を優先度順に表示し、品質管理担当者が効率的に修正作業を進めるための一覧画面",
+        "items": [
+          "優先度ランク表示",
+          "受注ID",
+          "チャネル名",
+          "エラー内容",
+          "信頼度スコア",
+          "検出日時",
+          "修正ステータス",
+          "担当者名",
+          "期限日",
+          "重複受注フラグ",
+          "チャネル間矛盾フラグ",
+          "優先度ソート機能"
+        ]
+      },
+      {
+        "id": "scr-1781406421345",
+        "name": "連携承認フロー実行画面",
+        "purpose": "受注データの品質検証結果を確認し、基幹システム連携前の最終承認判定を実行するための画面",
+        "items": [
+          "承認待ち受注一覧",
+          "受注データ詳細表示パネル",
+          "検証結果サマリー",
+          "信頼度スコア表示",
+          "AI_OCR読込結果確認",
+          "重複受注検出アラート",
+          "チャネル間矛盾検出表示",
+          "修正履歴タイムライン",
+          "過去受注履歴参照",
+          "承認/却下ボタン",
+          "条件付き承認オプション",
+          "修正指示入力フィールド"
+        ]
+      },
+      {
+        "id": "scr-1781406434707",
+        "name": "受注データ修正履歴画面",
+        "purpose": "受注データの修正履歴を一覧表示し、修正内容の詳細確認、修正の承認・却下、修正対象の優先度管理を行う画面",
+        "items": [
+          "修正履歴一覧テーブル",
+          "修正日時フィルター",
+          "修正者フィルター",
+          "修正ステータスフィルター",
+          "修正対象優先度フィルター",
+          "検索ボックス",
+          "修正内容詳細パネル",
+          "修正前後の値比較表示",
+          "修正理由表示",
+          "信頼度スコア表示",
+          "修正承認ボタン",
+          "修正却下ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781406462412",
+        "name": "音声ガイダンス・AI-OCR自動取込処理",
+        "purpose": "音声ガイダンスによる受注情報の入力ガイドとAI-OCRによる自動読込・データ抽出を行い、取込データの品質検証と自動修正を実施するスクリーン",
+        "items": [
+          "音声ガイダンス開始ボタン",
+          "音声入力マイク制御",
+          "音声認識テキスト表示エリア",
+          "AI-OCR画像アップロード領域",
+          "OCR読込結果プレビュー",
+          "抽出データ一覧表示",
+          "信頼度スコア表示",
+          "データ修正入力フォーム",
+          "重複受注検出アラート",
+          "チャネル間矛盾検出表示",
+          "自動修正提案表示",
+          "修正対象優先度ランク表示"
+        ]
+      },
+      {
+        "id": "scr-1781406476040",
+        "name": "信頼度スコア表示・フィルタリング画面",
+        "purpose": "受注データの信頼度スコアを可視化し、品質基準に基づいてフィルタリング・優先順位付けすることで、検証・修正対象の効率的な抽出と管理を実現する",
+        "items": [
+          "信頼度スコア範囲フィルタ（スライダー）",
+          "信頼度スコア一覧表示（テーブル）",
+          "受注ID検索ボックス",
+          "チャネル別フィルタ（ドロップダウン）",
+          "検証ステータスフィルタ（複数選択チェックボックス）",
+          "信頼度スコアしきい値表示",
+          "スコア分布グラフ（ヒストグラム）",
+          "修正優先度ランク表示",
+          "AI_OCR読込結果確度表示",
+          "重複受注フラグ表示",
+          "チャネル間矛盾フラグ表示",
+          "過去受注との比較スコア表示"
+        ]
+      },
+      {
+        "id": "scr-1781406491428",
+        "name": "重複検出・品質検証処理",
+        "purpose": "受注データの重複検出と品質検証を実施し、データの信頼性を確保するための処理画面",
+        "items": [
+          "受注データ一覧表示",
+          "重複検出結果パネル",
+          "品質検証ステータス表示",
+          "信頼度スコア表示",
+          "チャネル間矛盾検出結果",
+          "AI_OCR読込結果確認",
+          "修正対象優先度ランク表示",
+          "検証ルール適用状況",
+          "修正履歴タイムライン",
+          "承認フロー進捗表示",
+          "承認者判定履歴",
+          "重複受注マージ機能"
+        ]
+      },
+      {
+        "id": "scr-1781406504060",
+        "name": "受注修正・確認画面",
+        "purpose": "受注データの品質検証結果を確認し、検出された問題を修正・承認するための画面。AI_OCR読込結果、重複検出、チャネル間矛盾などの検証結果を表示し、修正内容の確認と承認フローを管理する。",
+        "items": [
+          "受注ID表示",
+          "受注ステータス表示",
+          "信頼度スコア表示",
+          "検証結果サマリーパネル",
+          "AI_OCR読込結果表示",
+          "重複受注検出警告",
+          "チャネル間矛盾表示",
+          "受注データ修正フォーム",
+          "修正前後の差分表示",
+          "修正理由入力欄",
+          "修正対象優先度表示",
+          "修正履歴タイムライン"
+        ]
+      },
+      {
+        "id": "scr-1781406518892",
+        "name": "受注確定登録画面",
+        "purpose": "受注データの品質検証を完了し、基幹システムへの確定登録を実行する画面。データ品質チェック結果の確認、修正内容の最終確認、承認フロー処理、および登録完了までの一連のプロセスを管理する。",
+        "items": [
+          "受注データサマリーパネル",
+          "データ品質検証結果表示",
+          "信頼度スコア表示",
+          "AI_OCR読込結果確認",
+          "重複受注検出警告",
+          "チャネル間矛盾検出警告",
+          "修正履歴タイムライン",
+          "修正内容確認テーブル",
+          "修正対象優先度ランク表示",
+          "過去受注履歴参照パネル",
+          "クライアント情報確認",
+          "受注チャネル情報表示"
+        ]
+      },
+      {
+        "id": "scr-1781406532872",
+        "name": "信頼度スコア確認・抽出処理",
+        "purpose": "受注データの信頼度スコアを確認し、品質基準に基づいてデータを抽出・分類するための画面",
+        "items": [
+          "受注データ一覧表示",
+          "信頼度スコア表示",
+          "信頼度スコアしきい値フィルター",
+          "スコア範囲検索",
+          "データ品質ステータス表示",
+          "検証結果サマリー",
+          "AI_OCR読込結果確認",
+          "重複受注検出結果表示",
+          "チャネル間矛盾検出結果表示",
+          "修正対象優先度ランク表示",
+          "抽出条件設定パネル",
+          "一括抽出実行ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781406546116",
+        "name": "修正内容保存・修正履歴記録処理",
+        "purpose": "受注データの修正内容を保存し、修正履歴を記録・管理するための画面。修正前後のデータ比較、修正者情報、修正理由の記録、および信頼度スコアの更新を行う。",
+        "items": [
+          "修正対象受注ID表示",
+          "修正前データ表示パネル",
+          "修正後データ表示パネル",
+          "データ差分ハイライト表示",
+          "修正項目一覧テーブル",
+          "修正理由入力フィールド",
+          "修正カテゴリ選択ドロップダウン",
+          "修正者情報表示（ユーザー名・部門）",
+          "修正日時自動記録表示",
+          "信頼度スコア更新前後表示",
+          "修正内容プレビュー",
+          "保存ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781406562630",
+        "name": "重複受注検出・照合処理",
+        "purpose": "受注データの重複を検出し、チャネル間の矛盾を照合して、データ品質を確保する",
+        "items": [
+          "重複受注検索フィルター",
+          "受注データ一覧表示",
+          "重複候補ペアリング表示",
+          "信頼度スコア表示",
+          "チャネル間矛盾検出結果",
+          "照合詳細ビューパネル",
+          "受注データ比較テーブル",
+          "修正提案表示",
+          "承認フロー状態表示",
+          "承認者割り当てボタン",
+          "修正実行ボタン",
+          "却下・スキップボタン"
+        ]
+      },
+      {
+        "id": "scr-1781406576412",
+        "name": "重複マージ・統合処理",
+        "purpose": "重複検出された受注データを確認し、マージ・統合処理を実行するための画面。複数チャネルからの重複受注を検証し、承認フローを経て基幹システムに連携する。",
+        "items": [
+          "重複受注一覧表示",
+          "重複グループ選択パネル",
+          "マスター受注データ選択",
+          "統合対象受注データ選択",
+          "データ差分比較ビュー",
+          "信頼度スコア表示",
+          "チャネル間矛盾検出結果表示",
+          "マージルール選択ドロップダウン",
+          "優先度ランク参照",
+          "修正対象優先度ランク適用",
+          "統合プレビュー表示",
+          "承認者割り当てセレクタ"
+        ]
+      },
+      {
+        "id": "scr-1781406590761",
+        "name": "データ品質スコア算出・検証処理",
+        "purpose": "受注データの品質スコアを算出し、検証ルールに基づいて自動検証を実行。検証結果に基づいて修正対象の優先度判定と承認フロー管理を行う",
+        "items": [
+          "受注データ一覧表示",
+          "品質スコア表示パネル",
+          "検証ルール選択フィルター",
+          "信頼度スコアしきい値設定",
+          "自動検証実行ボタン",
+          "検証結果サマリー表示",
+          "エラー・警告一覧表示",
+          "重複受注検出結果表示",
+          "チャネル間矛盾検出結果表示",
+          "AI_OCR読込結果確認パネル",
+          "修正対象優先度ランク表示",
+          "修正履歴タイムライン"
+        ]
+      },
+      {
+        "id": "scr-1781406605271",
+        "name": "バリデーション失敗ログ表示画面",
+        "purpose": "受注データの検証失敗内容を詳細に表示し、エラー原因の特定と修正対応を支援するための画面",
+        "items": [
+          "失敗ログ一覧テーブル",
+          "失敗日時フィルター",
+          "失敗理由カテゴリフィルター",
+          "受注ID検索ボックス",
+          "チャネル別フィルター",
+          "信頼度スコア範囲フィルター",
+          "失敗ステータス（未対応/対応中/解決済み）フィルター",
+          "ソート機能（日時/スコア/優先度）",
+          "失敗ログ詳細表示パネル",
+          "エラーメッセージ表示領域",
+          "検証ルール定義参照リンク",
+          "修正履歴表示セクション"
+        ]
+      },
+      {
+        "id": "scr-1781406621207",
+        "name": "受注データ自動検証画面",
+        "purpose": "受注データの自動検証、品質チェック、エラー検出、修正提案を行い、基幹システム連携前のデータ品質を確保する",
+        "items": [
+          "受注データ一覧表",
+          "自動検証実行ボタン",
+          "検証結果パネル",
+          "信頼度スコア表示",
+          "重複受注検出結果",
+          "チャネル間矛盾検出表示",
+          "AI_OCR読込結果確認",
+          "修正提案表示",
+          "修正対象優先度フィルタ",
+          "手動修正フォーム",
+          "承認フロー表示",
+          "基幹システム連携ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781407885631",
+        "name": "修正データ再検証処理",
+        "purpose": "修正済みの受注データを再度検証し、データ品質を確認・承認するための画面",
+        "items": [
+          "修正対象受注一覧",
+          "受注ID検索フィルタ",
+          "修正内容表示パネル",
+          "修正前後の差分表示",
+          "信頼度スコア表示",
+          "検証ルール適用結果",
+          "重複受注検出結果",
+          "チャネル間矛盾検出結果",
+          "AI_OCR読込結果確認",
+          "音声ガイダンス記録再生",
+          "修正履歴タイムライン",
+          "修正者情報表示"
+        ]
+      },
+      {
+        "id": "scr-1781407900887",
+        "name": "集計結果表示画面",
+        "purpose": "受注データの検証結果を集計し、品質指標、エラー分布、信頼度スコア、チャネル別統計を可視化する",
+        "items": [
+          "集計期間選択",
+          "チャネル別フィルタ",
+          "検証ステータスフィルタ",
+          "総受注件数表示",
+          "検証完了件数表示",
+          "エラー件数表示",
+          "平均信頼度スコア表示",
+          "チャネル別受注数グラフ",
+          "検証ステータス分布グラフ",
+          "エラー種別別件数表示",
+          "信頼度スコア分布グラフ",
+          "重複受注検出件数表示"
+        ]
+      },
+      {
+        "id": "scr-1781407914441",
+        "name": "受注データ確認画面",
+        "purpose": "受注データの品質検証結果を確認し、データの正確性を判定・承認するための画面",
+        "items": [
+          "受注ID検索欄",
+          "受注データ一覧表",
+          "検証結果ステータス表示",
+          "信頼度スコア表示",
+          "AI_OCR読込結果確認",
+          "重複受注警告表示",
+          "チャネル間矛盾表示",
+          "修正履歴タブ",
+          "修正対象優先度表示",
+          "音声ガイダンス再生ボタン",
+          "データ修正ボタン",
+          "承認ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781407927355",
+        "name": "データ品質検証処理",
+        "purpose": "受注データの品質を検証し、エラーや矛盾を検出・修正するための統合管理画面",
+        "items": [
+          "受注データ一覧表示",
+          "検証ルール選択",
+          "信頼度スコア表示",
+          "データ品質検証実行ボタン",
+          "AI_OCR読込結果確認",
+          "重複受注検出結果",
+          "チャネル間矛盾検出結果",
+          "修正対象優先度ランク表示",
+          "修正内容入力フォーム",
+          "修正履歴表示",
+          "承認フロー状態表示",
+          "承認者判定ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781407940123",
+        "name": "受注修正画面",
+        "purpose": "受注データの品質問題を特定し、検証結果に基づいて修正内容を入力・確認・承認するための画面",
+        "items": [
+          "受注ID表示",
+          "受注チャネル表示",
+          "顧客情報表示",
+          "検証エラー一覧",
+          "エラー詳細表示",
+          "信頼度スコア表示",
+          "修正対象項目選択",
+          "修正前値表示",
+          "修正後値入力欄",
+          "修正理由入力欄",
+          "AI_OCR読込結果参照ボタン",
+          "過去受注履歴参照ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781407952831",
+        "name": "受注承認処理",
+        "purpose": "受注データの品質検証結果を確認し、承認または差戻しを実施する業務画面",
+        "items": [
+          "受注一覧テーブル",
+          "受注ID検索欄",
+          "チャネル絞込フィルタ",
+          "検証ステータス絞込",
+          "信頼度スコア表示",
+          "検証結果詳細パネル",
+          "AI_OCR読込結果表示",
+          "重複受注警告表示",
+          "チャネル間矛盾表示",
+          "修正履歴タイムライン",
+          "修正対象優先度ランク表示",
+          "過去受注履歴参照ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781407964809",
+        "name": "入力ミス・重複検出処理",
+        "purpose": "受注データの入力ミスと重複を自動検出し、データ品質を確保するための検証・修正画面",
+        "items": [
+          "受注データ一覧表示",
+          "検証ルール選択",
+          "入力ミス検出結果",
+          "重複受注検出結果",
+          "チャネル間矛盾表示",
+          "信頼度スコア表示",
+          "修正対象優先度ランク表示",
+          "AI_OCR読込結果確認",
+          "修正内容入力欄",
+          "修正理由入力欄",
+          "修正前後比較表示",
+          "承認者割り当て"
+        ]
+      },
+      {
+        "id": "scr-1781407977788",
+        "name": "受注データ修正画面",
+        "purpose": "受注データの品質問題を検出・修正し、基幹システムへの正確なデータ連携を実現する",
+        "items": [
+          "受注ID検索欄",
+          "受注データ表示パネル",
+          "検証結果サマリー",
+          "信頼度スコア表示",
+          "エラー項目リスト",
+          "修正対象優先度表示",
+          "重複受注警告表示",
+          "チャネル間矛盾表示",
+          "AI_OCR読込結果表示",
+          "音声ガイダンス再生ボタン",
+          "過去受注履歴参照ボタン",
+          "修正入力フォーム"
+        ]
+      },
+      {
+        "id": "scr-1781407991476",
+        "name": "修正履歴記録・保存処理",
+        "purpose": "受注データの修正内容を記録し、修正履歴を保存・管理するための画面",
+        "items": [
+          "修正対象受注ID表示",
+          "修正前データ表示エリア",
+          "修正後データ表示エリア",
+          "修正項目一覧",
+          "修正理由入力欄",
+          "修正者名表示",
+          "修正日時自動記録",
+          "修正カテゴリ選択ドロップダウン",
+          "信頼度スコア更新表示",
+          "チャネル間矛盾解決状況表示",
+          "重複受注検出結果表示",
+          "修正対象優先度ランク表示"
+        ]
+      },
+      {
+        "id": "scr-1781408005172",
+        "name": "受注ステータス照会画面",
+        "purpose": "受注データの品質検証状況、ステータス、信頼度スコア、検証結果、修正履歴を一元的に照会し、問題のある受注を特定・追跡するための画面",
+        "items": [
+          "受注番号検索欄",
+          "受注日付範囲指定",
+          "ステータスフィルタ（ドロップダウン）",
+          "チャネル選択フィルタ",
+          "信頼度スコア範囲スライダー",
+          "検証結果フィルタ（合格/警告/不合格）",
+          "受注データ一覧テーブル",
+          "受注番号リンク",
+          "顧客名表示",
+          "受注日時表示",
+          "チャネル表示",
+          "現在のステータス表示"
+        ]
+      },
+      {
+        "id": "scr-1781408019802",
+        "name": "受注変更・追加処理画面",
+        "purpose": "受注データの変更・追加処理を実施し、データ品質検証と承認フローを管理する画面",
+        "items": [
+          "受注番号検索欄",
+          "受注ステータス表示",
+          "顧客情報表示パネル",
+          "受注チャネル選択ドロップダウン",
+          "受注日時入力欄",
+          "商品情報入力エリア",
+          "数量入力欄",
+          "金額入力欄",
+          "配送先住所入力欄",
+          "配送方法選択ドロップダウン",
+          "特記事項入力テキストエリア",
+          "AI_OCR読込結果表示"
+        ]
+      },
+      {
+        "id": "scr-1781408032422",
+        "name": "受注データ自動抽出・正規化処理",
+        "purpose": "受注データを複数チャネルから自動抽出し、正規化・検証・修正を行うメイン処理画面",
+        "items": [
+          "データソース選択ドロップダウン",
+          "AI_OCR読込結果表示エリア",
+          "自動抽出開始ボタン",
+          "正規化ルール適用ボタン",
+          "受注データプレビューテーブル",
+          "信頼度スコア表示カラム",
+          "重複受注検出結果パネル",
+          "チャネル間矛盾検出結果パネル",
+          "修正対象優先度ランク表示",
+          "修正内容入力フォーム",
+          "修正履歴確認ボタン",
+          "検証ルール定義参照ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781408045207",
+        "name": "データ品質検証画面",
+        "purpose": "受注データの品質を検証し、エラーや矛盾を検出・修正するための統合管理画面",
+        "items": [
+          "受注データ一覧表",
+          "検証ステータスフィルター",
+          "チャネル別フィルター",
+          "日付範囲指定",
+          "信頼度スコア表示",
+          "エラー内容表示",
+          "重複受注検出結果",
+          "チャネル間矛盾検出結果",
+          "AI_OCR読込結果確認",
+          "修正履歴表示",
+          "修正対象優先度ランク",
+          "承認フロー状態表示"
+        ]
+      },
+      {
+        "id": "scr-1781408057706",
+        "name": "重複検出・エラー検証処理",
+        "purpose": "受注データの重複検出とエラー検証を実施し、データ品質を確保するための検証・修正処理画面",
+        "items": [
+          "受注データ検索フィルター",
+          "重複検出実行ボタン",
+          "重複受注一覧表示",
+          "エラー検証実行ボタン",
+          "エラー内容詳細表示",
+          "チャネル間矛盾検出結果",
+          "信頼度スコア表示",
+          "修正対象優先度ランク表示",
+          "修正内容入力フォーム",
+          "修正承認フロー表示",
+          "承認者判定履歴表示",
+          "基幹システム連携ステータス"
+        ]
+      },
+      {
+        "id": "scr-1781408082515",
+        "name": "AI-OCR信頼度スコア表示・修正画面",
+        "purpose": "AI-OCRで読み込んだ受注データの信頼度スコアを表示し、低信頼度項目の修正・検証を行うための画面",
+        "items": [
+          "受注ID検索欄",
+          "チャネル絞り込みドロップダウン",
+          "信頼度スコア範囲フィルター",
+          "読込日時範囲指定",
+          "OCR読込結果一覧表",
+          "信頼度スコア表示バー",
+          "項目別信頼度詳細表示",
+          "修正が必要な項目ハイライト",
+          "原画像プレビューパネル",
+          "OCR認識テキスト表示欄",
+          "修正入力フィールド",
+          "修正理由選択ドロップダウン"
+        ]
+      },
+      {
+        "id": "scr-1781408096147",
+        "name": "重複検出・マージ処理",
+        "purpose": "受注データの重複を検出し、複数チャネルからの重複受注をマージして統一された受注レコードを作成する",
+        "items": [
+          "重複受注一覧表",
+          "重複検出条件フィルタ",
+          "信頼度スコア表示",
+          "チャネル間矛盾表示",
+          "マージ対象選択チェックボックス",
+          "マージプレビュー",
+          "マージ後データ確認",
+          "優先度ランク選択",
+          "承認者割り当て",
+          "マージ実行ボタン",
+          "キャンセルボタン",
+          "修正履歴表示"
+        ]
+      },
+      {
+        "id": "scr-1781408106491",
+        "name": "受注入力・検証画面",
+        "purpose": "受注データの入力、AI-OCR読込、自動検証、品質チェック、重複検出、チャネル間矛盾検出を行い、承認フローへ進める業務画面",
+        "items": [
+          "受注番号入力欄",
+          "顧客名入力欄",
+          "顧客ID検索欄",
+          "受注日付入力欄",
+          "受注チャネル選択ドロップダウン",
+          "商品コード入力欄",
+          "商品名表示欄",
+          "数量入力欄",
+          "単価入力欄",
+          "金額自動計算表示欄",
+          "配送先住所入力欄",
+          "配送先電話番号入力欄"
+        ]
+      },
+      {
+        "id": "scr-1781408120756",
+        "name": "品質メトリクス集計・分析処理",
+        "purpose": "受注データの品質メトリクスを集計・分析し、データ品質の状況を可視化・評価する",
+        "items": [
+          "集計期間選択",
+          "チャネル別フィルタ",
+          "品質スコア分布グラフ",
+          "検証エラー件数サマリ",
+          "信頼度スコア平均値表示",
+          "重複受注検出率",
+          "チャネル間矛盾検出率",
+          "修正対象優先度別集計表",
+          "AI_OCR読込精度メトリクス",
+          "承認フロー完了率",
+          "データ品質トレンドグラフ",
+          "ルール別検証失敗件数"
+        ]
+      },
+      {
+        "id": "scr-1781408134896",
+        "name": "受注データ可視化ダッシュボード画面",
+        "purpose": "受注データの品質状況をリアルタイムで可視化し、検証結果、信頼度スコア、エラー検出状況を一元管理するダッシュボード",
+        "items": [
+          "受注データ件数サマリーウィジェット",
+          "検証ステータス分布グラフ",
+          "信頼度スコア分布チャート",
+          "重複受注検出件数表示",
+          "チャネル間矛盾検出件数表示",
+          "AI_OCR読込成功率メーター",
+          "修正待ちデータ件数アラート",
+          "受注チャネル別内訳グラフ",
+          "時系列トレンドグラフ",
+          "優先度別修正対象リスト",
+          "最新の検証エラー一覧テーブル",
+          "承認待ちフロー件数表示"
+        ]
+      },
+      {
+        "id": "scr-1781408149457",
+        "name": "信頼度スコア分析・フィルタリング機能",
+        "purpose": "受注データの信頼度スコアを分析し、品質基準に基づいてフィルタリング・優先順位付けを行い、検証対象データを効率的に抽出・管理する",
+        "items": [
+          "信頼度スコア範囲スライダー",
+          "最小信頼度しきい値入力欄",
+          "最大信頼度しきい値入力欄",
+          "スコア分布グラフ",
+          "受注チャネル別フィルタ",
+          "検証ステータスフィルタ",
+          "修正対象優先度ランクフィルタ",
+          "チャネル間矛盾検出フィルタ",
+          "重複受注検出フィルタ",
+          "AI_OCR信頼度フィルタ",
+          "日付範囲ピッカー",
+          "クライアント情報検索欄"
+        ]
+      },
+      {
+        "id": "scr-1781408163448",
+        "name": "重複検出・異常値検出処理",
+        "purpose": "受注データの重複と異常値を自動検出し、データ品質を確保するための検証・修正処理画面",
+        "items": [
+          "受注データ検索フィルター",
+          "検索実行ボタン",
+          "重複受注一覧表",
+          "異常値検出結果一覧表",
+          "信頼度スコア表示",
+          "チャネル間矛盾検出結果",
+          "重複パターン詳細表示",
+          "異常値の種類別分類",
+          "修正対象優先度ランク表示",
+          "修正内容入力フォーム",
+          "修正理由テキストエリア",
+          "修正実行ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781408177222",
+        "name": "受注データ修正・更新画面",
+        "purpose": "受注データの品質問題を特定し、修正・更新を実施するための統合管理画面。検証結果に基づいて不正確なデータを修正し、基幹システムへの連携前に品質を確保する。",
+        "items": [
+          "受注ID検索欄",
+          "チャネル別フィルタ",
+          "検証ステータスフィルタ",
+          "信頼度スコア表示",
+          "修正対象データ一覧表",
+          "エラー内容表示パネル",
+          "修正前データ表示欄",
+          "修正後データ入力欄",
+          "AI_OCR読込結果確認ボタン",
+          "重複受注検出結果表示",
+          "チャネル間矛盾検出結果表示",
+          "過去受注履歴参照ボタン"
+        ]
+      },
+      {
+        "id": "scr-1781408206165",
+        "name": "品質再検証・スコア算出処理",
+        "purpose": "受注データの品質を再検証し、信頼度スコアを算出・更新するための処理画面",
+        "items": [
+          "再検証対象受注一覧",
+          "受注ID検索フィルタ",
+          "チャネル別フィルタ",
+          "検証ステータスフィルタ",
+          "優先度ランク表示",
+          "前回スコア表示",
+          "AI_OCR読込結果確認",
+          "音声ガイダンス記録再生",
+          "チャネル間矛盾検出結果",
+          "重複受注検出結果",
+          "過去受注履歴参照",
+          "クライアント情報表示"
+        ]
+      }
+    ],
+    "tableDefinitions": [
+      {
+        "tableName": "受注データ検証結果",
+        "purpose": "受注データの品質検証結果を記録・管理し、データ品質問題の追跡と改善を支援するシステム",
+        "columns": [
+          {
+            "name": "検証結果ID",
+            "type": "uuid",
+            "required": true,
+            "description": "検証結果の一意識別子"
+          },
+          {
+            "name": "受注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "受注データテーブルへの外部キー"
+          },
+          {
+            "name": "検証ルールID",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "適用された検証ルールの識別子"
+          },
+          {
+            "name": "検証ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証結果（合格/不合格/警告）"
+          },
+          {
+            "name": "エラー分類",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "エラーの分類（データ型エラー/必須項目不足/範囲外等）"
+          },
+          {
+            "name": "エラー詳細",
+            "type": "text",
+            "required": false,
+            "description": "検証失敗時の詳細なエラーメッセージ"
+          },
+          {
+            "name": "対象フィールド",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "検証対象となった受注データのフィールド名"
+          },
+          {
+            "name": "検出値",
+            "type": "text",
+            "required": false,
+            "description": "検証時に検出された実際の値"
+          },
+          {
+            "name": "期待値",
+            "type": "text",
+            "required": false,
+            "description": "検証ルールで期待される値または条件"
+          },
+          {
+            "name": "重要度",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "エラーの重要度レベル（致命的/高/中/低）"
+          },
+          {
+            "name": "対応状況",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "対応状況（未対応/対応中/対応完了）"
+          },
+          {
+            "name": "対応者",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "対応を担当するユーザーID"
+          },
+          {
+            "name": "対応コメント",
+            "type": "text",
+            "required": false,
+            "description": "対応内容に関するコメント"
+          },
+          {
+            "name": "検証実行日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "検証が実行された日時"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "検証結果レコードの作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "検証結果レコードの最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証結果を作成したシステムまたはユーザーID"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "検証結果を最後に更新したユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "受注データ修正履歴",
+        "purpose": "受注データの修正内容を追跡・監査するための履歴管理テーブル。修正前後の値、修正理由、修正者情報を記録し、データ品質管理と監査証跡を実現する。",
+        "columns": [
+          {
+            "name": "修正履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "修正履歴レコードの一意識別子"
+          },
+          {
+            "name": "受注データID",
+            "type": "uuid",
+            "required": true,
+            "description": "修正対象の受注データを特定するための外部キー"
+          },
+          {
+            "name": "修正フィールド名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "修正されたフィールド/カラム名"
+          },
+          {
+            "name": "修正前の値",
+            "type": "text",
+            "required": false,
+            "description": "修正前のフィールド値"
+          },
+          {
+            "name": "修正後の値",
+            "type": "text",
+            "required": true,
+            "description": "修正後のフィールド値"
+          },
+          {
+            "name": "修正理由",
+            "type": "text",
+            "required": false,
+            "description": "修正を実施した理由・背景"
+          },
+          {
+            "name": "修正者ID",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "修正を実施したユーザーの識別子"
+          },
+          {
+            "name": "修正者名",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "修正を実施したユーザーの名前"
+          },
+          {
+            "name": "修正日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "修正が実施された日時"
+          },
+          {
+            "name": "検証結果ID",
+            "type": "uuid",
+            "required": false,
+            "description": "この修正のきっかけとなった検証結果への参照"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "修正履歴レコードが作成された日時"
+          }
+        ]
+      },
+      {
+        "tableName": "信頼度スコア",
+        "purpose": "受注データの各項目および全体の信頼度スコアを記録・管理し、データ品質の可視化と検証優先度の判定を支援する",
+        "columns": [
+          {
+            "name": "信頼度スコアID",
+            "type": "uuid",
+            "required": true,
+            "description": "信頼度スコアレコードの一意識別子"
+          },
+          {
+            "name": "受注データID",
+            "type": "uuid",
+            "required": true,
+            "description": "対象となる受注データの外部キー"
+          },
+          {
+            "name": "全体信頼度スコア",
+            "type": "integer",
+            "required": true,
+            "description": "受注データ全体の信頼度スコア（0-100）"
+          },
+          {
+            "name": "顧客情報信頼度",
+            "type": "integer",
+            "required": true,
+            "description": "顧客情報項目群の信頼度スコア（0-100）"
+          },
+          {
+            "name": "商品情報信頼度",
+            "type": "integer",
+            "required": true,
+            "description": "商品情報項目群の信頼度スコア（0-100）"
+          },
+          {
+            "name": "金額情報信頼度",
+            "type": "integer",
+            "required": true,
+            "description": "金額情報項目群の信頼度スコア（0-100）"
+          },
+          {
+            "name": "配送情報信頼度",
+            "type": "integer",
+            "required": true,
+            "description": "配送情報項目群の信頼度スコア（0-100）"
+          },
+          {
+            "name": "リスク判定レベル",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "リスク判定レベル（低/中/高）"
+          },
+          {
+            "name": "検証推奨フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "手動検証が推奨されるかどうか"
+          },
+          {
+            "name": "スコア計算日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "信頼度スコアが計算された日時"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "AI_OCR読込結果",
+        "purpose": "OCRで読み込んだ受注データの原本結果を保持し、検証・修正前の状態を記録する",
+        "columns": [
+          {
+            "name": "ocr_result_id",
+            "type": "uuid",
+            "required": true,
+            "description": "OCR読込結果の一意識別子"
+          },
+          {
+            "name": "order_id",
+            "type": "uuid",
+            "required": false,
+            "description": "対応する受注データのID（紐付け後に設定）"
+          },
+          {
+            "name": "source_file_name",
+            "type": "varchar(255)",
+            "required": true,
+            "description": "OCR処理対象のファイル名"
+          },
+          {
+            "name": "source_file_path",
+            "type": "varchar(500)",
+            "required": true,
+            "description": "OCR処理対象のファイルパス"
+          },
+          {
+            "name": "ocr_engine",
+            "type": "varchar(50)",
+            "required": true,
+            "description": "使用したOCRエンジン名"
+          },
+          {
+            "name": "extracted_text",
+            "type": "text",
+            "required": true,
+            "description": "OCRで抽出されたテキスト全体"
+          },
+          {
+            "name": "customer_name",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "OCRで読み込んだ顧客名"
+          },
+          {
+            "name": "order_date",
+            "type": "varchar(50)",
+            "required": false,
+            "description": "OCRで読み込んだ受注日"
+          },
+          {
+            "name": "order_amount",
+            "type": "varchar(50)",
+            "required": false,
+            "description": "OCRで読み込んだ受注金額"
+          },
+          {
+            "name": "product_info",
+            "type": "text",
+            "required": false,
+            "description": "OCRで読み込んだ商品情報"
+          },
+          {
+            "name": "confidence_score",
+            "type": "integer",
+            "required": true,
+            "description": "OCR全体の信頼度スコア（0-100）"
+          },
+          {
+            "name": "processing_status",
+            "type": "varchar(20)",
+            "required": true,
+            "description": "処理ステータス（pending/completed/failed）"
+          },
+          {
+            "name": "error_message",
+            "type": "text",
+            "required": false,
+            "description": "OCR処理時のエラーメッセージ"
+          },
+          {
+            "name": "created_at",
+            "type": "timestamp",
+            "required": true,
+            "description": "OCR読込実行日時"
+          },
+          {
+            "name": "updated_at",
+            "type": "timestamp",
+            "required": true,
+            "description": "最終更新日時"
+          },
+          {
+            "name": "created_by",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "OCR処理実行者/システム"
+          }
+        ]
+      },
+      {
+        "tableName": "音声ガイダンス記録",
+        "purpose": "受注データ品質管理プロセスにおける音声ガイダンス（IVR応答、オペレータ指示等）の記録・追跡・監査",
+        "columns": [
+          {
+            "name": "音声ガイダンス記録ID",
+            "type": "uuid",
+            "required": true,
+            "description": "音声ガイダンス記録の一意識別子"
+          },
+          {
+            "name": "受注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "関連する受注データの外部キー"
+          },
+          {
+            "name": "ガイダンスタイプ",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ガイダンスの種類（IVR応答/オペレータ指示/自動確認/エラー通知等）"
+          },
+          {
+            "name": "ガイダンス内容",
+            "type": "text",
+            "required": true,
+            "description": "音声ガイダンスの実際のテキスト内容"
+          },
+          {
+            "name": "再生開始日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "ガイダンス再生開始時刻"
+          },
+          {
+            "name": "再生終了日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "ガイダンス再生終了時刻"
+          },
+          {
+            "name": "ユーザー応答",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "ユーザーの応答内容（DTMF入力/音声認識結果等）"
+          },
+          {
+            "name": "応答確認状態",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "応答の確認状態（確認済/未確認/エラー等）"
+          },
+          {
+            "name": "関連検証結果ID",
+            "type": "uuid",
+            "required": false,
+            "description": "受注データ検証結果テーブルへの外部キー"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者（システム/ユーザーID）"
+          }
+        ]
+      },
+      {
+        "tableName": "重複受注検出",
+        "purpose": "受注データ内の重複を検出・管理し、重複の詳細情報と解決状況を追跡するテーブル",
+        "columns": [
+          {
+            "name": "重複受注検出ID",
+            "type": "uuid",
+            "required": true,
+            "description": "重複受注検出レコードの一意識別子"
+          },
+          {
+            "name": "主受注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "重複グループの主となる受注データID（受注データテーブルへの外部キー）"
+          },
+          {
+            "name": "副受注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "重複と判定された受注データID（受注データテーブルへの外部キー）"
+          },
+          {
+            "name": "重複検出理由",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "重複判定の理由（例：顧客ID一致、注文番号一致、電話番号一致等）"
+          },
+          {
+            "name": "重複スコア",
+            "type": "integer",
+            "required": true,
+            "description": "重複の確度スコア（0-100）"
+          },
+          {
+            "name": "検出方法",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検出方法（例：自動検出、AI_OCR、手動報告）"
+          },
+          {
+            "name": "重複ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "重複の処理状況（未確認、確認済み、統合済み、誤検出、保留中）"
+          },
+          {
+            "name": "解決方法",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "重複解決方法（統合、キャンセル、分離、その他）"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "重複検出に関する追加情報やコメント"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "重複検出レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "重複検出レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "重複検出レコード作成者ユーザーID"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "重複検出レコード最終更新者ユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "チャネル間矛盾検出",
+        "purpose": "複数の受注チャネル（Web、電話、店舗等）から入力された同一受注データの矛盾を検出・管理し、データ品質を確保するための検証結果を記録",
+        "columns": [
+          {
+            "name": "矛盾検出ID",
+            "type": "uuid",
+            "required": true,
+            "description": "チャネル間矛盾検出レコードの一意識別子"
+          },
+          {
+            "name": "受注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "矛盾が検出された受注データの参照ID"
+          },
+          {
+            "name": "チャネル1",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "比較対象となる第1チャネル（例：Web、電話、店舗、API）"
+          },
+          {
+            "name": "チャネル2",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "比較対象となる第2チャネル（例：Web、電話、店舗、API）"
+          },
+          {
+            "name": "矛盾項目",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "矛盾が検出されたデータ項目名（例：金額、住所、電話番号、商品コード）"
+          },
+          {
+            "name": "チャネル1値",
+            "type": "text",
+            "required": true,
+            "description": "チャネル1から取得した値"
+          },
+          {
+            "name": "チャネル2値",
+            "type": "text",
+            "required": true,
+            "description": "チャネル2から取得した値"
+          },
+          {
+            "name": "矛盾タイプ",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "矛盾の種類（例：値の不一致、型の不一致、形式の不一致、欠落）"
+          },
+          {
+            "name": "重要度",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "矛盾の重要度レベル（例：高、中、低）"
+          },
+          {
+            "name": "検出ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "矛盾の処理状態（例：未対応、確認中、解決済み、無視）"
+          },
+          {
+            "name": "推奨値",
+            "type": "text",
+            "required": false,
+            "description": "システムが推奨する正しい値（AI判定結果等）"
+          },
+          {
+            "name": "推奨根拠",
+            "type": "text",
+            "required": false,
+            "description": "推奨値を選定した理由（例：信頼度スコア、OCR精度、入力順序）"
+          },
+          {
+            "name": "信頼度スコアID",
+            "type": "uuid",
+            "required": false,
+            "description": "関連する信頼度スコアレコードの参照ID"
+          },
+          {
+            "name": "検出日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "矛盾が検出された日時"
+          },
+          {
+            "name": "解決日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "矛盾が解決された日時"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者（システム/ユーザーID）"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "レコード最終更新者（システム/ユーザーID）"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "矛盾に関する追加情報やコメント"
+          }
+        ]
+      },
+      {
+        "tableName": "連携承認フロー",
+        "purpose": "受注データの検証結果に基づく承認・却下フローの管理と履歴追跡",
+        "columns": [
+          {
+            "name": "フロー_ID",
+            "type": "uuid",
+            "required": true,
+            "description": "連携承認フローの一意識別子"
+          },
+          {
+            "name": "受注データ_ID",
+            "type": "uuid",
+            "required": true,
+            "description": "対象となる受注データの外部キー"
+          },
+          {
+            "name": "検証結果_ID",
+            "type": "uuid",
+            "required": true,
+            "description": "受注データ検証結果の外部キー"
+          },
+          {
+            "name": "フロー_ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "フローの現在状態（待機中/承認待ち/承認済み/却下/修正待ち）"
+          },
+          {
+            "name": "承認_ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "承認判定（未判定/承認/却下/条件付き承認）"
+          },
+          {
+            "name": "承認者_ID",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "承認を実施したユーザーID"
+          },
+          {
+            "name": "承認_日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "承認が実施された日時"
+          },
+          {
+            "name": "却下_理由",
+            "type": "text",
+            "required": false,
+            "description": "却下時の理由・コメント"
+          },
+          {
+            "name": "修正_指示",
+            "type": "text",
+            "required": false,
+            "description": "修正が必要な場合の具体的な指示内容"
+          },
+          {
+            "name": "優先度",
+            "type": "integer",
+            "required": false,
+            "description": "処理優先度（1-5、数字が小さいほど高優先度）"
+          },
+          {
+            "name": "エスカレーション_フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "上位承認者への段階的承認が必要かどうか"
+          },
+          {
+            "name": "次_承認者_ID",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "次のステップの承認者ID"
+          },
+          {
+            "name": "期限_日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "承認完了の期限"
+          },
+          {
+            "name": "作成_日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "フロー作成日時"
+          },
+          {
+            "name": "更新_日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "フロー最終更新日時"
+          },
+          {
+            "name": "作成者_ID",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "フロー作成者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "承認者判定履歴",
+        "purpose": "受注データの承認プロセスにおける承認者の判定内容、判定理由、判定結果を記録し、承認フロー全体の透明性と監査証跡を確保する",
+        "columns": [
+          {
+            "name": "承認者判定履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "承認者判定履歴の一意識別子"
+          },
+          {
+            "name": "受注データID",
+            "type": "uuid",
+            "required": true,
+            "description": "対象となる受注データの識別子（受注データテーブルへの外部キー）"
+          },
+          {
+            "name": "承認フローID",
+            "type": "uuid",
+            "required": true,
+            "description": "連携承認フローの識別子（連携承認フローテーブルへの外部キー）"
+          },
+          {
+            "name": "承認者ID",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "判定を実施した承認者のユーザーID"
+          },
+          {
+            "name": "承認者名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "判定を実施した承認者の名前"
+          },
+          {
+            "name": "判定ステップ",
+            "type": "integer",
+            "required": true,
+            "description": "承認フロー内での判定ステップ番号（1, 2, 3...）"
+          },
+          {
+            "name": "判定結果",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "承認者の判定結果（承認/却下/保留/修正要求等）"
+          },
+          {
+            "name": "判定理由",
+            "type": "text",
+            "required": false,
+            "description": "判定に至った理由・コメント"
+          },
+          {
+            "name": "指摘事項",
+            "type": "text",
+            "required": false,
+            "description": "却下・修正要求時の具体的な指摘内容"
+          },
+          {
+            "name": "参照した検証結果ID",
+            "type": "uuid",
+            "required": false,
+            "description": "判定時に参照した受注データ検証結果の識別子"
+          },
+          {
+            "name": "参照した信頼度スコアID",
+            "type": "uuid",
+            "required": false,
+            "description": "判定時に参照した信頼度スコアの識別子"
+          },
+          {
+            "name": "判定日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "承認者が判定を実施した日時"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          }
+        ]
+      },
+      {
+        "tableName": "基幹システム連携ログ",
+        "purpose": "基幹システムとの受注データ連携処理の実行履歴を記録し、連携状況の監視、トラブルシューティング、監査証跡を管理する",
+        "columns": [
+          {
+            "name": "連携ログID",
+            "type": "uuid",
+            "required": true,
+            "description": "連携ログの一意識別子"
+          },
+          {
+            "name": "受注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "連携対象の受注データID"
+          },
+          {
+            "name": "連携方向",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携方向（送信/受信）"
+          },
+          {
+            "name": "連携先システム",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携先の基幹システム名称"
+          },
+          {
+            "name": "連携ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "連携処理の状態（成功/失敗/保留/再試行中）"
+          },
+          {
+            "name": "リクエストペイロード",
+            "type": "text",
+            "required": false,
+            "description": "基幹システムへ送信したリクエストデータ"
+          },
+          {
+            "name": "レスポンスペイロード",
+            "type": "text",
+            "required": false,
+            "description": "基幹システムから受信したレスポンスデータ"
+          },
+          {
+            "name": "エラーコード",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "連携失敗時のエラーコード"
+          },
+          {
+            "name": "エラーメッセージ",
+            "type": "text",
+            "required": false,
+            "description": "連携失敗時の詳細エラーメッセージ"
+          },
+          {
+            "name": "再試行回数",
+            "type": "integer",
+            "required": true,
+            "description": "連携処理の再試行実施回数"
+          },
+          {
+            "name": "処理開始日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "連携処理の開始日時"
+          },
+          {
+            "name": "処理完了日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "連携処理の完了日時"
+          },
+          {
+            "name": "処理時間ミリ秒",
+            "type": "integer",
+            "required": false,
+            "description": "連携処理の実行時間（ミリ秒）"
+          },
+          {
+            "name": "実行ユーザーID",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "連携処理を実行したユーザーID（手動実行の場合）"
+          },
+          {
+            "name": "実行プロセス",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "連携処理を実行したプロセス名（自動実行の場合）"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "ログレコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "ログレコード更新日時"
+          }
+        ]
+      },
+      {
+        "tableName": "操作履歴",
+        "purpose": "受注データ品質管理システムにおけるユーザー操作の追跡・監査ログ。データ検証、修正、承認などの全操作を記録し、システムの透明性と責任追跡性を確保する。",
+        "columns": [
+          {
+            "name": "操作履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "操作履歴の一意識別子"
+          },
+          {
+            "name": "ユーザーID",
+            "type": "uuid",
+            "required": true,
+            "description": "操作を実行したユーザーID（ログインユーザーテーブルへの外部キー）"
+          },
+          {
+            "name": "受注データID",
+            "type": "uuid",
+            "required": false,
+            "description": "操作対象の受注データID（受注データテーブルへの外部キー）"
+          },
+          {
+            "name": "操作種別",
+            "type": "varchar(50)",
+            "required": true,
+            "description": "操作の種類（例：検証実行、修正、承認、却下、削除、エクスポート）"
+          },
+          {
+            "name": "操作対象テーブル",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "操作が行われたテーブル名（例：受注データ、受注データ検証結果、受注データ修正履歴）"
+          },
+          {
+            "name": "操作内容",
+            "type": "text",
+            "required": false,
+            "description": "操作の詳細説明（修正内容、判定理由など）"
+          },
+          {
+            "name": "変更前値",
+            "type": "text",
+            "required": false,
+            "description": "修正・更新前のデータ値"
+          },
+          {
+            "name": "変更後値",
+            "type": "text",
+            "required": false,
+            "description": "修正・更新後のデータ値"
+          },
+          {
+            "name": "操作ステータス",
+            "type": "varchar(50)",
+            "required": true,
+            "description": "操作の実行結果（例：成功、失敗、保留中）"
+          },
+          {
+            "name": "エラーメッセージ",
+            "type": "text",
+            "required": false,
+            "description": "操作失敗時のエラー内容"
+          },
+          {
+            "name": "IPアドレス",
+            "type": "varchar(45)",
+            "required": false,
+            "description": "操作実行元のIPアドレス"
+          },
+          {
+            "name": "セッションID",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "ユーザーセッションの識別子"
+          },
+          {
+            "name": "操作日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "操作が実行された日時"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "操作履歴レコードが作成された日時"
+          }
+        ]
+      },
+      {
+        "tableName": "クライアント情報",
+        "purpose": "受注データ品質管理システムにおけるクライアント（顧客・取引先）のマスタ情報を管理し、受注データの検証・承認フロー・チャネル連携時のクライアント属性参照を支援する",
+        "columns": [
+          {
+            "name": "クライアントID",
+            "type": "uuid",
+            "required": true,
+            "description": "クライアントの一意識別子"
+          },
+          {
+            "name": "クライアント名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "クライアント（顧客・取引先）の正式名称"
+          },
+          {
+            "name": "クライアント名カナ",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "クライアント名のカナ表記（検索・重複検出用）"
+          },
+          {
+            "name": "クライアントコード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "基幹システム連携用のクライアント識別コード"
+          },
+          {
+            "name": "業種",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "クライアントの業種分類"
+          },
+          {
+            "name": "住所",
+            "type": "text",
+            "required": false,
+            "description": "クライアントの住所"
+          },
+          {
+            "name": "電話番号",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "クライアントの連絡先電話番号"
+          },
+          {
+            "name": "メールアドレス",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "クライアントの連絡先メールアドレス"
+          },
+          {
+            "name": "担当者名",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "クライアント側の主要担当者名"
+          },
+          {
+            "name": "信用度レベル",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "クライアントの信用度ランク（高/中/低等）"
+          },
+          {
+            "name": "チャネル",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "主要な受注チャネル（Web/電話/FAX等）"
+          },
+          {
+            "name": "ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "クライアントの状態（有効/休止/廃止等）"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "クライアント情報の作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "クライアント情報の最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "クライアント情報を作成したユーザーID"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "クライアント情報を最後に更新したユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "受注チャネル",
+        "purpose": "受注の入力元チャネル（Web、電話、FAX、メール等）を管理し、チャネル別の受注特性、検証ルール、連携設定を一元管理するマスタテーブル",
+        "columns": [
+          {
+            "name": "チャネルID",
+            "type": "uuid",
+            "required": true,
+            "description": "受注チャネルの一意識別子"
+          },
+          {
+            "name": "チャネル名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "チャネルの表示名（例：Web注文、電話受注、FAX受注、メール受注）"
+          },
+          {
+            "name": "チャネルコード",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "チャネルの一意コード（例：WEB、TEL、FAX、MAIL）"
+          },
+          {
+            "name": "説明",
+            "type": "text",
+            "required": false,
+            "description": "チャネルの詳細説明"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "チャネルが有効か無効か"
+          },
+          {
+            "name": "デフォルト検証ルールID",
+            "type": "uuid",
+            "required": false,
+            "description": "このチャネルに適用されるデフォルト検証ルールの参照"
+          },
+          {
+            "name": "基幹システム連携コード",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "基幹システム側のチャネルコード（マッピング用）"
+          },
+          {
+            "name": "OCR対象フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "AI_OCR処理の対象チャネルか否か"
+          },
+          {
+            "name": "音声ガイダンス対象フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "音声ガイダンス記録の対象チャネルか否か"
+          },
+          {
+            "name": "重複検出対象フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "重複受注検出の対象チャネルか否か"
+          },
+          {
+            "name": "優先度",
+            "type": "integer",
+            "required": true,
+            "description": "チャネル間矛盾検出時の優先度（数値が小さいほど優先）"
+          },
+          {
+            "name": "信頼度デフォルトスコア",
+            "type": "integer",
+            "required": true,
+            "description": "このチャネルからの受注の初期信頼度スコア（0-100）"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード最終更新者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "修正対象優先度ランク",
+        "purpose": "受注データの修正対象を優先度別に分類・管理し、修正作業の効率化と品質向上を実現するマスタテーブル",
+        "columns": [
+          {
+            "name": "優先度ランクID",
+            "type": "uuid",
+            "required": true,
+            "description": "優先度ランクの一意識別子"
+          },
+          {
+            "name": "ランク名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "優先度ランクの名称（例：緊急、高、中、低）"
+          },
+          {
+            "name": "ランクレベル",
+            "type": "integer",
+            "required": true,
+            "description": "優先度の数値レベル（1=最高優先度、数値が小さいほど優先度が高い）"
+          },
+          {
+            "name": "説明",
+            "type": "text",
+            "required": false,
+            "description": "優先度ランクの詳細説明"
+          },
+          {
+            "name": "対象エラー種別",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "このランクが適用されるエラー種別（例：金額不一致、住所不備、重複受注）"
+          },
+          {
+            "name": "修正期限日数",
+            "type": "integer",
+            "required": false,
+            "description": "このランクの修正対象が修正されるべき期限（日数）"
+          },
+          {
+            "name": "自動修正可否",
+            "type": "boolean",
+            "required": true,
+            "description": "このランクの修正対象が自動修正の対象となるかどうか"
+          },
+          {
+            "name": "手動確認必須",
+            "type": "boolean",
+            "required": true,
+            "description": "修正後に手動確認が必須かどうか"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "優先度ランクが有効かどうか"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "レコード最終更新者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "信頼度スコアしきい値設定",
+        "purpose": "受注データの信頼度スコアに基づく自動判定・承認フロー制御のためのしきい値マスタ管理",
+        "columns": [
+          {
+            "name": "しきい値設定ID",
+            "type": "uuid",
+            "required": true,
+            "description": "しきい値設定の一意識別子"
+          },
+          {
+            "name": "受注チャネルID",
+            "type": "uuid",
+            "required": true,
+            "description": "対象となる受注チャネルの外部キー"
+          },
+          {
+            "name": "検証項目区分",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証対象項目（例：顧客情報、商品情報、金額、住所等）"
+          },
+          {
+            "name": "自動承認しきい値",
+            "type": "integer",
+            "required": true,
+            "description": "この値以上で自動承認される信頼度スコア（0-100）"
+          },
+          {
+            "name": "手動確認しきい値",
+            "type": "integer",
+            "required": true,
+            "description": "この値以上で手動確認対象となる信頼度スコア（0-100）"
+          },
+          {
+            "name": "却下しきい値",
+            "type": "integer",
+            "required": true,
+            "description": "この値未満で自動却下される信頼度スコア（0-100）"
+          },
+          {
+            "name": "優先承認者ID",
+            "type": "uuid",
+            "required": false,
+            "description": "手動確認時のデフォルト承認者"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "このしきい値設定が有効かどうか"
+          },
+          {
+            "name": "適用開始日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "このしきい値設定の適用開始日時"
+          },
+          {
+            "name": "適用終了日時",
+            "type": "timestamp",
+            "required": false,
+            "description": "このしきい値設定の適用終了日時（終了予定がない場合はNULL）"
+          },
+          {
+            "name": "備考",
+            "type": "text",
+            "required": false,
+            "description": "設定の背景・理由等の説明"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "更新者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード最終更新者のユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "検証ルール定義",
+        "purpose": "受注データの品質検証に用いるルール定義を一元管理し、検証ロジック、適用条件、重要度、実行スケジュールを統制する",
+        "columns": [
+          {
+            "name": "ルール定義ID",
+            "type": "uuid",
+            "required": true,
+            "description": "検証ルール定義の一意識別子"
+          },
+          {
+            "name": "ルール名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証ルールの名称（例：電話番号形式チェック）"
+          },
+          {
+            "name": "ルール説明",
+            "type": "text",
+            "required": false,
+            "description": "検証ルールの詳細説明と検証目的"
+          },
+          {
+            "name": "検証対象フィールド",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証対象となる受注データのフィールド名"
+          },
+          {
+            "name": "検証タイプ",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証方式（例：形式チェック、範囲チェック、重複チェック、論理チェック、外部参照チェック）"
+          },
+          {
+            "name": "検証ロジック",
+            "type": "text",
+            "required": true,
+            "description": "検証ルールの具体的なロジック定義（正規表現、条件式、SQL等）"
+          },
+          {
+            "name": "適用チャネル",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "ルール適用対象のチャネル（例：Web、電話、FAX、API。空白は全チャネル対象）"
+          },
+          {
+            "name": "重要度レベル",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証ルールの重要度（例：Critical、High、Medium、Low）"
+          },
+          {
+            "name": "エラーメッセージ",
+            "type": "text",
+            "required": true,
+            "description": "検証失敗時に表示するエラーメッセージ"
+          },
+          {
+            "name": "自動修正可能フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "このルール違反が自動修正可能かどうか"
+          },
+          {
+            "name": "自動修正ロジック",
+            "type": "text",
+            "required": false,
+            "description": "自動修正が可能な場合の修正ロジック定義"
+          },
+          {
+            "name": "有効フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "検証ルールが有効かどうか"
+          },
+          {
+            "name": "実行順序",
+            "type": "integer",
+            "required": false,
+            "description": "複数ルール実行時の優先順序"
+          },
+          {
+            "name": "条件付き実行フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "特定条件下でのみ実行するかどうか"
+          },
+          {
+            "name": "条件付き実行条件",
+            "type": "text",
+            "required": false,
+            "description": "条件付き実行の場合の条件定義"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "ルール定義の作成日時"
+          },
+          {
+            "name": "作成者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ルール定義を作成したユーザーID"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "ルール定義の最終更新日時"
+          },
+          {
+            "name": "更新者",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "ルール定義を最後に更新したユーザーID"
+          }
+        ]
+      },
+      {
+        "tableName": "過去受注履歴",
+        "purpose": "受注データの履歴管理と過去トレンド分析、重複検出、品質監視のための履歴テーブル",
+        "columns": [
+          {
+            "name": "過去受注履歴ID",
+            "type": "uuid",
+            "required": true,
+            "description": "過去受注履歴の一意識別子"
+          },
+          {
+            "name": "受注ID",
+            "type": "uuid",
+            "required": true,
+            "description": "元の受注データテーブルへの外部キー"
+          },
+          {
+            "name": "受注番号",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "受注の一意番号"
+          },
+          {
+            "name": "顧客ID",
+            "type": "uuid",
+            "required": true,
+            "description": "顧客の一意識別子"
+          },
+          {
+            "name": "顧客名",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "顧客名"
+          },
+          {
+            "name": "受注日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "元の受注日時"
+          },
+          {
+            "name": "受注チャネルID",
+            "type": "uuid",
+            "required": true,
+            "description": "受注チャネルテーブルへの外部キー"
+          },
+          {
+            "name": "受注金額",
+            "type": "integer",
+            "required": true,
+            "description": "受注金額（円）"
+          },
+          {
+            "name": "商品コード",
+            "type": "varchar(100)",
+            "required": false,
+            "description": "受注商品のコード"
+          },
+          {
+            "name": "数量",
+            "type": "integer",
+            "required": false,
+            "description": "受注数量"
+          },
+          {
+            "name": "信頼度スコア",
+            "type": "integer",
+            "required": true,
+            "description": "受注時の信頼度スコア（0-100）"
+          },
+          {
+            "name": "検証ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "検証結果ステータス（合格/要修正/却下等）"
+          },
+          {
+            "name": "重複フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "重複受注として検出されたか"
+          },
+          {
+            "name": "チャネル間矛盾フラグ",
+            "type": "boolean",
+            "required": true,
+            "description": "チャネル間で矛盾が検出されたか"
+          },
+          {
+            "name": "修正履歴ID",
+            "type": "uuid",
+            "required": false,
+            "description": "修正が行われた場合の修正履歴テーブルへの外部キー"
+          },
+          {
+            "name": "承認ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "承認フロー状態（未承認/承認済/却下等）"
+          },
+          {
+            "name": "基幹システム連携ステータス",
+            "type": "varchar(100)",
+            "required": true,
+            "description": "基幹システムへの連携状態（未連携/連携済/連携失敗等）"
+          },
+          {
+            "name": "アーカイブ日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "受注が過去履歴としてアーカイブされた日時"
+          },
+          {
+            "name": "作成日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード作成日時"
+          },
+          {
+            "name": "更新日時",
+            "type": "timestamp",
+            "required": true,
+            "description": "レコード最終更新日時"
+          },
+          {
+            "name": "作成者ID",
+            "type": "uuid",
+            "required": true,
+            "description": "レコード作成者のユーザーID"
+          }
+        ]
+      }
+    ]
+  }
+]
