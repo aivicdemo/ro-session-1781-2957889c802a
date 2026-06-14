@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI-OCR信頼度スコア表示・修正画面 - ROシステム</title>
+  <script>
+window.AIVIC_API_URL = "https://mkwmoife37uqyv4zhy4yhweozq0oddxn.lambda-url.us-east-1.on.aws/";
+window.AIVIC_APP_ID = "session-1781340378343";
+window.AIVIC_SYSTEM_NAME = "受注データ品質管理・検証システム";
+window.AIVIC_TABLES = [{"tableName":"受注データ検証結果","purpose":"受注データの品質検証結果を記録・管理し、検証ルール違反や異常データを追跡するための検証履歴テーブル","columns":[{"name":"検証結果ID","type":"uuid","required":true,"description":"検証結果の一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"検証対象の受注データID（受注データテーブルへの外部キー）"},{"name":"検証ステータス","type":"varchar(100)","required":true,"description":"検証結果のステータス（合格/不合格/警告/保留等）"},{"name":"検証ルールID","type":"varchar(100)","required":true,"description":"適用された検証ルールの識別子"},{"name":"エラーコード","type":"varchar(100)","required":false,"description":"検出されたエラーコード"},{"name":"エラーメッセージ","type":"text","required":false,"description":"検証失敗時の詳細なエラーメッセージ"},{"name":"検証項目","type":"varchar(100)","required":true,"description":"検証対象となったデータ項目名"},{"name":"検証値","type":"text","required":false,"description":"検証時に検出された実際の値"},{"name":"期待値","type":"text","required":false,"description":"検証ルールで期待される値"},{"name":"重要度","type":"varchar(100)","required":true,"description":"エラーの重要度レベル（致命的/高/中/低等）"},{"name":"検証実行日時","type":"timestamp","required":true,"description":"検証が実行された日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"検証結果レコードの作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"検証結果レコードの最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"検証を実行したユーザーID（ログインユーザーテーブルへの外部キー）"},{"name":"対応状況","type":"varchar(100)","required":false,"description":"エラーへの対応状況（未対応/対応中/完了/却下等）"},{"name":"対応者ID","type":"uuid","required":false,"description":"エラーに対応したユーザーID（ログインユーザーテーブルへの外部キー）"},{"name":"対応完了日時","type":"timestamp","required":false,"description":"エラー対応が完了した日時"},{"name":"備考","type":"text","required":false,"description":"検証結果に関する追加情報や対応内容"}]},{"tableName":"受注データ修正履歴","purpose":"受注データの修正内容を追跡・監査するための履歴管理テーブル。いつ、誰が、何を、どのように修正したかを記録し、データ品質管理と検証プロセスの透明性を確保する。","columns":[{"name":"修正履歴ID","type":"uuid","required":true,"description":"修正履歴レコードの一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"修正対象の受注データを特定するための外部キー"},{"name":"修正項目名","type":"varchar(100)","required":true,"description":"修正されたカラム/項目の名称（例：受注金額、顧客名）"},{"name":"修正前値","type":"text","required":false,"description":"修正前のデータ値"},{"name":"修正後値","type":"text","required":false,"description":"修正後のデータ値"},{"name":"修正理由","type":"varchar(100)","required":true,"description":"修正の理由分類（例：入力誤り、検証エラー、顧客確認、システム不具合）"},{"name":"修正備考","type":"text","required":false,"description":"修正に関する詳細な説明やコメント"},{"name":"修正ユーザーID","type":"uuid","required":true,"description":"修正を実施したユーザーを特定するための外部キー（ログインユーザーテーブル参照）"},{"name":"修正日時","type":"timestamp","required":true,"description":"修正が実施された日時"},{"name":"検証結果ID","type":"uuid","required":false,"description":"この修正のきっかけとなった検証結果への参照（受注データ検証結果テーブル参照）"},{"name":"作成日時","type":"timestamp","required":true,"description":"履歴レコードが作成された日時"}]},{"tableName":"信頼度スコア","purpose":"受注データの品質・信頼度を数値化・管理し、検証結果と紐付けて、データ品質の可視化と改善追跡を支援する","columns":[{"name":"信頼度スコアID","type":"uuid","required":true,"description":"信頼度スコアの一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"対象となる受注データの外部キー"},{"name":"検証結果ID","type":"uuid","required":false,"description":"関連する受注データ検証結果の外部キー"},{"name":"総合スコア","type":"integer","required":true,"description":"0～100の総合信頼度スコア"},{"name":"完全性スコア","type":"integer","required":true,"description":"必須項目の充足度スコア（0～100）"},{"name":"正確性スコア","type":"integer","required":true,"description":"データ形式・値の妥当性スコア（0～100）"},{"name":"一貫性スコア","type":"integer","required":true,"description":"他データとの整合性スコア（0～100）"},{"name":"スコア計算日時","type":"timestamp","required":true,"description":"スコア算出時刻"},{"name":"スコア有効期限","type":"timestamp","required":false,"description":"スコアの有効期限（再計算が必要になる時刻）"},{"name":"警告フラグ","type":"boolean","required":true,"description":"スコアが閾値以下の場合true"},{"name":"警告レベル","type":"varchar(100)","required":false,"description":"警告の重要度（高/中/低）"},{"name":"備考","type":"text","required":false,"description":"スコア低下の理由や改善提案など"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ログインユーザーの外部キー"}]},{"tableName":"AI_OCR読み込み結果","purpose":"AI OCRエンジンによる受注データの読み込み結果を記録し、品質検証・修正履歴の基点となるトランザクションテーブル","columns":[{"name":"ocr_result_id","type":"uuid","required":true,"description":"OCR読み込み結果の一意識別子"},{"name":"order_id","type":"uuid","required":true,"description":"対応する受注データID（受注データテーブルへの外部キー）"},{"name":"source_document_type","type":"varchar(100)","required":true,"description":"読み込み元ドキュメント種別（例：注文書、請求書、納品書）"},{"name":"ocr_engine_version","type":"varchar(100)","required":true,"description":"使用したOCRエンジンのバージョン"},{"name":"raw_ocr_text","type":"text","required":true,"description":"OCRエンジンが抽出した生テキスト"},{"name":"extracted_fields","type":"text","required":true,"description":"抽出されたフィールド情報（構造化データ、別テーブルで管理する場合は参照ID）"},{"name":"confidence_score_id","type":"uuid","required":false,"description":"信頼度スコアテーブルへの外部キー"},{"name":"overall_confidence","type":"integer","required":true,"description":"全体信頼度スコア（0-100）"},{"name":"processing_status","type":"varchar(100)","required":true,"description":"処理ステータス（例：成功、部分成功、失敗）"},{"name":"error_message","type":"text","required":false,"description":"処理失敗時のエラーメッセージ"},{"name":"requires_manual_review","type":"boolean","required":true,"description":"手動レビューが必要かどうか"},{"name":"processing_timestamp","type":"timestamp","required":true,"description":"OCR処理実行日時"},{"name":"created_at","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"updated_at","type":"timestamp","required":true,"description":"レコード更新日時"},{"name":"created_by","type":"uuid","required":true,"description":"作成者ユーザーID（ログインユーザーテーブルへの外部キー）"}]},{"tableName":"音声ガイダンス記録","purpose":"受注データ品質管理プロセスにおける音声ガイダンス（IVR応答、オペレータ指示等）の記録・追跡。検証結果との紐付けにより、データ品質問題の原因特定と改善に活用。","columns":[{"name":"音声ガイダンス記録ID","type":"uuid","required":true,"description":"音声ガイダンス記録の一意識別子"},{"name":"受注ID","type":"uuid","required":true,"description":"関連する受注データの外部キー"},{"name":"ガイダンスタイプ","type":"varchar(100)","required":true,"description":"ガイダンスの種類（例：IVR_確認、オペレータ_指示、自動応答等）"},{"name":"ガイダンス内容","type":"text","required":true,"description":"音声ガイダンスの実際のテキスト内容またはスクリプト"},{"name":"再生開始時刻","type":"timestamp","required":true,"description":"ガイダンス再生開始日時"},{"name":"再生終了時刻","type":"timestamp","required":false,"description":"ガイダンス再生終了日時"},{"name":"再生時間秒","type":"integer","required":false,"description":"ガイダンス再生時間（秒単位）"},{"name":"ユーザー応答","type":"varchar(100)","required":false,"description":"ユーザーの応答内容（例：ボタン入力、音声認識結果等）"},{"name":"応答確認状態","type":"varchar(100)","required":false,"description":"応答の確認状態（例：確認済、未確認、エラー等）"},{"name":"検証結果ID","type":"uuid","required":false,"description":"関連する受注データ検証結果の外部キー"},{"name":"品質問題フラグ","type":"boolean","required":true,"description":"品質問題が検出されたかどうか"},{"name":"問題分類","type":"varchar(100)","required":false,"description":"検出された問題の分類（例：聞き取り困難、応答エラー、データ不整合等）"},{"name":"備考","type":"text","required":false,"description":"追加の説明やコメント"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"uuid","required":true,"description":"レコード作成者のユーザーID（ログインユーザーテーブルへの外部キー）"}]},{"tableName":"チャネル情報","purpose":"受注データの入力元チャネル（Web、電話、店舗、API等）を管理し、チャネル別の受注データ品質検証ルールや信頼度スコア調整に使用","columns":[{"name":"チャネルID","type":"uuid","required":true,"description":"チャネル情報の一意識別子"},{"name":"チャネル名","type":"varchar(100)","required":true,"description":"チャネルの名称（例：Web注文、電話受注、店舗POS、API連携）"},{"name":"チャネルコード","type":"varchar(100)","required":true,"description":"チャネルの一意コード（例：WEB、TEL、STORE、API）"},{"name":"説明","type":"text","required":false,"description":"チャネルの詳細説明"},{"name":"デフォルト信頼度スコア","type":"integer","required":true,"description":"このチャネルから入力されたデータの初期信頼度スコア（0-100）"},{"name":"OCR処理対象フラグ","type":"boolean","required":true,"description":"AI_OCR読み込み処理の対象チャネルかどうか"},{"name":"音声ガイダンス対応フラグ","type":"boolean","required":true,"description":"音声ガイダンス記録の対象チャネルかどうか"},{"name":"有効フラグ","type":"boolean","required":true,"description":"チャネルが有効かどうか"},{"name":"作成日時","type":"timestamp","required":true,"description":"チャネル情報の作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"チャネル情報の最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"チャネル情報を作成したユーザーID"},{"name":"更新者","type":"varchar(100)","required":true,"description":"チャネル情報を最後に更新したユーザーID"}]},{"tableName":"重複受注検出結果","purpose":"受注データ内の重複を検出・管理し、検出ルール、マッチング詳細、対応状況を記録するテーブル","columns":[{"name":"重複受注検出結果ID","type":"uuid","required":true,"description":"重複受注検出結果の一意識別子"},{"name":"主受注ID","type":"uuid","required":true,"description":"重複グループの主となる受注データID（受注データテーブルへの外部キー）"},{"name":"副受注ID","type":"uuid","required":true,"description":"重複と判定された受注データID（受注データテーブルへの外部キー）"},{"name":"検出ルールID","type":"varchar(100)","required":true,"description":"適用された重複検出ルールの識別子"},{"name":"マッチング信頼度","type":"integer","required":true,"description":"重複判定の信頼度スコア（0-100）"},{"name":"マッチング理由","type":"text","required":true,"description":"重複と判定された理由（顧客名一致、電話番号一致など）"},{"name":"検出ステータス","type":"varchar(100)","required":true,"description":"検出結果のステータス（未確認/確認済み/統合済み/誤検出）"},{"name":"対応方針","type":"varchar(100)","required":false,"description":"対応方針（統合/分離/保留/却下）"},{"name":"確認者ID","type":"uuid","required":false,"description":"検出結果を確認したユーザーID（ログインユーザーテーブルへの外部キー）"},{"name":"確認日時","type":"timestamp","required":false,"description":"検出結果が確認された日時"},{"name":"備考","type":"text","required":false,"description":"対応に関する備考やコメント"},{"name":"作成日時","type":"timestamp","required":true,"description":"検出結果が作成された日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"検出結果が最後に更新された日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"検出結果を作成したシステムまたはユーザーID"}]},{"tableName":"チャネル間矛盾検出結果","purpose":"複数チャネル（Web、電話、店舗等）から受注された同一商品・顧客の矛盾を検出・記録し、データ品質管理と重複排除を支援する","columns":[{"name":"矛盾検出結果ID","type":"uuid","required":true,"description":"チャネル間矛盾検出結果の一意識別子"},{"name":"受注ID_1","type":"uuid","required":true,"description":"矛盾を検出した最初の受注データのID"},{"name":"受注ID_2","type":"uuid","required":true,"description":"矛盾を検出した2番目の受注データのID"},{"name":"チャネルID_1","type":"uuid","required":true,"description":"最初の受注のチャネル情報ID"},{"name":"チャネルID_2","type":"uuid","required":true,"description":"2番目の受注のチャネル情報ID"},{"name":"矛盾タイプ","type":"varchar(100)","required":true,"description":"矛盾の種類（例：金額相違、数量相違、顧客情報相違、配送先相違、受注日時相違）"},{"name":"矛盾内容","type":"text","required":true,"description":"矛盾の詳細説明（具体的な相違内容）"},{"name":"重要度","type":"varchar(100)","required":true,"description":"矛盾の重要度レベル（高/中/低）"},{"name":"検出日時","type":"timestamp","required":true,"description":"矛盾が検出された日時"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"対応状況（未対応/確認中/解決済み/却下）"},{"name":"対応内容","type":"text","required":false,"description":"矛盾に対する対応内容・判断理由"},{"name":"対応日時","type":"timestamp","required":false,"description":"矛盾が対応された日時"},{"name":"対応者ID","type":"uuid","required":false,"description":"対応を実施したユーザーのID"},{"name":"信頼度スコア","type":"integer","required":false,"description":"矛盾検出の信頼度スコア（0-100）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]},{"tableName":"入力漏れ検出結果","purpose":"受注データの入力漏れ項目を検出・記録し、データ品質管理と修正追跡を実現するテーブル","columns":[{"name":"入力漏れ検出結果ID","type":"uuid","required":true,"description":"入力漏れ検出結果の一意識別子"},{"name":"受注ID","type":"uuid","required":true,"description":"受注データテーブルへの外部キー"},{"name":"検出日時","type":"timestamp","required":true,"description":"入力漏れが検出された日時"},{"name":"漏れ項目名","type":"varchar(100)","required":true,"description":"入力漏れが検出された項目名"},{"name":"漏れ項目区分","type":"varchar(100)","required":true,"description":"漏れ項目の区分（必須項目/推奨項目等）"},{"name":"検出ルール","type":"varchar(100)","required":true,"description":"入力漏れを検出したルール名またはルールID"},{"name":"重要度","type":"varchar(100)","required":true,"description":"入力漏れの重要度レベル（高/中/低）"},{"name":"検出ステータス","type":"varchar(100)","required":true,"description":"検出結果のステータス（未対応/対応中/完了/除外）"},{"name":"修正済みフラグ","type":"boolean","required":true,"description":"入力漏れが修正されたかどうか"},{"name":"修正日時","type":"timestamp","required":false,"description":"入力漏れが修正された日時"},{"name":"修正者ID","type":"uuid","required":false,"description":"ログインユーザーテーブルへの外部キー（修正を実施したユーザー）"},{"name":"修正内容","type":"text","required":false,"description":"実施された修正内容の詳細"},{"name":"備考","type":"text","required":false,"description":"入力漏れに関する追加情報やコメント"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ログインユーザーテーブルへの外部キー（レコード作成者）"}]},{"tableName":"連携承認フロー","purpose":"受注データの品質検証結果に対する承認・却下フローを管理し、各段階の承認者、判定、コメント、タイムスタンプを記録する","columns":[{"name":"フロー_ID","type":"uuid","required":true,"description":"連携承認フローの一意識別子"},{"name":"受注データ_ID","type":"uuid","required":true,"description":"対象となる受注データの外部キー"},{"name":"検証結果_ID","type":"uuid","required":true,"description":"受注データ検証結果の外部キー"},{"name":"フロー段階","type":"varchar(100)","required":true,"description":"承認フローの段階（初期検証、品質確認、最終承認等）"},{"name":"現在ステータス","type":"varchar(100)","required":true,"description":"フローの現在状態（待機中、承認済、却下、差戻し等）"},{"name":"承認者_ID","type":"uuid","required":false,"description":"現在の承認者のログインユーザーID"},{"name":"承認判定","type":"varchar(100)","required":false,"description":"承認者の判定（承認、却下、条件付承認等）"},{"name":"承認コメント","type":"text","required":false,"description":"承認者による判定理由やコメント"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認者が判定を実施した日時"},{"name":"優先度","type":"varchar(100)","required":false,"description":"フロー処理の優先度（高、中、低等）"},{"name":"期限日時","type":"timestamp","required":false,"description":"承認完了の期限"},{"name":"作成日時","type":"timestamp","required":true,"description":"フロー作成日時"},{"name":"作成者_ID","type":"uuid","required":true,"description":"フロー作成者のログインユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"フロー最終更新日時"},{"name":"更新者_ID","type":"uuid","required":true,"description":"フロー最終更新者のログインユーザーID"}]},{"tableName":"承認者判定履歴","purpose":"受注データの承認プロセスにおける承認者の判定内容、判定理由、判定結果を記録し、承認フロー全体の監査証跡を管理する","columns":[{"name":"承認者判定履歴ID","type":"uuid","required":true,"description":"承認者判定履歴の一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"対象となる受注データの識別子"},{"name":"連携承認フローID","type":"uuid","required":true,"description":"この判定が属する承認フローの識別子"},{"name":"承認者ユーザーID","type":"uuid","required":true,"description":"判定を実施した承認者のユーザーID"},{"name":"判定結果","type":"varchar(100)","required":true,"description":"承認/却下/条件付き承認/保留等の判定結果"},{"name":"判定理由","type":"text","required":false,"description":"判定の根拠となった理由や説明"},{"name":"参照検証結果ID","type":"uuid","required":false,"description":"判定の根拠となった受注データ検証結果の識別子"},{"name":"参照重複検出結果ID","type":"uuid","required":false,"description":"判定の根拠となった重複受注検出結果の識別子"},{"name":"参照矛盾検出結果ID","type":"uuid","required":false,"description":"判定の根拠となったチャネル間矛盾検出結果の識別子"},{"name":"判定日時","type":"timestamp","required":true,"description":"承認者が判定を実施した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"この履歴レコードが作成された日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"この履歴レコードが最後に更新された日時"}]},{"tableName":"基幹システム連携ログ","purpose":"基幹システムとの受注データ連携処理の実行履歴を記録し、連携状況の追跡、エラー分析、監査証跡を管理するトランザクションログテーブル","columns":[{"name":"連携ログID","type":"uuid","required":true,"description":"連携ログの一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"連携対象の受注データID（受注データテーブルへの外部キー）"},{"name":"連携方向","type":"varchar(100)","required":true,"description":"連携方向（送信/受信）"},{"name":"連携ステータス","type":"varchar(100)","required":true,"description":"連携処理のステータス（成功/失敗/保留中/再試行中）"},{"name":"基幹システム側参照ID","type":"varchar(100)","required":false,"description":"基幹システム側での受注ID等の参照識別子"},{"name":"連携リクエスト内容","type":"text","required":false,"description":"基幹システムへ送信したリクエストデータ（JSON形式）"},{"name":"連携レスポンス内容","type":"text","required":false,"description":"基幹システムから受信したレスポンスデータ（JSON形式）"},{"name":"エラーコード","type":"varchar(100)","required":false,"description":"連携失敗時のエラーコード"},{"name":"エラーメッセージ","type":"text","required":false,"description":"連携失敗時の詳細エラーメッセージ"},{"name":"再試行回数","type":"integer","required":true,"description":"連携処理の再試行回数"},{"name":"次回再試行予定日時","type":"timestamp","required":false,"description":"失敗時の次回再試行予定日時"},{"name":"連携処理時間_ミリ秒","type":"integer","required":false,"description":"連携処理にかかった時間（ミリ秒）"},{"name":"作成日時","type":"timestamp","required":true,"description":"ログレコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"ログレコード最終更新日時"},{"name":"作成者ユーザーID","type":"uuid","required":false,"description":"ログを作成したユーザーID（自動連携の場合はシステム）"}]},{"tableName":"クライアント情報","purpose":"受注データ品質管理システムにおけるクライアント（顧客・取引先）のマスタ情報を管理し、受注データの検証・承認フロー・基幹システム連携時のクライアント属性参照を支援する","columns":[{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントの一意識別子"},{"name":"クライアント名","type":"varchar(100)","required":true,"description":"クライアント（顧客・取引先）の正式名称"},{"name":"クライアント名カナ","type":"varchar(100)","required":false,"description":"クライアント名のカナ表記（検索・ソート用）"},{"name":"クライアントコード","type":"varchar(100)","required":true,"description":"基幹システム連携用のクライアント識別コード"},{"name":"業種","type":"varchar(100)","required":false,"description":"クライアントの業種分類"},{"name":"住所","type":"text","required":false,"description":"クライアントの住所"},{"name":"電話番号","type":"varchar(100)","required":false,"description":"クライアントの連絡先電話番号"},{"name":"メールアドレス","type":"varchar(100)","required":false,"description":"クライアントの連絡先メールアドレス"},{"name":"担当者名","type":"varchar(100)","required":false,"description":"クライアント側の主要担当者名"},{"name":"信用度レベル","type":"varchar(100)","required":false,"description":"クライアントの信用度ランク（高/中/低など）"},{"name":"受注チャネル","type":"varchar(100)","required":false,"description":"主要な受注チャネル（複数チャネルの場合は別テーブルで管理）"},{"name":"基幹システムID","type":"varchar(100)","required":false,"description":"基幹システム側のクライアント識別ID"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"クライアントのステータス（有効/無効/休止など）"},{"name":"作成日時","type":"timestamp","required":true,"description":"クライアント情報の作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"クライアント情報の最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"クライアント情報を作成したユーザーID"},{"name":"更新者","type":"varchar(100)","required":false,"description":"クライアント情報を最後に更新したユーザーID"}]},{"tableName":"修正対象優先度リスト","purpose":"受注データの修正対象を優先度付けして管理し、修正作業の効率化と品質向上を実現するマスタテーブル","columns":[{"name":"優先度リストID","type":"uuid","required":true,"description":"優先度リストの一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"修正対象の受注データID（受注データテーブルへの外部キー）"},{"name":"検証結果ID","type":"uuid","required":true,"description":"検証結果ID（受注データ検証結果テーブルへの外部キー）"},{"name":"優先度レベル","type":"integer","required":true,"description":"優先度（1=最高、5=最低）"},{"name":"優先度判定理由","type":"varchar(100)","required":true,"description":"優先度決定の理由カテゴリ（例：エラー重大度、ビジネスインパクト、検出時期）"},{"name":"信頼度スコア","type":"integer","required":false,"description":"修正必要性の信頼度スコア（0-100）"},{"name":"エラー分類","type":"varchar(100)","required":true,"description":"エラーの分類（例：重複受注、入力漏れ、チャネル矛盾、OCR誤認識）"},{"name":"修正ステータス","type":"varchar(100)","required":true,"description":"修正状況（未対応、対応中、完了、保留）"},{"name":"割り当て先ユーザーID","type":"uuid","required":false,"description":"修正作業の割り当て先ユーザーID（ログインユーザーテーブルへの外部キー）"},{"name":"期限日時","type":"timestamp","required":false,"description":"修正完了の期限"},{"name":"推定修正時間分","type":"integer","required":false,"description":"修正に要する推定時間（分単位）"},{"name":"ビジネスインパクト度","type":"integer","required":false,"description":"ビジネスへの影響度（1-10）"},{"name":"自動修正可能フラグ","type":"boolean","required":true,"description":"AI/自動ルールで修正可能かどうか"},{"name":"備考","type":"text","required":false,"description":"修正対象に関する追加情報"},{"name":"作成日時","type":"timestamp","required":true,"description":"優先度リスト作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"優先度リスト最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"優先度リスト作成者のユーザーID"}]},{"tableName":"操作履歴","purpose":"受注データ品質管理システムにおけるユーザー操作、システム処理、データ変更を時系列で記録し、監査証跡、トレーサビリティ、不正検知を実現する","columns":[{"name":"操作履歴ID","type":"uuid","required":true,"description":"操作履歴の一意識別子"},{"name":"ユーザーID","type":"uuid","required":true,"description":"操作を実行したユーザーID（ログインユーザーテーブルへの外部キー）"},{"name":"操作種別","type":"varchar(100)","required":true,"description":"操作の種類（例：受注データ登録、データ修正、検証実行、承認、却下、削除、エクスポート等）"},{"name":"対象テーブル名","type":"varchar(100)","required":true,"description":"操作対象のテーブル名（例：受注データ、受注データ修正履歴等）"},{"name":"対象レコードID","type":"uuid","required":false,"description":"操作対象のレコードID（テーブルに応じて受注データID等）"},{"name":"操作内容","type":"text","required":false,"description":"操作の詳細内容（変更前後の値、パラメータ等）"},{"name":"変更前値","type":"text","required":false,"description":"変更操作の場合の変更前の値"},{"name":"変更後値","type":"text","required":false,"description":"変更操作の場合の変更後の値"},{"name":"操作ステータス","type":"varchar(100)","required":true,"description":"操作の実行結果（成功、失敗、部分成功等）"},{"name":"エラーメッセージ","type":"text","required":false,"description":"操作失敗時のエラーメッセージ"},{"name":"IPアドレス","type":"varchar(100)","required":false,"description":"操作実行元のIPアドレス"},{"name":"セッションID","type":"varchar(100)","required":false,"description":"ユーザーセッションID"},{"name":"操作実行日時","type":"timestamp","required":true,"description":"操作が実行された日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"操作履歴レコードが作成された日時"}]}];
+window.AIVIC_PRESET_SEED = {};
+window.AIVIC_PAGE_SCREEN_ID = "scr-1781413856772";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // テーブルインデックス（信頼度スコア: 0, AI_OCR読み込み結果: 1, 受注データ修正履歴: 2）\n  const SCORE_TABLE_IDX = 0;\n  const OCR_TABLE_IDX = 1;\n  const CORRECTION_HISTORY_IDX = 2;\n\n  // DOM要素キャッシュ\n  const scoreTbody = container.querySelector(\"#score-tbody\");\n  const detailPanel = container.querySelector(\"#detail-panel\");\n  const emptyState = container.querySelector(\"#empty-state\");\n  const detailHeader = container.querySelector(\"#detail-header\");\n  const btnSearch = container.querySelector(\"#btn-search\");\n  const selectScoreRange = container.querySelector(\"#select-score-range\");\n  const selectPrioritySort = container.querySelector(\"#select-priority-sort\");\n  const inputOrderId = container.querySelector(\"#input-order-id\");\n  const btnSaveCorrection = container.querySelector(\"#btn-save-correction\");\n  const btnCancelCorrection = container.querySelector(\"#btn-cancel-correction\");\n\n  let allScores = [];\n  let selectedScoreId = null;\n\n  // ============ 1. 再描画関数 ============\n  function renderScoreList(scores) {\n    scoreTbody.innerHTML = scores.map(score => {\n      const scoreValue = score.総合スコア || 0;\n      const warningFlag = score.警告フラグ || false;\n      const warningLevel = score.警告レベル || \"-\";\n      const correctionFlag = score.修正対象フラグ || false;\n\n      // 信頼度に応じた色分け\n      let scoreColor = \"#4caf50\"; // 高\n      if (scoreValue < 50) scoreColor = \"#ff5252\"; // 低\n      else if (scoreValue < 75) scoreColor = \"#ffc107\"; // 中\n\n      return `\n        <tr data-id=\"${score.信頼度スコアID}\" class=\"score-row\" style=\"border-bottom: 1px solid rgba(255,255,255,0.08); cursor: pointer; transition: background 0.2s;\">\n          <td style=\"padding: 8px; color: var(--text);\">${score.受注データID || \"-\"}</td>\n          <td style=\"padding: 8px; text-align: center;\">\n            <span style=\"font-weight: 600; color: ${scoreColor};\">${scoreValue}</span>\n          </td>\n          <td style=\"padding: 8px; text-align: center;\">\n            ${warningFlag ? `<span style=\"display: inline-block; padding: 2px 6px; background: rgba(255,82,82,0.2); color: #ff5252; border-radius: 2px; font-size: 10px; font-weight: 600;\">${warningLevel}</span>` : `<span style=\"color: var(--text-muted);\">-</span>`}\n          </td>\n          <td style=\"padding: 8px; text-align: center;\">\n            ${correctionFlag ? `<span style=\"display: inline-block; padding: 2px 6px; background: rgba(255,193,7,0.2); color: #ffc107; border-radius: 2px; font-size: 10px; font-weight: 600;\">要修正</span>` : `<span style=\"color: var(--text-muted);\">-</span>`}\n          </td>\n        </tr>\n      `;\n    }).join(\"\");\n\n    // 行クリックイベント\n    container.querySelectorAll(\".score-row\").forEach(row => {\n      row.addEventListener(\"click\", () => {\n        const scoreId = row.dataset.id;\n        selectScore(scoreId);\n      });\n    });\n  }\n\n  // ============ 2. 初期データ読み込み ============\n  async function loadInitialData() {\n    const scores = await window.aivicApi.list(SCORE_TABLE_IDX);\n    if (scores) {\n      allScores = scores;\n      renderScoreList(allScores);\n    }\n  }\n\n  // ============ 3. スコア選択 ============\n  async function selectScore(scoreId) {\n    selectedScoreId = scoreId;\n    const score = allScores.find(s => s.信頼度スコアID === scoreId);\n    if (!score) return;\n\n    // OCR読み込み結果を取得\n    const ocrResults = await window.aivicApi.list(OCR_TABLE_IDX);\n    const ocrResult = ocrResults?.find(o => o.受注データID === score.受注データID);\n\n    // 詳細パネルを表示\n    emptyState.style.display = \"none\";\n    detailPanel.style.display = \"block\";\n\n    // ヘッダー更新\n    detailHeader.innerHTML = `<span style=\"color: var(--text);\">受注ID: ${score.受注データID || \"-\"}</span>`;\n\n    // OCR読み込み結果セクション\n    container.querySelector(\"#detail-doc-type\").textContent = ocrResult?.source_document_type || \"-\";\n    container.querySelector(\"#detail-ocr-engine\").textContent = ocrResult?.ocr_engine_version || \"-\";\n    container.querySelector(\"#detail-raw-text\").textContent = ocrResult?.raw_ocr_text || \"-\";\n\n    // 信頼度スコアセクション\n    const totalScore = score.総合スコア || 0;\n    container.querySelector(\"#detail-total-score\").textContent = totalScore;\n    container.querySelector(\"#detail-score-gauge\").querySelector(\"div\").style.width = totalScore + \"%\";\n    container.querySelector(\"#detail-warning-level\").textContent = score.警告レベル || \"-\";\n    container.querySelector(\"#detail-completeness\").textContent = (score.完全性スコア || 0) + \"%\";\n    container.querySelector(\"#detail-accuracy\").textContent = (score.正確性スコア || 0) + \"%\";\n    container.querySelector(\"#detail-consistency\").textContent = (score.一貫性スコア || 0) + \"%\";\n    container.querySelector(\"#detail-score-date\").textContent = score.スコア計算日時 ? new Date(score.スコア計算日時).toLocaleString(\"ja-JP\") : \"-\";\n\n    // 修正前後比較（修正履歴から取得）\n    const correctionHistory = await window.aivicApi.list(CORRECTION_HISTORY_IDX);\n    const lastCorrection = correctionHistory?.find(c => c.受注データID === score.受注データID);\n    container.querySelector(\"#detail-before-value\").textContent = lastCorrection?.修正前値 || \"-\";\n    container.querySelector(\"#detail-after-value\").textContent = lastCorrection?.修正後値 || \"-\";\n\n    // 修正フォーム初期化\n    container.querySelector(\"#input-correction-field\").value = lastCorrection?.修正項目名 || \"-\";\n    container.querySelector(\"#input-correction-value\").value = \"\";\n    container.querySelector(\"#select-correction-reason\").value = \"\";\n    container.querySelector(\"#textarea-correction-comment\").value = \"\";\n  }\n\n  // ============ 4. 検索ボタン ============\n  btnSearch.addEventListener(\"click\", () => {\n    const orderId = inputOrderId.value.trim();\n    const scoreRange = selectScoreRange.value;\n    const prioritySort = selectPrioritySort.value;\n\n    let filtered = [...allScores];\n\n    // 受注ID検索\n    if (orderId) {\n      filtered = filtered.filter(s => (s.受注データID || \"\").includes(orderId));\n    }\n\n    // 信頼度範囲フィルタ\n    if (scoreRange) {\n      const [min, max] = scoreRange.split(\"-\").map(Number);\n      filtered = filtered.filter(s => {\n        const score = s.総合スコア || 0;\n        return score >= min && score <= max;\n      });\n    }\n\n    // 優先度ソート\n    if (prioritySort === \"score-asc\") {\n      filtered.sort((a, b) => (a.総合スコア || 0) - (b.総合スコア || 0));\n    } else if (prioritySort === \"score-desc\") {\n      filtered.sort((a, b) => (b.総合スコア || 0) - (a.総合スコア || 0));\n    } else if (prioritySort === \"priority-asc\") {\n      filtered.sort((a, b) => {\n        const priorityA = a.警告フラグ ? 1 : 0;\n        const priorityB = b.警告フラグ ? 1 : 0;\n        return priorityB - priorityA;\n      });\n    }\n\n    renderScoreList(filtered);\n  });\n\n  // ============ 5. 修正保存ボタン ============\n  btnSaveCorrection.addEventListener(\"click\", async () => {\n    if (!selectedScoreId) {\n      alert(\"受注を選択してください\");\n      return;\n    }\n\n    const score = allScores.find(s => s.信頼度スコアID === selectedScoreId);\n    if (!score) return;\n\n    const correctionValue = container.querySelector(\"#input-correction-value\").value.trim();\n    const correctionReason = container.querySelector(\"#select-correction-reason\").value;\n    const correctionComment = container.querySelector(\"#textarea-correction-comment\").value.trim();\n\n    if (!correctionValue || !correctionReason) {\n      alert(\"修正値と修正理由を入力してください\");\n      return;\n    }\n\n    // 修正履歴を保存\n    const correctionRecord = {\n      受注データID: score.受注データID,\n      修正項目名: container.querySelector(\"#input-correction-field\").value,\n      修正前値: container.querySelector(\"#detail-before-value\").textContent,\n      修正後値: correctionValue,\n      修正理由: correctionReason,\n      修正備考: correctionComment,\n      修正ユーザーID: \"current-user-id\", // 実装時は認証情報から取得\n      修正日時: new Date().toISOString(),\n      検証結果ID: selectedScoreId\n    };\n\n    const saved = await window.aivicApi.save(CORRECTION_HISTORY_IDX, correctionRecord);\n    if (saved) {\n      alert(\"修正を保存しました\");\n      // 修正後、スコアを再計算（実装時は API 呼び出し）\n      loadInitialData();\n      selectScore(selectedScoreId);\n    }\n  });\n\n  // ============ 6. キャンセルボタン ============\n  btnCancelCorrection.addEventListener(\"click\", () => {\n    container.querySelector(\"#input-correction-value\").value = \"\";\n    container.querySelector(\"#select-correction-reason\").value = \"\";\n    container.querySelector(\"#textarea-correction-comment\").value = \"\";\n  });\n\n  // ============ 7. 初期化 ============\n  loadInitialData();\n}";
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+```css
+:root {
+  --primary: #d4af37;
+  --primary-hover: #f0c856;
+  --bg-main: #0f0f0f;
+  --bg-card: #1a1a1a;
+  --bg-sidebar: #161616;
+  --border: #2a2a2a;
+  --text: #f5f5f5;
+  --text-muted: #b0b0b0;
+  --top-bar-bg: #1a1a1a;
+  --top-bar-border: #2a2a2a;
+  --accent-red: #dc2626;
+  --accent-red-hover: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef5350;
+  --info: #3b82f6;
+}
+```
+*, *::before, *::after { box-sizing: border-box; }
+body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg-main); color:var(--text); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+.top-bar { display:flex; align-items:center; gap:0; background:var(--top-bar-bg, var(--bg-sidebar)); border-bottom:1px solid var(--top-bar-border, var(--border)); padding:0 16px; height:48px; flex-shrink:0; }
+.top-bar .app-name { font-size:14px; font-weight:700; color:var(--text); margin-right:20px; white-space:nowrap; }
+.sys-tab { background:transparent; color:var(--text); opacity:0.6; border:none; border-bottom:2px solid transparent; padding:0 16px; height:48px; cursor:pointer; font-size:13px; white-space:nowrap; transition:color .15s, border-color .15s, opacity .15s; text-decoration:none; display:flex; align-items:center; }
+.sys-tab:hover { opacity:0.85; }
+.sys-tab.active, .sys-tab.aivic-active { color:var(--text); opacity:1; border-bottom-color:var(--primary); font-weight:600; }
+.app-body { display:flex; flex:1; overflow:hidden; }
+.sidebar { width:220px; background:var(--bg-sidebar); border-right:1px solid var(--border); padding:12px 8px; overflow-y:auto; flex-shrink:0; }
+.sidebar-sys-name { margin:0 0 8px; padding:4px 8px; font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.06em; }
+.nav-btn { display:block; width:100%; text-align:left; background:transparent; color:var(--text); opacity:0.65; border:none; border-radius:8px; padding:8px 12px; cursor:pointer; font-size:13px; margin-bottom:2px; transition:opacity .15s,background .15s; text-decoration:none; }
+.nav-btn:hover { background:var(--border); opacity:0.9; }
+.nav-btn.active, .nav-btn.aivic-active { background:var(--primary); color:#fff; opacity:1; }
+.main { flex:1; padding:16px; overflow-y:auto; }
+.card { border:1px solid var(--border); border-radius:12px; padding:16px; background:var(--bg-card); margin-bottom:12px; }
+.hidden { display:none !important; }
+.action-btn { background:var(--primary); color:#fff; border:0; border-radius:8px; padding:8px 14px; cursor:pointer; font-size:13px; }
+.action-btn:hover { background:var(--primary-hover, #1a55ef); }
+.action-btn.secondary { background:var(--border); color:var(--text); }
+.input { background:var(--bg-main); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:7px 10px; font-size:13px; }
+.muted { color:var(--text-muted); font-size:13px; }
+.table-wrap { overflow:auto; border:1px solid var(--border); border-radius:8px; }
+table { width:100%; border-collapse:collapse; }
+th, td { border-bottom:1px solid var(--border); padding:8px 10px; text-align:left; font-size:13px; }
+th { color:var(--text); background:var(--bg-sidebar); position:sticky; top:0; font-weight:600; }
+tr:hover { background:var(--bg-sidebar); cursor:pointer; }
+canvas { display:block; max-height:280px !important; }
+.chart-wrap, .chart-container, [class*="chart"] { position:relative; height:260px; max-height:280px; }
+@media (max-width:768px) {
+  .top-bar { overflow-x:auto; }
+  .app-body { flex-direction:column; }
+  .sidebar { width:100%; height:auto; display:flex; flex-wrap:wrap; gap:4px; padding:8px; }
+  .sidebar-sys-name { display:none; }
+  .nav-btn { width:auto; border-radius:999px; padding:5px 12px; }
+}
+  </style>
+</head>
+<body>
+<header class="top-bar">
+  <span class="app-name">ROシステム</span>
+    <a href="./scr-1781408454309.html" class="sys-tab" data-aivic-nav-system="itg-2">基幹システム連携・データ検証インターフェース</a>
+    <a href="./scr-1781408811435.html" class="sys-tab" data-aivic-nav-system="itg-3">営業支援・クライアント情報統合ダッシュボード</a>
+    <a href="./scr-1781413262699.html" class="sys-tab active" data-aivic-nav-system="itg-1">受注データ品質管理・検証システム</a>
+</header>
+<div class="app-body">
+  <aside class="sidebar">
+    <p class="sidebar-sys-name">受注データ品質管理・検証システム</p>
+      <a href="./scr-1781413262699.html" class="nav-btn" data-aivic-nav="scr-1781413262699">受注データ検証ダッシュボード</a>
+      <a href="./scr-1781413282852.html" class="nav-btn" data-aivic-nav="scr-1781413282852">受注データ詳細確認・修正画面</a>
+      <a href="./scr-1781413297335.html" class="nav-btn" data-aivic-nav="scr-1781413297335">重複受注検出・比較画面</a>
+      <a href="./scr-1781413311177.html" class="nav-btn" data-aivic-nav="scr-1781413311177">チャネル間矛盾検出画面</a>
+      <a href="./scr-1781413324972.html" class="nav-btn" data-aivic-nav="scr-1781413324972">AI-OCR信頼度スコア確認・修正画面</a>
+      <a href="./scr-1781413340116.html" class="nav-btn" data-aivic-nav="scr-1781413340116">入力漏れ・欠落検出画面</a>
+      <a href="./scr-1781413354977.html" class="nav-btn" data-aivic-nav="scr-1781413354977">修正対象優先度リスト画面</a>
+      <a href="./scr-1781413369295.html" class="nav-btn" data-aivic-nav="scr-1781413369295">連携承認フロー実行画面</a>
+      <a href="./scr-1781413382983.html" class="nav-btn" data-aivic-nav="scr-1781413382983">受注データ検証結果レポート画面</a>
+      <a href="./scr-1781413397456.html" class="nav-btn" data-aivic-nav="scr-1781413397456">信頼度スコアフィルタリング・検索画面</a>
+      <a href="./scr-1781413412804.html" class="nav-btn" data-aivic-nav="scr-1781413412804">音声ガイダンス・AI-OCR自動取込処理</a>
+      <a href="./scr-1781413429753.html" class="nav-btn" data-aivic-nav="scr-1781413429753">信頼度スコア表示・フィルタリング画面</a>
+      <a href="./scr-1781413447154.html" class="nav-btn" data-aivic-nav="scr-1781413447154">重複検出・品質検証処理</a>
+      <a href="./scr-1781413461204.html" class="nav-btn" data-aivic-nav="scr-1781413461204">受注修正・確認画面</a>
+      <a href="./scr-1781413475180.html" class="nav-btn" data-aivic-nav="scr-1781413475180">受注確定登録画面</a>
+      <a href="./scr-1781413495986.html" class="nav-btn" data-aivic-nav="scr-1781413495986">信頼度スコア確認・抽出処理</a>
+      <a href="./scr-1781413515624.html" class="nav-btn" data-aivic-nav="scr-1781413515624">修正内容保存・修正履歴記録処理</a>
+      <a href="./scr-1781413533143.html" class="nav-btn" data-aivic-nav="scr-1781413533143">重複受注検出・照合処理</a>
+      <a href="./scr-1781413550629.html" class="nav-btn" data-aivic-nav="scr-1781413550629">重複マージ・統合処理</a>
+      <a href="./scr-1781413563223.html" class="nav-btn" data-aivic-nav="scr-1781413563223">データ品質スコア算出・検証処理</a>
+      <a href="./scr-1781413592162.html" class="nav-btn" data-aivic-nav="scr-1781413592162">受注データ自動検証画面</a>
+      <a href="./scr-1781413613168.html" class="nav-btn" data-aivic-nav="scr-1781413613168">修正データ再検証処理</a>
+      <a href="./scr-1781413629656.html" class="nav-btn" data-aivic-nav="scr-1781413629656">集計結果表示画面</a>
+      <a href="./scr-1781413650559.html" class="nav-btn" data-aivic-nav="scr-1781413650559">受注データ確認画面</a>
+      <a href="./scr-1781413666546.html" class="nav-btn" data-aivic-nav="scr-1781413666546">データ品質検証処理</a>
+      <a href="./scr-1781413686599.html" class="nav-btn" data-aivic-nav="scr-1781413686599">受注修正画面</a>
+      <a href="./scr-1781413700896.html" class="nav-btn" data-aivic-nav="scr-1781413700896">受注承認処理</a>
+      <a href="./scr-1781413717704.html" class="nav-btn" data-aivic-nav="scr-1781413717704">入力ミス・重複検出処理</a>
+      <a href="./scr-1781413732217.html" class="nav-btn" data-aivic-nav="scr-1781413732217">受注データ修正画面</a>
+      <a href="./scr-1781413746644.html" class="nav-btn" data-aivic-nav="scr-1781413746644">修正履歴記録・保存処理</a>
+      <a href="./scr-1781413761040.html" class="nav-btn" data-aivic-nav="scr-1781413761040">受注ステータス照会画面</a>
+      <a href="./scr-1781413780246.html" class="nav-btn" data-aivic-nav="scr-1781413780246">受注変更・追加処理画面</a>
+      <a href="./scr-1781413796042.html" class="nav-btn" data-aivic-nav="scr-1781413796042">受注データ自動抽出・正規化処理</a>
+      <a href="./scr-1781413811332.html" class="nav-btn" data-aivic-nav="scr-1781413811332">データ品質検証画面</a>
+      <a href="./scr-1781413827921.html" class="nav-btn" data-aivic-nav="scr-1781413827921">重複検出・エラー検証処理</a>
+      <a href="./scr-1781413856772.html" class="nav-btn active" data-aivic-nav="scr-1781413856772">AI-OCR信頼度スコア表示・修正画面</a>
+      <a href="./scr-1781413871744.html" class="nav-btn" data-aivic-nav="scr-1781413871744">重複検出・マージ処理</a>
+      <a href="./scr-1781413885787.html" class="nav-btn" data-aivic-nav="scr-1781413885787">受注入力・検証画面</a>
+      <a href="./scr-1781413904272.html" class="nav-btn" data-aivic-nav="scr-1781413904272">品質メトリクス集計・分析処理</a>
+      <a href="./scr-1781413919709.html" class="nav-btn" data-aivic-nav="scr-1781413919709">受注データ可視化ダッシュボード画面</a>
+      <a href="./scr-1781413934933.html" class="nav-btn" data-aivic-nav="scr-1781413934933">信頼度スコア分析・フィルタリング機能</a>
+      <a href="./scr-1781413949253.html" class="nav-btn" data-aivic-nav="scr-1781413949253">重複検出・異常値検出処理</a>
+      <a href="./scr-1781413964235.html" class="nav-btn" data-aivic-nav="scr-1781413964235">受注データ修正・更新画面</a>
+      <a href="./scr-1781414000309.html" class="nav-btn" data-aivic-nav="scr-1781414000309">品質再検証・スコア算出処理</a>
+  </aside>
+  <main class="main">
+    <section class="card" data-aivic-panel="scr-1781413856772" style="margin-top:0">
+<div style="display: flex; flex-direction: column; height: 100%; gap: 0; padding: 0;">
+  <!-- ヘッダー・ブレッドクラム -->
+  <div style="padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); background: var(--bg-main);">
+    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">
+      ROシステム / 受注データ品質管理・検証システム / AI-OCR信頼度スコア表示・修正画面
+    </div>
+    <h1 style="margin: 0; font-size: 18px; font-weight: 600; color: var(--text);">AI-OCR信頼度スコア表示・修正画面</h1>
+  </div>
+
+  <!-- メインコンテンツ -->
+  <div style="display: flex; flex: 1; gap: 0; overflow: hidden; background: var(--bg-main);">
+    
+    <!-- 左パネル：一覧 + フィルタ -->
+    <div style="width: 45%; display: flex; flex-direction: column; border-right: 1px solid rgba(255,255,255,0.08); overflow: hidden;">
+      
+      <!-- フィルタバー -->
+      <div style="padding: 12px; background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+          <div>
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">受注ID</label>
+            <input type="text" id="input-order-id" data-testid="order-id-input" placeholder="検索..." 
+              style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; box-sizing: border-box;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">信頼度範囲</label>
+            <select id="select-score-range" data-testid="score-range-select" 
+              style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; box-sizing: border-box;">
+              <option value="">全て</option>
+              <option value="0-50">0～50（低）</option>
+              <option value="51-75">51～75（中）</option>
+              <option value="76-100">76～100（高）</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div>
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">優先度ソート</label>
+            <select id="select-priority-sort" data-testid="priority-sort-select"
+              style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; box-sizing: border-box;">
+              <option value="">なし</option>
+              <option value="score-asc">信頼度（低→高）</option>
+              <option value="score-desc">信頼度（高→低）</option>
+              <option value="priority-asc">優先度（高→低）</option>
+            </select>
+          </div>
+          <div style="display: flex; align-items: flex-end;">
+            <button id="btn-search" data-testid="search-button" class="action-btn" 
+              style="width: 100%; padding: 6px 8px; font-size: 12px;">検索</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 一覧テーブル -->
+      <div style="flex: 1; overflow-y: auto; padding: 0;">
+        <table data-testid="score-list" style="width: 100%; border-collapse: collapse; font-size: 12px;">
+          <thead style="position: sticky; top: 0; background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.08);">
+            <tr>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; width: 35%;">受注ID</th>
+              <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; width: 30%;">信頼度</th>
+              <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; width: 20%;">警告</th>
+              <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; width: 15%;">修正</th>
+            </tr>
+          </thead>
+          <tbody id="score-tbody" style="display: block; width: 100%;">
+            <!-- 動的に生成 -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 右パネル：詳細 + 修正フォーム -->
+    <div style="width: 55%; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-main);">
+      
+      <!-- 詳細ヘッダー -->
+      <div style="padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); background: var(--bg-card); flex-shrink: 0;">
+        <div id="detail-header" style="font-size: 13px; color: var(--text-muted);">
+          <span style="color: var(--text-muted);">受注を選択してください</span>
+        </div>
+      </div>
+
+      <!-- 詳細コンテンツ -->
+      <div id="detail-panel" style="flex: 1; overflow-y: auto; padding: 16px; display: none;">
+        
+        <!-- OCR読み込み結果セクション -->
+        <div style="margin-bottom: 16px; padding: 12px; background: var(--bg-card); border-radius: 4px; border-left: 3px solid #ff9800;">
+          <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px;">📄 OCR読み込み結果</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 11px;">
+            <div>
+              <span style="color: var(--text-muted);">ドキュメント種別:</span>
+              <div id="detail-doc-type" style="color: var(--text); margin-top: 2px;">-</div>
+            </div>
+            <div>
+              <span style="color: var(--text-muted);">OCRエンジン:</span>
+              <div id="detail-ocr-engine" style="color: var(--text); margin-top: 2px;">-</div>
+            </div>
+            <div style="grid-column: 1/-1;">
+              <span style="color: var(--text-muted);">抽出テキスト:</span>
+              <div id="detail-raw-text" style="color: var(--text); margin-top: 2px; padding: 6px; background: rgba(0,0,0,0.25); border-radius: 2px; max-height: 60px; overflow-y: auto; font-family: monospace; font-size: 10px; word-break: break-all;">-</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 信頼度スコアセクション -->
+        <div style="margin-bottom: 16px; padding: 12px; background: var(--bg-card); border-radius: 4px; border-left: 3px solid #ffc107;">
+          <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px;">📊 信頼度スコア</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 11px;">
+            <div>
+              <div style="color: var(--text-muted); margin-bottom: 4px;">総合スコア</div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div id="detail-total-score" style="font-size: 18px; font-weight: 700; color: #ffc107;">-</div>
+                <div id="detail-score-gauge" style="width: 80px; height: 8px; background: rgba(0,0,0,0.25); border-radius: 4px; overflow: hidden;">
+                  <div style="height: 100%; background: linear-gradient(90deg, #ff5252, #ffc107, #4caf50); width: 0%;"></div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted); margin-bottom: 4px;">警告レベル</div>
+              <div id="detail-warning-level" style="font-size: 13px; font-weight: 600; color: #ff5252;">-</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted); margin-bottom: 4px;">完全性スコア</div>
+              <div id="detail-completeness" style="color: var(--text); font-weight: 600;">-</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted); margin-bottom: 4px;">正確性スコア</div>
+              <div id="detail-accuracy" style="color: var(--text); font-weight: 600;">-</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted); margin-bottom: 4px;">一貫性スコア</div>
+              <div id="detail-consistency" style="color: var(--text); font-weight: 600;">-</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted); margin-bottom: 4px;">スコア計算日時</div>
+              <div id="detail-score-date" style="color: var(--text); font-size: 10px;">-</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 修正前後比較セクション -->
+        <div style="margin-bottom: 16px; padding: 12px; background: var(--bg-card); border-radius: 4px; border-left: 3px solid #2196f3;">
+          <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px;">🔄 修正前後比較</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 11px;">
+            <div>
+              <div style="color: var(--text-muted); margin-bottom: 4px;">修正前値</div>
+              <div id="detail-before-value" style="padding: 6px; background: rgba(255,82,82,0.1); border-left: 2px solid #ff5252; color: var(--text); border-radius: 2px; font-family: monospace; font-size: 10px; word-break: break-all;">-</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted); margin-bottom: 4px;">修正後値</div>
+              <div id="detail-after-value" style="padding: 6px; background: rgba(76,175,80,0.1); border-left: 2px solid #4caf50; color: var(--text); border-radius: 2px; font-family: monospace; font-size: 10px; word-break: break-all;">-</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 修正フォーム -->
+        <div style="margin-bottom: 16px; padding: 12px; background: var(--bg-card); border-radius: 4px; border-left: 3px solid var(--primary);">
+          <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 12px;">✏️ 修正入力</div>
+          
+          <div style="margin-bottom: 10px;">
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">修正対象項目</label>
+            <input type="text" id="input-correction-field" data-testid="correction-field-input" readonly
+              style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 11px; box-sizing: border-box;">
+          </div>
+
+          <div style="margin-bottom: 10px;">
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">修正値</label>
+            <input type="text" id="input-correction-value" data-testid="correction-value-input" placeholder="修正後の値を入力"
+              style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 11px; box-sizing: border-box;">
+          </div>
+
+          <div style="margin-bottom: 10px;">
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">修正理由</label>
+            <select id="select-correction-reason" data-testid="correction-reason-select"
+              style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 11px; box-sizing: border-box;">
+              <option value="">選択してください</option>
+              <option value="ocr-error">OCR誤認識</option>
+              <option value="input-error">入力誤り</option>
+              <option value="validation-error">検証エラー</option>
+              <option value="customer-confirm">顧客確認</option>
+              <option value="system-issue">システム不具合</option>
+              <option value="data-inconsistency">データ不整合</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom: 10px;">
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">修正コメント</label>
+            <textarea id="textarea-correction-comment" data-testid="correction-comment-input" placeholder="修正に関する詳細説明"
+              style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 11px; box-sizing: border-box; resize: vertical; min-height: 50px;"></textarea>
+          </div>
+
+          <div style="display: flex; gap: 8px;">
+            <button id="btn-save-correction" data-testid="save-correction-button" class="action-btn" 
+              style="flex: 1; padding: 8px; font-size: 12px;">修正を保存</button>
+            <button id="btn-cancel-correction" data-testid="cancel-correction-button" class="action-btn secondary" 
+              style="flex: 1; padding: 8px; font-size: 12px;">キャンセル</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 初期状態メッセージ -->
+      <div id="empty-state" style="flex: 1; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 13px; padding: 20px; text-align: center;">
+        左側の一覧から受注を選択して、詳細を表示します
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+    </section>
+  </main>
+</div>
+<script>
+(function() {
+  var TABLE_DEFS = window.AIVIC_TABLES || [];
+  var PRESET_SEED = window.AIVIC_PRESET_SEED || {};
+  var SYSTEM_NAME = window.AIVIC_SYSTEM_NAME || "";
+  var APP_ID = window.AIVIC_APP_ID || "";
+  var API_URL = (window.AIVIC_API_URL && window.AIVIC_API_URL !== "REPLACE_WITH_API_URL")
+    ? window.AIVIC_API_URL : window.location.origin;
+
+  // 通知 helper（SPA 版と同じ）
+  window.aivicNotify = (function() {
+    function ensureContainer() {
+      var c = document.getElementById("aivic-toast-container");
+      if (c) return c;
+      c = document.createElement("div");
+      c.id = "aivic-toast-container";
+      c.style.cssText = "position:fixed;top:16px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:360px;";
+      document.body.appendChild(c);
+      return c;
+    }
+    function show(msg, type) {
+      var c = ensureContainer();
+      var el = document.createElement("div");
+      el.textContent = msg;
+      el.style.cssText = "padding:10px 16px;border-radius:8px;font-size:13px;line-height:1.4;pointer-events:auto;color:#fff;background:" + (type === "error" ? "#dc2626" : "#d97706");
+      c.appendChild(el);
+      setTimeout(function() {
+        el.style.transition = "opacity .3s";
+        el.style.opacity = "0";
+        setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 320);
+      }, type === "error" ? 6000 : 4500);
+    }
+    return {
+      error: function(msg) { show("❌ " + msg, "error"); },
+      warn:  function(msg) { show("⚠️ " + msg, "warn"); },
+    };
+  })();
+
+  // CRUD API（SPA 版と同じ）
+  window.aivicApi = (function() {
+    function dbErr(op) { window.aivicNotify.error("データベースエラー（" + op + "）: APIサーバーに接続できません。"); }
+    function newId() { return typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : "id-" + Date.now() + "-" + Math.random().toString(36).slice(2); }
+    function q(i) {
+      var t = TABLE_DEFS[i];
+      var dbP = (window.AIVIC_DB_TYPE && window.AIVIC_DB_TYPE !== "dynamodb") ? "&db=" + encodeURIComponent(window.AIVIC_DB_TYPE) : "";
+      return "?app=" + encodeURIComponent(APP_ID) + "&system=" + encodeURIComponent(SYSTEM_NAME) + "&table=" + encodeURIComponent(t ? t.tableName : "table" + i) + dbP;
+    }
+    return {
+      list: async function(tableIndex) {
+        if (!API_URL) return [];
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + q(tableIndex)); var d = await r.json(); return Array.isArray(d) ? d : (d.items || []); }
+        catch(e) { dbErr("データ取得"); return []; }
+      },
+      save: async function(tableIndex, item) {
+        if (!API_URL) { dbErr("保存"); return null; }
+        var now = new Date().toISOString();
+        var rec = Object.assign({}, item, { id: item.id || newId(), createdAt: item.createdAt || now, updatedAt: now });
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + q(tableIndex), { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(rec) }); return await r.json(); }
+        catch(e) { dbErr("保存"); return null; }
+      },
+      update: async function(tableIndex, id, changes) {
+        if (!API_URL) { dbErr("更新"); return null; }
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + "/" + id + q(tableIndex), { method:"PUT", headers:{"Content-Type":"application/json"}, body:JSON.stringify(Object.assign({}, changes, {updatedAt: new Date().toISOString()})) }); return await r.json(); }
+        catch(e) { dbErr("更新"); return null; }
+      },
+      delete: async function(tableIndex, id) {
+        if (!API_URL) { dbErr("削除"); return {deleted:false}; }
+        try { await fetch(API_URL + "/api/" + tableIndex + "/" + id + q(tableIndex), {method:"DELETE"}); return {deleted:true}; }
+        catch(e) { dbErr("削除"); return {deleted:false}; }
+      },
+    };
+  })();
+
+  // showScreen はマルチページ構成ではページ遷移として動く。
+  // パネル切替 (旧 SPA 動作) ではなく ./<id>.html への navigate に再定義する。
+  // 既存の AI 生成 shell が onclick="showScreen('x')" の形で書いていても透過的に動く。
+  //
+  // 防御層:
+  // (a) 同じ画面 ID なら no-op（AIVIC_PAGE_SCREEN_ID 一致 / pathname 一致のどちらか）
+  // (b) 同じ navigate を 100ms 以内に繰り返したら break loop（onclick 連打ではなく自動ループ対策）
+  // (c) DOMContentLoaded 直後 1.5s 以内の「自動 navigate」は警告 + 抑制（手動 click は通す）
+  var _aivicNavLastTime = 0;
+  var _aivicNavLastTarget = "";
+  var _aivicReady = false;
+  window.showScreen = function(screenId) {
+    if (!screenId) return;
+    if (screenId === window.AIVIC_PAGE_SCREEN_ID) return; // 既に該当ページに居る
+    // pathname ベースの保険: AIVIC_PAGE_SCREEN_ID が未設定でも、現在 URL と一致したら抑制
+    var targetPath = './' + encodeURIComponent(screenId) + '.html';
+    var currentName = (window.location.pathname.split('/').pop() || '');
+    if (currentName === (encodeURIComponent(screenId) + '.html') ||
+        currentName === (screenId + '.html')) {
+      return;
+    }
+    var now = Date.now();
+    if (_aivicNavLastTarget === targetPath && (now - _aivicNavLastTime) < 100) {
+      console.warn('[aivic] showScreen 連続呼び出し検知。無限ループ防止のため抑制:', screenId);
+      return;
+    }
+    if (!_aivicReady) {
+      // ページロード直後の自動 navigate は AI shell の load-time 副作用の可能性が高い。
+      // ボタンクリック等のユーザー操作は ready 後なので影響しない。
+      console.warn('[aivic] DOMContentLoaded 前の showScreen 呼び出し。抑制:', screenId);
+      return;
+    }
+    _aivicNavLastTime = now;
+    _aivicNavLastTarget = targetPath;
+    window.location.href = targetPath;
+  };
+
+  // 初回マウント時のサンプルデータ投入
+  function seedAllIfEmpty() {
+    if (!API_URL) return Promise.resolve();
+    return Promise.all(TABLE_DEFS.map(function(t, i) {
+      var preset = PRESET_SEED[t.tableName];
+      if (!Array.isArray(preset) || preset.length === 0) return Promise.resolve();
+      return window.aivicApi.list(i).then(function(existing) {
+        if (existing && existing.length > 0) return;
+        return Promise.all(preset.map(function(row) { return window.aivicApi.save(i, row); }));
+      }).catch(function() {});
+    }));
+  }
+
+  // ── 初期表示: このページ専用の panel に initFn を実行 ──
+  // window.AIVIC_PAGE_SCREEN_ID と AIVIC_PAGE_INIT_JS は composeMultipagePages
+  // でページ単位に埋め込まれる。
+  document.addEventListener("DOMContentLoaded", function() {
+    // 1.5 秒後に必ず _aivicReady を立てる（initFn が走らないページや失敗ページでも
+    // ユーザーが操作できるようにする保険）。initFn 完了時にも立てるので早い方が勝つ。
+    setTimeout(function() { _aivicReady = true; }, 1500);
+    var pageScreenId = window.AIVIC_PAGE_SCREEN_ID;
+    if (!pageScreenId) return;
+
+    // sidebar / nav の active class を付与（現在ページのリンクを強調）
+    document.querySelectorAll('[data-aivic-nav]').forEach(function(btn) {
+      var isActive = btn.getAttribute("data-aivic-nav") === pageScreenId;
+      btn.classList.toggle("aivic-active", isActive);
+      btn.setAttribute("aria-current", isActive ? "page" : "false");
+    });
+
+    var container = document.querySelector('[data-aivic-panel="' + pageScreenId + '"]');
+    if (!container) return;
+
+    // **content 要素の hidden 強制除去（2026-05-24 Playwright 大量 fail 対応）**:
+    // AI が生成した panel HTML には class="hidden" / hidden 属性 / style="display:none"
+    // が content 要素（#xxx-tbody / #xxx-list / [data-testid="error-message"] 等）に付いて
+    // いることがある。それを Playwright が toBeVisible() で待ち続けて timeout する事故が頻発。
+    //
+    // ポリシー: panel コンテナ配下の全要素について以下を実行:
+    //   - class="hidden" / display:none / hidden 属性を **content 要素では除去**
+    //   - **modal 系**（.modal, .modal-backdrop, [role="dialog"], [data-modal] 等）は除外
+    //     （これらは仕様上初期非表示が正しい）
+    var isModalLike = function(el) {
+      if (!el || !el.classList) return false;
+      var cn = String(el.className || "");
+      if (/modal|dialog|overlay|popup|dropdown|tooltip/i.test(cn)) return true;
+      var role = el.getAttribute && el.getAttribute("role");
+      if (role === "dialog" || role === "alertdialog" || role === "tooltip" || role === "menu") return true;
+      if (el.hasAttribute && (el.hasAttribute("data-modal") || el.hasAttribute("data-dropdown") || el.hasAttribute("data-popup"))) return true;
+      return false;
+    };
+    var unhideContentElements = function(root) {
+      var all = root.querySelectorAll('.hidden, [hidden], [style*="display:none"], [style*="display: none"]');
+      for (var k = 0; k < all.length; k++) {
+        var el = all[k];
+        // modal 系は触らない
+        if (isModalLike(el)) continue;
+        // parent chain で modal 内なら触らない
+        var p = el.parentElement;
+        var insideModal = false;
+        while (p && p !== root) {
+          if (isModalLike(p)) { insideModal = true; break; }
+          p = p.parentElement;
+        }
+        if (insideModal) continue;
+        // 除去
+        el.classList.remove('hidden');
+        el.removeAttribute('hidden');
+        if (el.style && el.style.display === 'none') el.style.display = '';
+      }
+    };
+    try { unhideContentElements(container); } catch (e) { console.warn('[aivic] unhideContent failed:', e); }
+
+    var initJsSource = window.AIVIC_PAGE_INIT_JS;
+    if (!initJsSource) {
+      // initJs が無くてもサンプルデータ投入は走らせる
+      seedAllIfEmpty();
+      return;
+    }
+    var initFn = null;
+    try {
+      initFn = (new Function("return (" + initJsSource + ")"))();
+    } catch (e) {
+      console.error("[aivic] initJs compile error:", pageScreenId, e);
+      return;
+    }
+    if (typeof initFn !== "function") return;
+
+    seedAllIfEmpty().then(function() {
+      return Promise.all(TABLE_DEFS.map(function(t, i) {
+        return window.aivicApi.list(i)
+          .then(function(records) { return Object.assign({}, t, { records: records }); })
+          .catch(function() { return Object.assign({}, t, { records: [] }); });
+      }));
+    }).then(function(tables) {
+      try { initFn(container, API_URL, tables); } catch (e) { console.error("[aivic] initFn error:", pageScreenId, e); }
+      // 初期 panel init が一巡したら _aivicReady を立てる。以降のユーザー操作 (onclick) で
+      // showScreen が呼ばれた場合は通常通り navigate する。
+      _aivicReady = true;
+    });
+  });
+})();
+
+</script>
+</body>
+</html>

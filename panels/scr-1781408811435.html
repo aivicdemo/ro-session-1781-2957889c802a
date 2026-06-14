@@ -13,26 +13,27 @@ window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1781408811435";
 window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 </script>
+  <script>window.AIVIC_DB_TYPE = "aurora_postgresql";</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f4d03f;
+  --primary-hover: #f0c856;
   --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
   --bg-sidebar: #161616;
   --border: #2a2a2a;
   --text: #f5f5f5;
-  --text-muted: #a0a0a0;
+  --text-muted: #b0b0b0;
   --top-bar-bg: #1a1a1a;
   --top-bar-border: #2a2a2a;
-  --accent-red: #dc143c;
-  --accent-red-hover: #ff1744;
-  --success: #4caf50;
-  --warning: #ff9800;
-  --error: #f44336;
-  --info: #2196f3;
+  --accent-red: #dc2626;
+  --accent-red-hover: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef5350;
+  --info: #3b82f6;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -77,7 +78,7 @@ canvas { display:block; max-height:280px !important; }
   <span class="app-name">ROシステム</span>
     <a href="./scr-1781408454309.html" class="sys-tab" data-aivic-nav-system="itg-2">基幹システム連携・データ検証インターフェース</a>
     <a href="./scr-1781408811435.html" class="sys-tab active" data-aivic-nav-system="itg-3">営業支援・クライアント情報統合ダッシュボード</a>
-    <a href="./scr-1781406322572.html" class="sys-tab" data-aivic-nav-system="itg-1">受注データ品質管理・検証システム</a>
+    <a href="./scr-1781413262699.html" class="sys-tab" data-aivic-nav-system="itg-1">受注データ品質管理・検証システム</a>
 </header>
 <div class="app-body">
   <aside class="sidebar">
@@ -97,7 +98,203 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781408811435" style="margin-top:0">
-<p class="muted">クライアント統合ダッシュボード</p>
+<div style="display: flex; flex-direction: column; height: 100%; gap: 12px; padding: 12px;">
+  
+  <!-- KPI カード群 -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+    <div class="card" style="padding: 14px;">
+      <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">総クライアント数</div>
+      <div style="font-size: 24px; font-weight: 600; color: var(--primary);" data-testid="kpi-total-clients">0</div>
+    </div>
+    <div class="card" style="padding: 14px;">
+      <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">今月受注額</div>
+      <div style="font-size: 24px; font-weight: 600; color: var(--primary);" data-testid="kpi-monthly-revenue">¥0</div>
+    </div>
+    <div class="card" style="padding: 14px;">
+      <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">進行中案件</div>
+      <div style="font-size: 24px; font-weight: 600; color: var(--primary);" data-testid="kpi-active-projects">0</div>
+    </div>
+    <div class="card" style="padding: 14px;">
+      <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">対応待ちクライアント</div>
+      <div style="font-size: 24px; font-weight: 600; color: #d97706;" data-testid="kpi-pending-clients">0</div>
+    </div>
+  </div>
+
+  <!-- グラフ群 -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+    <div class="card" style="padding: 12px;">
+      <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text);">月別受注額推移</div>
+      <div class="chart-wrap" style="position: relative; height: 240px; max-height: 260px;">
+        <canvas id="chart-revenue-trend"></canvas>
+      </div>
+    </div>
+    <div class="card" style="padding: 12px;">
+      <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text);">案件ステータス分布</div>
+      <div class="chart-wrap" style="position: relative; height: 240px; max-height: 260px;">
+        <canvas id="chart-project-status"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- メインコンテンツ: 左一覧 + 右詳細 -->
+  <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 12px; flex: 1; min-height: 0;">
+    
+    <!-- 左: クライアント一覧 + 検索 -->
+    <div class="card" style="padding: 12px; display: flex; flex-direction: column; min-height: 0;">
+      <div style="font-size: 13px; font-weight: 600; margin-bottom: 10px; color: var(--text);">クライアント一覧</div>
+      
+      <!-- 検索フィルター -->
+      <div style="display: flex; gap: 6px; margin-bottom: 10px;">
+        <input 
+          type="text" 
+          id="input-client-search" 
+          data-testid="client-search-input"
+          placeholder="クライアント名で検索..." 
+          style="flex: 1; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);"
+        />
+        <button 
+          id="btn-client-search" 
+          data-testid="client-search-button"
+          class="action-btn" 
+          style="padding: 6px 12px; font-size: 12px; white-space: nowrap;"
+        >検索</button>
+      </div>
+
+      <!-- ステータスフィルター -->
+      <div style="display: flex; gap: 6px; margin-bottom: 10px;">
+        <select 
+          id="filter-client-status" 
+          data-testid="client-status-filter"
+          style="flex: 1; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);"
+        >
+          <option value="">全ステータス</option>
+          <option value="見込み客">見込み客</option>
+          <option value="既存顧客">既存顧客</option>
+          <option value="休止中">休止中</option>
+        </select>
+      </div>
+
+      <!-- クライアント一覧テーブル -->
+      <div style="flex: 1; overflow-y: auto; min-height: 0;">
+        <table data-testid="client-list" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+          <thead style="position: sticky; top: 0; background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <tr>
+              <th style="padding: 6px 8px; text-align: left; font-weight: 600; color: var(--text);">クライアント名</th>
+              <th style="padding: 6px 8px; text-align: left; font-weight: 600; color: var(--text);">ステータス</th>
+            </tr>
+          </thead>
+          <tbody id="client-list-tbody">
+            <tr><td colspan="2" style="padding: 12px; text-align: center; color: var(--text-muted);">読込中...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 右: クライアント詳細 + 対応履歴 + 案件 -->
+    <div style="display: flex; flex-direction: column; gap: 12px; min-height: 0;">
+      
+      <!-- クライアント詳細パネル -->
+      <div class="card" style="padding: 12px;">
+        <div style="font-size: 13px; font-weight: 600; margin-bottom: 10px; color: var(--text);">クライアント詳細</div>
+        <div id="client-detail-panel" data-testid="client-detail-panel" style="font-size: 12px;">
+          <div style="color: var(--text-muted); text-align: center; padding: 20px;">クライアントを選択してください</div>
+        </div>
+      </div>
+
+      <!-- 対応履歴タイムライン -->
+      <div class="card" style="padding: 12px; flex: 1; min-height: 0; display: flex; flex-direction: column;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <div style="font-size: 13px; font-weight: 600; color: var(--text);">対応履歴（最新5件）</div>
+          <button 
+            id="btn-add-contact" 
+            data-testid="add-contact-button"
+            class="action-btn" 
+            style="padding: 4px 10px; font-size: 11px;"
+          >+ 対応記録</button>
+        </div>
+        <div id="contact-history-panel" data-testid="contact-history-panel" style="flex: 1; overflow-y: auto; font-size: 11px;">
+          <div style="color: var(--text-muted); text-align: center; padding: 12px;">対応履歴なし</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 下部: 受注案件リスト -->
+  <div class="card" style="padding: 12px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <div style="font-size: 13px; font-weight: 600; color: var(--text);">受注・案件一覧</div>
+      <div style="display: flex; gap: 6px;">
+        <select 
+          id="filter-project-status" 
+          data-testid="project-status-filter"
+          style="padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);"
+        >
+          <option value="">全ステータス</option>
+          <option value="新規">新規</option>
+          <option value="進行中">進行中</option>
+          <option value="提案済み">提案済み</option>
+          <option value="受注">受注</option>
+          <option value="失注">失注</option>
+        </select>
+        <button 
+          id="btn-create-project" 
+          data-testid="create-project-button"
+          class="action-btn" 
+          style="padding: 6px 12px; font-size: 12px;"
+        >+ 案件作成</button>
+      </div>
+    </div>
+    <div style="overflow-x: auto;">
+      <table data-testid="project-list" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+        <thead style="background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.1);">
+          <tr>
+            <th style="padding: 8px; text-align: left; font-weight: 600; color: var(--text);">案件名</th>
+            <th style="padding: 8px; text-align: left; font-weight: 600; color: var(--text);">クライアント</th>
+            <th style="padding: 8px; text-align: left; font-weight: 600; color: var(--text);">ステータス</th>
+            <th style="padding: 8px; text-align: right; font-weight: 600; color: var(--text);">予想金額</th>
+            <th style="padding: 8px; text-align: center; font-weight: 600; color: var(--text);">確度</th>
+            <th style="padding: 8px; text-align: left; font-weight: 600; color: var(--text);">担当者</th>
+          </tr>
+        </thead>
+        <tbody id="project-list-tbody">
+          <tr><td colspan="6" style="padding: 12px; text-align: center; color: var(--text-muted);">読込中...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- モーダル: 対応方針表示 -->
+<div id="modal-policy" data-testid="policy-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+  <div class="card" style="padding: 16px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <div style="font-size: 14px; font-weight: 600; color: var(--text);">対応方針</div>
+      <button 
+        id="btn-close-policy-modal" 
+        data-testid="close-policy-modal"
+        style="background: transparent; border: none; color: var(--text); cursor: pointer; font-size: 18px;"
+      >×</button>
+    </div>
+    <div id="policy-detail" data-testid="policy-detail" style="font-size: 12px; color: var(--text); line-height: 1.6;">
+      <!-- 対応方針内容がここに表示される -->
+    </div>
+    <div style="display: flex; gap: 8px; margin-top: 16px; justify-content: flex-end;">
+      <button 
+        id="btn-edit-policy" 
+        data-testid="edit-policy-button"
+        class="action-btn" 
+        style="padding: 8px 16px; font-size: 12px;"
+      >編集</button>
+      <button 
+        id="btn-close-policy" 
+        data-testid="close-policy-button"
+        class="action-btn secondary" 
+        style="padding: 8px 16px; font-size: 12px;"
+      >閉じる</button>
+    </div>
+  </div>
+</div>
     </section>
   </main>
 </div>

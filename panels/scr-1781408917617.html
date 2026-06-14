@@ -11,28 +11,28 @@ window.AIVIC_SYSTEM_NAME = "営業支援・クライアント情報統合ダッ�
 window.AIVIC_TABLES = [{"tableName":"ユーザー","purpose":"営業支援・クライアント情報統合ダッシュボードにおけるユーザー（営業担当者・管理者等）の基本情報と認証情報を管理","columns":[{"name":"ユーザーID","type":"uuid","required":true,"description":"ユーザーの一意識別子"},{"name":"ログインID","type":"varchar(100)","required":true,"description":"ログイン時に使用するID（ユニーク）"},{"name":"メールアドレス","type":"varchar(100)","required":true,"description":"ユーザーのメールアドレス（ユニーク）"},{"name":"氏名","type":"varchar(100)","required":true,"description":"ユーザーの氏名"},{"name":"部門","type":"varchar(100)","required":false,"description":"所属部門（営業部等）"},{"name":"役職","type":"varchar(100)","required":false,"description":"役職名"},{"name":"ロール","type":"varchar(100)","required":true,"description":"システム上のロール（管理者・営業・閲覧者等）"},{"name":"パスワードハッシュ","type":"varchar(100)","required":true,"description":"ログイン用パスワードのハッシュ値"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"ユーザーステータス（有効・無効・休止等）"},{"name":"最終ログイン日時","type":"timestamp","required":false,"description":"最後にログインした日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"ユーザーレコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"ユーザーレコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":false,"description":"ユーザーレコード作成者"}]},{"tableName":"クライアント","purpose":"営業支援における顧客情報の一元管理。営業担当者が顧客の基本情報、連絡先、取引状況を参照・更新し、営業活動の効率化を支援する。","columns":[{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントの一意識別子"},{"name":"クライアント名","type":"varchar(100)","required":true,"description":"顧客企業名または個人名"},{"name":"業種","type":"varchar(100)","required":false,"description":"顧客の業種分類"},{"name":"代表者名","type":"varchar(100)","required":false,"description":"企業の代表者名または主要連絡先"},{"name":"メールアドレス","type":"varchar(100)","required":false,"description":"主要連絡先のメールアドレス"},{"name":"電話番号","type":"varchar(100)","required":false,"description":"主要連絡先の電話番号"},{"name":"住所","type":"text","required":false,"description":"顧客の住所"},{"name":"担当営業ユーザーID","type":"uuid","required":false,"description":"ユーザーテーブルへの外部キー。担当営業者を指定"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"顧客ステータス（見込み客、既存顧客、休止中など）"},{"name":"最終接触日","type":"timestamp","required":false,"description":"営業担当者が最後に接触した日時"},{"name":"契約状況","type":"varchar(100)","required":false,"description":"契約状況（未契約、契約中、契約終了など）"},{"name":"推定売上額","type":"integer","required":false,"description":"見込み売上額（円）"},{"name":"備考","type":"text","required":false,"description":"営業活動に関する備考・メモ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ユーザーID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー。レコード作成者"}]},{"tableName":"対応履歴","purpose":"営業支援・クライアント情報統合ダッシュボードにおいて、クライアントとの全ての対応（接触、商談、提案等）を記録・追跡し、営業活動の進捗管理と顧客関係構築を支援する","columns":[{"name":"対応履歴ID","type":"uuid","required":true,"description":"対応履歴の一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントテーブルへの外部キー"},{"name":"ユーザーID","type":"uuid","required":true,"description":"対応を実施したユーザー（営業担当者）のID"},{"name":"対応種別","type":"varchar(100)","required":true,"description":"対応の種類（電話、メール、訪問、商談、提案等）"},{"name":"対応日時","type":"timestamp","required":true,"description":"対応が実施された日時"},{"name":"対応内容","type":"text","required":true,"description":"対応の詳細内容・メモ"},{"name":"次回対応予定日","type":"timestamp","required":false,"description":"次回の対応予定日時"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"対応のステータス（完了、保留、進行中等）"},{"name":"成果","type":"varchar(100)","required":false,"description":"対応の成果・結果（受注、見積提出、資料送付等）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]},{"tableName":"対応方針","purpose":"クライアントごとの営業対応方針を管理し、営業チームが統一された対応戦略に基づいて活動するための基準を提供する","columns":[{"name":"対応方針ID","type":"uuid","required":true,"description":"対応方針の一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントテーブルへの外部キー"},{"name":"方針名","type":"varchar(100)","required":true,"description":"対応方針の名称（例：積極営業、保守的対応、定期フォローアップ）"},{"name":"方針内容","type":"text","required":true,"description":"対応方針の詳細説明と具体的な対応内容"},{"name":"優先度","type":"integer","required":true,"description":"対応優先度（1=高、2=中、3=低）"},{"name":"対応頻度","type":"varchar(100)","required":false,"description":"推奨される対応頻度（例：週1回、月1回、四半期ごと）"},{"name":"担当者ID","type":"uuid","required":false,"description":"ユーザーテーブルへの外部キー、この方針の主担当者"},{"name":"開始日","type":"timestamp","required":true,"description":"対応方針の適用開始日"},{"name":"終了日","type":"timestamp","required":false,"description":"対応方針の適用終了日（nullの場合は継続中）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"方針のステータス（有効/無効/保留中）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー、作成者"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー、最終更新者"}]},{"tableName":"受注","purpose":"営業支援ダッシュボードにおける受注トランザクション管理。クライアントとの契約成立、金額、ステータス、営業担当者を一元管理し、売上予測・進捗追跡・営業分析を支援する。","columns":[{"name":"受注ID","type":"uuid","required":true,"description":"受注レコードの一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントテーブルへの外部キー"},{"name":"営業担当者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（営業担当者）"},{"name":"受注日","type":"timestamp","required":true,"description":"受注確定日"},{"name":"受注金額","type":"integer","required":true,"description":"受注総額（税抜き、単位：円）"},{"name":"税額","type":"integer","required":false,"description":"消費税額（単位：円）"},{"name":"税込金額","type":"integer","required":false,"description":"受注総額（税込み、単位：円）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"受注ステータス（例：受注確定、納品待ち、完了、キャンセル）"},{"name":"商品・サービス名","type":"varchar(100)","required":true,"description":"受注対象の商品またはサービス名"},{"name":"納期","type":"timestamp","required":false,"description":"納品予定日"},{"name":"納品日","type":"timestamp","required":false,"description":"実際の納品日"},{"name":"備考","type":"text","required":false,"description":"受注に関する特記事項・条件"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（レコード作成者）"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（最終更新者）"}]},{"tableName":"案件","purpose":"営業支援ダッシュボードにおける営業案件の一元管理。クライアント、対応履歴、受注との関連付けを通じて、案件進捗の追跡、営業活動の可視化、受注予測を実現する。","columns":[{"name":"案件ID","type":"uuid","required":true,"description":"案件の一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"関連するクライアントへの外部キー"},{"name":"案件名","type":"varchar(100)","required":true,"description":"案件の名称"},{"name":"案件説明","type":"text","required":false,"description":"案件の詳細説明"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"案件の進捗状況（例：新規、進行中、提案済み、受注、失注）"},{"name":"予想金額","type":"integer","required":false,"description":"案件の予想売上金額（円）"},{"name":"成約確度","type":"integer","required":false,"description":"受注確度（0-100のパーセンテージ）"},{"name":"予想受注日","type":"timestamp","required":false,"description":"予想される受注予定日"},{"name":"担当ユーザーID","type":"uuid","required":true,"description":"案件の担当営業ユーザーへの外部キー"},{"name":"対応方針ID","type":"uuid","required":false,"description":"適用される対応方針への外部キー"},{"name":"作成日時","type":"timestamp","required":true,"description":"案件の作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"案件の最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"案件を作成したユーザーへの外部キー"}]},{"tableName":"クライアント_対応方針","purpose":"クライアント毎の営業対応方針を管理し、営業戦略・アプローチ方法・優先度などを一元化するマスタテーブル","columns":[{"name":"対応方針ID","type":"uuid","required":true,"description":"対応方針の一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントテーブルへの外部キー"},{"name":"対応方針名","type":"varchar(100)","required":true,"description":"対応方針の名称（例：積極営業、定期フォロー、保守対応）"},{"name":"対応方針説明","type":"text","required":false,"description":"対応方針の詳細説明・背景"},{"name":"営業担当者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（担当営業）"},{"name":"優先度","type":"integer","required":true,"description":"営業優先度（1:高、2:中、3:低）"},{"name":"対応頻度","type":"varchar(100)","required":false,"description":"対応頻度（例：週1回、月1回、四半期1回）"},{"name":"次回対応予定日","type":"timestamp","required":false,"description":"次回営業対応の予定日時"},{"name":"対応方針ステータス","type":"varchar(100)","required":true,"description":"ステータス（有効/無効/一時停止）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（作成者）"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（更新者）"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1781408917617";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // テーブルインデックス: 受注テーブル(0), クライアント(1), ユーザー(2)\n  const orderTable = tables[0] || { records: [] };\n  const clientTable = tables[1] || { records: [] };\n  const userTable = tables[2] || { records: [] };\n\n  // 初期データ\n  let allOrders = orderTable.records || [];\n  let allClients = clientTable.records || [];\n  let allUsers = userTable.records || [];\n\n  // DOM 要素\n  const orderTbody = container.querySelector('#order-tbody');\n  const resultCount = container.querySelector('[data-testid=\"result-count\"]');\n  const clientPanel = container.querySelector('#client-panel');\n  const noSelection = container.querySelector('#no-selection');\n  const searchBtn = container.querySelector('[data-testid=\"search-button\"]');\n  const resetBtn = container.querySelector('[data-testid=\"reset-button\"]');\n  const exportBtn = container.querySelector('[data-testid=\"export-csv-button\"]');\n  const viewDetailBtn = container.querySelector('[data-testid=\"view-client-detail\"]');\n\n  // フィルタ入力\n  const clientNameInput = container.querySelector('[data-testid=\"client-name-input\"]');\n  const orderDateFrom = container.querySelector('[data-testid=\"order-date-from\"]');\n  const orderDateTo = container.querySelector('[data-testid=\"order-date-to\"]');\n  const statusFilter = container.querySelector('[data-testid=\"status-filter\"]');\n  const projectNameInput = container.querySelector('[data-testid=\"project-name-input\"]');\n  const salespersonFilter = container.querySelector('[data-testid=\"salesperson-filter\"]');\n  const amountMin = container.querySelector('[data-testid=\"amount-min\"]');\n  const amountMax = container.querySelector('[data-testid=\"amount-max\"]');\n\n  // 選択中の受注ID\n  let selectedOrderId = null;\n\n  // ユーザーID → 氏名マップ\n  function getUserName(userId) {\n    const user = allUsers.find(u => u.ユーザーID === userId || u.id === userId);\n    return user ? (user.氏名 || user.name || '—') : '—';\n  }\n\n  // クライアントID → クライアント情報マップ\n  function getClient(clientId) {\n    return allClients.find(c => c.クライアントID === clientId || c.id === clientId);\n  }\n\n  // 日付フォーマット\n  function formatDate(dateStr) {\n    if (!dateStr) return '—';\n    const d = new Date(dateStr);\n    return d.toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' });\n  }\n\n  // 金額フォーマット\n  function formatAmount(amount) {\n    if (!amount) return '¥0';\n    return '¥' + amount.toLocaleString('ja-JP');\n  }\n\n  // 受注一覧を再描画\n  function renderOrders(orders) {\n    orderTbody.innerHTML = orders.map(order => {\n      const clientId = order.クライアントID || order.clientId;\n      const client = getClient(clientId);\n      const clientName = client ? (client.クライアント名 || client.name || '—') : '—';\n      const salesUserId = order.営業担当者ID || order.salespersonId;\n      const salesName = getUserName(salesUserId);\n      const orderId = order.受注ID || order.id;\n      const orderDate = formatDate(order.受注日 || order.orderDate);\n      const amount = order.受注金額 || order.amount || 0;\n      const status = order.ステータス || order.status || '—';\n      const productName = order['商品・サービス名'] || order.productName || '—';\n\n      return `<tr data-id=\"${orderId}\" style=\"border-bottom: 1px solid rgba(255,255,255,0.08); cursor: pointer; transition: background 0.15s;\" onmouseover=\"this.style.background='rgba(255,255,255,0.04)'\" onmouseout=\"this.style.background=''\">\n        <td style=\"padding: 0.75rem; color: var(--text); font-size: 0.8125rem;\">${orderId.substring(0, 8)}</td>\n        <td style=\"padding: 0.75rem; color: var(--text); font-size: 0.8125rem;\">${clientName}</td>\n        <td style=\"padding: 0.75rem; color: var(--text); font-size: 0.8125rem;\">${orderDate}</td>\n        <td style=\"padding: 0.75rem; color: var(--text); font-size: 0.8125rem;\">${productName}</td>\n        <td style=\"padding: 0.75rem; color: var(--text); font-size: 0.8125rem; text-align: right; font-weight: 500;\">${formatAmount(amount)}</td>\n        <td style=\"padding: 0.75rem; color: var(--text); font-size: 0.8125rem;\">\n          <span style=\"display: inline-block; padding: 0.25rem 0.5rem; border-radius: 0.25rem; background: ${status === '完了' ? 'rgba(34,197,94,0.15)' : status === 'キャンセル' ? 'rgba(239,68,68,0.15)' : 'rgba(59,130,246,0.15)'}; color: ${status === '完了' ? '#22c55e' : status === 'キャンセル' ? '#ef4444' : '#3b82f6'};\">${status}</span>\n        </td>\n        <td style=\"padding: 0.75rem; color: var(--text); font-size: 0.8125rem;\">${salesName}</td>\n      </tr>`;\n    }).join('');\n    resultCount.textContent = orders.length;\n  }\n\n  // クライアント情報パネルを表示\n  function showClientPanel(orderId) {\n    const order = allOrders.find(o => (o.受注ID || o.id) === orderId);\n    if (!order) return;\n\n    const clientId = order.クライアントID || order.clientId;\n    const client = getClient(clientId);\n\n    if (!client) {\n      clientPanel.style.display = 'none';\n      noSelection.style.display = 'block';\n      return;\n    }\n\n    container.querySelector('#panel-client-name').textContent = client.クライアント名 || client.name || '—';\n    container.querySelector('#panel-industry').textContent = client.業種 || client.industry || '—';\n    container.querySelector('#panel-representative').textContent = client.代表者名 || client.representative || '—';\n    container.querySelector('#panel-email').textContent = client.メールアドレス || client.email || '—';\n    container.querySelector('#panel-phone').textContent = client.電話番号 || client.phone || '—';\n    container.querySelector('#panel-address').textContent = client.住所 || client.address || '—';\n    container.querySelector('#panel-status').textContent = client.ステータス || client.status || '—';\n    container.querySelector('#panel-last-contact').textContent = formatDate(client.最終接触日 || client.lastContactDate);\n\n    clientPanel.style.display = 'block';\n    noSelection.style.display = 'none';\n    selectedOrderId = orderId;\n  }\n\n  // 検索実行\n  function performSearch() {\n    const clientName = clientNameInput.value.toLowerCase();\n    const dateFrom = orderDateFrom.value ? new Date(orderDateFrom.value) : null;\n    const dateTo = orderDateTo.value ? new Date(orderDateTo.value + 'T23:59:59') : null;\n    const status = statusFilter.value;\n    const projectName = projectNameInput.value.toLowerCase();\n    const salesperson = salespersonFilter.value;\n    const minAmount = amountMin.value ? parseInt(amountMin.value) : null;\n    const maxAmount = amountMax.value ? parseInt(amountMax.value) : null;\n\n    const filtered = allOrders.filter(order => {\n      const clientId = order.クライアントID || order.clientId;\n      const client = getClient(clientId);\n      const orderClientName = (client ? (client.クライアント名 || client.name) : '').toLowerCase();\n\n      if (clientName && !orderClientName.includes(clientName)) return false;\n\n      const orderDate = new Date(order.受注日 || order.orderDate);\n      if (dateFrom && orderDate < dateFrom) return false;\n      if (dateTo && orderDate > dateTo) return false;\n\n      if (status && (order.ステータス || order.status) !== status) return false;\n\n      const productName = (order['商品・サービス名'] || order.productName || '').toLowerCase();\n      if (projectName && !productName.includes(projectName)) return false;\n\n      if (salesperson) {\n        const salesUserId = order.営業担当者ID || order.salespersonId;\n        const salesName = getUserName(salesUserId);\n        if (salesName !== salesperson) return false;\n      }\n\n      const amount = order.受注金額 || order.amount || 0;\n      if (minAmount !== null && amount < minAmount) return false;\n      if (maxAmount !== null && amount > maxAmount) return false;\n\n      return true;\n    });\n\n    renderOrders(filtered);\n    clientPanel.style.display = 'none';\n    noSelection.style.display = 'block';\n    selectedOrderId = null;\n  }\n\n  // リセット\n  function resetFilters() {\n    clientNameInput.value = '';\n    orderDateFrom.value = '';\n    orderDateTo.value = '';\n    statusFilter.value = '';\n    projectNameInput.value = '';\n    salespersonFilter.value = '';\n    amountMin.value = '';\n    amountMax.value = '';\n    renderOrders(allOrders);\n    clientPanel.style.display = 'none';\n    noSelection.style.display = 'block';\n    selectedOrderId = null;\n  }\n\n  // CSV エクスポート\n  function exportCSV() {\n    const headers = ['受注ID', 'クライアント名', '受注日', '商品・サービス名', '受注金額', 'ステータス', '営業担当者'];\n    const rows = [];\n\n    const visibleRows = container.querySelectorAll('#order-tbody tr');\n    visibleRows.forEach(tr => {\n      const cells = tr.querySelectorAll('td');\n      rows.push([\n        cells[0].textContent,\n        cells[1].textContent,\n        cells[2].textContent,\n        cells[3].textContent,\n        cells[4].textContent,\n        cells[5].textContent,\n        cells[6].textContent\n      ]);\n    });\n\n    const csv = '\\uFEFF' + [headers, ...rows].map(row => \n      row.map(cell => `\"${cell.replace(/\"/g, '\"\"')}\"`).join(',')\n    ).join('\\n');\n\n    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });\n    const link = document.createElement('a');\n    link.href = URL.createObjectURL(blob);\n    link.download = `order_history_${new Date().toISOString().split('T')[0]}.csv`;\n    link.click();\n  }\n\n  // イベントリスナー\n  searchBtn.addEventListener('click', performSearch);\n  resetBtn.addEventListener('click', resetFilters);\n  exportBtn.addEventListener('click', exportCSV);\n\n  // 行クリックでクライアント情報表示\n  container.addEventListener('click', e => {\n    const tr = e.target.closest('#order-tbody tr');\n    if (tr) {\n      const orderId = tr.dataset.id;\n      showClientPanel(orderId);\n    }\n  });\n\n  // 詳細ボタン\n  viewDetailBtn.addEventListener('click', () => {\n    if (selectedOrderId) {\n      const order = allOrders.find(o => (o.受注ID || o.id) === selectedOrderId);\n      if (order) {\n        const clientId = order.クライアントID || order.clientId;\n        window.showScreen('scr-1781408824557', { clientId });\n      }\n    }\n  });\n\n  // 初期表示\n  renderOrders(allOrders);\n}";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f4d03f;
+  --primary-hover: #f0c856;
   --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
   --bg-sidebar: #161616;
   --border: #2a2a2a;
   --text: #f5f5f5;
-  --text-muted: #a0a0a0;
+  --text-muted: #b0b0b0;
   --top-bar-bg: #1a1a1a;
   --top-bar-border: #2a2a2a;
-  --accent-red: #dc143c;
-  --accent-red-hover: #ff1744;
-  --success: #4caf50;
-  --warning: #ff9800;
-  --error: #f44336;
-  --info: #2196f3;
+  --accent-red: #dc2626;
+  --accent-red-hover: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef5350;
+  --info: #3b82f6;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -77,7 +77,7 @@ canvas { display:block; max-height:280px !important; }
   <span class="app-name">ROシステム</span>
     <a href="./scr-1781408454309.html" class="sys-tab" data-aivic-nav-system="itg-2">基幹システム連携・データ検証インターフェース</a>
     <a href="./scr-1781408811435.html" class="sys-tab active" data-aivic-nav-system="itg-3">営業支援・クライアント情報統合ダッシュボード</a>
-    <a href="./scr-1781406322572.html" class="sys-tab" data-aivic-nav-system="itg-1">受注データ品質管理・検証システム</a>
+    <a href="./scr-1781413262699.html" class="sys-tab" data-aivic-nav-system="itg-1">受注データ品質管理・検証システム</a>
 </header>
 <div class="app-body">
   <aside class="sidebar">
@@ -97,7 +97,152 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781408917617" style="margin-top:0">
-<p class="muted">過去受注履歴検索・照合画面</p>
+<div style="display: flex; flex-direction: column; height: 100%; gap: 0.75rem; padding: 1rem;">
+  <!-- ヘッダー -->
+  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
+    <h1 style="font-size: 1.5rem; font-weight: 700; color: var(--text); margin: 0;">過去受注履歴検索・照合</h1>
+    <button class="action-btn" data-testid="export-csv-button" style="font-size: 0.875rem; padding: 0.5rem 1rem;">
+      CSV エクスポート
+    </button>
+  </div>
+
+  <!-- 検索フィルタバー（2行グリッド） -->
+  <div style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.12); border-radius: 0.375rem; padding: 1rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+    <!-- 行1: クライアント名、受注日開始、受注日終了、ステータス -->
+    <div>
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.375rem; font-weight: 500;">クライアント名</label>
+      <input type="text" data-testid="client-name-input" placeholder="検索..." style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem;" />
+    </div>
+    <div>
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.375rem; font-weight: 500;">受注日（開始）</label>
+      <input type="date" data-testid="order-date-from" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem;" />
+    </div>
+    <div>
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.375rem; font-weight: 500;">受注日（終了）</label>
+      <input type="date" data-testid="order-date-to" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem;" />
+    </div>
+    <div>
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.375rem; font-weight: 500;">受注ステータス</label>
+      <select data-testid="status-filter" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem;">
+        <option value="">全て</option>
+        <option value="受注確定">受注確定</option>
+        <option value="納品待ち">納品待ち</option>
+        <option value="完了">完了</option>
+        <option value="キャンセル">キャンセル</option>
+      </select>
+    </div>
+
+    <!-- 行2: 案件名、営業担当者、金額最小、金額最大 -->
+    <div>
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.375rem; font-weight: 500;">案件名</label>
+      <input type="text" data-testid="project-name-input" placeholder="検索..." style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem;" />
+    </div>
+    <div>
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.375rem; font-weight: 500;">営業担当者</label>
+      <select data-testid="salesperson-filter" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem;">
+        <option value="">全て</option>
+        <option value="営業太郎">営業太郎</option>
+        <option value="営業花子">営業花子</option>
+        <option value="営業次郎">営業次郎</option>
+      </select>
+    </div>
+    <div>
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.375rem; font-weight: 500;">受注金額（最小）</label>
+      <input type="number" data-testid="amount-min" placeholder="0" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem;" />
+    </div>
+    <div>
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.375rem; font-weight: 500;">受注金額（最大）</label>
+      <input type="number" data-testid="amount-max" placeholder="999999999" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem;" />
+    </div>
+  </div>
+
+  <!-- ボタン行 -->
+  <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+    <button class="action-btn secondary" data-testid="reset-button" style="font-size: 0.875rem; padding: 0.5rem 1.25rem;">
+      リセット
+    </button>
+    <button class="action-btn" data-testid="search-button" style="font-size: 0.875rem; padding: 0.5rem 1.25rem;">
+      検索
+    </button>
+  </div>
+
+  <!-- メインコンテンツ（左：一覧テーブル、右：クライアント情報パネル） -->
+  <div style="display: flex; gap: 1rem; flex: 1; min-height: 0;">
+    <!-- 左側：受注一覧テーブル -->
+    <div style="flex: 1; display: flex; flex-direction: column; min-width: 0;">
+      <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+        検索結果: <span data-testid="result-count" style="font-weight: 600; color: var(--text);">0</span> 件
+      </div>
+      <div class="table-wrap" style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 0.375rem;">
+        <table data-testid="order-list" style="width: 100%; font-size: 0.875rem;">
+          <thead style="position: sticky; top: 0; background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.12);">
+            <tr>
+              <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 12%;">受注ID</th>
+              <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 15%;">クライアント名</th>
+              <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 12%;">受注日</th>
+              <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 18%;">商品・サービス名</th>
+              <th style="padding: 0.75rem; text-align: right; color: var(--text); font-weight: 600; width: 12%;">受注金額</th>
+              <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 12%;">ステータス</th>
+              <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 12%;">営業担当者</th>
+            </tr>
+          </thead>
+          <tbody id="order-tbody" style="background: var(--bg-main);">
+            <!-- 動的に行が挿入される -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 右側：クライアント情報パネル -->
+    <div style="width: 320px; display: flex; flex-direction: column; gap: 0.75rem;">
+      <div id="client-panel" style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.12); border-radius: 0.375rem; padding: 1rem; display: none;">
+        <h3 style="font-size: 0.875rem; font-weight: 700; color: var(--text); margin: 0 0 0.75rem 0; border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem;">クライアント情報</h3>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.8125rem;">
+          <div>
+            <div style="color: var(--text-muted); margin-bottom: 0.25rem;">クライアント名</div>
+            <div id="panel-client-name" style="color: var(--text); font-weight: 500;">—</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted); margin-bottom: 0.25rem;">業種</div>
+            <div id="panel-industry" style="color: var(--text); font-weight: 500;">—</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted); margin-bottom: 0.25rem;">代表者名</div>
+            <div id="panel-representative" style="color: var(--text); font-weight: 500;">—</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted); margin-bottom: 0.25rem;">メールアドレス</div>
+            <div id="panel-email" style="color: var(--text); font-weight: 500; word-break: break-all;">—</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted); margin-bottom: 0.25rem;">電話番号</div>
+            <div id="panel-phone" style="color: var(--text); font-weight: 500;">—</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted); margin-bottom: 0.25rem;">住所</div>
+            <div id="panel-address" style="color: var(--text); font-weight: 500; word-break: break-word;">—</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted); margin-bottom: 0.25rem;">ステータス</div>
+            <div id="panel-status" style="color: var(--text); font-weight: 500;">—</div>
+          </div>
+          <div>
+            <div style="color: var(--text-muted); margin-bottom: 0.25rem;">最終接触日</div>
+            <div id="panel-last-contact" style="color: var(--text); font-weight: 500;">—</div>
+          </div>
+          <div style="margin-top: 0.5rem; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.12);">
+            <button class="action-btn secondary" data-testid="view-client-detail" style="width: 100%; font-size: 0.8125rem; padding: 0.5rem;">
+              詳細を表示
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="no-selection" style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.12); border-radius: 0.375rem; padding: 1rem; text-align: center; color: var(--text-muted); font-size: 0.875rem;">
+        受注行を選択してください
+      </div>
+    </div>
+  </div>
+</div>
     </section>
   </main>
 </div>

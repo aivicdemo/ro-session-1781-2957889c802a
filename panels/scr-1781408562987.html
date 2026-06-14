@@ -13,26 +13,27 @@ window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1781408562987";
 window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 </script>
+  <script>window.AIVIC_DB_TYPE = "aurora_postgresql";</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f4d03f;
+  --primary-hover: #f0c856;
   --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
   --bg-sidebar: #161616;
   --border: #2a2a2a;
   --text: #f5f5f5;
-  --text-muted: #a0a0a0;
+  --text-muted: #b0b0b0;
   --top-bar-bg: #1a1a1a;
   --top-bar-border: #2a2a2a;
-  --accent-red: #dc143c;
-  --accent-red-hover: #ff1744;
-  --success: #4caf50;
-  --warning: #ff9800;
-  --error: #f44336;
-  --info: #2196f3;
+  --accent-red: #dc2626;
+  --accent-red-hover: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef5350;
+  --info: #3b82f6;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -77,7 +78,7 @@ canvas { display:block; max-height:280px !important; }
   <span class="app-name">ROシステム</span>
     <a href="./scr-1781408454309.html" class="sys-tab active" data-aivic-nav-system="itg-2">基幹システム連携・データ検証インターフェース</a>
     <a href="./scr-1781408811435.html" class="sys-tab" data-aivic-nav-system="itg-3">営業支援・クライアント情報統合ダッシュボード</a>
-    <a href="./scr-1781406322572.html" class="sys-tab" data-aivic-nav-system="itg-1">受注データ品質管理・検証システム</a>
+    <a href="./scr-1781413262699.html" class="sys-tab" data-aivic-nav-system="itg-1">受注データ品質管理・検証システム</a>
 </header>
 <div class="app-body">
   <aside class="sidebar">
@@ -101,7 +102,219 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781408562987" style="margin-top:0">
-<p class="muted">バリデーション失敗時の自動通知機能を実装</p>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; height: 100%; padding: 12px;">
+  
+  <!-- 左パネル: バリデーション失敗一覧 -->
+  <div style="display: flex; flex-direction: column; gap: 8px; overflow: hidden;">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <h3 style="margin: 0; font-size: 14px; font-weight: 600; color: var(--text);">バリデーション失敗一覧</h3>
+      <button class="action-btn secondary" data-testid="refresh-failures-btn" style="padding: 4px 8px; font-size: 12px;">更新</button>
+    </div>
+    
+    <!-- フィルター -->
+    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+      <select class="input" data-testid="error-category-filter" style="flex: 1; min-width: 120px; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text);">
+        <option value="">全てのエラー分類</option>
+        <option value="必須項目エラー">必須項目エラー</option>
+        <option value="データ型エラー">データ型エラー</option>
+        <option value="範囲エラー">範囲エラー</option>
+        <option value="形式エラー">形式エラー</option>
+        <option value="リスト値エラー">リスト値エラー</option>
+      </select>
+      <select class="input" data-testid="severity-filter" style="flex: 1; min-width: 120px; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text);">
+        <option value="">全ての重要度</option>
+        <option value="CRITICAL">CRITICAL</option>
+        <option value="WARNING">WARNING</option>
+        <option value="INFO">INFO</option>
+      </select>
+    </div>
+    
+    <!-- 失敗一覧テーブル -->
+    <div class="table-wrap" style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px;">
+      <table data-testid="failure-list" style="width: 100%; font-size: 12px;">
+        <thead>
+          <tr style="background: rgba(0,0,0,0.2); position: sticky; top: 0;">
+            <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">受注ID</th>
+            <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">エラー分類</th>
+            <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">重要度</th>
+            <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">発生日時</th>
+          </tr>
+        </thead>
+        <tbody id="failure-tbody">
+          <tr style="background: rgba(0,0,0,0.1);">
+            <td colspan="4" style="padding: 12px; text-align: center; color: var(--text-muted);">読込中...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <!-- 右パネル: 通知設定 -->
+  <div style="display: flex; flex-direction: column; gap: 8px; overflow: hidden;">
+    <h3 style="margin: 0; font-size: 14px; font-weight: 600; color: var(--text);">通知設定</h3>
+    
+    <!-- タブ -->
+    <div style="display: flex; gap: 4px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+      <button class="tab-btn active" data-tab="immediate" style="padding: 6px 12px; font-size: 12px; background: transparent; border: none; color: var(--text); cursor: pointer; border-bottom: 2px solid var(--primary); font-weight: 600;">即時通知</button>
+      <button class="tab-btn" data-tab="schedule" style="padding: 6px 12px; font-size: 12px; background: transparent; border: none; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent;">定期通知</button>
+      <button class="tab-btn" data-tab="rule" style="padding: 6px 12px; font-size: 12px; background: transparent; border: none; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent;">ルール設定</button>
+    </div>
+    
+    <!-- タブ1: 即時通知 -->
+    <div id="tab-immediate" class="tab-content" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">責任者自動割り当て</label>
+        <select class="input" data-testid="responsible-auto-assign" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text);">
+          <option value="">選択してください</option>
+          <option value="error-category">エラー分類別</option>
+          <option value="department">部門別</option>
+          <option value="manual">手動選択</option>
+        </select>
+      </div>
+      
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">通知対象者</label>
+        <div style="border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; padding: 8px; background: rgba(0,0,0,0.25); max-height: 120px; overflow-y: auto;">
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px; color: var(--text);">
+              <input type="checkbox" data-testid="recipient-all" style="accent-color: var(--primary);" /> 全員
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px; color: var(--text);">
+              <input type="checkbox" data-testid="recipient-manager" style="accent-color: var(--primary);" /> 管理者
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px; color: var(--text);">
+              <input type="checkbox" data-testid="recipient-validator" style="accent-color: var(--primary);" /> 検証者
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px; color: var(--text);">
+              <input type="checkbox" data-testid="recipient-approver" style="accent-color: var(--primary);" /> 承認者
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">通知チャネル</label>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+          <label style="display: flex; align-items: center; gap: 4px; cursor: pointer; font-size: 12px; color: var(--text);">
+            <input type="checkbox" data-testid="channel-email" checked style="accent-color: var(--primary);" /> メール
+          </label>
+          <label style="display: flex; align-items: center; gap: 4px; cursor: pointer; font-size: 12px; color: var(--text);">
+            <input type="checkbox" data-testid="channel-sms" style="accent-color: var(--primary);" /> SMS
+          </label>
+          <label style="display: flex; align-items: center; gap: 4px; cursor: pointer; font-size: 12px; color: var(--text);">
+            <input type="checkbox" data-testid="channel-system" checked style="accent-color: var(--primary);" /> システム内通知
+          </label>
+        </div>
+      </div>
+      
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">通知テンプレート</label>
+        <select class="input" data-testid="notification-template" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text);">
+          <option value="">選択してください</option>
+          <option value="template-error-critical">テンプレート: 重大エラー通知</option>
+          <option value="template-error-warning">テンプレート: 警告エラー通知</option>
+          <option value="template-validation-fail">テンプレート: バリデーション失敗</option>
+          <option value="template-custom">カスタムテンプレート</option>
+        </select>
+      </div>
+      
+      <div style="flex: 1; min-height: 100px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; padding: 8px; background: rgba(0,0,0,0.15); overflow-y: auto;">
+        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">通知内容プレビュー</div>
+        <div id="notification-preview" style="font-size: 12px; color: var(--text); line-height: 1.4; white-space: pre-wrap; word-break: break-word;">
+          テンプレートを選択してください
+        </div>
+      </div>
+      
+      <button class="action-btn" data-testid="send-notification-btn" style="width: 100%; padding: 8px; font-size: 12px; background: var(--primary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">即時通知を送信</button>
+    </div>
+    
+    <!-- タブ2: 定期通知 -->
+    <div id="tab-schedule" class="tab-content" style="flex: 1; overflow-y: auto; display: none; flex-direction: column; gap: 8px;">
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">通知周期</label>
+        <select class="input" data-testid="schedule-frequency" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text);">
+          <option value="">選択してください</option>
+          <option value="daily">毎日</option>
+          <option value="weekly">毎週</option>
+          <option value="monthly">毎月</option>
+        </select>
+      </div>
+      
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">通知時刻</label>
+        <input type="time" class="input" data-testid="schedule-time" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text);" value="09:00" />
+      </div>
+      
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">対象エラー分類</label>
+        <div style="border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; padding: 8px; background: rgba(0,0,0,0.25); max-height: 100px; overflow-y: auto;">
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px; color: var(--text);">
+              <input type="checkbox" data-testid="schedule-category-critical" style="accent-color: var(--primary);" /> CRITICAL
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px; color: var(--text);">
+              <input type="checkbox" data-testid="schedule-category-warning" style="accent-color: var(--primary);" /> WARNING
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px; color: var(--text);">
+              <input type="checkbox" data-testid="schedule-category-info" style="accent-color: var(--primary);" /> INFO
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <button class="action-btn" data-testid="save-schedule-btn" style="width: 100%; padding: 8px; font-size: 12px; background: var(--primary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">定期通知を設定</button>
+    </div>
+    
+    <!-- タブ3: ルール設定 -->
+    <div id="tab-rule" class="tab-content" style="flex: 1; overflow-y: auto; display: none; flex-direction: column; gap: 8px;">
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">ルール名</label>
+        <input type="text" class="input" data-testid="rule-name" placeholder="例: 受注金額エラー自動通知" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text);" />
+      </div>
+      
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">対象バリデーションルール</label>
+        <select class="input" data-testid="rule-validation-rule" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text);">
+          <option value="">選択してください</option>
+          <option value="rule-amount">受注金額チェック</option>
+          <option value="rule-customer">顧客コード形式検証</option>
+          <option value="rule-date">納期チェック</option>
+          <option value="rule-status">ステータス検証</option>
+        </select>
+      </div>
+      
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">自動割り当て責任者</label>
+        <select class="input" data-testid="rule-responsible" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text);">
+          <option value="">選択してください</option>
+          <option value="resp-001">営業部長 (営業部)</option>
+          <option value="resp-002">検証担当者 (品質部)</option>
+          <option value="resp-003">システム管理者 (IT部)</option>
+        </select>
+      </div>
+      
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">有効フラグ</label>
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px; color: var(--text);">
+          <input type="checkbox" data-testid="rule-enabled" checked style="accent-color: var(--primary);" /> このルールを有効にする
+        </label>
+      </div>
+      
+      <button class="action-btn" data-testid="save-rule-btn" style="width: 100%; padding: 8px; font-size: 12px; background: var(--primary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">ルールを保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 受注データ参照パネル（下部、折りたたみ可能） -->
+<div style="position: fixed; bottom: 0; left: 0; right: 0; max-height: 200px; background: var(--bg-card); border-top: 1px solid rgba(255,255,255,0.1); padding: 8px 12px; overflow-y: auto; display: none;" id="order-detail-panel">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+    <h4 style="margin: 0; font-size: 12px; font-weight: 600; color: var(--text);">受注データ詳細</h4>
+    <button style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 12px;" onclick="document.getElementById('order-detail-panel').style.display='none';">閉じる</button>
+  </div>
+  <div id="order-detail-content" style="font-size: 11px; color: var(--text); line-height: 1.6;">
+    <!-- 動的に受注データを表示 -->
+  </div>
+</div>
     </section>
   </main>
 </div>

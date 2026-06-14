@@ -13,26 +13,27 @@ window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1781408655472";
 window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 </script>
+  <script>window.AIVIC_DB_TYPE = "aurora_postgresql";</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f4d03f;
+  --primary-hover: #f0c856;
   --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
   --bg-sidebar: #161616;
   --border: #2a2a2a;
   --text: #f5f5f5;
-  --text-muted: #a0a0a0;
+  --text-muted: #b0b0b0;
   --top-bar-bg: #1a1a1a;
   --top-bar-border: #2a2a2a;
-  --accent-red: #dc143c;
-  --accent-red-hover: #ff1744;
-  --success: #4caf50;
-  --warning: #ff9800;
-  --error: #f44336;
-  --info: #2196f3;
+  --accent-red: #dc2626;
+  --accent-red-hover: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef5350;
+  --info: #3b82f6;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -77,7 +78,7 @@ canvas { display:block; max-height:280px !important; }
   <span class="app-name">ROシステム</span>
     <a href="./scr-1781408454309.html" class="sys-tab active" data-aivic-nav-system="itg-2">基幹システム連携・データ検証インターフェース</a>
     <a href="./scr-1781408811435.html" class="sys-tab" data-aivic-nav-system="itg-3">営業支援・クライアント情報統合ダッシュボード</a>
-    <a href="./scr-1781406322572.html" class="sys-tab" data-aivic-nav-system="itg-1">受注データ品質管理・検証システム</a>
+    <a href="./scr-1781413262699.html" class="sys-tab" data-aivic-nav-system="itg-1">受注データ品質管理・検証システム</a>
 </header>
 <div class="app-body">
   <aside class="sidebar">
@@ -101,7 +102,143 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781408655472" style="margin-top:0">
-<p class="muted">連携テスト・ログ記録処理</p>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; height: 100%; padding: 1rem;">
+  <!-- 左側: テスト実行フォーム -->
+  <div style="display: flex; flex-direction: column; gap: 1rem; overflow-y: auto;">
+    <div class="card" style="padding: 1rem;">
+      <h3 style="margin: 0 0 0.75rem 0; font-size: 0.95rem; font-weight: 600; color: var(--text);">連携テスト実行</h3>
+      
+      <!-- テスト対象システム選択 -->
+      <div style="margin-bottom: 1rem;">
+        <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">テスト対象システム</label>
+        <select data-testid="target-system-select" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.85rem;">
+          <option value="">選択してください</option>
+          <option value="erp">ERP システム</option>
+          <option value="crm">CRM システム</option>
+          <option value="wms">WMS システム</option>
+          <option value="accounting">会計システム</option>
+        </select>
+      </div>
+
+      <!-- テストデータ入力 -->
+      <div style="margin-bottom: 1rem;">
+        <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">テストデータ（JSON）</label>
+        <textarea data-testid="test-data-input" placeholder='{"orderId":"123","amount":10000}' style="width: 100%; height: 6rem; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.8rem; font-family: monospace; resize: none;"></textarea>
+      </div>
+
+      <!-- バリデーションルール選択 -->
+      <div style="margin-bottom: 1rem;">
+        <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">バリデーションルール</label>
+        <select data-testid="validation-rule-select" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.85rem;">
+          <option value="">すべてのルール</option>
+          <option value="required">必須チェック</option>
+          <option value="format">形式チェック</option>
+          <option value="range">範囲チェック</option>
+          <option value="custom">カスタムルール</option>
+        </select>
+      </div>
+
+      <!-- 責任者割当 -->
+      <div style="margin-bottom: 1rem;">
+        <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">責任者</label>
+        <select data-testid="assignee-select" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.85rem;">
+          <option value="">未割当</option>
+          <option value="user1">田中太郎</option>
+          <option value="user2">鈴木花子</option>
+          <option value="user3">佐藤次郎</option>
+        </select>
+      </div>
+
+      <!-- 実行ボタン -->
+      <button data-testid="execute-test-button" class="action-btn" style="width: 100%; padding: 0.6rem; background: var(--primary); color: #fff; border: none; border-radius: 0.25rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">テスト実行</button>
+    </div>
+
+    <!-- ログ出力形式選択 -->
+    <div class="card" style="padding: 1rem;">
+      <h3 style="margin: 0 0 0.75rem 0; font-size: 0.95rem; font-weight: 600; color: var(--text);">ログ出力</h3>
+      <div style="margin-bottom: 0.75rem;">
+        <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">出力形式</label>
+        <select data-testid="log-format-select" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.85rem;">
+          <option value="csv">CSV</option>
+          <option value="json">JSON</option>
+          <option value="txt">テキスト</option>
+        </select>
+      </div>
+      <button data-testid="download-log-button" class="action-btn secondary" style="width: 100%; padding: 0.6rem; background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text); border-radius: 0.25rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">ログダウンロード</button>
+    </div>
+  </div>
+
+  <!-- 右側: 実行履歴 + 結果表示 -->
+  <div style="display: flex; flex-direction: column; gap: 1rem; overflow-y: auto;">
+    <!-- テスト実行履歴（タイムライン） -->
+    <div class="card" style="padding: 1rem; flex: 1; overflow-y: auto;">
+      <h3 style="margin: 0 0 0.75rem 0; font-size: 0.95rem; font-weight: 600; color: var(--text);">テスト実行履歴</h3>
+      <div id="test-history-timeline" style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <!-- タイムラインアイテムはここに動的に挿入される -->
+      </div>
+    </div>
+
+    <!-- バリデーション結果 -->
+    <div class="card" style="padding: 1rem;">
+      <h3 style="margin: 0 0 0.75rem 0; font-size: 0.95rem; font-weight: 600; color: var(--text);">バリデーション結果</h3>
+      <div id="validation-result-preview" style="font-size: 0.8rem; color: var(--text-muted); padding: 0.5rem; background: rgba(0,0,0,0.15); border-radius: 0.25rem; max-height: 8rem; overflow-y: auto;">
+        テスト実行後に結果が表示されます
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- エラーログ一覧（下部パネル） -->
+<div style="position: fixed; bottom: 0; left: 0; right: 0; height: 35%; background: var(--bg-card); border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; padding: 1rem; overflow: hidden;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+    <h3 style="margin: 0; font-size: 0.95rem; font-weight: 600; color: var(--text);">エラーログ</h3>
+    <div style="display: flex; gap: 0.5rem;">
+      <select data-testid="error-filter-select" style="padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.8rem;">
+        <option value="">すべて</option>
+        <option value="CRITICAL">CRITICAL</option>
+        <option value="ERROR">ERROR</option>
+        <option value="WARNING">WARNING</option>
+        <option value="INFO">INFO</option>
+      </select>
+      <button data-testid="clear-logs-button" class="action-btn secondary" style="padding: 0.4rem 0.75rem; background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text); border-radius: 0.25rem; font-size: 0.8rem; cursor: pointer;">クリア</button>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="flex: 1; overflow-y: auto;">
+    <table data-testid="error-log-table" style="width: 100%; font-size: 0.8rem;">
+      <thead>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+          <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; width: 8%;">時刻</th>
+          <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; width: 10%;">エラーコード</th>
+          <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; width: 12%;">重要度</th>
+          <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; width: 35%;">メッセージ</th>
+          <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; width: 15%;">ステータス</th>
+          <th style="text-align: center; padding: 0.5rem; color: var(--text); font-weight: 600; width: 20%;">操作</th>
+        </tr>
+      </thead>
+      <tbody id="error-log-tbody">
+        <!-- エラーログ行がここに動的に挿入される -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- エラー詳細ビューア（モーダル） -->
+<div id="error-detail-modal" hidden style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+  <div class="card" style="width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; padding: 1.5rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+      <h2 style="margin: 0; font-size: 1.1rem; font-weight: 600; color: var(--text);">エラー詳細</h2>
+      <button id="close-error-detail" style="background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer;">&times;</button>
+    </div>
+    <div id="error-detail-content" style="font-size: 0.85rem; color: var(--text); line-height: 1.6;">
+      <!-- 詳細内容がここに挿入される -->
+    </div>
+    <div style="display: flex; gap: 0.5rem; margin-top: 1rem; justify-content: flex-end;">
+      <button data-testid="error-detail-close" class="action-btn secondary" style="padding: 0.5rem 1rem; background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text); border-radius: 0.25rem; cursor: pointer;">閉じる</button>
+      <button data-testid="error-detail-retry" class="action-btn" style="padding: 0.5rem 1rem; background: var(--primary); color: #fff; border: none; border-radius: 0.25rem; cursor: pointer;">再処理</button>
+    </div>
+  </div>
+</div>
     </section>
   </main>
 </div>

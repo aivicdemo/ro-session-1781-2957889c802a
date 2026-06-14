@@ -13,26 +13,27 @@ window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1781408824557";
 window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 </script>
+  <script>window.AIVIC_DB_TYPE = "aurora_postgresql";</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f4d03f;
+  --primary-hover: #f0c856;
   --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
   --bg-sidebar: #161616;
   --border: #2a2a2a;
   --text: #f5f5f5;
-  --text-muted: #a0a0a0;
+  --text-muted: #b0b0b0;
   --top-bar-bg: #1a1a1a;
   --top-bar-border: #2a2a2a;
-  --accent-red: #dc143c;
-  --accent-red-hover: #ff1744;
-  --success: #4caf50;
-  --warning: #ff9800;
-  --error: #f44336;
-  --info: #2196f3;
+  --accent-red: #dc2626;
+  --accent-red-hover: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef5350;
+  --info: #3b82f6;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -77,7 +78,7 @@ canvas { display:block; max-height:280px !important; }
   <span class="app-name">ROシステム</span>
     <a href="./scr-1781408454309.html" class="sys-tab" data-aivic-nav-system="itg-2">基幹システム連携・データ検証インターフェース</a>
     <a href="./scr-1781408811435.html" class="sys-tab active" data-aivic-nav-system="itg-3">営業支援・クライアント情報統合ダッシュボード</a>
-    <a href="./scr-1781406322572.html" class="sys-tab" data-aivic-nav-system="itg-1">受注データ品質管理・検証システム</a>
+    <a href="./scr-1781413262699.html" class="sys-tab" data-aivic-nav-system="itg-1">受注データ品質管理・検証システム</a>
 </header>
 <div class="app-body">
   <aside class="sidebar">
@@ -97,7 +98,259 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781408824557" style="margin-top:0">
-<p class="muted">クライアント詳細情報画面</p>
+<div style="display: flex; gap: 12px; height: 100%; padding: 12px;">
+  <!-- 左パネル: クライアント基本情報 -->
+  <div style="flex: 0 0 320px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto;">
+    <!-- クライアント基本情報カード -->
+    <div class="card" style="padding: 14px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+        <h2 id="client-name" style="font-size: 18px; font-weight: 600; color: var(--text); margin: 0;">
+          クライアント名
+        </h2>
+        <button id="btn-edit-client" class="action-btn" style="padding: 6px 12px; font-size: 12px;" data-testid="edit-client-button">
+          編集
+        </button>
+      </div>
+
+      <!-- 基本情報表示モード -->
+      <div id="client-info-view" style="display: flex; flex-direction: column; gap: 10px;">
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">業種</label>
+          <div id="client-industry" style="font-size: 13px; color: var(--text);">—</div>
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">代表者名</label>
+          <div id="client-representative" style="font-size: 13px; color: var(--text);">—</div>
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">住所</label>
+          <div id="client-address" style="font-size: 13px; color: var(--text); word-break: break-word;">—</div>
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">電話番号</label>
+          <div id="client-phone" style="font-size: 13px; color: var(--text);">—</div>
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">メールアドレス</label>
+          <div id="client-email" style="font-size: 13px; color: var(--text); word-break: break-word;">—</div>
+        </div>
+        <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: 10px;">
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">ステータス</label>
+          <div id="client-status" style="font-size: 13px; color: #ff6a00; font-weight: 600;">—</div>
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">最終接触日</label>
+          <div id="client-last-contact" style="font-size: 13px; color: var(--text);">—</div>
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">契約状況</label>
+          <div id="client-contract-status" style="font-size: 13px; color: var(--text);">—</div>
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">推定売上額</label>
+          <div id="client-estimated-revenue" style="font-size: 13px; color: #ff6a00; font-weight: 600;">—</div>
+        </div>
+      </div>
+
+      <!-- 編集フォーム（初期非表示） -->
+      <div id="client-edit-form" style="display: none; flex-direction: column; gap: 10px;">
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">クライアント名</label>
+          <input id="edit-client-name" type="text" class="input" style="width: 100%; padding: 6px 8px; font-size: 13px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px;" data-testid="edit-client-name" />
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">業種</label>
+          <input id="edit-client-industry" type="text" class="input" style="width: 100%; padding: 6px 8px; font-size: 13px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px;" data-testid="edit-client-industry" />
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">代表者名</label>
+          <input id="edit-client-representative" type="text" class="input" style="width: 100%; padding: 6px 8px; font-size: 13px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px;" data-testid="edit-client-representative" />
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">住所</label>
+          <textarea id="edit-client-address" class="input" style="width: 100%; padding: 6px 8px; font-size: 13px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; resize: vertical; min-height: 50px;" data-testid="edit-client-address"></textarea>
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">電話番号</label>
+          <input id="edit-client-phone" type="text" class="input" style="width: 100%; padding: 6px 8px; font-size: 13px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px;" data-testid="edit-client-phone" />
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">メールアドレス</label>
+          <input id="edit-client-email" type="email" class="input" style="width: 100%; padding: 6px 8px; font-size: 13px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px;" data-testid="edit-client-email" />
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">ステータス</label>
+          <select id="edit-client-status" class="input" style="width: 100%; padding: 6px 8px; font-size: 13px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px;" data-testid="edit-client-status">
+            <option value="">選択してください</option>
+            <option value="見込み客">見込み客</option>
+            <option value="既存顧客">既存顧客</option>
+            <option value="休止中">休止中</option>
+            <option value="失注">失注</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">契約状況</label>
+          <select id="edit-client-contract-status" class="input" style="width: 100%; padding: 6px 8px; font-size: 13px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px;" data-testid="edit-client-contract-status">
+            <option value="">選択してください</option>
+            <option value="未契約">未契約</option>
+            <option value="契約中">契約中</option>
+            <option value="契約終了">契約終了</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 3px;">推定売上額（円）</label>
+          <input id="edit-client-estimated-revenue" type="number" class="input" style="width: 100%; padding: 6px 8px; font-size: 13px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px;" data-testid="edit-client-estimated-revenue" />
+        </div>
+        <div style="display: flex; gap: 8px; margin-top: 10px;">
+          <button id="btn-save-client" class="action-btn" style="flex: 1; padding: 8px; font-size: 12px;" data-testid="save-client-button">保存</button>
+          <button id="btn-cancel-edit" class="action-btn secondary" style="flex: 1; padding: 8px; font-size: 12px;" data-testid="cancel-edit-button">キャンセル</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI サマリーカード -->
+    <div class="card" style="padding: 12px;">
+      <h3 style="font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin: 0 0 10px 0;">サマリー</h3>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px; background: rgba(255,106,0,0.08); border-radius: 4px;">
+          <span style="font-size: 12px; color: var(--text-muted);">対応履歴数</span>
+          <span id="summary-interaction-count" style="font-size: 14px; font-weight: 600; color: #ff6a00;">0</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px; background: rgba(255,106,0,0.08); border-radius: 4px;">
+          <span style="font-size: 12px; color: var(--text-muted);">受注数</span>
+          <span id="summary-order-count" style="font-size: 14px; font-weight: 600; color: #ff6a00;">0</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px; background: rgba(255,106,0,0.08); border-radius: 4px;">
+          <span style="font-size: 12px; color: var(--text-muted);">進行中案件</span>
+          <span id="summary-project-count" style="font-size: 14px; font-weight: 600; color: #ff6a00;">0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ナビゲーション -->
+    <div class="card" style="padding: 12px; margin-top: auto;">
+      <button id="btn-back-dashboard" class="action-btn secondary" style="width: 100%; padding: 8px; font-size: 12px; margin-bottom: 8px;" data-testid="back-dashboard-button">
+        ダッシュボードに戻る
+      </button>
+      <button id="btn-new-interaction" class="action-btn" style="width: 100%; padding: 8px; font-size: 12px;" data-testid="new-interaction-button">
+        対応履歴を追加
+      </button>
+    </div>
+  </div>
+
+  <!-- 右パネル: タブ + 詳細情報 -->
+  <div style="flex: 1; display: flex; flex-direction: column; gap: 12px; overflow: hidden;">
+    <!-- タブバー -->
+    <div style="display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.1); background: var(--bg-card); border-radius: 4px 4px 0 0;">
+      <button id="tab-interactions" class="tab-btn" style="flex: 1; padding: 10px; font-size: 12px; font-weight: 600; color: var(--text); background: transparent; border: none; border-bottom: 2px solid var(--primary); cursor: pointer; text-align: center;" data-testid="tab-interactions">
+        対応履歴
+      </button>
+      <button id="tab-policies" class="tab-btn" style="flex: 1; padding: 10px; font-size: 12px; font-weight: 600; color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; text-align: center;" data-testid="tab-policies">
+        対応方針
+      </button>
+      <button id="tab-orders" class="tab-btn" style="flex: 1; padding: 10px; font-size: 12px; font-weight: 600; color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; text-align: center;" data-testid="tab-orders">
+        受注
+      </button>
+      <button id="tab-projects" class="tab-btn" style="flex: 1; padding: 10px; font-size: 12px; font-weight: 600; color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; text-align: center;" data-testid="tab-projects">
+        案件
+      </button>
+    </div>
+
+    <!-- タブコンテンツ -->
+    <div style="flex: 1; overflow-y: auto; display: flex; flex-direction: column;">
+      <!-- 対応履歴タブ -->
+      <div id="content-interactions" style="display: flex; flex-direction: column; gap: 12px;">
+        <div class="table-wrap" style="flex: 1;">
+          <table data-testid="interaction-list" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+            <thead>
+              <tr style="background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; width: 100px;">対応日時</th>
+                <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; width: 80px;">種別</th>
+                <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; flex: 1;">対応内容</th>
+                <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; width: 70px;">成果</th>
+                <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; width: 60px;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="interaction-tbody">
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td colspan="5" style="padding: 20px; text-align: center; color: var(--text-muted);">対応履歴がありません</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 対応方針タブ -->
+      <div id="content-policies" style="display: none; flex-direction: column; gap: 12px;">
+        <div class="table-wrap" style="flex: 1;">
+          <table data-testid="policy-list" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+            <thead>
+              <tr style="background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; width: 120px;">方針名</th>
+                <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; flex: 1;">方針内容</th>
+                <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; width: 70px;">優先度</th>
+                <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; width: 80px;">対応頻度</th>
+                <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; width: 60px;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="policy-tbody">
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td colspan="5" style="padding: 20px; text-align: center; color: var(--text-muted);">対応方針がありません</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 受注タブ -->
+      <div id="content-orders" style="display: none; flex-direction: column; gap: 12px;">
+        <div class="table-wrap" style="flex: 1;">
+          <table data-testid="order-list" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+            <thead>
+              <tr style="background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; width: 100px;">受注日</th>
+                <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; flex: 1;">商品・サービス</th>
+                <th style="padding: 8px; text-align: right; color: var(--text); font-weight: 600; width: 100px;">受注金額</th>
+                <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; width: 80px;">ステータス</th>
+                <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; width: 60px;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="order-tbody">
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td colspan="5" style="padding: 20px; text-align: center; color: var(--text-muted);">受注がありません</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 案件タブ -->
+      <div id="content-projects" style="display: none; flex-direction: column; gap: 12px;">
+        <div class="table-wrap" style="flex: 1;">
+          <table data-testid="project-list" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+            <thead>
+              <tr style="background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; flex: 1;">案件名</th>
+                <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; width: 80px;">ステータス</th>
+                <th style="padding: 8px; text-align: right; color: var(--text); font-weight: 600; width: 100px;">予想金額</th>
+                <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; width: 70px;">確度</th>
+                <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; width: 60px;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="project-tbody">
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <td colspan="5" style="padding: 20px; text-align: center; color: var(--text-muted);">案件がありません</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 隠しフィールド: クライアント ID 保持 -->
+<input type="hidden" id="current-client-id" value="" />
     </section>
   </main>
 </div>
