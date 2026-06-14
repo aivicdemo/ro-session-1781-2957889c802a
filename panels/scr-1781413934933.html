@@ -28,12 +28,12 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
   --text-muted: #b0b0b0;
   --top-bar-bg: #1a1a1a;
   --top-bar-border: #2a2a2a;
-  --accent-red: #dc143c;
-  --accent-red-hover: #ff1744;
-  --success: #4caf50;
-  --warning: #ff9800;
-  --error: #f44336;
-  --info: #2196f3;
+  --accent-red: #e63946;
+  --accent-red-hover: #f77f88;
+  --success: #06d6a0;
+  --warning: #f4a261;
+  --error: #e63946;
+  --info: #457b9d;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -130,141 +130,56 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781413934933" style="margin-top:0">
-<div style="display: flex; flex-direction: column; gap: 12px; padding: 12px; background: var(--bg-main); min-height: 100vh;">
-  
-  <!-- Breadcrumb / Sub-header -->
-  <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">
-    ROシステム / 受注データ品質管理・検証システム / 信頼度スコア分析・フィルタリング機能
+<div style="display: flex; flex-direction: column; height: 100%; gap: 0.75rem; padding: 0.75rem;">
+  <!-- ヘッダー・パンくず -->
+  <div style="border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+    <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">
+      ROシステム › 受注データ品質管理・検証システム › 信頼度スコア分析・フィルタリング機能
+    </div>
+    <h1 style="font-size: 1.25rem; font-weight: 600; color: var(--text); margin: 0;">信頼度スコア分析・フィルタリング</h1>
   </div>
 
-  <!-- Page Title -->
-  <h1 style="font-size: 20px; font-weight: 600; color: var(--text); margin: 0 0 8px 0;">
-    信頼度スコア分析・フィルタリング
-  </h1>
-
-  <!-- KPI Cards Row -->
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 12px;">
+  <!-- メインコンテンツ（3 カラム） -->
+  <div style="display: grid; grid-template-columns: 280px 1fr 220px; gap: 0.75rem; flex: 1; min-height: 0;">
     
-    <div class="card" style="padding: 12px; border-left: 3px solid #d4af37;">
-      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">総合スコア平均</div>
-      <div style="font-size: 24px; font-weight: 700; color: var(--text);" data-testid="kpi-avg-score">
-        78.5
-      </div>
-      <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">
-        ↑ 2.3% (前週比)
-      </div>
-    </div>
-
-    <div class="card" style="padding: 12px; border-left: 3px solid #d4af37;">
-      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">警告フラグ件数</div>
-      <div style="font-size: 24px; font-weight: 700; color: #ff6b6b;" data-testid="kpi-warning-count">
-        124
-      </div>
-      <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">
-        スコア ≤ 60
-      </div>
-    </div>
-
-    <div class="card" style="padding: 12px; border-left: 3px solid #d4af37;">
-      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">修正対象データ</div>
-      <div style="font-size: 24px; font-weight: 700; color: var(--text);" data-testid="kpi-correction-target">
-        87
-      </div>
-      <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">
-        優先度 1-2
-      </div>
-    </div>
-
-    <div class="card" style="padding: 12px; border-left: 3px solid #d4af37;">
-      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">修正完了率</div>
-      <div style="font-size: 24px; font-weight: 700; color: #51cf66;" data-testid="kpi-completion-rate">
-        68%
-      </div>
-      <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">
-        本週 +12%
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Main Content Grid: Filter Panel + Chart + Results -->
-  <div style="display: grid; grid-template-columns: 280px 1fr; gap: 12px; flex: 1;">
-
-    <!-- Left: Filter Panel -->
-    <div class="card" style="padding: 12px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; max-height: 600px;">
-      
-      <div style="font-size: 13px; font-weight: 600; color: var(--text);">フィルタ条件</div>
-
-      <!-- Score Range Slider -->
+    <!-- 左パネル：フィルタ条件 -->
+    <div class="card" style="display: flex; flex-direction: column; gap: 1rem; padding: 1rem; overflow-y: auto;">
       <div>
-        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 6px;">
-          信頼度スコア範囲
-        </label>
-        <input 
-          type="range" 
-          id="score-slider-min" 
-          data-testid="score-slider-min"
-          min="0" 
-          max="100" 
-          value="0" 
-          style="width: 100%; cursor: pointer; accent-color: var(--primary);"
-        />
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px;">
-          <div>
-            <label style="font-size: 10px; color: var(--text-muted); display: block; margin-bottom: 3px;">最小</label>
-            <input 
-              type="number" 
-              id="score-min-input" 
-              data-testid="score-min-input"
-              min="0" 
-              max="100" 
-              value="0" 
-              style="width: 100%; padding: 6px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);"
-            />
-          </div>
-          <div>
-            <label style="font-size: 10px; color: var(--text-muted); display: block; margin-bottom: 3px;">最大</label>
-            <input 
-              type="number" 
-              id="score-max-input" 
-              data-testid="score-max-input"
-              min="0" 
-              max="100" 
-              value="100" 
-              style="width: 100%; padding: 6px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);"
-            />
-          </div>
+        <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">信頼度スコア範囲</label>
+        <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
+          <input type="number" id="score-min" data-testid="score-min-input" min="0" max="100" value="0" style="width: 60px; padding: 0.35rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.85rem;" />
+          <span style="color: var(--text-muted); font-size: 0.85rem;">〜</span>
+          <input type="number" id="score-max" data-testid="score-max-input" min="0" max="100" value="100" style="width: 60px; padding: 0.35rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.85rem;" />
+        </div>
+        <input type="range" id="score-slider" data-testid="score-slider" min="0" max="100" value="50" style="width: 100%; accent-color: var(--primary);" />
+        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">スライダー値: <span id="slider-value">50</span></div>
+      </div>
+
+      <div style="border-top: 1px solid var(--border); padding-top: 0.75rem;">
+        <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 500;">チャネル別フィルタ</label>
+        <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+          <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text); cursor: pointer;">
+            <input type="checkbox" class="channel-filter" value="WEB" data-testid="channel-web" style="accent-color: var(--primary);" />
+            Web注文
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text); cursor: pointer;">
+            <input type="checkbox" class="channel-filter" value="TEL" data-testid="channel-tel" style="accent-color: var(--primary);" />
+            電話受注
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text); cursor: pointer;">
+            <input type="checkbox" class="channel-filter" value="STORE" data-testid="channel-store" style="accent-color: var(--primary);" />
+            店舗POS
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text); cursor: pointer;">
+            <input type="checkbox" class="channel-filter" value="API" data-testid="channel-api" style="accent-color: var(--primary);" />
+            API連携
+          </label>
         </div>
       </div>
 
-      <!-- Channel Filter -->
-      <div>
-        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 6px;">
-          チャネル
-        </label>
-        <select 
-          id="channel-filter" 
-          data-testid="channel-filter"
-          style="width: 100%; padding: 6px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); accent-color: var(--primary);"
-        >
-          <option value="">すべて</option>
-          <option value="WEB">Web注文</option>
-          <option value="TEL">電話受注</option>
-          <option value="STORE">店舗POS</option>
-          <option value="API">API連携</option>
-        </select>
-      </div>
-
-      <!-- Validation Status Filter -->
-      <div>
-        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 6px;">
-          検証結果ステータス
-        </label>
-        <select 
-          id="validation-status-filter" 
-          data-testid="validation-status-filter"
-          style="width: 100%; padding: 6px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); accent-color: var(--primary);"
-        >
+      <div style="border-top: 1px solid var(--border); padding-top: 0.75rem;">
+        <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 500;">検証結果ステータス</label>
+        <select id="validation-status" data-testid="validation-status-select" style="width: 100%; padding: 0.35rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.85rem;">
           <option value="">すべて</option>
           <option value="合格">合格</option>
           <option value="不合格">不合格</option>
@@ -273,199 +188,123 @@ canvas { display:block; max-height:280px !important; }
         </select>
       </div>
 
-      <!-- Correction History Filter -->
-      <div>
-        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 6px;">
-          修正履歴
-        </label>
-        <div style="display: flex; gap: 8px;">
-          <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text); cursor: pointer;">
-            <input 
-              type="checkbox" 
-              id="has-correction-history" 
-              data-testid="has-correction-history"
-              style="accent-color: var(--primary); cursor: pointer;"
-            />
-            あり
+      <div style="border-top: 1px solid var(--border); padding-top: 0.75rem;">
+        <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 500;">検出フラグ</label>
+        <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+          <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text); cursor: pointer;">
+            <input type="checkbox" class="flag-filter" value="修正履歴有" data-testid="flag-has-history" style="accent-color: var(--primary);" />
+            修正履歴有
           </label>
-          <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text); cursor: pointer;">
-            <input 
-              type="checkbox" 
-              id="no-correction-history" 
-              data-testid="no-correction-history"
-              style="accent-color: var(--primary); cursor: pointer;"
-            />
-            なし
+          <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text); cursor: pointer;">
+            <input type="checkbox" class="flag-filter" value="重複検出" data-testid="flag-duplicate" style="accent-color: var(--primary);" />
+            重複検出
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text); cursor: pointer;">
+            <input type="checkbox" class="flag-filter" value="チャネル矛盾" data-testid="flag-channel-conflict" style="accent-color: var(--primary);" />
+            チャネル矛盾
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text); cursor: pointer;">
+            <input type="checkbox" class="flag-filter" value="入力漏れ" data-testid="flag-missing-input" style="accent-color: var(--primary);" />
+            入力漏れ
           </label>
         </div>
       </div>
 
-      <!-- Duplicate Detection Flag -->
-      <div>
-        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 6px;">
-          重複検出フラグ
-        </label>
-        <select 
-          id="duplicate-flag-filter" 
-          data-testid="duplicate-flag-filter"
-          style="width: 100%; padding: 6px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); accent-color: var(--primary);"
-        >
+      <div style="border-top: 1px solid var(--border); padding-top: 0.75rem;">
+        <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 500;">AI_OCR信頼度</label>
+        <select id="ocr-confidence" data-testid="ocr-confidence-select" style="width: 100%; padding: 0.35rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.85rem;">
           <option value="">すべて</option>
-          <option value="true">重複あり</option>
-          <option value="false">重複なし</option>
+          <option value="高">高（80以上）</option>
+          <option value="中">中（50-79）</option>
+          <option value="低">低（50未満）</option>
         </select>
       </div>
 
-      <!-- Channel Contradiction Flag -->
-      <div>
-        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 6px;">
-          チャネル間矛盾フラグ
-        </label>
-        <select 
-          id="contradiction-flag-filter" 
-          data-testid="contradiction-flag-filter"
-          style="width: 100%; padding: 6px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); accent-color: var(--primary);"
-        >
+      <div style="border-top: 1px solid var(--border); padding-top: 0.75rem;">
+        <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 500;">音声ガイダンス一致度</label>
+        <select id="voice-match" data-testid="voice-match-select" style="width: 100%; padding: 0.35rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.85rem;">
           <option value="">すべて</option>
-          <option value="true">矛盾あり</option>
-          <option value="false">矛盾なし</option>
+          <option value="完全一致">完全一致</option>
+          <option value="部分一致">部分一致</option>
+          <option value="不一致">不一致</option>
+          <option value="未確認">未確認</option>
         </select>
       </div>
 
-      <!-- Input Omission Flag -->
-      <div>
-        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 6px;">
-          入力漏れ検出フラグ
-        </label>
-        <select 
-          id="omission-flag-filter" 
-          data-testid="omission-flag-filter"
-          style="width: 100%; padding: 6px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); accent-color: var(--primary);"
-        >
-          <option value="">すべて</option>
-          <option value="true">漏れあり</option>
-          <option value="false">漏れなし</option>
-        </select>
+      <div style="display: flex; gap: 0.5rem; margin-top: auto;">
+        <button id="btn-filter" data-testid="apply-filter-button" class="action-btn" style="flex: 1; padding: 0.5rem; font-size: 0.85rem;">フィルタ適用</button>
+        <button id="btn-reset" data-testid="reset-filter-button" class="action-btn secondary" style="flex: 1; padding: 0.5rem; font-size: 0.85rem;">リセット</button>
       </div>
-
-      <!-- AI-OCR Confidence Filter -->
-      <div>
-        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 6px;">
-          AI_OCR信頼度
-        </label>
-        <select 
-          id="ocr-confidence-filter" 
-          data-testid="ocr-confidence-filter"
-          style="width: 100%; padding: 6px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); accent-color: var(--primary);"
-        >
-          <option value="">すべて</option>
-          <option value="high">高 (≥80)</option>
-          <option value="medium">中 (60-79)</option>
-          <option value="low">低 (&lt;60)</option>
-        </select>
-      </div>
-
-      <!-- Voice Guidance Alignment Filter -->
-      <div>
-        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 6px;">
-          音声ガイダンス一致度
-        </label>
-        <select 
-          id="voice-alignment-filter" 
-          data-testid="voice-alignment-filter"
-          style="width: 100%; padding: 6px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); accent-color: var(--primary);"
-        >
-          <option value="">すべて</option>
-          <option value="perfect">完全一致</option>
-          <option value="partial">部分一致</option>
-          <option value="mismatch">不一致</option>
-          <option value="none">記録なし</option>
-        </select>
-      </div>
-
-      <!-- Action Buttons -->
-      <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 8px;">
-        <button 
-          id="btn-search" 
-          data-testid="search-button"
-          class="action-btn" 
-          style="background: var(--primary); color: #fff; border: none; padding: 8px 12px; font-size: 12px; border-radius: 3px; cursor: pointer; font-weight: 600;"
-        >
-          フィルタ適用
-        </button>
-        <button 
-          id="btn-reset" 
-          data-testid="reset-button"
-          class="action-btn secondary" 
-          style="background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 8px 12px; font-size: 12px; border-radius: 3px; cursor: pointer;"
-        >
-          リセット
-        </button>
-      </div>
-
     </div>
 
-    <!-- Right: Chart + Results -->
-    <div style="display: flex; flex-direction: column; gap: 12px;">
-
-      <!-- Score Distribution Chart -->
-      <div class="card" style="padding: 12px;">
-        <div style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px;">
-          スコア分布ヒストグラム
-        </div>
-        <canvas 
-          id="score-histogram" 
-          data-testid="score-histogram"
-          width="400" 
-          height="200" 
-          style="width: 100%; height: auto; border-radius: 3px; background: rgba(0,0,0,0.1);"
-        ></canvas>
+    <!-- 中央パネル：グラフ + テーブル -->
+    <div style="display: flex; flex-direction: column; gap: 0.75rem; min-height: 0;">
+      <!-- スコア分布グラフ -->
+      <div class="card" style="padding: 0.75rem; height: 200px;">
+        <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 500;">信頼度スコア分布</div>
+        <canvas id="score-distribution-chart" data-testid="score-chart" style="width: 100%; height: 160px; border: 1px solid var(--border); border-radius: 3px; background: rgba(0,0,0,0.15);"></canvas>
       </div>
 
-      <!-- Results Table -->
-      <div class="card" style="padding: 12px; flex: 1; display: flex; flex-direction: column;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <div style="font-size: 13px; font-weight: 600; color: var(--text);">
-            フィルタ結果 (<span id="result-count" data-testid="result-count">0</span>件)
-          </div>
-          <button 
-            id="btn-export-csv" 
-            data-testid="export-csv-button"
-            class="action-btn secondary" 
-            style="background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 6px 10px; font-size: 11px; border-radius: 3px; cursor: pointer;"
-          >
-            CSVエクスポート
-          </button>
+      <!-- フィルタ結果テーブル -->
+      <div class="card" style="display: flex; flex-direction: column; gap: 0.5rem; flex: 1; min-height: 0; padding: 0.75rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">フィルタ結果（<span id="result-count">0</span>件）</div>
+          <button id="btn-export-csv" data-testid="export-csv-button" class="action-btn secondary" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">CSV出力</button>
         </div>
-        <div class="table-wrap" style="flex: 1; overflow-y: auto;">
-          <table data-testid="record-list" style="width: 100%; font-size: 12px; border-collapse: collapse;">
-            <thead>
-              <tr style="background: rgba(0,0,0,0.15); border-bottom: 1px solid rgba(255,255,255,0.1);">
-                <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1);">受注ID</th>
-                <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1);">総合スコア</th>
-                <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1);">完全性</th>
-                <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1);">正確性</th>
-                <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1);">一貫性</th>
-                <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1);">チャネル</th>
-                <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1);">検証ステータス</th>
-                <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1);">警告</th>
-                <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1);">重複</th>
-                <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1);">矛盾</th>
-                <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1);">漏れ</th>
-                <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600;">操作</th>
+        <div class="table-wrap" style="flex: 1; overflow-y: auto; border: 1px solid var(--border); border-radius: 3px;">
+          <table data-testid="filter-result-table" style="width: 100%; font-size: 0.85rem;">
+            <thead style="position: sticky; top: 0; background: rgba(0,0,0,0.2);">
+              <tr>
+                <th style="padding: 0.5rem; text-align: left; color: var(--text); border-bottom: 1px solid var(--border);">受注ID</th>
+                <th style="padding: 0.5rem; text-align: left; color: var(--text); border-bottom: 1px solid var(--border);">総合スコア</th>
+                <th style="padding: 0.5rem; text-align: left; color: var(--text); border-bottom: 1px solid var(--border);">チャネル</th>
+                <th style="padding: 0.5rem; text-align: left; color: var(--text); border-bottom: 1px solid var(--border);">ステータス</th>
+                <th style="padding: 0.5rem; text-align: left; color: var(--text); border-bottom: 1px solid var(--border);">警告</th>
+                <th style="padding: 0.5rem; text-align: center; color: var(--text); border-bottom: 1px solid var(--border);">操作</th>
               </tr>
             </thead>
-            <tbody id="result-tbody" data-testid="result-tbody">
-              <!-- Rows will be inserted here -->
+            <tbody id="filter-result-tbody">
+              <tr style="background: rgba(0,0,0,0.1);">
+                <td colspan="6" style="padding: 1rem; text-align: center; color: var(--text-muted); font-size: 0.8rem;">フィルタを適用してください</td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
-
     </div>
 
-  </div>
+    <!-- 右パネル：KPI サマリー -->
+    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+      <div class="card" style="padding: 0.75rem; background: linear-gradient(135deg, rgba(255,106,0,0.1), rgba(255,106,0,0.05)); border-left: 3px solid #ff6a00;">
+        <div style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.25rem;">平均スコア</div>
+        <div style="font-size: 1.5rem; font-weight: 700; color: #ff6a00;" id="avg-score">—</div>
+        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">全フィルタ結果</div>
+      </div>
 
+      <div class="card" style="padding: 0.75rem; background: linear-gradient(135deg, rgba(76,175,80,0.1), rgba(76,175,80,0.05)); border-left: 3px solid #4caf50;">
+        <div style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.25rem;">合格件数</div>
+        <div style="font-size: 1.5rem; font-weight: 700; color: #4caf50;" id="pass-count">0</div>
+        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">検証結果</div>
+      </div>
+
+      <div class="card" style="padding: 0.75rem; background: linear-gradient(135deg, rgba(244,67,54,0.1), rgba(244,67,54,0.05)); border-left: 3px solid #f44336;">
+        <div style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.25rem;">不合格件数</div>
+        <div style="font-size: 1.5rem; font-weight: 700; color: #f44336;" id="fail-count">0</div>
+        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">要修正</div>
+      </div>
+
+      <div class="card" style="padding: 0.75rem; background: linear-gradient(135deg, rgba(255,193,7,0.1), rgba(255,193,7,0.05)); border-left: 3px solid #ffc107;">
+        <div style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.25rem;">警告件数</div>
+        <div style="font-size: 1.5rem; font-weight: 700; color: #ffc107;" id="warning-count">0</div>
+        <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">要確認</div>
+      </div>
+
+      <div style="border-top: 1px solid var(--border); padding-top: 0.75rem; margin-top: auto;">
+        <button id="btn-detail-analysis" data-testid="detail-analysis-button" class="action-btn" style="width: 100%; padding: 0.5rem; font-size: 0.85rem; margin-bottom: 0.5rem;">詳細分析へ</button>
+        <button id="btn-dashboard" data-testid="dashboard-button" class="action-btn secondary" style="width: 100%; padding: 0.5rem; font-size: 0.85rem;">ダッシュボード</button>
+      </div>
+    </div>
+  </div>
 </div>
     </section>
   </main>
