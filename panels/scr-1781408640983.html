@@ -105,8 +105,10 @@ canvas { display:block; max-height:280px !important; }
 <div style="display: grid; grid-template-columns: 320px 1fr; gap: 12px; height: 100%; padding: 12px;">
   
   <!-- 左パネル：連携仕様一覧 -->
-  <div style="display: flex; flex-direction: column; gap: 8px; border-right: 1px solid rgba(255,255,255,0.1); padding-right: 12px; overflow-y: auto;">
-    <div style="font-size: 13px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px;">連携仕様</div>
+  <div style="display: flex; flex-direction: column; gap: 8px; border-right: 1px solid rgba(255,255,255,0.1); padding-right: 12px;">
+    <div>
+      <h3 style="font-size: 13px; font-weight: 600; color: var(--text); margin: 0 0 8px 0; text-transform: uppercase; letter-spacing: 0.5px;">連携仕様</h3>
+    </div>
     
     <!-- 検索フォーム -->
     <div style="display: flex; gap: 4px;">
@@ -115,13 +117,13 @@ canvas { display:block; max-height:280px !important; }
         id="search-spec-name" 
         data-testid="search-spec-name"
         placeholder="仕様名で検索..." 
-        style="flex: 1; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; outline: none;"
+        style="flex: 1; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);"
       />
       <button 
         id="btn-search-spec" 
         data-testid="search-spec-button"
         class="action-btn" 
-        style="padding: 6px 10px; font-size: 12px;"
+        style="padding: 6px 12px; font-size: 12px; width: auto;"
       >検索</button>
     </div>
     
@@ -130,15 +132,20 @@ canvas { display:block; max-height:280px !important; }
       id="btn-new-spec" 
       data-testid="new-spec-button"
       class="action-btn" 
-      style="width: 100%; padding: 8px; font-size: 12px; font-weight: 600;"
+      style="padding: 8px 12px; font-size: 12px; width: 100%;"
     >+ 新規作成</button>
     
     <!-- 一覧テーブル -->
     <div style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.1); border-radius: 3px; background: rgba(0,0,0,0.15);">
-      <table data-testid="spec-list" style="width: 100%; font-size: 12px; border-collapse: collapse;">
-        <tbody id="spec-tbody">
-          <tr style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); cursor: pointer; transition: background 0.15s;">
-            <td style="padding: 8px; color: var(--text-muted);">読込中...</td>
+      <table data-testid="spec-list" style="width: 100%; font-size: 11px; border-collapse: collapse;">
+        <thead style="position: sticky; top: 0; background: rgba(0,0,0,0.3);">
+          <tr>
+            <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">仕様名</th>
+          </tr>
+        </thead>
+        <tbody id="spec-list-tbody">
+          <tr style="background: rgba(255,255,255,0.02);">
+            <td style="padding: 6px 8px; color: var(--text-muted);">読込中...</td>
           </tr>
         </tbody>
       </table>
@@ -146,207 +153,272 @@ canvas { display:block; max-height:280px !important; }
   </div>
 
   <!-- 右パネル：詳細編集 -->
-  <div style="display: flex; flex-direction: column; gap: 8px; overflow-y: auto;">
-    <div id="detail-panel" style="display: none; flex: 1; overflow-y: auto;">
+  <div style="display: flex; flex-direction: column; gap: 8px;">
+    <div id="detail-panel" style="flex: 1; display: flex; flex-direction: column; gap: 8px; overflow: hidden;">
+      
       <!-- タブ -->
-      <div style="display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px;">
+      <div style="display: flex; gap: 2px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0;">
         <button 
           class="tab-btn" 
           data-tab="basic" 
           data-testid="tab-basic"
-          style="padding: 8px 12px; font-size: 12px; font-weight: 600; color: var(--text); background: transparent; border: none; border-bottom: 2px solid var(--primary); cursor: pointer;"
+          style="padding: 8px 12px; font-size: 12px; background: transparent; border: none; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s;"
         >基本情報</button>
         <button 
           class="tab-btn" 
           data-tab="mapping" 
           data-testid="tab-mapping"
-          style="padding: 8px 12px; font-size: 12px; font-weight: 600; color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer;"
-        >マッピング</button>
+          style="padding: 8px 12px; font-size: 12px; background: transparent; border: none; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s;"
+        >データマッピング</button>
         <button 
           class="tab-btn" 
           data-tab="validation" 
           data-testid="tab-validation"
-          style="padding: 8px 12px; font-size: 12px; font-weight: 600; color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer;"
+          style="padding: 8px 12px; font-size: 12px; background: transparent; border: none; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s;"
         >バリデーション</button>
         <button 
           class="tab-btn" 
           data-tab="test" 
           data-testid="tab-test"
-          style="padding: 8px 12px; font-size: 12px; font-weight: 600; color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer;"
+          style="padding: 8px 12px; font-size: 12px; background: transparent; border: none; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s;"
         >テスト</button>
       </div>
 
-      <!-- タブ1：基本情報 -->
-      <div id="tab-basic-content" class="tab-content" style="display: block;">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">連携仕様名 *</label>
-            <input 
-              type="text" 
-              id="spec-name" 
-              data-testid="spec-name"
-              placeholder="例：受注データ連携" 
-              style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; outline: none;"
-            />
+      <!-- タブコンテンツ -->
+      <div style="flex: 1; overflow-y: auto;">
+        
+        <!-- タブ: 基本情報 -->
+        <div id="tab-basic-content" class="tab-content" style="display: none; padding: 12px; background: var(--bg-card); border-radius: 3px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">連携仕様名 *</label>
+              <input 
+                type="text" 
+                id="spec-name" 
+                data-testid="spec-name"
+                placeholder="例：受注データ連携" 
+                style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);"
+              />
+            </div>
+            <div>
+              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">連携方向 *</label>
+              <select 
+                id="spec-direction" 
+                data-testid="spec-direction"
+                style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); accent-color: var(--primary);"
+              >
+                <option value="">選択してください</option>
+                <option value="受信">受信</option>
+                <option value="送信">送信</option>
+                <option value="双方向">双方向</option>
+              </select>
+            </div>
+            <div>
+              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">連携対象システム *</label>
+              <input 
+                type="text" 
+                id="spec-system" 
+                data-testid="spec-system"
+                placeholder="例：基幹システムA" 
+                style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);"
+              />
+            </div>
+            <div>
+              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">連携対象テーブル *</label>
+              <select 
+                id="spec-table" 
+                data-testid="spec-table"
+                style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); accent-color: var(--primary);"
+              >
+                <option value="">選択してください</option>
+                <option value="受注データ">受注データ</option>
+                <option value="顧客マスタ">顧客マスタ</option>
+                <option value="チャネルマスタ">チャネルマスタ</option>
+              </select>
+            </div>
+            <div>
+              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">連携周期 *</label>
+              <select 
+                id="spec-cycle" 
+                data-testid="spec-cycle"
+                style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); accent-color: var(--primary);"
+              >
+                <option value="">選択してください</option>
+                <option value="リアルタイム">リアルタイム</option>
+                <option value="日次">日次</option>
+                <option value="週次">週次</option>
+                <option value="月次">月次</option>
+              </select>
+            </div>
+            <div>
+              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">ステータス *</label>
+              <select 
+                id="spec-status" 
+                data-testid="spec-status"
+                style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); accent-color: var(--primary);"
+              >
+                <option value="">選択してください</option>
+                <option value="有効">有効</option>
+                <option value="無効">無効</option>
+                <option value="テスト中">テスト中</option>
+              </select>
+            </div>
           </div>
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">連携対象システム *</label>
-            <select 
-              id="spec-target-system" 
-              data-testid="spec-target-system"
-              style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; outline: none; accent-color: var(--primary);"
-            >
-              <option value="">選択してください</option>
-              <option value="SAP">SAP</option>
-              <option value="Oracle">Oracle ERP</option>
-              <option value="NetSuite">NetSuite</option>
-              <option value="Custom">カスタムシステム</option>
-            </select>
-          </div>
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">連携対象テーブル *</label>
-            <select 
-              id="spec-target-table" 
-              data-testid="spec-target-table"
-              style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; outline: none; accent-color: var(--primary);"
-            >
-              <option value="">選択してください</option>
-              <option value="受注データ">受注データ</option>
-              <option value="顧客マスタ">顧客マスタ</option>
-              <option value="チャネルマスタ">チャネルマスタ</option>
-              <option value="受注集計">受注集計</option>
-            </select>
-          </div>
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">連携方向 *</label>
-            <select 
-              id="spec-direction" 
-              data-testid="spec-direction"
-              style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; outline: none; accent-color: var(--primary);"
-            >
-              <option value="">選択してください</option>
-              <option value="受信">受信</option>
-              <option value="送信">送信</option>
-              <option value="双方向">双方向</option>
-            </select>
-          </div>
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">連携周期 *</label>
-            <select 
-              id="spec-frequency" 
-              data-testid="spec-frequency"
-              style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; outline: none; accent-color: var(--primary);"
-            >
-              <option value="">選択してください</option>
-              <option value="リアルタイム">リアルタイム</option>
-              <option value="日次">日次</option>
-              <option value="週次">週次</option>
-              <option value="月次">月次</option>
-            </select>
-          </div>
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">ステータス *</label>
-            <select 
-              id="spec-status" 
-              data-testid="spec-status"
-              style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; outline: none; accent-color: var(--primary);"
-            >
-              <option value="">選択してください</option>
-              <option value="有効">有効</option>
-              <option value="無効">無効</option>
-              <option value="テスト中">テスト中</option>
-            </select>
+          <div style="margin-top: 12px;">
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">説明</label>
+            <textarea 
+              id="spec-description" 
+              data-testid="spec-description"
+              placeholder="連携仕様の詳細説明..." 
+              style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); min-height: 60px; resize: vertical;"
+            ></textarea>
           </div>
         </div>
-        <div style="margin-top: 12px;">
-          <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">説明</label>
-          <textarea 
-            id="spec-description" 
-            data-testid="spec-description"
-            placeholder="連携仕様の詳細説明..." 
-            style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; outline: none; resize: vertical; min-height: 60px;"
-          ></textarea>
+
+        <!-- タブ: データマッピング -->
+        <div id="tab-mapping-content" class="tab-content" style="display: none; padding: 12px; background: var(--bg-card); border-radius: 3px;">
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">チャネル選択</label>
+            <select 
+              id="mapping-channel" 
+              data-testid="mapping-channel"
+              style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); accent-color: var(--primary);"
+            >
+              <option value="">選択してください</option>
+              <option value="ONLINE">オンライン</option>
+              <option value="STORE">店舗</option>
+              <option value="WHOLESALE">卸売</option>
+            </select>
+          </div>
+          <div style="border: 1px solid rgba(255,255,255,0.1); border-radius: 3px; padding: 8px; background: rgba(0,0,0,0.15);">
+            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500;">マッピング設定</div>
+            <table data-testid="mapping-table" style="width: 100%; font-size: 11px; border-collapse: collapse;">
+              <thead>
+                <tr style="background: rgba(0,0,0,0.3);">
+                  <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">ローカルカラム</th>
+                  <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">基幹システムカラム</th>
+                  <th style="padding: 6px 8px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">操作</th>
+                </tr>
+              </thead>
+              <tbody id="mapping-tbody">
+                <tr style="background: rgba(255,255,255,0.02);">
+                  <td colspan="3" style="padding: 8px; text-align: center; color: var(--text-muted); font-size: 11px;">マッピングを追加してください</td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="margin-top: 8px;">
+              <button 
+                id="btn-add-mapping" 
+                data-testid="add-mapping-button"
+                class="action-btn secondary" 
+                style="padding: 6px 12px; font-size: 11px; width: auto;"
+              >+ マッピング追加</button>
+            </div>
+          </div>
         </div>
-        <div style="display: flex; gap: 8px; margin-top: 12px;">
-          <button 
-            id="btn-save-spec" 
-            data-testid="save-spec-button"
-            class="action-btn" 
-            style="flex: 1; padding: 8px; font-size: 12px; font-weight: 600;"
-          >保存</button>
-          <button 
-            id="btn-delete-spec" 
-            data-testid="delete-spec-button"
-            class="action-btn secondary" 
-            style="flex: 1; padding: 8px; font-size: 12px; font-weight: 600;"
-          >削除</button>
+
+        <!-- タブ: バリデーション -->
+        <div id="tab-validation-content" class="tab-content" style="display: none; padding: 12px; background: var(--bg-card); border-radius: 3px;">
+          <div style="border: 1px solid rgba(255,255,255,0.1); border-radius: 3px; padding: 8px; background: rgba(0,0,0,0.15);">
+            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500;">バリデーションルール</div>
+            <table data-testid="validation-table" style="width: 100%; font-size: 11px; border-collapse: collapse;">
+              <thead>
+                <tr style="background: rgba(0,0,0,0.3);">
+                  <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">ルール名</th>
+                  <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">対象カラム</th>
+                  <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">ルールタイプ</th>
+                  <th style="padding: 6px 8px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">操作</th>
+                </tr>
+              </thead>
+              <tbody id="validation-tbody">
+                <tr style="background: rgba(255,255,255,0.02);">
+                  <td colspan="4" style="padding: 8px; text-align: center; color: var(--text-muted); font-size: 11px;">ルールを追加してください</td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="margin-top: 8px;">
+              <button 
+                id="btn-add-validation" 
+                data-testid="add-validation-button"
+                class="action-btn secondary" 
+                style="padding: 6px 12px; font-size: 11px; width: auto;"
+              >+ ルール追加</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- タブ: テスト -->
+        <div id="tab-test-content" class="tab-content" style="display: none; padding: 12px; background: var(--bg-card); border-radius: 3px;">
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">テストデータ（JSON）</label>
+            <textarea 
+              id="test-data" 
+              data-testid="test-data"
+              placeholder='{"受注ID":"xxx","受注番号":"ORD-001",...}' 
+              style="width: 100%; padding: 6px 8px; font-size: 11px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-family: monospace; min-height: 120px; resize: vertical;"
+            ></textarea>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button 
+              id="btn-run-test" 
+              data-testid="run-test-button"
+              class="action-btn" 
+              style="padding: 8px 16px; font-size: 12px; flex: 1;"
+            >テスト実行</button>
+            <button 
+              id="btn-clear-test" 
+              data-testid="clear-test-button"
+              class="action-btn secondary" 
+              style="padding: 8px 16px; font-size: 12px; flex: 1;"
+            >クリア</button>
+          </div>
+          <div id="test-result" style="margin-top: 12px; padding: 8px; border-radius: 3px; background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); display: none;">
+            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">テスト結果</div>
+            <div id="test-result-content" style="font-size: 11px; color: var(--text); font-family: monospace; white-space: pre-wrap; word-break: break-all;"></div>
+          </div>
         </div>
       </div>
 
-      <!-- タブ2：マッピング -->
-      <div id="tab-mapping-content" class="tab-content" style="display: none;">
-        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">連携元フィールド ↔ 連携先フィールド のマッピングを設定</div>
-        <div id="mapping-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 300px; overflow-y: auto;">
-          <!-- マッピング行が動的に追加される -->
-        </div>
+      <!-- アクションボタン -->
+      <div style="display: flex; gap: 8px; padding: 12px; border-top: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.1);">
         <button 
-          id="btn-add-mapping" 
-          data-testid="add-mapping-button"
-          class="action-btn secondary" 
-          style="width: 100%; padding: 6px; font-size: 12px; margin-top: 8px;"
-        >+ マッピング追加</button>
-      </div>
-
-      <!-- タブ3：バリデーション -->
-      <div id="tab-validation-content" class="tab-content" style="display: none;">
-        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">このテーブルに適用するバリデーションルール</div>
-        <div id="validation-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 300px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.1); border-radius: 3px; padding: 8px; background: rgba(0,0,0,0.15);">
-          <!-- バリデーションルール行が動的に追加される -->
-        </div>
+          id="btn-save-spec" 
+          data-testid="save-spec-button"
+          class="action-btn" 
+          style="padding: 8px 16px; font-size: 12px; flex: 1;"
+        >保存</button>
         <button 
-          id="btn-add-validation" 
-          data-testid="add-validation-button"
+          id="btn-delete-spec" 
+          data-testid="delete-spec-button"
           class="action-btn secondary" 
-          style="width: 100%; padding: 6px; font-size: 12px; margin-top: 8px;"
-        >+ ルール追加</button>
-      </div>
-
-      <!-- タブ4：テスト -->
-      <div id="tab-test-content" class="tab-content" style="display: none;">
-        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">テストデータを入力して連携仕様をテスト実行</div>
-        <div id="test-input-form" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
-          <!-- テスト入力フィールドが動的に追加される -->
-        </div>
-        <div style="display: flex; gap: 8px;">
-          <button 
-            id="btn-run-test" 
-            data-testid="run-test-button"
-            class="action-btn" 
-            style="flex: 1; padding: 8px; font-size: 12px; font-weight: 600;"
-          >テスト実行</button>
-          <button 
-            id="btn-clear-test" 
-            data-testid="clear-test-button"
-            class="action-btn secondary" 
-            style="flex: 1; padding: 8px; font-size: 12px;"
-          >クリア</button>
-        </div>
-        <div id="test-result" style="margin-top: 12px; padding: 8px; border-radius: 3px; background: rgba(0,0,0,0.15); border-left: 3px solid var(--primary); display: none;">
-          <div style="font-size: 11px; font-weight: 600; color: var(--text); margin-bottom: 4px;">テスト結果</div>
-          <div id="test-result-content" style="font-size: 12px; color: var(--text); white-space: pre-wrap; font-family: monospace;"></div>
-        </div>
+          style="padding: 8px 16px; font-size: 12px; flex: 1;"
+        >削除</button>
+        <button 
+          id="btn-cancel-spec" 
+          data-testid="cancel-spec-button"
+          class="action-btn secondary" 
+          style="padding: 8px 16px; font-size: 12px; flex: 1;"
+        >キャンセル</button>
       </div>
     </div>
 
-    <!-- 初期表示：仕様を選択してください -->
-    <div id="no-selection" style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); font-size: 13px; text-align: center;">
+    <!-- 初期状態：仕様を選択してください -->
+    <div id="no-selection-panel" style="flex: 1; display: flex; align-items: center; justify-content: center; background: var(--bg-card); border-radius: 3px; border: 1px dashed rgba(255,255,255,0.1); color: var(--text-muted); font-size: 13px; text-align: center; padding: 20px;">
       <div>
-        <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">連携仕様を選択</div>
-        <div style="font-size: 12px;">左側の一覧から仕様を選択するか、新規作成してください</div>
+        <div style="font-size: 14px; margin-bottom: 8px;">📋</div>
+        <div>左側から連携仕様を選択するか、</div>
+        <div>新規作成ボタンで新しい仕様を作成してください</div>
       </div>
     </div>
   </div>
 </div>
+
+<style>
+  .tab-btn.active {
+    color: var(--primary) !important;
+    border-bottom-color: var(--primary) !important;
+  }
+</style>
     </section>
   </main>
 </div>
