@@ -19,24 +19,21 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f4d03f;
-  --secondary: #c41e3a;
-  --secondary-hover: #e63946;
+  --primary-hover: #f0c856;
   --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
-  --bg-sidebar: #161616;
-  --bg-hover: #252525;
-  --border: #3a3a3a;
+  --bg-sidebar: #151515;
+  --border: #2a2a2a;
   --text: #f5f5f5;
   --text-muted: #b0b0b0;
   --top-bar-bg: #1a1a1a;
-  --top-bar-border: #3a3a3a;
-  --success: #4ade80;
-  --warning: #facc15;
-  --error: #ef4444;
-  --info: #60a5fa;
-  --shadow: rgba(0, 0, 0, 0.5);
-  --focus-ring: #d4af37;
+  --top-bar-border: #2a2a2a;
+  --accent-red: #e63946;
+  --accent-red-hover: #f77f88;
+  --success: #2a9d8f;
+  --warning: #e76f51;
+  --error: #d62828;
+  --info: #457b9d;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -80,7 +77,6 @@ canvas { display:block; max-height:280px !important; }
 <header class="top-bar">
   <span class="app-name">ROシステム</span>
     <a href="./scr-1781408454309.html" class="sys-tab" data-aivic-nav-system="itg-2">基幹システム連携・データ検証インターフェース</a>
-    <a href="./scr-1781408811435.html" class="sys-tab" data-aivic-nav-system="itg-3">営業支援・クライアント情報統合ダッシュボード</a>
     <a href="./scr-1781413262699.html" class="sys-tab active" data-aivic-nav-system="itg-1">受注データ品質管理・検証システム</a>
 </header>
 <div class="app-body">
@@ -133,197 +129,191 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781413262699" style="margin-top:0">
-<div style="padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--bg-main);">
-  <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">
-    ROシステム・受注データ品質管理・検証システム・受注データ検証ダッシュボード
+<div style="display: flex; flex-direction: column; gap: 12px; padding: 12px; height: 100%; overflow-y: auto;">
+  
+  <!-- ヘッダー / Breadcrumb -->
+  <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
+    <div>
+      <h1 style="margin: 0; font-size: 20px; font-weight: 600; color: var(--text);">受注データ検証ダッシュボード</h1>
+      <p style="margin: 4px 0 0 0; font-size: 12px; color: var(--text-muted);">ROシステム・受注データ品質管理・検証システム</p>
+    </div>
+    <button class="action-btn" data-testid="ocr-confirm-button" style="padding: 6px 12px; font-size: 12px;">
+      🎙️ AI_OCR読み込み結果確認
+    </button>
   </div>
-  <h1 style="margin: 0; font-size: 20px; font-weight: 600; color: var(--text);">受注データ検証ダッシュボード</h1>
-</div>
 
-<!-- KPI カード群（4 枚） -->
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; padding: 12px 16px; background: var(--bg-main);">
-  <div class="card" style="padding: 12px; border-left: 3px solid #ff6a00;">
-    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">未検証受注件数</div>
-    <div style="font-size: 24px; font-weight: 700; color: var(--text);" data-testid="kpi-unvalidated">0</div>
+  <!-- KPI カード群（4枚） -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+    <div class="card" style="padding: 12px; border-left: 3px solid #ff6a00;">
+      <p style="margin: 0 0 4px 0; font-size: 11px; color: var(--text-muted); font-weight: 500;">未検証受注件数</p>
+      <p style="margin: 0; font-size: 24px; font-weight: 700; color: #ff6a00;" data-testid="kpi-unvalidated">0</p>
+    </div>
+    <div class="card" style="padding: 12px; border-left: 3px solid #e74c3c;">
+      <p style="margin: 0 0 4px 0; font-size: 11px; color: var(--text-muted); font-weight: 500;">エラー検出件数</p>
+      <p style="margin: 0; font-size: 24px; font-weight: 700; color: #e74c3c;" data-testid="kpi-errors">0</p>
+    </div>
+    <div class="card" style="padding: 12px; border-left: 3px solid #f39c12;">
+      <p style="margin: 0 0 4px 0; font-size: 11px; color: var(--text-muted); font-weight: 500;">警告件数</p>
+      <p style="margin: 0; font-size: 24px; font-weight: 700; color: #f39c12;" data-testid="kpi-warnings">0</p>
+    </div>
+    <div class="card" style="padding: 12px; border-left: 3px solid #27ae60;">
+      <p style="margin: 0 0 4px 0; font-size: 11px; color: var(--text-muted); font-weight: 500;">検証完了件数</p>
+      <p style="margin: 0; font-size: 24px; font-weight: 700; color: #27ae60;" data-testid="kpi-completed">0</p>
+    </div>
   </div>
-  <div class="card" style="padding: 12px; border-left: 3px solid #e74c3c;">
-    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">エラー検出件数</div>
-    <div style="font-size: 24px; font-weight: 700; color: var(--text);" data-testid="kpi-errors">0</div>
-  </div>
-  <div class="card" style="padding: 12px; border-left: 3px solid #f39c12;">
-    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">警告件数</div>
-    <div style="font-size: 24px; font-weight: 700; color: var(--text);" data-testid="kpi-warnings">0</div>
-  </div>
-  <div class="card" style="padding: 12px; border-left: 3px solid #27ae60;">
-    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">検証完了件数</div>
-    <div style="font-size: 24px; font-weight: 700; color: var(--text);" data-testid="kpi-completed">0</div>
-  </div>
-</div>
 
-<!-- グラフセクション（信頼度スコア分布） -->
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 16px; background: var(--bg-main);">
-  <div class="card" style="padding: 12px;">
-    <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px;">信頼度スコア分布</div>
+  <!-- グラフ群（2列） -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+    <!-- 信頼度スコア分布 -->
+    <div class="card" style="padding: 10px;">
+      <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 600; color: var(--text);">信頼度スコア分布</p>
+      <div class="chart-wrap" style="position: relative; height: 240px; max-height: 260px;">
+        <canvas id="chart-score-distribution"></canvas>
+      </div>
+    </div>
+    <!-- チャネル別受注件数 -->
+    <div class="card" style="padding: 10px;">
+      <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 600; color: var(--text);">チャネル別受注件数</p>
+      <div class="chart-wrap" style="position: relative; height: 240px; max-height: 260px;">
+        <canvas id="chart-channel-orders"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- 検証ステータス別件数（円グラフ） -->
+  <div class="card" style="padding: 10px;">
+    <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 600; color: var(--text);">検証ステータス別件数</p>
     <div class="chart-wrap" style="position: relative; height: 240px; max-height: 260px;">
-      <canvas id="chart-score-distribution"></canvas>
+      <canvas id="chart-validation-status"></canvas>
     </div>
   </div>
-  <div class="card" style="padding: 12px;">
-    <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px;">検証ステータス別件数</div>
-    <div class="chart-wrap" style="position: relative; height: 240px; max-height: 260px;">
-      <canvas id="chart-status-breakdown"></canvas>
+
+  <!-- チャネル別受注データ一覧 -->
+  <div class="card" style="padding: 10px;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+      <p style="margin: 0; font-size: 12px; font-weight: 600; color: var(--text);">チャネル別受注データ一覧</p>
+      <button class="action-btn secondary" data-testid="channel-list-refresh" style="padding: 4px 8px; font-size: 11px;">更新</button>
     </div>
-  </div>
-</div>
-
-<!-- 検証結果サマリー＆フィルタ -->
-<div style="padding: 12px 16px; background: var(--bg-main); border-bottom: 1px solid var(--border);">
-  <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-    <label style="font-size: 11px; color: var(--text-muted);">検証ステータス:</label>
-    <select id="filter-status" data-testid="status-filter" style="padding: 4px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;">
-      <option value="">すべて</option>
-      <option value="合格">合格</option>
-      <option value="不合格">不合格</option>
-      <option value="警告">警告</option>
-      <option value="保留">保留</option>
-    </select>
-    <label style="font-size: 11px; color: var(--text-muted); margin-left: 12px;">重要度:</label>
-    <select id="filter-severity" data-testid="severity-filter" style="padding: 4px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;">
-      <option value="">すべて</option>
-      <option value="致命的">致命的</option>
-      <option value="高">高</option>
-      <option value="中">中</option>
-      <option value="低">低</option>
-    </select>
-    <button id="btn-filter-apply" data-testid="filter-apply-button" class="action-btn" style="margin-left: auto; padding: 4px 12px; font-size: 12px;">フィルタ適用</button>
-    <button id="btn-ocr-confirm" data-testid="ocr-confirm-button" class="action-btn secondary" style="padding: 4px 12px; font-size: 12px;">AI_OCR読み込み確認</button>
-  </div>
-</div>
-
-<!-- タブ式テーブルセクション -->
-<div style="padding: 12px 16px; background: var(--bg-main);">
-  <div style="display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 12px;">
-    <button id="tab-validation-results" class="tab-btn" data-tab="validation-results" style="padding: 8px 12px; font-size: 12px; font-weight: 600; color: var(--text); background: transparent; border: none; border-bottom: 2px solid var(--primary); cursor: pointer;">検証結果</button>
-    <button id="tab-duplicates" class="tab-btn" data-tab="duplicates" style="padding: 8px 12px; font-size: 12px; font-weight: 600; color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer;">重複検出</button>
-    <button id="tab-contradictions" class="tab-btn" data-tab="contradictions" style="padding: 8px 12px; font-size: 12px; font-weight: 600; color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer;">チャネル矛盾</button>
-    <button id="tab-missing-fields" class="tab-btn" data-tab="missing-fields" style="padding: 8px 12px; font-size: 12px; font-weight: 600; color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer;">入力漏れ</button>
-  </div>
-
-  <!-- タブ 1: 検証結果 -->
-  <div id="panel-validation-results" class="tab-panel" style="display: block;">
-    <div class="table-wrap" style="overflow-x: auto; margin-bottom: 12px;">
-      <table data-testid="validation-results-table" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+    <div class="table-wrap" style="max-height: 200px; overflow-y: auto;">
+      <table data-testid="channel-list-table" style="width: 100%; font-size: 12px;">
         <thead>
-          <tr style="background: var(--bg-card); border-bottom: 1px solid var(--border);">
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">受注ID</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">検証ステータス</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">検証項目</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">エラーコード</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">重要度</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">対応状況</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">検証実行日時</th>
-            <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600;">操作</th>
+          <tr style="background: var(--bg-sidebar);">
+            <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">チャネル名</th>
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">受注件数</th>
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">検証完了</th>
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">エラー</th>
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">平均信頼度</th>
           </tr>
         </thead>
-        <tbody id="tbody-validation-results">
-          <tr style="border-bottom: 1px solid var(--border);"><td colspan="8" style="padding: 16px; text-align: center; color: var(--text-muted);">データを読み込み中...</td></tr>
+        <tbody id="channel-list-tbody">
+          <tr><td colspan="5" style="padding: 12px; text-align: center; color: var(--text-muted);">読込中...</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <!-- タブ 2: 重複検出 -->
-  <div id="panel-duplicates" class="tab-panel" style="display: none;">
-    <div class="table-wrap" style="overflow-x: auto; margin-bottom: 12px;">
-      <table data-testid="duplicates-table" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+  <!-- タブ: 重複検出 / 矛盾検出 / 入力漏れ検出 -->
+  <div style="display: flex; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+    <button class="action-btn secondary" data-testid="tab-duplicates" data-tab="duplicates" style="padding: 6px 12px; font-size: 12px; border-bottom: 2px solid var(--primary);">
+      🔄 重複検出結果
+    </button>
+    <button class="action-btn secondary" data-testid="tab-contradictions" data-tab="contradictions" style="padding: 6px 12px; font-size: 12px;">
+      ⚠️ チャネル間矛盾
+    </button>
+    <button class="action-btn secondary" data-testid="tab-missing" data-tab="missing" style="padding: 6px 12px; font-size: 12px;">
+      📋 入力漏れ検出
+    </button>
+  </div>
+
+  <!-- タブコンテンツ: 重複検出結果 -->
+  <div id="tab-content-duplicates" class="tab-content" style="display: block;">
+    <div class="table-wrap" style="max-height: 220px; overflow-y: auto;">
+      <table data-testid="duplicates-table" style="width: 100%; font-size: 11px;">
         <thead>
-          <tr style="background: var(--bg-card); border-bottom: 1px solid var(--border);">
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">主受注ID</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">副受注ID</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">マッチング信頼度</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">マッチング理由</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">検出ステータス</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">対応方針</th>
-            <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600;">操作</th>
+          <tr style="background: var(--bg-sidebar);">
+            <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">主受注ID</th>
+            <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">副受注ID</th>
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">信頼度</th>
+            <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">理由</th>
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">ステータス</th>
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">操作</th>
           </tr>
         </thead>
-        <tbody id="tbody-duplicates">
-          <tr style="border-bottom: 1px solid var(--border);"><td colspan="7" style="padding: 16px; text-align: center; color: var(--text-muted);">データを読み込み中...</td></tr>
+        <tbody id="duplicates-tbody">
+          <tr><td colspan="6" style="padding: 12px; text-align: center; color: var(--text-muted);">読込中...</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <!-- タブ 3: チャネル矛盾 -->
-  <div id="panel-contradictions" class="tab-panel" style="display: none;">
-    <div class="table-wrap" style="overflow-x: auto; margin-bottom: 12px;">
-      <table data-testid="contradictions-table" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+  <!-- タブコンテンツ: チャネル間矛盾検出結果 -->
+  <div id="tab-content-contradictions" class="tab-content" style="display: none;">
+    <div class="table-wrap" style="max-height: 220px; overflow-y: auto;">
+      <table data-testid="contradictions-table" style="width: 100%; font-size: 11px;">
         <thead>
-          <tr style="background: var(--bg-card); border-bottom: 1px solid var(--border);">
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">受注ID_1</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">受注ID_2</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">矛盾タイプ</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">重要度</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">ステータス</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">信頼度スコア</th>
-            <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600;">操作</th>
+          <tr style="background: var(--bg-sidebar);">
+            <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">受注ID_1</th>
+            <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">受注ID_2</th>
+            <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">矛盾タイプ</th>
+            <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">矛盾内容</th>
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">重要度</th>
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">ステータス</th>
           </tr>
         </thead>
-        <tbody id="tbody-contradictions">
-          <tr style="border-bottom: 1px solid var(--border);"><td colspan="7" style="padding: 16px; text-align: center; color: var(--text-muted);">データを読み込み中...</td></tr>
+        <tbody id="contradictions-tbody">
+          <tr><td colspan="6" style="padding: 12px; text-align: center; color: var(--text-muted);">読込中...</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <!-- タブ 4: 入力漏れ -->
-  <div id="panel-missing-fields" class="tab-panel" style="display: none;">
-    <div class="table-wrap" style="overflow-x: auto; margin-bottom: 12px;">
-      <table data-testid="missing-fields-table" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+  <!-- タブコンテンツ: 入力漏れ検出結果 -->
+  <div id="tab-content-missing" class="tab-content" style="display: none;">
+    <div class="table-wrap" style="max-height: 220px; overflow-y: auto;">
+      <table data-testid="missing-table" style="width: 100%; font-size: 11px;">
         <thead>
-          <tr style="background: var(--bg-card); border-bottom: 1px solid var(--border);">
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">受注ID</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">漏れ項目名</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">項目区分</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">重要度</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">検出ステータス</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">修正済み</th>
-            <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600;">操作</th>
+          <tr style="background: var(--bg-sidebar);">
+            <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">受注ID</th>
+            <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">漏れ項目名</th>
+            <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">項目区分</th>
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">重要度</th>
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">ステータス</th>
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">修正済</th>
           </tr>
         </thead>
-        <tbody id="tbody-missing-fields">
-          <tr style="border-bottom: 1px solid var(--border);"><td colspan="7" style="padding: 16px; text-align: center; color: var(--text-muted);">データを読み込み中...</td></tr>
+        <tbody id="missing-tbody">
+          <tr><td colspan="6" style="padding: 12px; text-align: center; color: var(--text-muted);">読込中...</td></tr>
         </tbody>
       </table>
     </div>
   </div>
-</div>
 
-<!-- 修正対象優先度リスト（下部） -->
-<div style="padding: 12px 16px; background: var(--bg-main); border-top: 1px solid var(--border);">
-  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
-    <h3 style="margin: 0; font-size: 13px; font-weight: 600; color: var(--text);">修正対象優先度リスト</h3>
-    <button id="btn-priority-export" data-testid="priority-export-button" class="action-btn secondary" style="padding: 4px 12px; font-size: 12px;">CSVエクスポート</button>
+  <!-- 修正対象優先度リスト -->
+  <div class="card" style="padding: 10px;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+      <p style="margin: 0; font-size: 12px; font-weight: 600; color: var(--text);">修正対象優先度リスト（上位10件）</p>
+      <button class="action-btn secondary" data-testid="priority-list-view-all" style="padding: 4px 8px; font-size: 11px;">全件表示</button>
+    </div>
+    <div class="table-wrap" style="max-height: 180px; overflow-y: auto;">
+      <table data-testid="priority-list-table" style="width: 100%; font-size: 11px;">
+        <thead>
+          <tr style="background: var(--bg-sidebar);">
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">優先度</th>
+            <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">受注ID</th>
+            <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">エラー分類</th>
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">信頼度</th>
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">ステータス</th>
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">割当先</th>
+            <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600;">操作</th>
+          </tr>
+        </thead>
+        <tbody id="priority-list-tbody">
+          <tr><td colspan="7" style="padding: 12px; text-align: center; color: var(--text-muted);">読込中...</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  <div class="table-wrap" style="overflow-x: auto;">
-    <table data-testid="priority-list-table" style="width: 100%; font-size: 12px; border-collapse: collapse;">
-      <thead>
-        <tr style="background: var(--bg-card); border-bottom: 1px solid var(--border);">
-          <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">優先度</th>
-          <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">受注ID</th>
-          <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">エラー分類</th>
-          <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">修正ステータス</th>
-          <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">割り当て先</th>
-          <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">期限日時</th>
-          <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid var(--border);">ビジネスインパクト度</th>
-          <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600;">操作</th>
-        </tr>
-      </thead>
-      <tbody id="tbody-priority-list">
-        <tr style="border-bottom: 1px solid var(--border);"><td colspan="8" style="padding: 16px; text-align: center; color: var(--text-muted);">データを読み込み中...</td></tr>
-      </tbody>
-    </table>
-  </div>
+
 </div>
     </section>
   </main>
