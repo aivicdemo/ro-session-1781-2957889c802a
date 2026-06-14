@@ -11,28 +11,32 @@ window.AIVIC_SYSTEM_NAME = "営業支援・クライアント情報統合ダッ�
 window.AIVIC_TABLES = [{"tableName":"ユーザー","purpose":"営業支援・クライアント情報統合ダッシュボードにおけるユーザー（営業担当者・管理者等）の基本情報と認証情報を管理","columns":[{"name":"ユーザーID","type":"uuid","required":true,"description":"ユーザーの一意識別子"},{"name":"ログインID","type":"varchar(100)","required":true,"description":"ログイン時に使用するID（ユニーク）"},{"name":"メールアドレス","type":"varchar(100)","required":true,"description":"ユーザーのメールアドレス（ユニーク）"},{"name":"氏名","type":"varchar(100)","required":true,"description":"ユーザーの氏名"},{"name":"部門","type":"varchar(100)","required":false,"description":"所属部門（営業部等）"},{"name":"役職","type":"varchar(100)","required":false,"description":"役職名"},{"name":"ロール","type":"varchar(100)","required":true,"description":"システム上のロール（管理者・営業・閲覧者等）"},{"name":"パスワードハッシュ","type":"varchar(100)","required":true,"description":"ログイン用パスワードのハッシュ値"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"ユーザーステータス（有効・無効・休止等）"},{"name":"最終ログイン日時","type":"timestamp","required":false,"description":"最後にログインした日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"ユーザーレコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"ユーザーレコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":false,"description":"ユーザーレコード作成者"}]},{"tableName":"クライアント","purpose":"営業支援における顧客情報の一元管理。営業担当者が顧客の基本情報、連絡先、取引状況を参照・更新し、営業活動の効率化を支援する。","columns":[{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントの一意識別子"},{"name":"クライアント名","type":"varchar(100)","required":true,"description":"顧客企業名または個人名"},{"name":"業種","type":"varchar(100)","required":false,"description":"顧客の業種分類"},{"name":"代表者名","type":"varchar(100)","required":false,"description":"企業の代表者名または主要連絡先"},{"name":"メールアドレス","type":"varchar(100)","required":false,"description":"主要連絡先のメールアドレス"},{"name":"電話番号","type":"varchar(100)","required":false,"description":"主要連絡先の電話番号"},{"name":"住所","type":"text","required":false,"description":"顧客の住所"},{"name":"担当営業ユーザーID","type":"uuid","required":false,"description":"ユーザーテーブルへの外部キー。担当営業者を指定"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"顧客ステータス（見込み客、既存顧客、休止中など）"},{"name":"最終接触日","type":"timestamp","required":false,"description":"営業担当者が最後に接触した日時"},{"name":"契約状況","type":"varchar(100)","required":false,"description":"契約状況（未契約、契約中、契約終了など）"},{"name":"推定売上額","type":"integer","required":false,"description":"見込み売上額（円）"},{"name":"備考","type":"text","required":false,"description":"営業活動に関する備考・メモ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ユーザーID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー。レコード作成者"}]},{"tableName":"対応履歴","purpose":"営業支援・クライアント情報統合ダッシュボードにおいて、クライアントとの全ての対応（接触、商談、提案等）を記録・追跡し、営業活動の進捗管理と顧客関係構築を支援する","columns":[{"name":"対応履歴ID","type":"uuid","required":true,"description":"対応履歴の一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントテーブルへの外部キー"},{"name":"ユーザーID","type":"uuid","required":true,"description":"対応を実施したユーザー（営業担当者）のID"},{"name":"対応種別","type":"varchar(100)","required":true,"description":"対応の種類（電話、メール、訪問、商談、提案等）"},{"name":"対応日時","type":"timestamp","required":true,"description":"対応が実施された日時"},{"name":"対応内容","type":"text","required":true,"description":"対応の詳細内容・メモ"},{"name":"次回対応予定日","type":"timestamp","required":false,"description":"次回の対応予定日時"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"対応のステータス（完了、保留、進行中等）"},{"name":"成果","type":"varchar(100)","required":false,"description":"対応の成果・結果（受注、見積提出、資料送付等）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]},{"tableName":"対応方針","purpose":"クライアントごとの営業対応方針を管理し、営業チームが統一された対応戦略に基づいて活動するための基準を提供する","columns":[{"name":"対応方針ID","type":"uuid","required":true,"description":"対応方針の一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントテーブルへの外部キー"},{"name":"方針名","type":"varchar(100)","required":true,"description":"対応方針の名称（例：積極営業、保守的対応、定期フォローアップ）"},{"name":"方針内容","type":"text","required":true,"description":"対応方針の詳細説明と具体的な対応内容"},{"name":"優先度","type":"integer","required":true,"description":"対応優先度（1=高、2=中、3=低）"},{"name":"対応頻度","type":"varchar(100)","required":false,"description":"推奨される対応頻度（例：週1回、月1回、四半期ごと）"},{"name":"担当者ID","type":"uuid","required":false,"description":"ユーザーテーブルへの外部キー、この方針の主担当者"},{"name":"開始日","type":"timestamp","required":true,"description":"対応方針の適用開始日"},{"name":"終了日","type":"timestamp","required":false,"description":"対応方針の適用終了日（nullの場合は継続中）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"方針のステータス（有効/無効/保留中）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー、作成者"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー、最終更新者"}]},{"tableName":"受注","purpose":"営業支援ダッシュボードにおける受注トランザクション管理。クライアントとの契約成立、金額、ステータス、営業担当者を一元管理し、売上予測・進捗追跡・営業分析を支援する。","columns":[{"name":"受注ID","type":"uuid","required":true,"description":"受注レコードの一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントテーブルへの外部キー"},{"name":"営業担当者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（営業担当者）"},{"name":"受注日","type":"timestamp","required":true,"description":"受注確定日"},{"name":"受注金額","type":"integer","required":true,"description":"受注総額（税抜き、単位：円）"},{"name":"税額","type":"integer","required":false,"description":"消費税額（単位：円）"},{"name":"税込金額","type":"integer","required":false,"description":"受注総額（税込み、単位：円）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"受注ステータス（例：受注確定、納品待ち、完了、キャンセル）"},{"name":"商品・サービス名","type":"varchar(100)","required":true,"description":"受注対象の商品またはサービス名"},{"name":"納期","type":"timestamp","required":false,"description":"納品予定日"},{"name":"納品日","type":"timestamp","required":false,"description":"実際の納品日"},{"name":"備考","type":"text","required":false,"description":"受注に関する特記事項・条件"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（レコード作成者）"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（最終更新者）"}]},{"tableName":"案件","purpose":"営業支援ダッシュボードにおける営業案件の一元管理。クライアント、対応履歴、受注との関連付けを通じて、案件進捗の追跡、営業活動の可視化、受注予測を実現する。","columns":[{"name":"案件ID","type":"uuid","required":true,"description":"案件の一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"関連するクライアントへの外部キー"},{"name":"案件名","type":"varchar(100)","required":true,"description":"案件の名称"},{"name":"案件説明","type":"text","required":false,"description":"案件の詳細説明"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"案件の進捗状況（例：新規、進行中、提案済み、受注、失注）"},{"name":"予想金額","type":"integer","required":false,"description":"案件の予想売上金額（円）"},{"name":"成約確度","type":"integer","required":false,"description":"受注確度（0-100のパーセンテージ）"},{"name":"予想受注日","type":"timestamp","required":false,"description":"予想される受注予定日"},{"name":"担当ユーザーID","type":"uuid","required":true,"description":"案件の担当営業ユーザーへの外部キー"},{"name":"対応方針ID","type":"uuid","required":false,"description":"適用される対応方針への外部キー"},{"name":"作成日時","type":"timestamp","required":true,"description":"案件の作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"案件の最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"案件を作成したユーザーへの外部キー"}]},{"tableName":"クライアント_対応方針","purpose":"クライアント毎の営業対応方針を管理し、営業戦略・アプローチ方法・優先度などを一元化するマスタテーブル","columns":[{"name":"対応方針ID","type":"uuid","required":true,"description":"対応方針の一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントテーブルへの外部キー"},{"name":"対応方針名","type":"varchar(100)","required":true,"description":"対応方針の名称（例：積極営業、定期フォロー、保守対応）"},{"name":"対応方針説明","type":"text","required":false,"description":"対応方針の詳細説明・背景"},{"name":"営業担当者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（担当営業）"},{"name":"優先度","type":"integer","required":true,"description":"営業優先度（1:高、2:中、3:低）"},{"name":"対応頻度","type":"varchar(100)","required":false,"description":"対応頻度（例：週1回、月1回、四半期1回）"},{"name":"次回対応予定日","type":"timestamp","required":false,"description":"次回営業対応の予定日時"},{"name":"対応方針ステータス","type":"varchar(100)","required":true,"description":"ステータス（有効/無効/一時停止）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（作成者）"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（更新者）"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1781408840123";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  const clientTable = tables[0];\n  const contactTable = tables[1];\n  const policyTable = tables[2];\n\n  let selectedClientId = null;\n  let allClients = clientTable.records || [];\n  let allContacts = contactTable.records || [];\n  let allPolicies = policyTable.records || [];\n\n  // ========== 1. クライアント一覧の再描画 ==========\n  function renderClientList(clients) {\n    const tbody = container.querySelector(\"#client-tbody\");\n    if (!clients || clients.length === 0) {\n      tbody.innerHTML = '<tr><td style=\"padding: 8px; color: var(--text-muted); text-align: center;\">クライアントがありません</td></tr>';\n      return;\n    }\n    tbody.innerHTML = clients.map(c => `\n      <tr \n        data-id=\"${c.id}\" \n        class=\"client-row\" \n        style=\"cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.08); transition: background 0.2s;\"\n      >\n        <td style=\"padding: 8px; color: var(--text); font-size: 12px;\">\n          <div style=\"font-weight: 500;\">${c.クライアント名 || c.name || 'N/A'}</div>\n          <div style=\"font-size: 10px; color: var(--text-muted); margin-top: 2px;\">${c.業種 || ''}</div>\n        </td>\n      </tr>\n    `).join(\"\");\n\n    // クライアント行クリックで選択\n    container.querySelectorAll(\".client-row\").forEach(row => {\n      row.addEventListener(\"click\", () => {\n        container.querySelectorAll(\".client-row\").forEach(r => r.style.background = \"\");\n        row.style.background = \"rgba(212, 175, 55, 0.1)\";\n        selectedClientId = row.dataset.id;\n        renderTimeline();\n        renderPolicy();\n      });\n    });\n  }\n\n  // ========== 2. 対応履歴タイムラインの再描画 ==========\n  function renderTimeline() {\n    const timelineContainer = container.querySelector(\"#timeline-container\");\n    const clientNameEl = container.querySelector(\"#selected-client-name\");\n\n    if (!selectedClientId) {\n      timelineContainer.innerHTML = '<div style=\"text-align: center; color: var(--text-muted); font-size: 12px; padding: 20px;\">クライアントを選択してください</div>';\n      clientNameEl.textContent = \"クライアントを選択してください\";\n      return;\n    }\n\n    const client = allClients.find(c => c.id === selectedClientId);\n    if (client) {\n      clientNameEl.textContent = client.クライアント名 || client.name || 'N/A';\n    }\n\n    const contacts = allContacts.filter(c => c.クライアントID === selectedClientId || c.clientId === selectedClientId);\n    \n    if (!contacts || contacts.length === 0) {\n      timelineContainer.innerHTML = '<div style=\"text-align: center; color: var(--text-muted); font-size: 12px; padding: 20px;\">対応履歴がありません</div>';\n      return;\n    }\n\n    // 時系列ソート（新しい順）\n    contacts.sort((a, b) => new Date(b.対応日時 || b.contactDate) - new Date(a.対応日時 || a.contactDate));\n\n    timelineContainer.innerHTML = contacts.map((contact, idx) => {\n      const dt = new Date(contact.対応日時 || contact.contactDate);\n      const dateStr = dt.toLocaleString('ja-JP', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });\n      const typeColor = {\n        '電話': '#ff6b6b',\n        '訪問': '#ffa500',\n        'メール': '#4ecdc4',\n        '商談': '#d4af37',\n        '提案': '#95e1d3'\n      }[contact.対応種別 || contact.contactType] || '#9fb0d1';\n\n      return `\n        <div style=\"display: flex; gap: 10px; position: relative;\">\n          <div style=\"display: flex; flex-direction: column; align-items: center; gap: 4px;\">\n            <div style=\"width: 24px; height: 24px; border-radius: 50%; background: ${typeColor}; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; font-weight: 600;\">\n              ${(contact.対応種別 || contact.contactType || '').charAt(0)}\n            </div>\n            ${idx < contacts.length - 1 ? `<div style=\"width: 2px; height: 20px; background: rgba(255,255,255,0.1);\"></div>` : ''}\n          </div>\n          <div style=\"flex: 1; padding-bottom: 8px;\">\n            <div style=\"font-size: 11px; font-weight: 600; color: var(--text);\">\n              ${contact.対応種別 || contact.contactType || 'N/A'}\n            </div>\n            <div style=\"font-size: 10px; color: var(--text-muted); margin-top: 2px;\">\n              ${dateStr} | ${contact.ユーザーID || contact.userId || '未設定'}\n            </div>\n            <div style=\"font-size: 11px; color: var(--text); margin-top: 4px; line-height: 1.4; padding: 6px; background: rgba(0,0,0,0.15); border-radius: 3px; border-left: 2px solid ${typeColor};\">\n              ${(contact.対応内容 || contact.content || '').substring(0, 100)}${(contact.対応内容 || contact.content || '').length > 100 ? '...' : ''}\n            </div>\n            <div style=\"font-size: 10px; color: #d4af37; margin-top: 3px;\">\n              結果: ${contact.対応結果 || contact.result || 'N/A'}\n            </div>\n            <div style=\"display: flex; gap: 6px; margin-top: 4px;\">\n              <button \n                class=\"edit-contact-btn\" \n                data-id=\"${contact.id}\" \n                style=\"padding: 3px 8px; font-size: 10px; background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text); border-radius: 3px; cursor: pointer;\"\n              >編集</button>\n              <button \n                class=\"delete-contact-btn\" \n                data-id=\"${contact.id}\" \n                style=\"padding: 3px 8px; font-size: 10px; background: transparent; border: 1px solid rgba(255,255,255,0.18); color: #ff6b6b; border-radius: 3px; cursor: pointer;\"\n              >削除</button>\n            </div>\n          </div>\n        </div>\n      `;\n    }).join(\"\");\n  }\n\n  // ========== 3. 対応方針の表示 ==========\n  function renderPolicy() {\n    const policyPanel = container.querySelector(\"#policy-panel\");\n\n    if (!selectedClientId) {\n      policyPanel.innerHTML = '方針が設定されていません';\n      return;\n    }\n\n    const policies = allPolicies.filter(p => p.クライアントID === selectedClientId || p.clientId === selectedClientId);\n\n    if (!policies || policies.length === 0) {\n      policyPanel.innerHTML = '<div style=\"color: var(--text-muted);\">方針が設定されていません</div>';\n      return;\n    }\n\n    const policy = policies[0]; // 最初の有効な方針を表示\n    const priorityLabel = { 1: '高', 2: '中', 3: '低' }[policy.優先度 || policy.priority] || 'N/A';\n\n    policyPanel.innerHTML = `\n      <div style=\"margin-bottom: 6px;\">\n        <div style=\"font-weight: 600; color: var(--text); font-size: 11px;\">${policy.方針名 || policy.policyName || 'N/A'}</div>\n        <div style=\"font-size: 10px; color: #d4af37; margin-top: 2px;\">優先度: ${priorityLabel}</div>\n      </div>\n      <div style=\"font-size: 10px; color: var(--text); line-height: 1.4; padding: 6px; background: rgba(0,0,0,0.15); border-radius: 3px;\">\n        ${(policy.方針内容 || policy.policyContent || '').substring(0, 150)}${(policy.方針内容 || policy.policyContent || '').length > 150 ? '...' : ''}\n      </div>\n      <div style=\"font-size: 9px; color: var(--text-muted); margin-top: 4px;\">\n        対応頻度: ${policy.対応頻度 || policy.frequency || 'N/A'}\n      </div>\n    `;\n  }\n\n  // ========== 4. 初期データ読み込み ==========\n  window.aivicApi.list(0).then(rows => {\n    allClients = rows || [];\n    renderClientList(allClients);\n  }).catch(() => renderClientList(allClients));\n\n  window.aivicApi.list(1).then(rows => {\n    allContacts = rows || [];\n  }).catch(() => {});\n\n  window.aivicApi.list(2).then(rows => {\n    allPolicies = rows || [];\n  }).catch(() => {});\n\n  // ========== 5. クライアント検索 ==========\n  container.querySelector(\"#btn-search-client\").addEventListener(\"click\", () => {\n    const keyword = container.querySelector(\"#client-search-input\").value.toLowerCase();\n    const filtered = allClients.filter(c => \n      (c.クライアント名 || c.name || '').toLowerCase().includes(keyword) ||\n      (c.業種 || '').toLowerCase().includes(keyword)\n    );\n    renderClientList(filtered);\n  });\n\n  // ========== 6. 対応記録の保存 ==========\n  container.querySelector(\"#btn-save-contact\").addEventListener(\"click\", async () => {\n    if (!selectedClientId) {\n      alert(\"クライアントを選択してください\");\n      return;\n    }\n\n    const datetime = container.querySelector(\"#contact-datetime\").value;\n    const userId = container.querySelector(\"#contact-user\").value;\n    const contactType = container.querySelector(\"#contact-type\").value;\n    const result = container.querySelector(\"#contact-result\").value;\n    const content = container.querySelector(\"#contact-content\").value;\n\n    if (!datetime || !userId || !contactType || !result || !content) {\n      alert(\"すべての項目を入力してください\");\n      return;\n    }\n\n    const newContact = {\n      クライアントID: selectedClientId,\n      ユーザーID: userId,\n      対応種別: contactType,\n      対応日時: datetime,\n      対応内容: content,\n      対応結果: result,\n      ステータス: \"完了\"\n    };\n\n    const saved = await window.aivicApi.save(1, newContact);\n    if (saved) {\n      container.querySelector(\"#contact-datetime\").value = \"\";\n      container.querySelector(\"#contact-user\").value = \"\";\n      container.querySelector(\"#contact-type\").value = \"\";\n      container.querySelector(\"#contact-result\").value = \"\";\n      container.querySelector(\"#contact-content\").value = \"\";\n      \n      window.aivicApi.list(1).then(rows => {\n        allContacts = rows || [];\n        renderTimeline();\n      });\n    }\n  });\n\n  // ========== 7. 対応履歴の削除 ==========\n  container.addEventListener(\"click\", async e => {\n    const deleteBtn = e.target.closest(\".delete-contact-btn\");\n    if (deleteBtn) {\n      if (!confirm(\"この対応履歴を削除しますか？\")) return;\n      const contactId = deleteBtn.dataset.id;\n      await window.aivicApi.delete(1, contactId);\n      window.aivicApi.list(1).then(rows => {\n        allContacts = rows || [];\n        renderTimeline();\n      });\n    }\n\n    const editBtn = e.target.closest(\".edit-contact-btn\");\n    if (editBtn) {\n      const contactId = editBtn.dataset.id;\n      const contact = allContacts.find(c => c.id === contactId);\n      if (contact) {\n        container.querySelector(\"#contact-datetime\").value = contact.対応日時 || contact.contactDate || \"\";\n        container.querySelector(\"#contact-user\").value = contact.ユーザーID || contact.userId || \"\";\n        container.querySelector(\"#contact-type\").value = contact.対応種別 || contact.contactType || \"\";\n        container.querySelector(\"#contact-result\").value = contact.対応結果 || contact.result || \"\";\n        container.querySelector(\"#contact-content\").value = contact.対応内容 || contact.content || \"\";\n        container.querySelector(\"#contact-content\").focus();\n      }\n    }\n  });\n}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 </script>
+  <script>window.AIVIC_DB_TYPE = "aurora_postgresql";</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f0c856;
+  --primary-hover: #f4d03f;
+  --secondary: #c41e3a;
+  --secondary-hover: #e63946;
   --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
   --bg-sidebar: #161616;
-  --border: #2a2a2a;
+  --bg-hover: #252525;
+  --border: #3a3a3a;
   --text: #f5f5f5;
   --text-muted: #b0b0b0;
   --top-bar-bg: #1a1a1a;
-  --top-bar-border: #2a2a2a;
-  --accent-red: #e63946;
-  --accent-red-hover: #f44d5a;
-  --success: #2ecc71;
-  --warning: #f39c12;
-  --error: #e63946;
-  --info: #3498db;
+  --top-bar-border: #3a3a3a;
+  --success: #4ade80;
+  --warning: #facc15;
+  --error: #ef4444;
+  --info: #60a5fa;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --focus-ring: #d4af37;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -97,101 +101,176 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781408840123" style="margin-top:0">
-<div style="display: grid; grid-template-columns: 280px 1fr 320px; gap: 12px; height: 100%; padding: 12px;">
+<div style="display: flex; flex-direction: column; height: 100%; gap: 0.5rem; padding: 0.75rem;">
   
-  <!-- 左パネル: クライアント検索・一覧 -->
-  <div style="display: flex; flex-direction: column; gap: 8px; overflow: hidden;">
-    <div style="display: flex; gap: 6px;">
+  <!-- ヘッダー: タイトル + クライアント検索 -->
+  <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+    <h1 style="font-size: 1.5rem; font-weight: 700; color: var(--text); margin: 0;">対応履歴・対応方針管理</h1>
+    <div style="display: flex; gap: 0.5rem; align-items: center;">
       <input 
         type="text" 
         id="client-search-input" 
         data-testid="client-search-input"
-        placeholder="クライアント検索..." 
-        style="flex: 1; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text); font-size: 13px;"
+        placeholder="クライアント名で検索..." 
+        style="padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; width: 200px;"
       />
-      <button 
-        id="btn-search-client" 
-        data-testid="search-client-button"
-        class="action-btn" 
-        style="padding: 6px 12px; font-size: 12px;"
-      >検索</button>
-    </div>
-    
-    <div class="table-wrap" style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; background: var(--bg-card);">
-      <table data-testid="client-list" style="width: 100%; font-size: 12px;">
-        <thead style="position: sticky; top: 0; background: var(--bg-sidebar); border-bottom: 1px solid rgba(255,255,255,0.12);">
-          <tr>
-            <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600;">クライアント</th>
-          </tr>
-        </thead>
-        <tbody id="client-tbody">
-          <tr><td style="padding: 8px; color: var(--text-muted);">読込中...</td></tr>
-        </tbody>
-      </table>
+      <button id="btn-search-client" data-testid="search-button" class="action-btn" style="padding: 0.5rem 1rem; font-size: 0.875rem;">検索</button>
     </div>
   </div>
 
-  <!-- 中央パネル: 対応履歴タイムライン -->
-  <div style="display: flex; flex-direction: column; gap: 8px; overflow: hidden;">
-    <div style="padding: 8px 12px; background: var(--bg-card); border-radius: 4px; border-left: 3px solid #d4af37;">
-      <div style="font-size: 13px; font-weight: 600; color: var(--text);">対応履歴</div>
-      <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;" id="selected-client-name">クライアントを選択してください</div>
-    </div>
+  <!-- メインコンテンツ: 左(クライアント一覧) + 右(対応履歴 + 対応方針) -->
+  <div style="display: grid; grid-template-columns: 280px 1fr; gap: 1rem; flex: 1; overflow: hidden;">
     
-    <div style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; background: var(--bg-card); padding: 12px;">
-      <div id="timeline-container" style="display: flex; flex-direction: column; gap: 12px;">
-        <div style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 20px;">
-          クライアントを選択して対応履歴を表示
+    <!-- 左パネル: クライアント一覧 -->
+    <div style="display: flex; flex-direction: column; gap: 0.5rem; overflow: hidden; border-right: 1px solid rgba(255,255,255,0.1);">
+      <h3 style="font-size: 0.875rem; font-weight: 600; color: var(--text); margin: 0; padding: 0 0.5rem;">クライアント一覧</h3>
+      <div id="client-list-container" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 0.25rem; padding-right: 0.5rem;">
+        <!-- クライアント項目がここに動的に挿入される -->
+      </div>
+    </div>
+
+    <!-- 右パネル: 対応履歴 + 対応方針 -->
+    <div style="display: flex; flex-direction: column; gap: 1rem; overflow: hidden;">
+      
+      <!-- 対応方針表示エリア -->
+      <div id="policy-section" style="display: none; padding: 1rem; background: var(--bg-card); border-radius: 0.5rem; border-left: 3px solid var(--primary);">
+        <h3 style="font-size: 0.875rem; font-weight: 600; color: var(--text); margin: 0 0 0.5rem 0;">現在の対応方針</h3>
+        <div id="policy-content" style="font-size: 0.875rem; color: var(--text); line-height: 1.5;">
+          <!-- 対応方針内容がここに挿入される -->
         </div>
       </div>
+
+      <!-- 対応履歴タイムライン -->
+      <div style="display: flex; flex-direction: column; gap: 0.5rem; flex: 1; overflow: hidden;">
+        <h3 style="font-size: 0.875rem; font-weight: 600; color: var(--text); margin: 0;">対応履歴</h3>
+        <div id="timeline-container" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; padding-right: 0.5rem;">
+          <!-- 対応履歴がタイムライン形式で挿入される -->
+        </div>
+      </div>
+
+      <!-- 対応履歴追加フォーム -->
+      <div id="form-section" style="display: none; padding: 1rem; background: var(--bg-card); border-radius: 0.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
+        <h3 style="font-size: 0.875rem; font-weight: 600; color: var(--text); margin: 0 0 0.75rem 0;">新規対応を記録</h3>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+          <!-- 対応日時 -->
+          <div>
+            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">対応日時</label>
+            <input 
+              type="datetime-local" 
+              id="interaction-datetime" 
+              data-testid="interaction-datetime"
+              style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box;"
+            />
+          </div>
+
+          <!-- 対応者名 -->
+          <div>
+            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">対応者名</label>
+            <select 
+              id="interaction-user" 
+              data-testid="interaction-user-select"
+              style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box;"
+            >
+              <option value="">選択してください</option>
+              <option value="user-1">営業太郎</option>
+              <option value="user-2">営業花子</option>
+              <option value="user-3">営業次郎</option>
+            </select>
+          </div>
+
+          <!-- 対応種別 -->
+          <div>
+            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">対応種別</label>
+            <select 
+              id="interaction-type" 
+              data-testid="interaction-type-select"
+              style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box;"
+            >
+              <option value="">選択してください</option>
+              <option value="電話">電話</option>
+              <option value="メール">メール</option>
+              <option value="訪問">訪問</option>
+              <option value="商談">商談</option>
+              <option value="提案">提案</option>
+            </select>
+          </div>
+
+          <!-- 対応結果 -->
+          <div>
+            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">対応結果</label>
+            <select 
+              id="interaction-result" 
+              data-testid="interaction-result-select"
+              style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box;"
+            >
+              <option value="">選択してください</option>
+              <option value="受注">受注</option>
+              <option value="見積提出">見積提出</option>
+              <option value="資料送付">資料送付</option>
+              <option value="次回予定">次回予定</option>
+              <option value="保留">保留</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 対応内容 -->
+        <div style="margin-bottom: 0.75rem;">
+          <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">対応内容</label>
+          <textarea 
+            id="interaction-content" 
+            data-testid="interaction-content"
+            placeholder="対応の詳細内容・メモを入力..." 
+            style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box; resize: vertical; min-height: 80px; font-family: inherit;"
+          ></textarea>
+        </div>
+
+        <!-- ボタン群 -->
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+          <button id="btn-cancel-form" data-testid="cancel-button" class="action-btn secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">キャンセル</button>
+          <button id="btn-save-interaction" data-testid="save-button" class="action-btn" style="padding: 0.5rem 1rem; font-size: 0.875rem;">対応を記録</button>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <!-- 右パネル: 対応方針 + 新規記録フォーム -->
-  <div style="display: flex; flex-direction: column; gap: 8px; overflow: hidden;">
-    
-    <!-- 対応方針セクション -->
-    <div style="background: var(--bg-card); border-radius: 4px; border: 1px solid rgba(255,255,255,0.12); padding: 10px; flex-shrink: 0;">
-      <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px;">📋 対応方針</div>
-      <div id="policy-panel" style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">
-        方針が設定されていません
-      </div>
-    </div>
+</div>
 
-    <!-- 新規対応記録フォーム -->
-    <div style="background: var(--bg-card); border-radius: 4px; border: 1px solid rgba(255,255,255,0.12); padding: 10px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
-      <div style="font-size: 12px; font-weight: 600; color: var(--text);">➕ 新規対応記録</div>
-      
+<!-- 対応履歴編集モーダル（初期非表示） -->
+<div id="edit-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+  <div style="background: var(--bg-main); border-radius: 0.5rem; padding: 1.5rem; width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto;">
+    <h2 style="font-size: 1.125rem; font-weight: 700; color: var(--text); margin: 0 0 1rem 0;">対応履歴を編集</h2>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
       <div>
-        <label style="display: block; font-size: 10px; color: var(--text-muted); margin-bottom: 3px;">対応日時 *</label>
+        <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">対応日時</label>
         <input 
           type="datetime-local" 
-          id="contact-datetime" 
-          data-testid="contact-datetime"
-          style="width: 100%; padding: 5px 6px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 3px; color: var(--text); font-size: 11px; box-sizing: border-box;"
+          id="edit-datetime" 
+          data-testid="edit-datetime"
+          style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box;"
         />
       </div>
-
       <div>
-        <label style="display: block; font-size: 10px; color: var(--text-muted); margin-bottom: 3px;">対応者 *</label>
+        <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">対応者名</label>
         <select 
-          id="contact-user" 
-          data-testid="contact-user-select"
-          style="width: 100%; padding: 5px 6px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 3px; color: var(--text); font-size: 11px; box-sizing: border-box;"
+          id="edit-user" 
+          data-testid="edit-user-select"
+          style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box;"
         >
           <option value="">選択してください</option>
-          <option value="user-001">営業太郎</option>
-          <option value="user-002">営業花子</option>
-          <option value="user-003">営業次郎</option>
+          <option value="user-1">営業太郎</option>
+          <option value="user-2">営業花子</option>
+          <option value="user-3">営業次郎</option>
         </select>
       </div>
-
       <div>
-        <label style="display: block; font-size: 10px; color: var(--text-muted); margin-bottom: 3px;">対応種別 *</label>
+        <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">対応種別</label>
         <select 
-          id="contact-type" 
-          data-testid="contact-type-select"
-          style="width: 100%; padding: 5px 6px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 3px; color: var(--text); font-size: 11px; box-sizing: border-box;"
+          id="edit-type" 
+          data-testid="edit-type-select"
+          style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box;"
         >
           <option value="">選択してください</option>
           <option value="電話">電話</option>
@@ -201,13 +280,12 @@ canvas { display:block; max-height:280px !important; }
           <option value="提案">提案</option>
         </select>
       </div>
-
       <div>
-        <label style="display: block; font-size: 10px; color: var(--text-muted); margin-bottom: 3px;">対応結果 *</label>
+        <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">対応結果</label>
         <select 
-          id="contact-result" 
-          data-testid="contact-result-select"
-          style="width: 100%; padding: 5px 6px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 3px; color: var(--text); font-size: 11px; box-sizing: border-box;"
+          id="edit-result" 
+          data-testid="edit-result-select"
+          style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box;"
         >
           <option value="">選択してください</option>
           <option value="受注">受注</option>
@@ -217,23 +295,20 @@ canvas { display:block; max-height:280px !important; }
           <option value="保留">保留</option>
         </select>
       </div>
+    </div>
 
-      <div>
-        <label style="display: block; font-size: 10px; color: var(--text-muted); margin-bottom: 3px;">対応内容 *</label>
-        <textarea 
-          id="contact-content" 
-          data-testid="contact-content"
-          placeholder="対応内容を入力..." 
-          style="width: 100%; padding: 5px 6px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 3px; color: var(--text); font-size: 11px; resize: vertical; min-height: 60px; box-sizing: border-box;"
-        ></textarea>
-      </div>
+    <div style="margin-bottom: 0.75rem;">
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">対応内容</label>
+      <textarea 
+        id="edit-content" 
+        data-testid="edit-content"
+        style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box; resize: vertical; min-height: 80px; font-family: inherit;"
+      ></textarea>
+    </div>
 
-      <button 
-        id="btn-save-contact" 
-        data-testid="save-contact-button"
-        class="action-btn" 
-        style="padding: 6px 12px; font-size: 12px; margin-top: auto;"
-      >対応を記録</button>
+    <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+      <button id="btn-close-edit-modal" data-testid="close-modal-button" class="action-btn secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">キャンセル</button>
+      <button id="btn-update-interaction" data-testid="update-button" class="action-btn" style="padding: 0.5rem 1rem; font-size: 0.875rem;">更新</button>
     </div>
   </div>
 </div>

@@ -11,29 +11,31 @@ window.AIVIC_SYSTEM_NAME = "受注データ品質管理・検証システム";
 window.AIVIC_TABLES = [{"tableName":"受注データ検証結果","purpose":"受注データの品質検証結果を記録・管理し、検証ルール違反や異常データを追跡するための検証履歴テーブル","columns":[{"name":"検証結果ID","type":"uuid","required":true,"description":"検証結果の一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"検証対象の受注データID（受注データテーブルへの外部キー）"},{"name":"検証ステータス","type":"varchar(100)","required":true,"description":"検証結果のステータス（合格/不合格/警告/保留等）"},{"name":"検証ルールID","type":"varchar(100)","required":true,"description":"適用された検証ルールの識別子"},{"name":"エラーコード","type":"varchar(100)","required":false,"description":"検出されたエラーコード"},{"name":"エラーメッセージ","type":"text","required":false,"description":"検証失敗時の詳細なエラーメッセージ"},{"name":"検証項目","type":"varchar(100)","required":true,"description":"検証対象となったデータ項目名"},{"name":"検証値","type":"text","required":false,"description":"検証時に検出された実際の値"},{"name":"期待値","type":"text","required":false,"description":"検証ルールで期待される値"},{"name":"重要度","type":"varchar(100)","required":true,"description":"エラーの重要度レベル（致命的/高/中/低等）"},{"name":"検証実行日時","type":"timestamp","required":true,"description":"検証が実行された日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"検証結果レコードの作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"検証結果レコードの最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"検証を実行したユーザーID（ログインユーザーテーブルへの外部キー）"},{"name":"対応状況","type":"varchar(100)","required":false,"description":"エラーへの対応状況（未対応/対応中/完了/却下等）"},{"name":"対応者ID","type":"uuid","required":false,"description":"エラーに対応したユーザーID（ログインユーザーテーブルへの外部キー）"},{"name":"対応完了日時","type":"timestamp","required":false,"description":"エラー対応が完了した日時"},{"name":"備考","type":"text","required":false,"description":"検証結果に関する追加情報や対応内容"}]},{"tableName":"受注データ修正履歴","purpose":"受注データの修正内容を追跡・監査するための履歴管理テーブル。いつ、誰が、何を、どのように修正したかを記録し、データ品質管理と検証プロセスの透明性を確保する。","columns":[{"name":"修正履歴ID","type":"uuid","required":true,"description":"修正履歴レコードの一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"修正対象の受注データを特定するための外部キー"},{"name":"修正項目名","type":"varchar(100)","required":true,"description":"修正されたカラム/項目の名称（例：受注金額、顧客名）"},{"name":"修正前値","type":"text","required":false,"description":"修正前のデータ値"},{"name":"修正後値","type":"text","required":false,"description":"修正後のデータ値"},{"name":"修正理由","type":"varchar(100)","required":true,"description":"修正の理由分類（例：入力誤り、検証エラー、顧客確認、システム不具合）"},{"name":"修正備考","type":"text","required":false,"description":"修正に関する詳細な説明やコメント"},{"name":"修正ユーザーID","type":"uuid","required":true,"description":"修正を実施したユーザーを特定するための外部キー（ログインユーザーテーブル参照）"},{"name":"修正日時","type":"timestamp","required":true,"description":"修正が実施された日時"},{"name":"検証結果ID","type":"uuid","required":false,"description":"この修正のきっかけとなった検証結果への参照（受注データ検証結果テーブル参照）"},{"name":"作成日時","type":"timestamp","required":true,"description":"履歴レコードが作成された日時"}]},{"tableName":"信頼度スコア","purpose":"受注データの品質・信頼度を数値化・管理し、検証結果と紐付けて、データ品質の可視化と改善追跡を支援する","columns":[{"name":"信頼度スコアID","type":"uuid","required":true,"description":"信頼度スコアの一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"対象となる受注データの外部キー"},{"name":"検証結果ID","type":"uuid","required":false,"description":"関連する受注データ検証結果の外部キー"},{"name":"総合スコア","type":"integer","required":true,"description":"0～100の総合信頼度スコア"},{"name":"完全性スコア","type":"integer","required":true,"description":"必須項目の充足度スコア（0～100）"},{"name":"正確性スコア","type":"integer","required":true,"description":"データ形式・値の妥当性スコア（0～100）"},{"name":"一貫性スコア","type":"integer","required":true,"description":"他データとの整合性スコア（0～100）"},{"name":"スコア計算日時","type":"timestamp","required":true,"description":"スコア算出時刻"},{"name":"スコア有効期限","type":"timestamp","required":false,"description":"スコアの有効期限（再計算が必要になる時刻）"},{"name":"警告フラグ","type":"boolean","required":true,"description":"スコアが閾値以下の場合true"},{"name":"警告レベル","type":"varchar(100)","required":false,"description":"警告の重要度（高/中/低）"},{"name":"備考","type":"text","required":false,"description":"スコア低下の理由や改善提案など"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ログインユーザーの外部キー"}]},{"tableName":"AI_OCR読み込み結果","purpose":"AI OCRエンジンによる受注データの読み込み結果を記録し、品質検証・修正履歴の基点となるトランザクションテーブル","columns":[{"name":"ocr_result_id","type":"uuid","required":true,"description":"OCR読み込み結果の一意識別子"},{"name":"order_id","type":"uuid","required":true,"description":"対応する受注データID（受注データテーブルへの外部キー）"},{"name":"source_document_type","type":"varchar(100)","required":true,"description":"読み込み元ドキュメント種別（例：注文書、請求書、納品書）"},{"name":"ocr_engine_version","type":"varchar(100)","required":true,"description":"使用したOCRエンジンのバージョン"},{"name":"raw_ocr_text","type":"text","required":true,"description":"OCRエンジンが抽出した生テキスト"},{"name":"extracted_fields","type":"text","required":true,"description":"抽出されたフィールド情報（構造化データ、別テーブルで管理する場合は参照ID）"},{"name":"confidence_score_id","type":"uuid","required":false,"description":"信頼度スコアテーブルへの外部キー"},{"name":"overall_confidence","type":"integer","required":true,"description":"全体信頼度スコア（0-100）"},{"name":"processing_status","type":"varchar(100)","required":true,"description":"処理ステータス（例：成功、部分成功、失敗）"},{"name":"error_message","type":"text","required":false,"description":"処理失敗時のエラーメッセージ"},{"name":"requires_manual_review","type":"boolean","required":true,"description":"手動レビューが必要かどうか"},{"name":"processing_timestamp","type":"timestamp","required":true,"description":"OCR処理実行日時"},{"name":"created_at","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"updated_at","type":"timestamp","required":true,"description":"レコード更新日時"},{"name":"created_by","type":"uuid","required":true,"description":"作成者ユーザーID（ログインユーザーテーブルへの外部キー）"}]},{"tableName":"音声ガイダンス記録","purpose":"受注データ品質管理プロセスにおける音声ガイダンス（IVR応答、オペレータ指示等）の記録・追跡。検証結果との紐付けにより、データ品質問題の原因特定と改善に活用。","columns":[{"name":"音声ガイダンス記録ID","type":"uuid","required":true,"description":"音声ガイダンス記録の一意識別子"},{"name":"受注ID","type":"uuid","required":true,"description":"関連する受注データの外部キー"},{"name":"ガイダンスタイプ","type":"varchar(100)","required":true,"description":"ガイダンスの種類（例：IVR_確認、オペレータ_指示、自動応答等）"},{"name":"ガイダンス内容","type":"text","required":true,"description":"音声ガイダンスの実際のテキスト内容またはスクリプト"},{"name":"再生開始時刻","type":"timestamp","required":true,"description":"ガイダンス再生開始日時"},{"name":"再生終了時刻","type":"timestamp","required":false,"description":"ガイダンス再生終了日時"},{"name":"再生時間秒","type":"integer","required":false,"description":"ガイダンス再生時間（秒単位）"},{"name":"ユーザー応答","type":"varchar(100)","required":false,"description":"ユーザーの応答内容（例：ボタン入力、音声認識結果等）"},{"name":"応答確認状態","type":"varchar(100)","required":false,"description":"応答の確認状態（例：確認済、未確認、エラー等）"},{"name":"検証結果ID","type":"uuid","required":false,"description":"関連する受注データ検証結果の外部キー"},{"name":"品質問題フラグ","type":"boolean","required":true,"description":"品質問題が検出されたかどうか"},{"name":"問題分類","type":"varchar(100)","required":false,"description":"検出された問題の分類（例：聞き取り困難、応答エラー、データ不整合等）"},{"name":"備考","type":"text","required":false,"description":"追加の説明やコメント"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"uuid","required":true,"description":"レコード作成者のユーザーID（ログインユーザーテーブルへの外部キー）"}]},{"tableName":"チャネル情報","purpose":"受注データの入力元チャネル（Web、電話、店舗、API等）を管理し、チャネル別の受注データ品質検証ルールや信頼度スコア調整に使用","columns":[{"name":"チャネルID","type":"uuid","required":true,"description":"チャネル情報の一意識別子"},{"name":"チャネル名","type":"varchar(100)","required":true,"description":"チャネルの名称（例：Web注文、電話受注、店舗POS、API連携）"},{"name":"チャネルコード","type":"varchar(100)","required":true,"description":"チャネルの一意コード（例：WEB、TEL、STORE、API）"},{"name":"説明","type":"text","required":false,"description":"チャネルの詳細説明"},{"name":"デフォルト信頼度スコア","type":"integer","required":true,"description":"このチャネルから入力されたデータの初期信頼度スコア（0-100）"},{"name":"OCR処理対象フラグ","type":"boolean","required":true,"description":"AI_OCR読み込み処理の対象チャネルかどうか"},{"name":"音声ガイダンス対応フラグ","type":"boolean","required":true,"description":"音声ガイダンス記録の対象チャネルかどうか"},{"name":"有効フラグ","type":"boolean","required":true,"description":"チャネルが有効かどうか"},{"name":"作成日時","type":"timestamp","required":true,"description":"チャネル情報の作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"チャネル情報の最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"チャネル情報を作成したユーザーID"},{"name":"更新者","type":"varchar(100)","required":true,"description":"チャネル情報を最後に更新したユーザーID"}]},{"tableName":"重複受注検出結果","purpose":"受注データ内の重複を検出・管理し、検出ルール、マッチング詳細、対応状況を記録するテーブル","columns":[{"name":"重複受注検出結果ID","type":"uuid","required":true,"description":"重複受注検出結果の一意識別子"},{"name":"主受注ID","type":"uuid","required":true,"description":"重複グループの主となる受注データID（受注データテーブルへの外部キー）"},{"name":"副受注ID","type":"uuid","required":true,"description":"重複と判定された受注データID（受注データテーブルへの外部キー）"},{"name":"検出ルールID","type":"varchar(100)","required":true,"description":"適用された重複検出ルールの識別子"},{"name":"マッチング信頼度","type":"integer","required":true,"description":"重複判定の信頼度スコア（0-100）"},{"name":"マッチング理由","type":"text","required":true,"description":"重複と判定された理由（顧客名一致、電話番号一致など）"},{"name":"検出ステータス","type":"varchar(100)","required":true,"description":"検出結果のステータス（未確認/確認済み/統合済み/誤検出）"},{"name":"対応方針","type":"varchar(100)","required":false,"description":"対応方針（統合/分離/保留/却下）"},{"name":"確認者ID","type":"uuid","required":false,"description":"検出結果を確認したユーザーID（ログインユーザーテーブルへの外部キー）"},{"name":"確認日時","type":"timestamp","required":false,"description":"検出結果が確認された日時"},{"name":"備考","type":"text","required":false,"description":"対応に関する備考やコメント"},{"name":"作成日時","type":"timestamp","required":true,"description":"検出結果が作成された日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"検出結果が最後に更新された日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"検出結果を作成したシステムまたはユーザーID"}]},{"tableName":"チャネル間矛盾検出結果","purpose":"複数チャネル（Web、電話、店舗等）から受注された同一商品・顧客の矛盾を検出・記録し、データ品質管理と重複排除を支援する","columns":[{"name":"矛盾検出結果ID","type":"uuid","required":true,"description":"チャネル間矛盾検出結果の一意識別子"},{"name":"受注ID_1","type":"uuid","required":true,"description":"矛盾を検出した最初の受注データのID"},{"name":"受注ID_2","type":"uuid","required":true,"description":"矛盾を検出した2番目の受注データのID"},{"name":"チャネルID_1","type":"uuid","required":true,"description":"最初の受注のチャネル情報ID"},{"name":"チャネルID_2","type":"uuid","required":true,"description":"2番目の受注のチャネル情報ID"},{"name":"矛盾タイプ","type":"varchar(100)","required":true,"description":"矛盾の種類（例：金額相違、数量相違、顧客情報相違、配送先相違、受注日時相違）"},{"name":"矛盾内容","type":"text","required":true,"description":"矛盾の詳細説明（具体的な相違内容）"},{"name":"重要度","type":"varchar(100)","required":true,"description":"矛盾の重要度レベル（高/中/低）"},{"name":"検出日時","type":"timestamp","required":true,"description":"矛盾が検出された日時"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"対応状況（未対応/確認中/解決済み/却下）"},{"name":"対応内容","type":"text","required":false,"description":"矛盾に対する対応内容・判断理由"},{"name":"対応日時","type":"timestamp","required":false,"description":"矛盾が対応された日時"},{"name":"対応者ID","type":"uuid","required":false,"description":"対応を実施したユーザーのID"},{"name":"信頼度スコア","type":"integer","required":false,"description":"矛盾検出の信頼度スコア（0-100）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]},{"tableName":"入力漏れ検出結果","purpose":"受注データの入力漏れ項目を検出・記録し、データ品質管理と修正追跡を実現するテーブル","columns":[{"name":"入力漏れ検出結果ID","type":"uuid","required":true,"description":"入力漏れ検出結果の一意識別子"},{"name":"受注ID","type":"uuid","required":true,"description":"受注データテーブルへの外部キー"},{"name":"検出日時","type":"timestamp","required":true,"description":"入力漏れが検出された日時"},{"name":"漏れ項目名","type":"varchar(100)","required":true,"description":"入力漏れが検出された項目名"},{"name":"漏れ項目区分","type":"varchar(100)","required":true,"description":"漏れ項目の区分（必須項目/推奨項目等）"},{"name":"検出ルール","type":"varchar(100)","required":true,"description":"入力漏れを検出したルール名またはルールID"},{"name":"重要度","type":"varchar(100)","required":true,"description":"入力漏れの重要度レベル（高/中/低）"},{"name":"検出ステータス","type":"varchar(100)","required":true,"description":"検出結果のステータス（未対応/対応中/完了/除外）"},{"name":"修正済みフラグ","type":"boolean","required":true,"description":"入力漏れが修正されたかどうか"},{"name":"修正日時","type":"timestamp","required":false,"description":"入力漏れが修正された日時"},{"name":"修正者ID","type":"uuid","required":false,"description":"ログインユーザーテーブルへの外部キー（修正を実施したユーザー）"},{"name":"修正内容","type":"text","required":false,"description":"実施された修正内容の詳細"},{"name":"備考","type":"text","required":false,"description":"入力漏れに関する追加情報やコメント"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ログインユーザーテーブルへの外部キー（レコード作成者）"}]},{"tableName":"連携承認フロー","purpose":"受注データの品質検証結果に対する承認・却下フローを管理し、各段階の承認者、判定、コメント、タイムスタンプを記録する","columns":[{"name":"フロー_ID","type":"uuid","required":true,"description":"連携承認フローの一意識別子"},{"name":"受注データ_ID","type":"uuid","required":true,"description":"対象となる受注データの外部キー"},{"name":"検証結果_ID","type":"uuid","required":true,"description":"受注データ検証結果の外部キー"},{"name":"フロー段階","type":"varchar(100)","required":true,"description":"承認フローの段階（初期検証、品質確認、最終承認等）"},{"name":"現在ステータス","type":"varchar(100)","required":true,"description":"フローの現在状態（待機中、承認済、却下、差戻し等）"},{"name":"承認者_ID","type":"uuid","required":false,"description":"現在の承認者のログインユーザーID"},{"name":"承認判定","type":"varchar(100)","required":false,"description":"承認者の判定（承認、却下、条件付承認等）"},{"name":"承認コメント","type":"text","required":false,"description":"承認者による判定理由やコメント"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認者が判定を実施した日時"},{"name":"優先度","type":"varchar(100)","required":false,"description":"フロー処理の優先度（高、中、低等）"},{"name":"期限日時","type":"timestamp","required":false,"description":"承認完了の期限"},{"name":"作成日時","type":"timestamp","required":true,"description":"フロー作成日時"},{"name":"作成者_ID","type":"uuid","required":true,"description":"フロー作成者のログインユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"フロー最終更新日時"},{"name":"更新者_ID","type":"uuid","required":true,"description":"フロー最終更新者のログインユーザーID"}]},{"tableName":"承認者判定履歴","purpose":"受注データの承認プロセスにおける承認者の判定内容、判定理由、判定結果を記録し、承認フロー全体の監査証跡を管理する","columns":[{"name":"承認者判定履歴ID","type":"uuid","required":true,"description":"承認者判定履歴の一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"対象となる受注データの識別子"},{"name":"連携承認フローID","type":"uuid","required":true,"description":"この判定が属する承認フローの識別子"},{"name":"承認者ユーザーID","type":"uuid","required":true,"description":"判定を実施した承認者のユーザーID"},{"name":"判定結果","type":"varchar(100)","required":true,"description":"承認/却下/条件付き承認/保留等の判定結果"},{"name":"判定理由","type":"text","required":false,"description":"判定の根拠となった理由や説明"},{"name":"参照検証結果ID","type":"uuid","required":false,"description":"判定の根拠となった受注データ検証結果の識別子"},{"name":"参照重複検出結果ID","type":"uuid","required":false,"description":"判定の根拠となった重複受注検出結果の識別子"},{"name":"参照矛盾検出結果ID","type":"uuid","required":false,"description":"判定の根拠となったチャネル間矛盾検出結果の識別子"},{"name":"判定日時","type":"timestamp","required":true,"description":"承認者が判定を実施した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"この履歴レコードが作成された日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"この履歴レコードが最後に更新された日時"}]},{"tableName":"基幹システム連携ログ","purpose":"基幹システムとの受注データ連携処理の実行履歴を記録し、連携状況の追跡、エラー分析、監査証跡を管理するトランザクションログテーブル","columns":[{"name":"連携ログID","type":"uuid","required":true,"description":"連携ログの一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"連携対象の受注データID（受注データテーブルへの外部キー）"},{"name":"連携方向","type":"varchar(100)","required":true,"description":"連携方向（送信/受信）"},{"name":"連携ステータス","type":"varchar(100)","required":true,"description":"連携処理のステータス（成功/失敗/保留中/再試行中）"},{"name":"基幹システム側参照ID","type":"varchar(100)","required":false,"description":"基幹システム側での受注ID等の参照識別子"},{"name":"連携リクエスト内容","type":"text","required":false,"description":"基幹システムへ送信したリクエストデータ（JSON形式）"},{"name":"連携レスポンス内容","type":"text","required":false,"description":"基幹システムから受信したレスポンスデータ（JSON形式）"},{"name":"エラーコード","type":"varchar(100)","required":false,"description":"連携失敗時のエラーコード"},{"name":"エラーメッセージ","type":"text","required":false,"description":"連携失敗時の詳細エラーメッセージ"},{"name":"再試行回数","type":"integer","required":true,"description":"連携処理の再試行回数"},{"name":"次回再試行予定日時","type":"timestamp","required":false,"description":"失敗時の次回再試行予定日時"},{"name":"連携処理時間_ミリ秒","type":"integer","required":false,"description":"連携処理にかかった時間（ミリ秒）"},{"name":"作成日時","type":"timestamp","required":true,"description":"ログレコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"ログレコード最終更新日時"},{"name":"作成者ユーザーID","type":"uuid","required":false,"description":"ログを作成したユーザーID（自動連携の場合はシステム）"}]},{"tableName":"クライアント情報","purpose":"受注データ品質管理システムにおけるクライアント（顧客・取引先）のマスタ情報を管理し、受注データの検証・承認フロー・基幹システム連携時のクライアント属性参照を支援する","columns":[{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントの一意識別子"},{"name":"クライアント名","type":"varchar(100)","required":true,"description":"クライアント（顧客・取引先）の正式名称"},{"name":"クライアント名カナ","type":"varchar(100)","required":false,"description":"クライアント名のカナ表記（検索・ソート用）"},{"name":"クライアントコード","type":"varchar(100)","required":true,"description":"基幹システム連携用のクライアント識別コード"},{"name":"業種","type":"varchar(100)","required":false,"description":"クライアントの業種分類"},{"name":"住所","type":"text","required":false,"description":"クライアントの住所"},{"name":"電話番号","type":"varchar(100)","required":false,"description":"クライアントの連絡先電話番号"},{"name":"メールアドレス","type":"varchar(100)","required":false,"description":"クライアントの連絡先メールアドレス"},{"name":"担当者名","type":"varchar(100)","required":false,"description":"クライアント側の主要担当者名"},{"name":"信用度レベル","type":"varchar(100)","required":false,"description":"クライアントの信用度ランク（高/中/低など）"},{"name":"受注チャネル","type":"varchar(100)","required":false,"description":"主要な受注チャネル（複数チャネルの場合は別テーブルで管理）"},{"name":"基幹システムID","type":"varchar(100)","required":false,"description":"基幹システム側のクライアント識別ID"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"クライアントのステータス（有効/無効/休止など）"},{"name":"作成日時","type":"timestamp","required":true,"description":"クライアント情報の作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"クライアント情報の最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"クライアント情報を作成したユーザーID"},{"name":"更新者","type":"varchar(100)","required":false,"description":"クライアント情報を最後に更新したユーザーID"}]},{"tableName":"修正対象優先度リスト","purpose":"受注データの修正対象を優先度付けして管理し、修正作業の効率化と品質向上を実現するマスタテーブル","columns":[{"name":"優先度リストID","type":"uuid","required":true,"description":"優先度リストの一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"修正対象の受注データID（受注データテーブルへの外部キー）"},{"name":"検証結果ID","type":"uuid","required":true,"description":"検証結果ID（受注データ検証結果テーブルへの外部キー）"},{"name":"優先度レベル","type":"integer","required":true,"description":"優先度（1=最高、5=最低）"},{"name":"優先度判定理由","type":"varchar(100)","required":true,"description":"優先度決定の理由カテゴリ（例：エラー重大度、ビジネスインパクト、検出時期）"},{"name":"信頼度スコア","type":"integer","required":false,"description":"修正必要性の信頼度スコア（0-100）"},{"name":"エラー分類","type":"varchar(100)","required":true,"description":"エラーの分類（例：重複受注、入力漏れ、チャネル矛盾、OCR誤認識）"},{"name":"修正ステータス","type":"varchar(100)","required":true,"description":"修正状況（未対応、対応中、完了、保留）"},{"name":"割り当て先ユーザーID","type":"uuid","required":false,"description":"修正作業の割り当て先ユーザーID（ログインユーザーテーブルへの外部キー）"},{"name":"期限日時","type":"timestamp","required":false,"description":"修正完了の期限"},{"name":"推定修正時間分","type":"integer","required":false,"description":"修正に要する推定時間（分単位）"},{"name":"ビジネスインパクト度","type":"integer","required":false,"description":"ビジネスへの影響度（1-10）"},{"name":"自動修正可能フラグ","type":"boolean","required":true,"description":"AI/自動ルールで修正可能かどうか"},{"name":"備考","type":"text","required":false,"description":"修正対象に関する追加情報"},{"name":"作成日時","type":"timestamp","required":true,"description":"優先度リスト作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"優先度リスト最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"優先度リスト作成者のユーザーID"}]},{"tableName":"操作履歴","purpose":"受注データ品質管理システムにおけるユーザー操作、システム処理、データ変更を時系列で記録し、監査証跡、トレーサビリティ、不正検知を実現する","columns":[{"name":"操作履歴ID","type":"uuid","required":true,"description":"操作履歴の一意識別子"},{"name":"ユーザーID","type":"uuid","required":true,"description":"操作を実行したユーザーID（ログインユーザーテーブルへの外部キー）"},{"name":"操作種別","type":"varchar(100)","required":true,"description":"操作の種類（例：受注データ登録、データ修正、検証実行、承認、却下、削除、エクスポート等）"},{"name":"対象テーブル名","type":"varchar(100)","required":true,"description":"操作対象のテーブル名（例：受注データ、受注データ修正履歴等）"},{"name":"対象レコードID","type":"uuid","required":false,"description":"操作対象のレコードID（テーブルに応じて受注データID等）"},{"name":"操作内容","type":"text","required":false,"description":"操作の詳細内容（変更前後の値、パラメータ等）"},{"name":"変更前値","type":"text","required":false,"description":"変更操作の場合の変更前の値"},{"name":"変更後値","type":"text","required":false,"description":"変更操作の場合の変更後の値"},{"name":"操作ステータス","type":"varchar(100)","required":true,"description":"操作の実行結果（成功、失敗、部分成功等）"},{"name":"エラーメッセージ","type":"text","required":false,"description":"操作失敗時のエラーメッセージ"},{"name":"IPアドレス","type":"varchar(100)","required":false,"description":"操作実行元のIPアドレス"},{"name":"セッションID","type":"varchar(100)","required":false,"description":"ユーザーセッションID"},{"name":"操作実行日時","type":"timestamp","required":true,"description":"操作が実行された日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"操作履歴レコードが作成された日時"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1781413550629";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // テーブルインデックス\n  const DUPLICATE_RESULTS_IDX = 0;\n  const VALIDATION_RESULTS_IDX = 1;\n  const TRUST_SCORES_IDX = 2;\n  const CHANNEL_CONTRADICTIONS_IDX = 3;\n  const CORRECTION_PRIORITY_IDX = 4;\n  const APPROVAL_FLOW_IDX = 5;\n  const APPROVAL_HISTORY_IDX = 6;\n\n  let selectedDuplicateGroup = null;\n  let allDuplicateGroups = [];\n\n  // ========== 1. 重複グループテーブル再描画 ==========\n  function renderDuplicateGroups(rows) {\n    const tbody = container.querySelector(\"#duplicate-groups-tbody\");\n    if (!rows || rows.length === 0) {\n      tbody.innerHTML = '<tr style=\"background: rgba(255,255,255,0.02);\"><td colspan=\"3\" style=\"padding: 12px; text-align: center; color: var(--text-muted);\">重複グループなし</td></tr>';\n      return;\n    }\n    tbody.innerHTML = rows.map(row => `\n      <tr \n        class=\"duplicate-group-row\" \n        data-id=\"${row.id || ''}\" \n        style=\"background: rgba(255,255,255,0.02); cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04);\"\n      >\n        <td style=\"padding: 8px; color: var(--text);\">${row.id ? row.id.substring(0, 8) : '-'}</td>\n        <td style=\"padding: 8px; color: var(--text);\">${row.マッチング信頼度 || '-'}</td>\n        <td style=\"padding: 8px; color: var(--text);\">${row.検出ステータス || '-'}</td>\n      </tr>\n    `).join(\"\");\n  }\n\n  // ========== 2. 初期データ描画 ==========\n  allDuplicateGroups = tables[DUPLICATE_RESULTS_IDX]?.records || [];\n  renderDuplicateGroups(allDuplicateGroups);\n\n  // ========== 3. 重複グループ行クリック ==========\n  container.addEventListener(\"click\", (e) => {\n    const row = e.target.closest(\".duplicate-group-row\");\n    if (row) {\n      const groupId = row.dataset.id;\n      selectedDuplicateGroup = allDuplicateGroups.find(g => g.id === groupId);\n      \n      if (selectedDuplicateGroup) {\n        // 主受注・副受注データ表示\n        const primaryDetail = container.querySelector(\"#primary-order-detail\");\n        const secondaryDetail = container.querySelector(\"#secondary-order-detail\");\n        \n        primaryDetail.innerHTML = `\n          <div><strong>受注ID:</strong> ${selectedDuplicateGroup.主受注ID || '-'}</div>\n          <div><strong>顧客名:</strong> ${selectedDuplicateGroup.顧客名 || '-'}</div>\n          <div><strong>受注金額:</strong> ${selectedDuplicateGroup.受注金額 || '-'}</div>\n          <div><strong>受注日時:</strong> ${selectedDuplicateGroup.受注日時 || '-'}</div>\n          <div><strong>チャネル:</strong> ${selectedDuplicateGroup.チャネル || '-'}</div>\n        `;\n        \n        secondaryDetail.innerHTML = `\n          <div><strong>受注ID:</strong> ${selectedDuplicateGroup.副受注ID || '-'}</div>\n          <div><strong>顧客名:</strong> ${selectedDuplicateGroup.副顧客名 || '-'}</div>\n          <div><strong>受注金額:</strong> ${selectedDuplicateGroup.副受注金額 || '-'}</div>\n          <div><strong>受注日時:</strong> ${selectedDuplicateGroup.副受注日時 || '-'}</div>\n          <div><strong>チャネル:</strong> ${selectedDuplicateGroup.副チャネル || '-'}</div>\n        `;\n\n        // マッチング信頼度・理由表示\n        container.querySelector(\"#matching-confidence\").textContent = selectedDuplicateGroup.マッチング信頼度 || '-';\n        container.querySelector(\"#matching-reason\").textContent = selectedDuplicateGroup.マッチング理由 || '-';\n        container.querySelector(\"#channel-info\").textContent = `${selectedDuplicateGroup.チャネル || '-'} ↔ ${selectedDuplicateGroup.副チャネル || '-'}`;\n\n        // チャネル間矛盾検出結果表示\n        const contradictions = tables[CHANNEL_CONTRADICTIONS_IDX]?.records || [];\n        const relatedContradictions = contradictions.filter(c => \n          (c.受注ID_1 === selectedDuplicateGroup.主受注ID && c.受注ID_2 === selectedDuplicateGroup.副受注ID) ||\n          (c.受注ID_1 === selectedDuplicateGroup.副受注ID && c.受注ID_2 === selectedDuplicateGroup.主受注ID)\n        );\n        \n        const contradictionList = container.querySelector(\"#channel-contradiction-list\");\n        if (relatedContradictions.length > 0) {\n          contradictionList.innerHTML = relatedContradictions.map(c => `\n            <div style=\"padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.04);\">\n              <strong>${c.矛盾タイプ || '-'}:</strong> ${c.矛盾内容 || '-'} (重要度: ${c.重要度 || '-'})\n            </div>\n          `).join(\"\");\n        } else {\n          contradictionList.innerHTML = '<div style=\"color: var(--text-muted);\">矛盾なし</div>';\n        }\n\n        // 信頼度スコア表示\n        const trustScores = tables[TRUST_SCORES_IDX]?.records || [];\n        const relatedScore = trustScores.find(s => s.受注データID === selectedDuplicateGroup.主受注ID);\n        container.querySelector(\"#trust-score-display\").textContent = relatedScore?.総合スコア || '-';\n      }\n    }\n  });\n\n  // ========== 4. 検索ボタン ==========\n  container.querySelector(\"#btn-search-groups\").addEventListener(\"click\", () => {\n    const keyword = container.querySelector(\"#search-duplicate-groups\").value.toLowerCase();\n    const filtered = allDuplicateGroups.filter(g => \n      JSON.stringify(g).toLowerCase().includes(keyword)\n    );\n    renderDuplicateGroups(filtered);\n  });\n\n  // ========== 5. プレビュー更新ボタン ==========\n  container.querySelector(\"#btn-preview-merge\").addEventListener(\"click\", () => {\n    if (!selectedDuplicateGroup) {\n      alert(\"グループを選択してください\");\n      return;\n    }\n\n    const mergePolicy = container.querySelector(\"#merge-policy\").value;\n    const previewDiv = container.querySelector(\"#merge-preview\");\n\n    let previewText = \"\";\n    if (mergePolicy === \"primary\") {\n      previewText = `主受注データ（ID: ${selectedDuplicateGroup.主受注ID}）を優先して統合します。副受注は削除されます。`;\n    } else if (mergePolicy === \"secondary\") {\n      previewText = `副受注データ（ID: ${selectedDuplicateGroup.副受注ID}）を優先して統合します。主受注は削除されます。`;\n    } else if (mergePolicy === \"merge\") {\n      previewText = `両受注データを統合します。主受注に副受注の情報を結合し、副受注は削除されます。`;\n    } else if (mergePolicy === \"manual\") {\n      previewText = `手動選択モード：各フィールドを個別に選択して統合します。`;\n    } else {\n      previewText = \"統合方針を選択してください\";\n    }\n\n    previewDiv.innerHTML = `<div>${previewText}</div>`;\n  });\n\n  // ========== 6. マージ実行ボタン ==========\n  container.querySelector(\"#btn-execute-merge\").addEventListener(\"click\", async () => {\n    if (!selectedDuplicateGroup) {\n      alert(\"グループを選択してください\");\n      return;\n    }\n\n    const mergePolicy = container.querySelector(\"#merge-policy\").value;\n    if (!mergePolicy) {\n      alert(\"統合方針を選択してください\");\n      return;\n    }\n\n    if (!confirm(\"マージを実行しますか？\")) return;\n\n    try {\n      // マージ実行（API呼び出し）\n      const mergeData = {\n        主受注ID: selectedDuplicateGroup.主受注ID,\n        副受注ID: selectedDuplicateGroup.副受注ID,\n        統合方針: mergePolicy,\n        優先度レベル: container.querySelector(\"#priority-level\").value,\n        修正対象優先度: container.querySelector(\"#correction-priority\").value,\n        検出ステータス: \"統合済み\"\n      };\n\n      const result = await window.aivicApi.update(DUPLICATE_RESULTS_IDX, selectedDuplicateGroup.id, mergeData);\n      \n      if (result) {\n        alert(\"マージが完了しました\");\n        // 一覧を再読み込み\n        const updated = await window.aivicApi.list(DUPLICATE_RESULTS_IDX);\n        allDuplicateGroups = updated || [];\n        renderDuplicateGroups(allDuplicateGroups);\n        selectedDuplicateGroup = null;\n        container.querySelector(\"#primary-order-detail\").innerHTML = '<div style=\"color: var(--text-muted);\">選択してください</div>';\n        container.querySelector(\"#secondary-order-detail\").innerHTML = '<div style=\"color: var(--text-muted);\">選択してください</div>';\n      }\n    } catch (err) {\n      console.error(\"マージ実行エラー:\", err);\n      alert(\"マージ実行に失敗しました\");\n    }\n  });\n\n  // ========== 7. キャンセルボタン ==========\n  container.querySelector(\"#btn-cancel\").addEventListener(\"click\", () => {\n    if (confirm(\"処理をキャンセルしますか？\")) {\n      selectedDuplicateGroup = null;\n      container.querySelector(\"#primary-order-detail\").innerHTML = '<div style=\"color: var(--text-muted);\">選択してください</div>';\n      container.querySelector(\"#secondary-order-detail\").innerHTML = '<div style=\"color: var(--text-muted);\">選択してください</div>';\n      container.querySelector(\"#merge-policy\").value = \"\";\n      container.querySelector(\"#priority-level\").value = \"\";\n      container.querySelector(\"#correction-priority\").value = \"\";\n      container.querySelector(\"#merge-preview\").innerHTML = '<div style=\"color: var(--text-muted);\">統合方針を選択してください</div>';\n    }\n  });\n\n  // ========== 8. 承認フロー確認表示 ==========\n  function updateApprovalFlowStatus() {\n    if (!selectedDuplicateGroup) return;\n\n    const approvalFlows = tables[APPROVAL_FLOW_IDX]?.records || [];\n    const relatedFlow = approvalFlows.find(f => f.受注データ_ID === selectedDuplicateGroup.主受注ID);\n\n    const statusDiv = container.querySelector(\"#approval-flow-status\");\n    if (relatedFlow) {\n      statusDiv.innerHTML = `\n        <div><strong>フロー段階:</strong> ${relatedFlow.フロー段階 || '-'}</div>\n        <div><strong>現在ステータス:</strong> ${relatedFlow.現在ステータス || '-'}</div>\n        <div><strong>承認者:</strong> ${relatedFlow.承認者_ID || '-'}</div>\n        <div><strong>期限:</strong> ${relatedFlow.期限日時 || '-'}</div>\n      `;\n    } else {\n      statusDiv.innerHTML = '<div style=\"color: var(--text-muted);\">承認フロー情報なし</div>';\n    }\n\n    // 承認者判定履歴表示\n    const approvalHistories = tables[APPROVAL_HISTORY_IDX]?.records || [];\n    const relatedHistories = approvalHistories.filter(h => h.受注データID === selectedDuplicateGroup.主受注ID);\n\n    const historyDiv = container.querySelector(\"#approval-history\");\n    if (relatedHistories.length > 0) {\n      historyDiv.innerHTML = relatedHistories.map(h => `\n        <div style=\"padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.04);\">\n          <strong>${h.判定結果 || '-'}:</strong> ${h.判定理由 || '-'} (${h.判定日時 || '-'})\n        </div>\n      `).join(\"\");\n    } else {\n      historyDiv.innerHTML = '<div style=\"color: var(--text-muted);\">履歴なし</div>';\n    }\n  }\n\n  // 重複グループ選択時に承認フロー更新\n  const originalClickHandler = container.addEventListener(\"click\", (e) => {\n    const row = e.target.closest(\".duplicate-group-row\");\n    if (row) {\n      setTimeout(updateApprovalFlowStatus, 100);\n    }\n  });\n}";
 </script>
-  <script>window.AIVIC_DB_TYPE = "aurora_postgresql";</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f0c856;
+  --primary-hover: #f4d03f;
+  --secondary: #c41e3a;
+  --secondary-hover: #e63946;
   --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
   --bg-sidebar: #161616;
-  --border: #2a2a2a;
+  --bg-hover: #252525;
+  --border: #3a3a3a;
   --text: #f5f5f5;
   --text-muted: #b0b0b0;
   --top-bar-bg: #1a1a1a;
-  --top-bar-border: #2a2a2a;
-  --accent-red: #e63946;
-  --accent-red-hover: #f44d5a;
-  --success: #2ecc71;
-  --warning: #f39c12;
-  --error: #e63946;
-  --info: #3498db;
+  --top-bar-border: #3a3a3a;
+  --success: #4ade80;
+  --warning: #facc15;
+  --error: #ef4444;
+  --info: #60a5fa;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --focus-ring: #d4af37;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -131,99 +133,143 @@ canvas { display:block; max-height:280px !important; }
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781413550629" style="margin-top:0">
 <div style="display: flex; flex-direction: column; height: 100%; gap: 0;">
-  <!-- ヘッダー / ブレッドクラム -->
-  <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--bg-main);">
-    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">
+  <!-- ヘッダー領域 -->
+  <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--bg-card);">
+    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">
       ROシステム / 受注データ品質管理・検証システム / 重複マージ・統合処理
     </div>
     <h1 style="font-size: 20px; font-weight: 600; color: var(--text); margin: 0;">重複マージ・統合処理</h1>
   </div>
 
   <!-- メインコンテンツ -->
-  <div style="display: flex; flex: 1; gap: 12px; padding: 12px; overflow: hidden; background: var(--bg-main);">
+  <div style="display: flex; flex: 1; gap: 12px; padding: 12px; overflow: hidden;">
     
-    <!-- 左パネル: 重複グループ一覧 -->
-    <div style="width: 280px; display: flex; flex-direction: column; gap: 8px; border-right: 1px solid var(--border); padding-right: 12px; overflow-y: auto;">
-      <div style="font-size: 12px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px;">重複グループ検出結果</div>
+    <!-- 左パネル: 重複検出結果一覧 -->
+    <div style="flex: 0 0 35%; display: flex; flex-direction: column; gap: 8px; overflow: hidden; background: var(--bg-card); border-radius: 6px; padding: 12px; border: 1px solid rgba(255,255,255,0.08);">
+      <div style="font-size: 13px; font-weight: 600; color: var(--text);">重複グループ一覧</div>
       
-      <!-- 検索フィルタ -->
-      <div style="display: flex; gap: 4px;">
+      <!-- 検索・フィルタ -->
+      <div style="display: flex; gap: 6px;">
         <input 
           type="text" 
-          id="filter-group-keyword" 
-          data-testid="filter-group-keyword"
+          id="search-duplicate-groups" 
+          data-testid="search-duplicate-groups"
           placeholder="グループ検索..." 
-          style="flex: 1; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);"
+          style="flex: 1; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px;"
         />
+        <button 
+          id="btn-search-groups" 
+          data-testid="btn-search-groups"
+          class="action-btn" 
+          style="padding: 6px 10px; font-size: 12px; white-space: nowrap;"
+        >検索</button>
       </div>
 
-      <!-- グループリスト -->
-      <div id="duplicate-groups-list" style="flex: 1; overflow-y: auto; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-card);">
-        <div style="padding: 12px; text-align: center; color: var(--text-muted); font-size: 12px;">読込中...</div>
-      </div>
-    </div>
-
-    <!-- 中央パネル: データ比較ビュー -->
-    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px; overflow-y: auto;">
-      <div style="font-size: 12px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px;">マージ対象データ比較</div>
-      
-      <!-- 比較テーブル -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex: 1; overflow-y: auto;">
-        <!-- 主受注 -->
-        <div style="border: 1px solid var(--border); border-radius: 4px; background: var(--bg-card); padding: 12px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto;">
-          <div style="font-size: 11px; font-weight: 600; color: var(--primary); text-transform: uppercase;">主受注データ</div>
-          <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
-            <tbody id="compare-primary-tbody">
-              <tr><td style="padding: 4px 0; color: var(--text-muted);">読込中...</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- 副受注 -->
-        <div style="border: 1px solid var(--border); border-radius: 4px; background: var(--bg-card); padding: 12px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto;">
-          <div style="font-size: 11px; font-weight: 600; color: #ff6a00; text-transform: uppercase;">副受注データ</div>
-          <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
-            <tbody id="compare-secondary-tbody">
-              <tr><td style="padding: 4px 0; color: var(--text-muted);">読込中...</td></tr>
-            </tbody>
-          </table>
-        </div>
+      <!-- 重複グループテーブル -->
+      <div style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; background: rgba(0,0,0,0.15);">
+        <table data-testid="duplicate-groups-list" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+          <thead style="position: sticky; top: 0; background: rgba(0,0,0,0.3);">
+            <tr>
+              <th style="padding: 8px; text-align: left; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.08); font-weight: 600;">グループID</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.08); font-weight: 600;">信頼度</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.08); font-weight: 600;">ステータス</th>
+            </tr>
+          </thead>
+          <tbody id="duplicate-groups-tbody">
+            <tr style="background: rgba(255,255,255,0.02);">
+              <td colspan="3" style="padding: 12px; text-align: center; color: var(--text-muted);">読込中...</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <!-- 右パネル: 統合方針・信頼度・承認フロー -->
-    <div style="width: 320px; display: flex; flex-direction: column; gap: 12px; border-left: 1px solid var(--border); padding-left: 12px; overflow-y: auto;">
+    <!-- 右パネル: マージ対象データ比較 -->
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px; overflow: hidden;">
       
-      <!-- マッチング信頼度 -->
-      <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; padding: 12px;">
-        <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">マッチング信頼度</div>
-        <div id="matching-confidence" style="font-size: 28px; font-weight: 700; color: var(--primary);">--</div>
-        <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">マッチング理由: <span id="matching-reason" style="color: var(--text);">--</span></div>
+      <!-- 比較ビュー（主受注 vs 副受注） -->
+      <div style="flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; overflow: hidden;">
+        
+        <!-- 主受注データ -->
+        <div style="background: var(--bg-card); border-radius: 6px; padding: 12px; border: 1px solid rgba(255,255,255,0.08); overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+          <div style="font-size: 13px; font-weight: 600; color: var(--text);">主受注データ</div>
+          <div id="primary-order-detail" style="font-size: 12px; color: var(--text); line-height: 1.6;">
+            <div style="color: var(--text-muted);">選択してください</div>
+          </div>
+        </div>
+
+        <!-- 副受注データ -->
+        <div style="background: var(--bg-card); border-radius: 6px; padding: 12px; border: 1px solid rgba(255,255,255,0.08); overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+          <div style="font-size: 13px; font-weight: 600; color: var(--text);">副受注データ</div>
+          <div id="secondary-order-detail" style="font-size: 12px; color: var(--text); line-height: 1.6;">
+            <div style="color: var(--text-muted);">選択してください</div>
+          </div>
+        </div>
       </div>
 
-      <!-- 統合方針選択 -->
-      <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; padding: 12px;">
-        <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">統合方針</label>
+      <!-- 統合方針・信頼度スコア -->
+      <div style="background: var(--bg-card); border-radius: 6px; padding: 12px; border: 1px solid rgba(255,255,255,0.08);">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; font-size: 12px;">
+          
+          <!-- マッチング信頼度 -->
+          <div>
+            <label style="display: block; color: var(--text-muted); margin-bottom: 4px; font-size: 11px;">マッチング信頼度</label>
+            <div id="matching-confidence" style="font-size: 16px; font-weight: 600; color: var(--primary);">-</div>
+          </div>
+
+          <!-- チャネル情報 -->
+          <div>
+            <label style="display: block; color: var(--text-muted); margin-bottom: 4px; font-size: 11px;">チャネル</label>
+            <div id="channel-info" style="font-size: 12px; color: var(--text);">-</div>
+          </div>
+
+          <!-- マッチング理由 -->
+          <div>
+            <label style="display: block; color: var(--text-muted); margin-bottom: 4px; font-size: 11px;">マッチング理由</label>
+            <div id="matching-reason" style="font-size: 12px; color: var(--text); max-height: 40px; overflow-y: auto;">-</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- チャネル間矛盾検出結果 -->
+      <div style="background: var(--bg-card); border-radius: 6px; padding: 12px; border: 1px solid rgba(255,255,255,0.08);">
+        <div style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px;">チャネル間矛盾検出</div>
+        <div id="channel-contradiction-list" style="font-size: 12px; color: var(--text); max-height: 80px; overflow-y: auto;">
+          <div style="color: var(--text-muted);">矛盾なし</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 下部パネル: 統合方針・優先度・マージプレビュー・承認フロー -->
+  <div style="display: flex; flex-direction: column; gap: 8px; padding: 12px; border-top: 1px solid var(--border); background: var(--bg-card); max-height: 45%; overflow-y: auto;">
+    
+    <!-- 統合方針・優先度設定 -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; font-size: 12px;">
+      
+      <!-- 統合方針 -->
+      <div>
+        <label style="display: block; color: var(--text-muted); margin-bottom: 4px; font-size: 11px;">統合方針</label>
         <select 
           id="merge-policy" 
-          data-testid="merge-policy-select"
-          style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);"
+          data-testid="merge-policy"
+          style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px;"
         >
           <option value="">選択してください</option>
-          <option value="primary_keep">主受注を優先</option>
-          <option value="secondary_keep">副受注を優先</option>
-          <option value="manual_merge">手動マージ</option>
-          <option value="hold">保留</option>
+          <option value="primary">主受注を優先</option>
+          <option value="secondary">副受注を優先</option>
+          <option value="merge">統合（両方の情報を結合）</option>
+          <option value="manual">手動選択</option>
         </select>
       </div>
 
-      <!-- 優先度設定 -->
-      <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; padding: 12px;">
-        <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">優先度レベル</label>
+      <!-- 優先度レベル -->
+      <div>
+        <label style="display: block; color: var(--text-muted); margin-bottom: 4px; font-size: 11px;">優先度レベル</label>
         <select 
           id="priority-level" 
-          data-testid="priority-level-select"
-          style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text);"
+          data-testid="priority-level"
+          style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px;"
         >
           <option value="">選択してください</option>
           <option value="1">1 - 最高</option>
@@ -234,95 +280,71 @@ canvas { display:block; max-height:280px !important; }
         </select>
       </div>
 
-      <!-- チャネル間矛盾検出 -->
-      <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; padding: 12px;">
-        <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">チャネル間矛盾</div>
-        <div id="channel-conflicts" style="font-size: 12px; color: var(--text); max-height: 120px; overflow-y: auto;">
-          <div style="color: var(--text-muted);">矛盾なし</div>
-        </div>
-      </div>
-
       <!-- 信頼度スコア -->
-      <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; padding: 12px;">
-        <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">信頼度スコア</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 11px;">
-          <div>
-            <div style="color: var(--text-muted);">完全性</div>
-            <div id="score-completeness" style="font-size: 16px; font-weight: 700; color: var(--primary);">--</div>
-          </div>
-          <div>
-            <div style="color: var(--text-muted);">正確性</div>
-            <div id="score-accuracy" style="font-size: 16px; font-weight: 700; color: var(--primary);">--</div>
-          </div>
-          <div>
-            <div style="color: var(--text-muted);">一貫性</div>
-            <div id="score-consistency" style="font-size: 16px; font-weight: 700; color: var(--primary);">--</div>
-          </div>
-          <div>
-            <div style="color: var(--text-muted);">総合</div>
-            <div id="score-overall" style="font-size: 16px; font-weight: 700; color: var(--primary);">--</div>
-          </div>
-        </div>
+      <div>
+        <label style="display: block; color: var(--text-muted); margin-bottom: 4px; font-size: 11px;">信頼度スコア</label>
+        <div id="trust-score-display" style="font-size: 14px; font-weight: 600; color: var(--primary);">-</div>
       </div>
 
-      <!-- 承認フロー確認 -->
-      <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; padding: 12px;">
-        <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">承認フロー</div>
-        <div id="approval-flow-status" style="font-size: 12px; color: var(--text); max-height: 100px; overflow-y: auto;">
-          <div style="color: var(--text-muted);">未確認</div>
-        </div>
+      <!-- 修正対象優先度 -->
+      <div>
+        <label style="display: block; color: var(--text-muted); margin-bottom: 4px; font-size: 11px;">修正対象優先度</label>
+        <select 
+          id="correction-priority" 
+          data-testid="correction-priority"
+          style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px;"
+        >
+          <option value="">選択してください</option>
+          <option value="high">高</option>
+          <option value="medium">中</option>
+          <option value="low">低</option>
+        </select>
       </div>
+    </div>
 
-      <!-- 承認者判定履歴 -->
-      <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; padding: 12px;">
-        <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">判定履歴</div>
-        <div id="approval-history" style="font-size: 11px; color: var(--text); max-height: 100px; overflow-y: auto;">
-          <div style="color: var(--text-muted);">履歴なし</div>
-        </div>
+    <!-- マージプレビュー -->
+    <div style="background: rgba(0,0,0,0.15); border-radius: 4px; padding: 10px; border: 1px solid rgba(255,255,255,0.08);">
+      <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px;">マージプレビュー</div>
+      <div id="merge-preview" style="font-size: 11px; color: var(--text); max-height: 60px; overflow-y: auto; line-height: 1.5;">
+        <div style="color: var(--text-muted);">統合方針を選択してください</div>
       </div>
     </div>
-  </div>
 
-  <!-- マージプレビュー + 実行ボタン -->
-  <div style="border-top: 1px solid var(--border); background: var(--bg-card); padding: 12px 16px;">
-    <div style="display: flex; gap: 8px; margin-bottom: 12px; align-items: center;">
-      <div style="font-size: 12px; font-weight: 600; color: var(--text); text-transform: uppercase;">マージプレビュー</div>
-      <button 
-        id="btn-toggle-preview" 
-        data-testid="toggle-preview-button"
-        style="margin-left: auto; padding: 4px 8px; font-size: 11px; background: transparent; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; color: var(--text); cursor: pointer;"
-      >表示</button>
-    </div>
-    
-    <div id="merge-preview-container" style="display: none; background: var(--bg-main); border: 1px solid var(--border); border-radius: 4px; padding: 12px; margin-bottom: 12px; max-height: 200px; overflow-y: auto;">
-      <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
-        <tbody id="merge-preview-tbody">
-          <tr><td style="padding: 4px 0; color: var(--text-muted);">プレビューデータなし</td></tr>
-        </tbody>
-      </table>
+    <!-- 承認フロー確認 -->
+    <div style="background: rgba(0,0,0,0.15); border-radius: 4px; padding: 10px; border: 1px solid rgba(255,255,255,0.08);">
+      <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px;">承認フロー確認</div>
+      <div id="approval-flow-status" style="font-size: 11px; color: var(--text); line-height: 1.5;">
+        <div style="color: var(--text-muted);">未選択</div>
+      </div>
     </div>
 
-    <!-- 修正対象優先度リスト参照 -->
-    <div style="margin-bottom: 12px; padding: 8px; background: var(--bg-main); border-left: 3px solid var(--primary); border-radius: 2px;">
-      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">修正対象優先度リスト</div>
-      <div id="priority-list-ref" style="font-size: 12px; color: var(--text);">
-        <span style="color: var(--text-muted);">--</span>
+    <!-- 承認者判定履歴 -->
+    <div style="background: rgba(0,0,0,0.15); border-radius: 4px; padding: 10px; border: 1px solid rgba(255,255,255,0.08); max-height: 80px; overflow-y: auto;">
+      <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px;">承認者判定履歴</div>
+      <div id="approval-history" style="font-size: 11px; color: var(--text); line-height: 1.5;">
+        <div style="color: var(--text-muted);">履歴なし</div>
       </div>
     </div>
 
     <!-- アクションボタン -->
-    <div style="display: flex; gap: 8px; justify-content: flex-end;">
+    <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px;">
       <button 
         id="btn-cancel" 
-        data-testid="cancel-button"
-        class="action-btn secondary"
+        data-testid="btn-cancel"
+        class="action-btn secondary" 
         style="padding: 8px 16px; font-size: 12px;"
       >キャンセル</button>
       <button 
-        id="btn-merge-execute" 
-        data-testid="merge-execute-button"
-        class="action-btn"
+        id="btn-preview-merge" 
+        data-testid="btn-preview-merge"
+        class="action-btn secondary" 
         style="padding: 8px 16px; font-size: 12px;"
+      >プレビュー更新</button>
+      <button 
+        id="btn-execute-merge" 
+        data-testid="btn-execute-merge"
+        class="action-btn" 
+        style="padding: 8px 16px; font-size: 12px; background: var(--primary); color: #fff;"
       >マージ実行</button>
     </div>
   </div>

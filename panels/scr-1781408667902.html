@@ -19,21 +19,24 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f0c856;
+  --primary-hover: #f4d03f;
+  --secondary: #c41e3a;
+  --secondary-hover: #e63946;
   --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
   --bg-sidebar: #161616;
-  --border: #2a2a2a;
+  --bg-hover: #252525;
+  --border: #3a3a3a;
   --text: #f5f5f5;
   --text-muted: #b0b0b0;
   --top-bar-bg: #1a1a1a;
-  --top-bar-border: #2a2a2a;
-  --accent-red: #e63946;
-  --accent-red-hover: #f44d5a;
-  --success: #2ecc71;
-  --warning: #f39c12;
-  --error: #e63946;
-  --info: #3498db;
+  --top-bar-border: #3a3a3a;
+  --success: #4ade80;
+  --warning: #facc15;
+  --error: #ef4444;
+  --info: #60a5fa;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --focus-ring: #d4af37;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -102,35 +105,30 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781408667902" style="margin-top:0">
-<div style="display: flex; flex-direction: column; height: 100%; gap: 0.75rem; padding: 0.75rem;">
-  
+<div style="display: flex; flex-direction: column; height: 100%; gap: 0.5rem; padding: 0.75rem;">
+
   <!-- ヘッダー -->
-  <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);">
-    <h1 style="font-size: 1.25rem; font-weight: 600; color: var(--text); margin: 0;">基幹システム連携検証</h1>
-    <div style="display: flex; gap: 0.5rem; align-items: center;">
-      <span style="font-size: 0.875rem; color: var(--text-muted);">検証ステータス:</span>
-      <span id="validation-status" style="font-size: 0.875rem; font-weight: 600; color: #d4af37; background: rgba(212,175,55,0.1); padding: 0.25rem 0.5rem; border-radius: 3px;">待機中</span>
+  <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+    <h1 style="font-size: 1.25rem; font-weight: 700; color: var(--text); margin: 0;">基幹システム連携検証</h1>
+    <div style="display: flex; gap: 0.5rem; font-size: 0.75rem; color: var(--text-muted);">
+      <span data-testid="validation-status">検証待機中</span>
     </div>
   </div>
 
   <!-- 検索フィルターバー -->
-  <div class="card" style="padding: 0.75rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.5rem; align-items: end;">
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto auto; gap: 0.5rem; align-items: end; background: var(--bg-card); padding: 0.5rem; border-radius: 0.375rem;">
     <div>
-      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">受注番号</label>
-      <input type="text" id="filter-order-no" data-testid="filter-order-no" placeholder="例：ORD-2024-001" style="width: 100%; padding: 0.375rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 3px; color: var(--text); font-size: 0.875rem;" />
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">受注番号</label>
+      <input type="text" id="filter-order-number" data-testid="filter-order-number" placeholder="受注番号で検索" style="width: 100%; padding: 0.375rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem;" />
     </div>
     <div>
-      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">受注日範囲</label>
-      <input type="date" id="filter-order-date-from" data-testid="filter-order-date-from" style="width: 100%; padding: 0.375rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 3px; color: var(--text); font-size: 0.875rem;" />
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">顧客コード</label>
+      <input type="text" id="filter-customer-code" data-testid="filter-customer-code" placeholder="顧客コード" style="width: 100%; padding: 0.375rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem;" />
     </div>
     <div>
-      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">～</label>
-      <input type="date" id="filter-order-date-to" data-testid="filter-order-date-to" style="width: 100%; padding: 0.375rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 3px; color: var(--text); font-size: 0.875rem;" />
-    </div>
-    <div>
-      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">ステータス</label>
-      <select id="filter-status" data-testid="filter-status" style="width: 100%; padding: 0.375rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 3px; color: var(--text); font-size: 0.875rem;">
-        <option value="">全て</option>
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">ステータス</label>
+      <select id="filter-status" data-testid="filter-status" style="width: 100%; padding: 0.375rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem;">
+        <option value="">すべて</option>
         <option value="未処理">未処理</option>
         <option value="処理中">処理中</option>
         <option value="完了">完了</option>
@@ -138,122 +136,157 @@ canvas { display:block; max-height:280px !important; }
       </select>
     </div>
     <div>
-      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">エラー分類</label>
-      <select id="filter-error-type" data-testid="filter-error-type" style="width: 100%; padding: 0.375rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 3px; color: var(--text); font-size: 0.875rem;">
-        <option value="">全て</option>
-        <option value="バリデーションエラー">バリデーションエラー</option>
-        <option value="システムエラー">システムエラー</option>
-        <option value="連携エラー">連携エラー</option>
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">検証結果</label>
+      <select id="filter-validation" data-testid="filter-validation" style="width: 100%; padding: 0.375rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem;">
+        <option value="">すべて</option>
+        <option value="成功">成功</option>
+        <option value="失敗">失敗</option>
         <option value="警告">警告</option>
+        <option value="未実行">未実行</option>
       </select>
     </div>
-    <button id="btn-search" data-testid="search-button" class="action-btn" style="background: var(--primary); color: #fff; border: none; padding: 0.375rem 1rem; border-radius: 3px; font-size: 0.875rem; font-weight: 600; cursor: pointer;">検索</button>
+    <button id="btn-search" data-testid="search-button" class="action-btn" style="padding: 0.375rem 0.75rem; font-size: 0.875rem;">検索</button>
+    <button id="btn-validate-all" data-testid="validate-all-button" class="action-btn" style="padding: 0.375rem 0.75rem; font-size: 0.875rem; background: var(--primary);">一括検証</button>
   </div>
 
-  <!-- メインコンテンツ（左：一覧、右：詳細） -->
-  <div style="display: grid; grid-template-columns: 1fr 380px; gap: 0.75rem; flex: 1; min-height: 0;">
-    
-    <!-- 左：受注一覧テーブル -->
-    <div class="card" style="padding: 0.5rem; display: flex; flex-direction: column; min-height: 0;">
-      <div style="font-size: 0.875rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; padding: 0 0.25rem;">受注一覧（<span id="count-orders">0</span>件）</div>
-      <div class="table-wrap" style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.1); border-radius: 3px;">
-        <table data-testid="record-list" style="width: 100%; font-size: 0.8125rem; border-collapse: collapse;">
-          <thead style="position: sticky; top: 0; background: rgba(0,0,0,0.2);">
+  <!-- 受注一覧テーブル -->
+  <div style="flex: 1; overflow-y: auto; border: 1px solid var(--border); border-radius: 0.375rem; background: var(--bg-card);">
+    <table data-testid="order-list" style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+      <thead style="position: sticky; top: 0; background: var(--bg-sidebar); border-bottom: 1px solid var(--border);">
+        <tr>
+          <th style="padding: 0.5rem; text-align: left; color: var(--text); font-weight: 600; width: 2.5rem;"><input type="checkbox" id="select-all" data-testid="select-all" style="accent-color: var(--primary);" /></th>
+          <th style="padding: 0.5rem; text-align: left; color: var(--text); font-weight: 600;">受注番号</th>
+          <th style="padding: 0.5rem; text-align: left; color: var(--text); font-weight: 600;">顧客名</th>
+          <th style="padding: 0.5rem; text-align: right; color: var(--text); font-weight: 600;">受注金額</th>
+          <th style="padding: 0.5rem; text-align: left; color: var(--text); font-weight: 600;">受注日</th>
+          <th style="padding: 0.5rem; text-align: left; color: var(--text); font-weight: 600;">ステータス</th>
+          <th style="padding: 0.5rem; text-align: center; color: var(--text); font-weight: 600;">検証結果</th>
+          <th style="padding: 0.5rem; text-align: center; color: var(--text); font-weight: 600;">エラー件数</th>
+        </tr>
+      </thead>
+      <tbody id="order-tbody">
+        <tr style="background: var(--bg-main); color: var(--text-muted); text-align: center;">
+          <td colspan="8" style="padding: 1rem;">データを読み込み中...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- タブ切り替え -->
+  <div style="display: flex; gap: 0.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.25rem;">
+    <button id="tab-error-detail" data-testid="tab-error-detail" class="tab-btn active" style="padding: 0.375rem 0.75rem; border: none; background: transparent; color: var(--primary); font-weight: 600; cursor: pointer; border-bottom: 2px solid var(--primary); font-size: 0.875rem;">エラー詳細</button>
+    <button id="tab-approval" data-testid="tab-approval" class="tab-btn" style="padding: 0.375rem 0.75rem; border: none; background: transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; font-size: 0.875rem;">承認処理</button>
+    <button id="tab-notification" data-testid="tab-notification" class="tab-btn" style="padding: 0.375rem 0.75rem; border: none; background: transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; font-size: 0.875rem;">通知履歴</button>
+  </div>
+
+  <!-- タブコンテンツ -->
+  <div style="flex: 1; overflow-y: auto; display: grid; grid-template-rows: auto 1fr; gap: 0.5rem;">
+
+    <!-- エラー詳細タブ -->
+    <div id="panel-error-detail" style="display: grid; grid-template-rows: auto 1fr; gap: 0.5rem;">
+      <div style="display: flex; gap: 0.5rem; align-items: center; background: var(--bg-card); padding: 0.5rem; border-radius: 0.375rem;">
+        <label style="font-size: 0.75rem; color: var(--text-muted);">エラー分類:</label>
+        <select id="filter-error-class" data-testid="filter-error-class" style="padding: 0.375rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem;">
+          <option value="">すべて</option>
+          <option value="必須項目エラー">必須項目エラー</option>
+          <option value="データ型エラー">データ型エラー</option>
+          <option value="範囲エラー">範囲エラー</option>
+          <option value="形式エラー">形式エラー</option>
+          <option value="連携エラー">連携エラー</option>
+        </select>
+      </div>
+      <div style="overflow-y: auto; border: 1px solid var(--border); border-radius: 0.375rem; background: var(--bg-card);">
+        <table data-testid="error-log-list" style="width: 100%; border-collapse: collapse; font-size: 0.8125rem;">
+          <thead style="position: sticky; top: 0; background: var(--bg-sidebar); border-bottom: 1px solid var(--border);">
             <tr>
-              <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">受注番号</th>
-              <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">顧客</th>
-              <th style="padding: 0.375rem 0.5rem; text-align: right; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">金額</th>
-              <th style="padding: 0.375rem 0.5rem; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">検証</th>
-              <th style="padding: 0.375rem 0.5rem; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">エラー</th>
+              <th style="padding: 0.375rem; text-align: left; color: var(--text); font-weight: 600;">エラーコード</th>
+              <th style="padding: 0.375rem; text-align: left; color: var(--text); font-weight: 600;">エラーメッセージ</th>
+              <th style="padding: 0.375rem; text-align: left; color: var(--text); font-weight: 600;">エラーフィールド</th>
+              <th style="padding: 0.375rem; text-align: center; color: var(--text); font-weight: 600;">重要度</th>
+              <th style="padding: 0.375rem; text-align: center; color: var(--text); font-weight: 600;">ステータス</th>
             </tr>
           </thead>
-          <tbody id="orders-tbody">
-            <tr style="opacity: 0.5;"><td colspan="5" style="padding: 1rem; text-align: center; color: var(--text-muted);">データを読み込み中...</td></tr>
+          <tbody id="error-log-tbody">
+            <tr style="background: var(--bg-main); color: var(--text-muted); text-align: center;">
+              <td colspan="5" style="padding: 0.75rem;">エラーログはありません</td>
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- 右：詳細パネル -->
-    <div class="card" style="padding: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem; overflow-y: auto;">
-      <div style="font-size: 0.875rem; font-weight: 600; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">詳細情報</div>
-      
-      <div id="detail-panel" style="display: none; flex: 1; overflow-y: auto;">
-        <!-- 受注基本情報 -->
-        <div style="margin-bottom: 0.75rem;">
-          <div style="font-size: 0.75rem; font-weight: 600; color: #d4af37; text-transform: uppercase; margin-bottom: 0.375rem;">受注情報</div>
-          <div style="font-size: 0.8125rem; color: var(--text); line-height: 1.5;">
-            <div><span style="color: var(--text-muted);">受注ID:</span> <span id="detail-order-id">-</span></div>
-            <div><span style="color: var(--text-muted);">受注番号:</span> <span id="detail-order-no">-</span></div>
-            <div><span style="color: var(--text-muted);">顧客:</span> <span id="detail-customer">-</span></div>
-            <div><span style="color: var(--text-muted);">受注日:</span> <span id="detail-order-date">-</span></div>
-            <div><span style="color: var(--text-muted);">金額:</span> <span id="detail-amount" style="font-weight: 600;">-</span></div>
-          </div>
-        </div>
-
-        <!-- バリデーション結果 -->
-        <div style="margin-bottom: 0.75rem;">
-          <div style="font-size: 0.75rem; font-weight: 600; color: #d4af37; text-transform: uppercase; margin-bottom: 0.375rem;">検証結果</div>
-          <div id="detail-validation-result" style="font-size: 0.8125rem; color: var(--text); background: rgba(0,0,0,0.2); padding: 0.5rem; border-radius: 3px; border-left: 3px solid #d4af37;">
-            <div style="color: var(--text-muted);">検証待機中...</div>
-          </div>
-        </div>
-
-        <!-- エラー詳細 -->
-        <div id="error-detail-section" style="margin-bottom: 0.75rem; display: none;">
-          <div style="font-size: 0.75rem; font-weight: 600; color: #ff6a00; text-transform: uppercase; margin-bottom: 0.375rem;">エラー詳細</div>
-          <div id="detail-error-list" style="font-size: 0.75rem; color: var(--text); background: rgba(255,106,0,0.08); padding: 0.5rem; border-radius: 3px; border-left: 3px solid #ff6a00; max-height: 120px; overflow-y: auto;">
-          </div>
-        </div>
-
-        <!-- 責任者割当 -->
-        <div style="margin-bottom: 0.75rem;">
-          <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.375rem;">責任者割当</label>
-          <select id="detail-assignee" data-testid="detail-assignee" style="width: 100%; padding: 0.375rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 3px; color: var(--text); font-size: 0.8125rem;">
+    <!-- 承認処理タブ -->
+    <div id="panel-approval" style="display: none; grid-template-rows: auto 1fr; gap: 0.5rem;">
+      <div style="background: var(--bg-card); padding: 0.5rem; border-radius: 0.375rem; display: grid; grid-template-columns: 1fr 1fr 1fr auto auto; gap: 0.5rem; align-items: end;">
+        <div>
+          <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">責任者割当</label>
+          <select id="assign-responsible" data-testid="assign-responsible" style="width: 100%; padding: 0.375rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem;">
             <option value="">選択してください</option>
-            <option value="user-001">田中太郎（営業部）</option>
-            <option value="user-002">鈴木花子（品質管理）</option>
-            <option value="user-003">佐藤次郎（システム部）</option>
-            <option value="user-004">伊藤美咲（経理部）</option>
+            <option value="user-001">営業部 田中太郎</option>
+            <option value="user-002">営業部 鈴木花子</option>
+            <option value="user-003">品質管理 佐藤次郎</option>
+            <option value="user-004">システム管理 山田一郎</option>
           </select>
         </div>
-
-        <!-- 修正指示 -->
-        <div style="margin-bottom: 0.75rem;">
-          <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.375rem;">修正指示・コメント</label>
-          <textarea id="detail-instruction" data-testid="detail-instruction" placeholder="修正内容を記入..." style="width: 100%; padding: 0.375rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 3px; color: var(--text); font-size: 0.8125rem; resize: vertical; min-height: 60px;"></textarea>
+        <div>
+          <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">修正指示</label>
+          <textarea id="correction-instruction" data-testid="correction-instruction" placeholder="修正内容を入力" style="width: 100%; padding: 0.375rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; resize: none; height: 2.5rem;"></textarea>
         </div>
-
-        <!-- 承認・却下ボタン -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
-          <button id="btn-approve" data-testid="approve-button" class="action-btn" style="background: var(--primary); color: #fff; border: none; padding: 0.5rem; border-radius: 3px; font-size: 0.8125rem; font-weight: 600; cursor: pointer;">承認</button>
-          <button id="btn-reject" data-testid="reject-button" class="action-btn secondary" style="background: transparent; border: 1px solid #ff6a00; color: #ff6a00; padding: 0.5rem; border-radius: 3px; font-size: 0.8125rem; font-weight: 600; cursor: pointer;">却下</button>
+        <div>
+          <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">承認コメント</label>
+          <textarea id="approval-comment" data-testid="approval-comment" placeholder="承認時のコメント" style="width: 100%; padding: 0.375rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; resize: none; height: 2.5rem;"></textarea>
         </div>
-
-        <!-- 通知送信 -->
-        <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.1);">
-          <button id="btn-notify" data-testid="notify-button" class="action-btn" style="width: 100%; background: var(--primary); color: #fff; border: none; padding: 0.5rem; border-radius: 3px; font-size: 0.8125rem; font-weight: 600; cursor: pointer;">通知を送信</button>
-        </div>
+        <button id="btn-approve" data-testid="approve-button" class="action-btn" style="padding: 0.375rem 0.75rem; font-size: 0.875rem; background: var(--primary);">承認</button>
+        <button id="btn-reject" data-testid="reject-button" class="action-btn secondary" style="padding: 0.375rem 0.75rem; font-size: 0.875rem;">却下</button>
       </div>
-
-      <div id="detail-empty" style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); font-size: 0.8125rem; text-align: center;">
-        <div>一覧から受注を<br/>選択してください</div>
+      <div style="overflow-y: auto; border: 1px solid var(--border); border-radius: 0.375rem; background: var(--bg-card);">
+        <table data-testid="approval-list" style="width: 100%; border-collapse: collapse; font-size: 0.8125rem;">
+          <thead style="position: sticky; top: 0; background: var(--bg-sidebar); border-bottom: 1px solid var(--border);">
+            <tr>
+              <th style="padding: 0.375rem; text-align: left; color: var(--text); font-weight: 600;">受注番号</th>
+              <th style="padding: 0.375rem; text-align: left; color: var(--text); font-weight: 600;">責任者</th>
+              <th style="padding: 0.375rem; text-align: left; color: var(--text); font-weight: 600;">承認ステータス</th>
+              <th style="padding: 0.375rem; text-align: left; color: var(--text); font-weight: 600;">承認日時</th>
+              <th style="padding: 0.375rem; text-align: center; color: var(--text); font-weight: 600;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="approval-tbody">
+            <tr style="background: var(--bg-main); color: var(--text-muted); text-align: center;">
+              <td colspan="5" style="padding: 0.75rem;">承認待機中の受注はありません</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
+
+    <!-- 通知履歴タブ -->
+    <div id="panel-notification" style="display: none; overflow-y: auto; border: 1px solid var(--border); border-radius: 0.375rem; background: var(--bg-card);">
+      <table data-testid="notification-list" style="width: 100%; border-collapse: collapse; font-size: 0.8125rem;">
+        <thead style="position: sticky; top: 0; background: var(--bg-sidebar); border-bottom: 1px solid var(--border);">
+          <tr>
+            <th style="padding: 0.375rem; text-align: left; color: var(--text); font-weight: 600;">受注番号</th>
+            <th style="padding: 0.375rem; text-align: left; color: var(--text); font-weight: 600;">通知先</th>
+            <th style="padding: 0.375rem; text-align: left; color: var(--text); font-weight: 600;">通知タイプ</th>
+            <th style="padding: 0.375rem; text-align: left; color: var(--text); font-weight: 600;">通知ステータス</th>
+            <th style="padding: 0.375rem; text-align: left; color: var(--text); font-weight: 600;">送信日時</th>
+            <th style="padding: 0.375rem; text-align: center; color: var(--text); font-weight: 600;">操作</th>
+          </tr>
+        </thead>
+        <tbody id="notification-tbody">
+          <tr style="background: var(--bg-main); color: var(--text-muted); text-align: center;">
+            <td colspan="6" style="padding: 0.75rem;">通知履歴はありません</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 
-  <!-- 下部：エラーログ・通知履歴タブ -->
-  <div class="card" style="padding: 0.5rem; display: flex; flex-direction: column; max-height: 200px;">
-    <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.25rem;">
-      <button id="tab-error-log" data-testid="tab-error-log" class="action-btn secondary" style="background: transparent; border: none; color: var(--text); padding: 0.375rem 0.75rem; font-size: 0.8125rem; font-weight: 600; cursor: pointer; border-bottom: 2px solid var(--primary);">エラーログ</button>
-      <button id="tab-notification" data-testid="tab-notification" class="action-btn secondary" style="background: transparent; border: none; color: var(--text-muted); padding: 0.375rem 0.75rem; font-size: 0.8125rem; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent;">通知履歴</button>
-    </div>
-    <div id="error-log-panel" style="flex: 1; overflow-y: auto; font-size: 0.75rem;">
-      <div style="color: var(--text-muted); padding: 0.5rem;">エラーログを読み込み中...</div>
-    </div>
-    <div id="notification-panel" style="flex: 1; overflow-y: auto; font-size: 0.75rem; display: none;">
-      <div style="color: var(--text-muted); padding: 0.5rem;">通知履歴を読み込み中...</div>
-    </div>
+  <!-- 下部アクション -->
+  <div style="display: flex; gap: 0.5rem; justify-content: flex-end; padding-top: 0.5rem; border-top: 1px solid var(--border);">
+    <button id="btn-send-notification" data-testid="send-notification-button" class="action-btn" style="padding: 0.5rem 1rem; font-size: 0.875rem; background: var(--primary);">通知送信</button>
+    <button id="btn-export-csv" data-testid="export-csv-button" class="action-btn secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">CSVエクスポート</button>
+    <button id="btn-navigate-detail" data-testid="navigate-detail-button" class="action-btn secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">詳細確認</button>
   </div>
 
 </div>

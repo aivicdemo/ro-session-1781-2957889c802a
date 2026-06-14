@@ -19,21 +19,24 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f0c856;
+  --primary-hover: #f4d03f;
+  --secondary: #c41e3a;
+  --secondary-hover: #e63946;
   --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
   --bg-sidebar: #161616;
-  --border: #2a2a2a;
+  --bg-hover: #252525;
+  --border: #3a3a3a;
   --text: #f5f5f5;
   --text-muted: #b0b0b0;
   --top-bar-bg: #1a1a1a;
-  --top-bar-border: #2a2a2a;
-  --accent-red: #e63946;
-  --accent-red-hover: #f44d5a;
-  --success: #2ecc71;
-  --warning: #f39c12;
-  --error: #e63946;
-  --info: #3498db;
+  --top-bar-border: #3a3a3a;
+  --success: #4ade80;
+  --warning: #facc15;
+  --error: #ef4444;
+  --info: #60a5fa;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --focus-ring: #d4af37;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -102,158 +105,194 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781408614677" style="margin-top:0">
-<div style="display: grid; grid-template-columns: 280px 1fr 320px; gap: 12px; height: 100vh; overflow: hidden; padding: 12px;">
-  
-  <!-- 左パネル：連携履歴 + フィルター -->
-  <div style="display: flex; flex-direction: column; gap: 12px; overflow-y: auto; border-right: 1px solid rgba(255,255,255,0.08);">
-    <div class="card" style="padding: 12px;">
-      <h3 style="font-size: 13px; font-weight: 600; margin: 0 0 8px 0; color: var(--text);">連携実行日時</h3>
-      <input type="date" data-testid="sync-date-from" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; margin-bottom: 6px;" />
-      <input type="date" data-testid="sync-date-to" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;" />
-    </div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+  <div class="card" style="padding: 12px; border-left: 3px solid #d4af37;">
+    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">最新連携実行</div>
+    <div style="font-size: 18px; font-weight: 600; color: var(--text);" data-testid="latest-sync-time">--</div>
+    <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">ステータス: <span data-testid="latest-sync-status" style="font-weight: 600; color: #4ade80;">成功</span></div>
+  </div>
+  <div class="card" style="padding: 12px; border-left: 3px solid #d4af37;">
+    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">本日反映件数</div>
+    <div style="font-size: 18px; font-weight: 600; color: var(--text);" data-testid="today-reflected-count">0</div>
+    <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">成功: <span data-testid="today-success-count">0</span> / 失敗: <span data-testid="today-failure-count">0</span></div>
+  </div>
+</div>
 
-    <div class="card" style="padding: 12px;">
-      <h3 style="font-size: 13px; font-weight: 600; margin: 0 0 8px 0; color: var(--text);">連携ステータス</h3>
-      <select data-testid="sync-status-filter" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;">
-        <option value="">全て</option>
-        <option value="成功">成功</option>
-        <option value="部分成功">部分成功</option>
-        <option value="失敗">失敗</option>
-        <option value="実行中">実行中</option>
-      </select>
-    </div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+  <div class="card" style="padding: 12px; border-left: 3px solid #ff6b6b;">
+    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">未対応エラー</div>
+    <div style="font-size: 18px; font-weight: 600; color: #ff6b6b;" data-testid="unresolved-error-count">0</div>
+    <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">対応中: <span data-testid="in-progress-error-count">0</span></div>
+  </div>
+  <div class="card" style="padding: 12px; border-left: 3px solid #4ade80;">
+    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">承認済み受注</div>
+    <div style="font-size: 18px; font-weight: 600; color: var(--text);" data-testid="approved-order-count">0</div>
+    <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">連携済: <span data-testid="linked-order-count">0</span></div>
+  </div>
+</div>
 
-    <div class="card" style="padding: 12px;">
-      <h3 style="font-size: 13px; font-weight: 600; margin: 0 0 8px 0; color: var(--text);">チャネル</h3>
-      <select data-testid="channel-filter" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;">
-        <option value="">全て</option>
-        <option value="ONLINE">オンライン</option>
-        <option value="STORE">店舗</option>
-        <option value="WHOLESALE">卸売</option>
-      </select>
-    </div>
-
-    <div class="card" style="padding: 12px;">
-      <h3 style="font-size: 13px; font-weight: 600; margin: 0 0 8px 0; color: var(--text);">顧客</h3>
-      <input type="text" data-testid="customer-search" placeholder="顧客名で検索" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;" />
-    </div>
-
-    <button data-testid="filter-button" class="action-btn" style="width: 100%; padding: 8px; font-size: 12px;">フィルター適用</button>
-
-    <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px;">
-      <h3 style="font-size: 12px; font-weight: 600; margin: 0 0 8px 0; color: var(--text-muted);">最近の連携</h3>
-      <div id="sync-history-timeline" style="display: flex; flex-direction: column; gap: 8px;">
-        <!-- タイムラインアイテムが動的に挿入される -->
+<div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 12px; margin-bottom: 16px;">
+  <div class="card" style="padding: 12px;">
+    <div style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 10px;">連携反映状況</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+      <div style="text-align: center; padding: 8px; background: rgba(212, 175, 55, 0.08); border-radius: 4px;">
+        <div style="font-size: 11px; color: var(--text-muted);">受信件数</div>
+        <div style="font-size: 16px; font-weight: 600; color: var(--text);" data-testid="received-count">0</div>
       </div>
+      <div style="text-align: center; padding: 8px; background: rgba(74, 222, 128, 0.08); border-radius: 4px;">
+        <div style="font-size: 11px; color: var(--text-muted);">成功</div>
+        <div style="font-size: 16px; font-weight: 600; color: #4ade80;" data-testid="success-count">0</div>
+      </div>
+      <div style="text-align: center; padding: 8px; background: rgba(255, 107, 107, 0.08); border-radius: 4px;">
+        <div style="font-size: 11px; color: var(--text-muted);">失敗</div>
+        <div style="font-size: 16px; font-weight: 600; color: #ff6b6b;" data-testid="failure-count">0</div>
+      </div>
+      <div style="text-align: center; padding: 8px; background: rgba(100, 116, 139, 0.08); border-radius: 4px;">
+        <div style="font-size: 11px; color: var(--text-muted);">スキップ</div>
+        <div style="font-size: 16px; font-weight: 600; color: var(--text-muted);" data-testid="skip-count">0</div>
+      </div>
+    </div>
+    <div class="table-wrap" style="max-height: 280px; overflow-y: auto;">
+      <table data-testid="reflection-status-table" style="width: 100%; font-size: 12px;">
+        <thead style="position: sticky; top: 0; background: var(--bg-card); z-index: 10;">
+          <tr>
+            <th style="padding: 8px; text-align: left; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.1);">バッチ番号</th>
+            <th style="padding: 8px; text-align: left; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.1);">ステータス</th>
+            <th style="padding: 8px; text-align: center; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.1);">件数</th>
+            <th style="padding: 8px; text-align: left; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.1);">実行時刻</th>
+          </tr>
+        </thead>
+        <tbody id="reflection-tbody">
+          <tr style="opacity: 0.5;">
+            <td colspan="4" style="padding: 16px; text-align: center; color: var(--text-muted);">データを読み込み中...</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- 中央パネル：受注一覧 + バリデーション結果 -->
-  <div style="display: flex; flex-direction: column; gap: 12px; overflow-y: auto;">
-    
-    <!-- バリデーション結果サマリー -->
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-      <div class="card" style="padding: 12px; text-align: center;">
-        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">受信件数</div>
-        <div data-testid="kpi-received" style="font-size: 20px; font-weight: 700; color: var(--primary);">0</div>
+  <div class="card" style="padding: 12px;">
+    <div style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 10px;">エラー分類別集計</div>
+    <div id="error-category-chart" style="width: 100%; height: 240px; display: flex; align-items: flex-end; justify-content: space-around; gap: 8px; padding: 16px 0;">
+      <div style="text-align: center;">
+        <div style="width: 32px; height: 60px; background: rgba(255, 107, 107, 0.3); border-radius: 2px; margin: 0 auto 4px;"></div>
+        <div style="font-size: 10px; color: var(--text-muted);">バリデーション</div>
+        <div style="font-size: 12px; font-weight: 600; color: var(--text);" data-testid="validation-error-count">0</div>
       </div>
-      <div class="card" style="padding: 12px; text-align: center;">
-        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">成功件数</div>
-        <div data-testid="kpi-success" style="font-size: 20px; font-weight: 700; color: #4ade80;">0</div>
+      <div style="text-align: center;">
+        <div style="width: 32px; height: 40px; background: rgba(255, 193, 7, 0.3); border-radius: 2px; margin: 0 auto 4px;"></div>
+        <div style="font-size: 10px; color: var(--text-muted);">システム</div>
+        <div style="font-size: 12px; font-weight: 600; color: var(--text);" data-testid="system-error-count">0</div>
       </div>
-      <div class="card" style="padding: 12px; text-align: center;">
-        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">失敗件数</div>
-        <div data-testid="kpi-failed" style="font-size: 20px; font-weight: 700; color: #ff6a6a;">0</div>
-      </div>
-      <div class="card" style="padding: 12px; text-align: center;">
-        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">スキップ件数</div>
-        <div data-testid="kpi-skipped" style="font-size: 20px; font-weight: 700; color: #fbbf24;">0</div>
-      </div>
-    </div>
-
-    <!-- エラー分類別集計 -->
-    <div class="card" style="padding: 12px;">
-      <h3 style="font-size: 13px; font-weight: 600; margin: 0 0 8px 0; color: var(--text);">エラー分類別集計</h3>
-      <div id="error-classification-chart" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 12px;">
-        <!-- エラー分類が動的に挿入される -->
-      </div>
-    </div>
-
-    <!-- 受注データ一覧 -->
-    <div class="card" style="padding: 12px; flex: 1; overflow-y: auto;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-        <h3 style="font-size: 13px; font-weight: 600; margin: 0; color: var(--text);">受注データ一覧</h3>
-        <button data-testid="export-csv-button" class="action-btn secondary" style="padding: 4px 8px; font-size: 11px;">CSV出力</button>
-      </div>
-      <div class="table-wrap" style="max-height: 300px; overflow-y: auto;">
-        <table data-testid="order-list" style="width: 100%; font-size: 12px;">
-          <thead>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.12);">
-              <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600;">受注番号</th>
-              <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600;">顧客名</th>
-              <th style="padding: 6px 8px; text-align: right; color: var(--text); font-weight: 600;">金額</th>
-              <th style="padding: 6px 8px; text-align: center; color: var(--text); font-weight: 600;">ステータス</th>
-              <th style="padding: 6px 8px; text-align: center; color: var(--text); font-weight: 600;">検証結果</th>
-            </tr>
-          </thead>
-          <tbody id="order-tbody">
-            <!-- 受注行が動的に挿入される -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- 右パネル：エラー詳細 + 月次差異検証 -->
-  <div style="display: flex; flex-direction: column; gap: 12px; overflow-y: auto;">
-    
-    <!-- エラーログ検索 -->
-    <div class="card" style="padding: 12px;">
-      <h3 style="font-size: 13px; font-weight: 600; margin: 0 0 8px 0; color: var(--text);">エラーログ検索</h3>
-      <input type="text" data-testid="error-log-search" placeholder="エラーコード / メッセージ" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; margin-bottom: 6px;" />
-      <button data-testid="search-error-button" class="action-btn" style="width: 100%; padding: 6px; font-size: 11px;">検索</button>
-    </div>
-
-    <!-- エラー詳細パネル -->
-    <div class="card" style="padding: 12px; flex: 1; overflow-y: auto;">
-      <h3 style="font-size: 13px; font-weight: 600; margin: 0 0 8px 0; color: var(--text);">エラー詳細</h3>
-      <div id="error-detail-panel" style="font-size: 12px; color: var(--text-muted);">
-        <p>エラーを選択してください</p>
-      </div>
-    </div>
-
-    <!-- 月次差異検証結果 -->
-    <div class="card" style="padding: 12px;">
-      <h3 style="font-size: 13px; font-weight: 600; margin: 0 0 8px 0; color: var(--text);">月次差異検証</h3>
-      <div id="monthly-variance-list" style="display: flex; flex-direction: column; gap: 6px; font-size: 11px;">
-        <!-- 月次差異が動的に挿入される -->
+      <div style="text-align: center;">
+        <div style="width: 32px; height: 30px; background: rgba(100, 116, 139, 0.3); border-radius: 2px; margin: 0 auto 4px;"></div>
+        <div style="font-size: 10px; color: var(--text-muted);">連携</div>
+        <div style="font-size: 12px; font-weight: 600; color: var(--text);" data-testid="integration-error-count">0</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- 下部パネル：承認済み受注ステータス -->
-<div style="position: fixed; bottom: 0; left: 0; right: 0; height: 200px; border-top: 1px solid rgba(255,255,255,0.12); background: var(--bg-main); padding: 12px; overflow-y: auto;">
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-    <h3 style="font-size: 13px; font-weight: 600; margin: 0; color: var(--text);">承認済み受注ステータス</h3>
-    <button data-testid="refresh-approval-button" class="action-btn secondary" style="padding: 4px 8px; font-size: 11px;">更新</button>
+<div style="display: grid; grid-template-columns: 1fr 0.35fr; gap: 12px;">
+  <div class="card" style="padding: 12px;">
+    <div style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+      <span>エラーログ</span>
+      <input type="text" id="error-search-input" data-testid="error-search-input" placeholder="エラーコード・メッセージで検索" style="padding: 4px 8px; font-size: 11px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; width: 200px;" />
+    </div>
+    <div id="error-log-timeline" style="max-height: 400px; overflow-y: auto; padding-right: 8px;">
+      <div style="text-align: center; padding: 32px 16px; color: var(--text-muted); font-size: 12px;">エラーログを読み込み中...</div>
+    </div>
   </div>
-  <div class="table-wrap" style="max-height: 170px; overflow-y: auto;">
-    <table data-testid="approval-status-list" style="width: 100%; font-size: 11px;">
-      <thead>
-        <tr style="border-bottom: 1px solid rgba(255,255,255,0.12);">
-          <th style="padding: 4px 6px; text-align: left; color: var(--text); font-weight: 600;">受注ID</th>
-          <th style="padding: 4px 6px; text-align: center; color: var(--text); font-weight: 600;">承認ステータス</th>
-          <th style="padding: 4px 6px; text-align: center; color: var(--text); font-weight: 600;">連携ステータス</th>
-          <th style="padding: 4px 6px; text-align: left; color: var(--text); font-weight: 600;">承認者</th>
-          <th style="padding: 4px 6px; text-align: center; color: var(--text); font-weight: 600;">承認日時</th>
+
+  <div class="card" style="padding: 12px;">
+    <div style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 10px;">フィルター</div>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">連携実行日</label>
+        <input type="date" id="filter-sync-date" data-testid="filter-sync-date" style="width: 100%; padding: 6px; font-size: 11px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px;" />
+      </div>
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">ステータス</label>
+        <select id="filter-status" data-testid="filter-status" style="width: 100%; padding: 6px; font-size: 11px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px;">
+          <option value="">すべて</option>
+          <option value="成功">成功</option>
+          <option value="部分成功">部分成功</option>
+          <option value="失敗">失敗</option>
+        </select>
+      </div>
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">チャネル</label>
+        <select id="filter-channel" data-testid="filter-channel" style="width: 100%; padding: 6px; font-size: 11px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px;">
+          <option value="">すべて</option>
+          <option value="ONLINE">オンライン</option>
+          <option value="STORE">店舗</option>
+          <option value="WHOLESALE">卸売</option>
+        </select>
+      </div>
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">重要度</label>
+        <select id="filter-severity" data-testid="filter-severity" style="width: 100%; padding: 6px; font-size: 11px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px;">
+          <option value="">すべて</option>
+          <option value="CRITICAL">緊急</option>
+          <option value="ERROR">エラー</option>
+          <option value="WARNING">警告</option>
+          <option value="INFO">情報</option>
+        </select>
+      </div>
+      <button id="btn-filter-apply" data-testid="filter-apply-button" class="action-btn" style="width: 100%; margin-top: 8px;">フィルター適用</button>
+      <button id="btn-filter-reset" data-testid="filter-reset-button" class="action-btn secondary" style="width: 100%;">リセット</button>
+    </div>
+  </div>
+</div>
+
+<div class="card" style="padding: 12px; margin-top: 12px;">
+  <div style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 10px;">月次差異検証結果</div>
+  <div class="table-wrap" style="max-height: 200px; overflow-y: auto;">
+    <table data-testid="monthly-variance-table" style="width: 100%; font-size: 11px;">
+      <thead style="position: sticky; top: 0; background: var(--bg-card); z-index: 10;">
+        <tr>
+          <th style="padding: 6px; text-align: left; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.1);">検証年月</th>
+          <th style="padding: 6px; text-align: left; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.1);">差異タイプ</th>
+          <th style="padding: 6px; text-align: center; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.1);">差異金額</th>
+          <th style="padding: 6px; text-align: left; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.1);">ステータス</th>
+          <th style="padding: 6px; text-align: left; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.1);">対応者</th>
         </tr>
       </thead>
-      <tbody id="approval-tbody">
-        <!-- 承認済み受注行が動的に挿入される -->
+      <tbody id="variance-tbody">
+        <tr style="opacity: 0.5;">
+          <td colspan="5" style="padding: 12px; text-align: center; color: var(--text-muted);">データなし</td>
+        </tr>
       </tbody>
     </table>
   </div>
+</div>
+
+<div class="card" style="padding: 12px; margin-top: 12px;">
+  <div style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 10px;">承認済み受注ステータス</div>
+  <div class="table-wrap" style="max-height: 200px; overflow-y: auto;">
+    <table data-testid="approved-orders-table" style="width: 100%; font-size: 11px;">
+      <thead style="position: sticky; top: 0; background: var(--bg-card); z-index: 10;">
+        <tr>
+          <th style="padding: 6px; text-align: left; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.1);">受注番号</th>
+          <th style="padding: 6px; text-align: left; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.1);">顧客名</th>
+          <th style="padding: 6px; text-align: right; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.1);">金額</th>
+          <th style="padding: 6px; text-align: left; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.1);">承認者</th>
+          <th style="padding: 6px; text-align: left; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.1);">連携ステータス</th>
+        </tr>
+      </thead>
+      <tbody id="approved-orders-tbody">
+        <tr style="opacity: 0.5;">
+          <td colspan="5" style="padding: 12px; text-align: center; color: var(--text-muted);">データなし</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div style="margin-top: 16px; display: flex; gap: 8px; justify-content: flex-end;">
+  <button id="btn-export-csv" data-testid="export-csv-button" class="action-btn secondary">CSVエクスポート</button>
+  <button id="btn-detail-view" data-testid="detail-view-button" class="action-btn secondary">詳細ログ表示</button>
+  <button id="btn-retry-failed" data-testid="retry-failed-button" class="action-btn">失敗分を再処理</button>
 </div>
     </section>
   </main>

@@ -19,21 +19,24 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f0c856;
+  --primary-hover: #f4d03f;
+  --secondary: #c41e3a;
+  --secondary-hover: #e63946;
   --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
   --bg-sidebar: #161616;
-  --border: #2a2a2a;
+  --bg-hover: #252525;
+  --border: #3a3a3a;
   --text: #f5f5f5;
   --text-muted: #b0b0b0;
   --top-bar-bg: #1a1a1a;
-  --top-bar-border: #2a2a2a;
-  --accent-red: #e63946;
-  --accent-red-hover: #f44d5a;
-  --success: #2ecc71;
-  --warning: #f39c12;
-  --error: #e63946;
-  --info: #3498db;
+  --top-bar-border: #3a3a3a;
+  --success: #4ade80;
+  --warning: #facc15;
+  --error: #ef4444;
+  --info: #60a5fa;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --focus-ring: #d4af37;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -102,219 +105,207 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781408640983" style="margin-top:0">
-<div style="display: grid; grid-template-columns: 1fr 1.4fr; gap: 12px; height: 100vh; overflow: hidden;">
+<div style="display: grid; grid-template-columns: 320px 1fr; gap: 12px; height: 100%; overflow: hidden;">
   <!-- 左パネル: 連携仕様一覧 -->
-  <div style="display: flex; flex-direction: column; overflow: hidden; border-right: 1px solid rgba(255,255,255,0.1);">
-    <div style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);">
-      <h3 style="margin: 0 0 8px 0; font-size: 14px; font-weight: 600; color: var(--text);">連携仕様マスタ</h3>
+  <div style="display: flex; flex-direction: column; gap: 8px; overflow: hidden; border-right: 1px solid rgba(255,255,255,0.12);">
+    <div style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.12);">
+      <h3 style="margin: 0 0 8px 0; font-size: 13px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px;">連携仕様マスタ</h3>
       <div style="display: flex; gap: 6px;">
-        <input type="text" id="search-spec-name" placeholder="仕様名で検索" data-testid="search-spec-name" style="flex: 1; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px;" />
+        <input type="text" id="search-spec-name" data-testid="search-spec-name" placeholder="仕様名で検索..." style="flex: 1; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px;" />
         <button id="btn-search-spec" data-testid="search-spec-button" class="action-btn" style="padding: 6px 12px; font-size: 12px;">検索</button>
       </div>
     </div>
     <div style="flex: 1; overflow-y: auto;">
-      <table data-testid="spec-list" style="width: 100%; border-collapse: collapse; font-size: 12px;">
-        <thead style="position: sticky; top: 0; background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.1);">
-          <tr>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid rgba(255,255,255,0.1);">仕様名</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600;">周期</th>
-          </tr>
-        </thead>
-        <tbody id="spec-list-tbody">
-          <tr style="background: rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.05);">
-            <td colspan="2" style="padding: 12px; text-align: center; color: var(--text-muted); font-size: 12px;">読込中...</td>
+      <table data-testid="spec-list" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+        <tbody id="spec-tbody">
+          <tr style="background: rgba(255,255,255,0.04); cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.08);">
+            <td style="padding: 8px; color: var(--text-muted);">読込中...</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div style="padding: 12px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; gap: 6px;">
-      <button id="btn-new-spec" data-testid="new-spec-button" class="action-btn" style="flex: 1; padding: 8px; font-size: 12px;">+ 新規作成</button>
+    <div style="padding: 8px; border-top: 1px solid rgba(255,255,255,0.12); display: flex; gap: 6px;">
+      <button id="btn-new-spec" data-testid="new-spec-button" class="action-btn" style="flex: 1; padding: 8px; font-size: 12px;">新規作成</button>
       <button id="btn-delete-spec" data-testid="delete-spec-button" class="action-btn secondary" style="flex: 1; padding: 8px; font-size: 12px;">削除</button>
     </div>
   </div>
 
-  <!-- 右パネル: 詳細設定 + テスト -->
-  <div style="display: flex; flex-direction: column; overflow: hidden;">
-    <!-- タブ -->
-    <div style="display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.1); background: var(--bg-card);">
-      <button id="tab-detail" data-testid="tab-detail" class="tab-btn" style="flex: 1; padding: 10px; border: none; background: transparent; color: var(--text); font-size: 12px; font-weight: 600; cursor: pointer; border-bottom: 2px solid var(--primary);">詳細設定</button>
-      <button id="tab-test" data-testid="tab-test" class="tab-btn" style="flex: 1; padding: 10px; border: none; background: transparent; color: var(--text-muted); font-size: 12px; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent;">テスト実行</button>
-    </div>
-
-    <!-- 詳細設定タブ -->
-    <div id="panel-detail" style="flex: 1; overflow-y: auto; padding: 12px;">
-      <div style="display: none;" id="no-selection" style="text-align: center; color: var(--text-muted); padding: 24px;">
-        <p style="margin: 0; font-size: 13px;">左から連携仕様を選択してください</p>
-      </div>
-
-      <div id="detail-form" style="display: none;">
-        <!-- 基本情報 -->
-        <div class="card" style="margin-bottom: 12px; padding: 12px;">
-          <h4 style="margin: 0 0 10px 0; font-size: 12px; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px;">基本情報</h4>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div>
-              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">仕様名</label>
-              <input type="text" id="spec-name" data-testid="spec-name" placeholder="例：受注データ連携" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box;" />
-            </div>
-            <div>
-              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">連携方向</label>
-              <select id="spec-direction" data-testid="spec-direction" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box;">
-                <option value="">選択してください</option>
-                <option value="受信">受信</option>
-                <option value="送信">送信</option>
-                <option value="双方向">双方向</option>
-              </select>
-            </div>
-            <div>
-              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">対象システム</label>
-              <input type="text" id="spec-system" data-testid="spec-system" placeholder="例：基幹ERP" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box;" />
-            </div>
-            <div>
-              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">対象テーブル</label>
-              <select id="spec-table" data-testid="spec-table" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box;">
-                <option value="">選択してください</option>
-                <option value="受注データ">受注データ</option>
-                <option value="顧客マスタ">顧客マスタ</option>
-                <option value="チャネルマスタ">チャネルマスタ</option>
-              </select>
-            </div>
-            <div>
-              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">連携周期</label>
-              <select id="spec-cycle" data-testid="spec-cycle" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box;">
-                <option value="">選択してください</option>
-                <option value="リアルタイム">リアルタイム</option>
-                <option value="日次">日次</option>
-                <option value="週次">週次</option>
-                <option value="月次">月次</option>
-              </select>
-            </div>
-            <div>
-              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">ステータス</label>
-              <select id="spec-status" data-testid="spec-status" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box;">
-                <option value="">選択してください</option>
-                <option value="有効">有効</option>
-                <option value="無効">無効</option>
-                <option value="テスト中">テスト中</option>
-              </select>
-            </div>
-          </div>
-          <div style="margin-top: 10px;">
-            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">説明</label>
-            <textarea id="spec-description" data-testid="spec-description" placeholder="連携仕様の詳細説明" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box; min-height: 60px; resize: vertical;"></textarea>
-          </div>
-        </div>
-
-        <!-- データマッピング -->
-        <div class="card" style="margin-bottom: 12px; padding: 12px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <h4 style="margin: 0; font-size: 12px; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px;">データマッピング</h4>
-            <button id="btn-add-mapping" data-testid="add-mapping-button" class="action-btn" style="padding: 4px 8px; font-size: 11px;">+ 追加</button>
-          </div>
-          <div id="mapping-list" style="display: flex; flex-direction: column; gap: 8px;">
-            <div style="padding: 8px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; font-size: 11px; color: var(--text-muted);">マッピングなし</div>
-          </div>
-        </div>
-
-        <!-- バリデーションルール -->
-        <div class="card" style="margin-bottom: 12px; padding: 12px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <h4 style="margin: 0; font-size: 12px; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px;">バリデーションルール</h4>
-            <button id="btn-add-rule" data-testid="add-rule-button" class="action-btn" style="padding: 4px 8px; font-size: 11px;">+ 追加</button>
-          </div>
-          <div id="rule-list" style="display: flex; flex-direction: column; gap: 8px;">
-            <div style="padding: 8px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; font-size: 11px; color: var(--text-muted);">ルールなし</div>
-          </div>
-        </div>
-
-        <!-- 保存ボタン -->
-        <div style="display: flex; gap: 8px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1);">
-          <button id="btn-save-spec" data-testid="save-spec-button" class="action-btn" style="flex: 1; padding: 8px; font-size: 12px;">保存</button>
-          <button id="btn-cancel-spec" data-testid="cancel-spec-button" class="action-btn secondary" style="flex: 1; padding: 8px; font-size: 12px;">キャンセル</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- テスト実行タブ -->
-    <div id="panel-test" style="flex: 1; overflow-y: auto; padding: 12px; display: none;">
-      <div class="card" style="margin-bottom: 12px; padding: 12px;">
-        <h4 style="margin: 0 0 10px 0; font-size: 12px; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px;">テストデータ入力</h4>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-          <div>
-            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">チャネル</label>
-            <select id="test-channel" data-testid="test-channel" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box;">
-              <option value="">選択してください</option>
-              <option value="ONLINE">オンライン</option>
-              <option value="STORE">店舗</option>
-              <option value="WHOLESALE">卸売</option>
-            </select>
-          </div>
-          <div>
-            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">顧客ID</label>
-            <input type="text" id="test-customer-id" data-testid="test-customer-id" placeholder="UUID" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box;" />
-          </div>
+  <!-- 右パネル: 詳細設定 -->
+  <div style="display: flex; flex-direction: column; gap: 12px; overflow: hidden;">
+    <!-- 仕様基本情報 -->
+    <div class="card" style="padding: 12px;">
+      <h4 style="margin: 0 0 10px 0; font-size: 13px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px;">仕様基本情報</h4>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div>
+          <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">仕様名</label>
+          <input type="text" id="spec-name" data-testid="spec-name-input" placeholder="例：受注データ連携" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box;" />
         </div>
         <div>
-          <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">テストデータ（JSON）</label>
-          <textarea id="test-data-json" data-testid="test-data-json" placeholder='{"受注番号":"ORD-001","受注金額":50000}' style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box; min-height: 80px; resize: vertical; font-family: monospace;"></textarea>
+          <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">連携方向</label>
+          <select id="spec-direction" data-testid="spec-direction-select" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box;">
+            <option value="">選択してください</option>
+            <option value="受信">受信</option>
+            <option value="送信">送信</option>
+            <option value="双方向">双方向</option>
+          </select>
+        </div>
+        <div>
+          <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">対象システム</label>
+          <input type="text" id="spec-system" data-testid="spec-system-input" placeholder="例：基幹ERP" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box;" />
+        </div>
+        <div>
+          <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">連携周期</label>
+          <select id="spec-cycle" data-testid="spec-cycle-select" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box;">
+            <option value="">選択してください</option>
+            <option value="リアルタイム">リアルタイム</option>
+            <option value="日次">日次</option>
+            <option value="週次">週次</option>
+            <option value="月次">月次</option>
+          </select>
         </div>
       </div>
-
-      <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-        <button id="btn-run-test" data-testid="run-test-button" class="action-btn" style="flex: 1; padding: 8px; font-size: 12px;">テスト実行</button>
-        <button id="btn-clear-test" data-testid="clear-test-button" class="action-btn secondary" style="flex: 1; padding: 8px; font-size: 12px;">クリア</button>
+      <div style="margin-top: 10px;">
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">説明</label>
+        <textarea id="spec-description" data-testid="spec-description-input" placeholder="連携仕様の詳細説明..." style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box; min-height: 60px; resize: vertical;"></textarea>
       </div>
+    </div>
 
-      <!-- テスト結果 -->
-      <div id="test-result" style="display: none;">
-        <div class="card" style="padding: 12px; margin-bottom: 12px;">
-          <h4 style="margin: 0 0 10px 0; font-size: 12px; font-weight: 700; color: var(--text);">テスト結果</h4>
-          <div id="result-status" style="padding: 8px; border-radius: 4px; margin-bottom: 10px; font-size: 12px; font-weight: 600;"></div>
-          <div id="result-details" style="font-size: 11px; color: var(--text-muted); max-height: 200px; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; white-space: pre-wrap; word-break: break-word;"></div>
-        </div>
+    <!-- チャネル選択 -->
+    <div class="card" style="padding: 12px;">
+      <h4 style="margin: 0 0 10px 0; font-size: 13px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px;">チャネル選択</h4>
+      <select id="channel-select" data-testid="channel-select" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box;">
+        <option value="">選択してください</option>
+        <option value="ONLINE">オンライン</option>
+        <option value="STORE">店舗</option>
+        <option value="WHOLESALE">卸売</option>
+        <option value="ALL">全チャネル</option>
+      </select>
+    </div>
+
+    <!-- データマッピング設定 -->
+    <div class="card" style="padding: 12px; flex: 1; overflow: hidden; display: flex; flex-direction: column;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h4 style="margin: 0; font-size: 13px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px;">データマッピング設定</h4>
+        <button id="btn-add-mapping" data-testid="add-mapping-button" class="action-btn" style="padding: 4px 8px; font-size: 11px;">+ 追加</button>
+      </div>
+      <div style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 3px;">
+        <table data-testid="mapping-table" style="width: 100%; font-size: 11px; border-collapse: collapse;">
+          <thead style="position: sticky; top: 0; background: rgba(255,255,255,0.06);">
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.12);">
+              <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">ローカルカラム</th>
+              <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">基幹カラム</th>
+              <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600; width: 40px;">削除</th>
+            </tr>
+          </thead>
+          <tbody id="mapping-tbody">
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+              <td colspan="3" style="padding: 8px; color: var(--text-muted); text-align: center;">マッピング未設定</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
 
-<!-- モーダル: マッピング追加 -->
-<div id="modal-mapping" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;">
-  <div class="card" style="width: 90%; max-width: 500px; padding: 16px;">
-    <h3 style="margin: 0 0 12px 0; font-size: 14px; font-weight: 700; color: var(--text);">マッピング追加</h3>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+<!-- バリデーションルール設定（下部タブ） -->
+<div style="position: absolute; bottom: 0; left: 0; right: 0; height: 280px; border-top: 1px solid rgba(255,255,255,0.12); background: var(--bg-card); display: flex; flex-direction: column;">
+  <div style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.12); display: flex; justify-content: space-between; align-items: center;">
+    <h4 style="margin: 0; font-size: 13px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px;">バリデーションルール設定</h4>
+    <button id="btn-add-rule" data-testid="add-rule-button" class="action-btn" style="padding: 6px 12px; font-size: 12px;">+ ルール追加</button>
+  </div>
+  <div style="flex: 1; overflow-y: auto; padding: 0 12px;">
+    <table data-testid="validation-rules-table" style="width: 100%; font-size: 11px; border-collapse: collapse; margin-top: 8px;">
+      <thead style="position: sticky; top: 0; background: rgba(255,255,255,0.06);">
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.12);">
+          <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">ルール名</th>
+          <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">対象カラム</th>
+          <th style="padding: 6px; text-align: left; color: var(--text); font-weight: 600;">ルールタイプ</th>
+          <th style="padding: 6px; text-align: center; color: var(--text); font-weight: 600; width: 60px;">操作</th>
+        </tr>
+      </thead>
+      <tbody id="rules-tbody">
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+          <td colspan="4" style="padding: 8px; color: var(--text-muted); text-align: center;">ルール未設定</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- テストデータ入力エリア（下部さらに下） -->
+<div style="position: absolute; bottom: -300px; left: 0; right: 0; height: 300px; border-top: 1px solid rgba(255,255,255,0.12); background: var(--bg-main); padding: 12px; overflow-y: auto; display: none;" id="test-panel">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+    <h4 style="margin: 0; font-size: 13px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px;">テストデータ検証</h4>
+    <button id="btn-run-test" data-testid="run-test-button" class="action-btn" style="padding: 6px 12px; font-size: 12px;">テスト実行</button>
+  </div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+    <div>
+      <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">テストデータ（JSON）</label>
+      <textarea id="test-data-input" data-testid="test-data-input" placeholder='{"受注番号":"ORD-001","受注金額":10000}' style="width: 100%; padding: 8px; font-size: 11px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box; min-height: 100px; font-family: monospace; resize: vertical;"></textarea>
+    </div>
+    <div>
+      <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">検証結果</label>
+      <div id="test-result" data-testid="test-result" style="width: 100%; padding: 8px; font-size: 11px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text-muted); border-radius: 3px; box-sizing: border-box; min-height: 100px; overflow-y: auto; white-space: pre-wrap; word-break: break-all;">結果がここに表示されます</div>
+    </div>
+  </div>
+</div>
+
+<!-- モーダル: 新規仕様作成 -->
+<div id="modal-new-spec" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: none; z-index: 1000; align-items: center; justify-content: center;">
+  <div class="card" style="width: 90%; max-width: 500px; padding: 20px;">
+    <h3 style="margin: 0 0 16px 0; font-size: 14px; font-weight: 600; color: var(--text);">新規連携仕様作成</h3>
+    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
       <div>
-        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">ローカルカラム</label>
-        <input type="text" id="modal-local-column" data-testid="modal-local-column" placeholder="例：受注番号" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box;" />
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">仕様名 *</label>
+        <input type="text" id="modal-spec-name" data-testid="modal-spec-name-input" placeholder="例：受注データ連携" style="width: 100%; padding: 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box;" />
       </div>
       <div>
-        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">基幹システムカラム</label>
-        <input type="text" id="modal-remote-column" data-testid="modal-remote-column" placeholder="例：ORDER_NO" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box;" />
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">連携方向 *</label>
+        <select id="modal-spec-direction" data-testid="modal-spec-direction-select" style="width: 100%; padding: 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box;">
+          <option value="">選択してください</option>
+          <option value="受信">受信</option>
+          <option value="送信">送信</option>
+          <option value="双方向">双方向</option>
+        </select>
+      </div>
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">対象システム *</label>
+        <input type="text" id="modal-spec-system" data-testid="modal-spec-system-input" placeholder="例：基幹ERP" style="width: 100%; padding: 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box;" />
+      </div>
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">対象テーブル *</label>
+        <select id="modal-spec-table" data-testid="modal-spec-table-select" style="width: 100%; padding: 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box;">
+          <option value="">選択してください</option>
+          <option value="受注データ">受注データ</option>
+          <option value="顧客マスタ">顧客マスタ</option>
+          <option value="チャネルマスタ">チャネルマスタ</option>
+        </select>
       </div>
     </div>
-    <div style="display: flex; gap: 8px;">
-      <button id="btn-modal-mapping-save" data-testid="modal-mapping-save" class="action-btn" style="flex: 1; padding: 8px; font-size: 12px;">追加</button>
-      <button id="btn-modal-mapping-cancel" data-testid="modal-mapping-cancel" class="action-btn secondary" style="flex: 1; padding: 8px; font-size: 12px;">キャンセル</button>
+    <div style="display: flex; gap: 8px; justify-content: flex-end;">
+      <button id="modal-cancel" data-testid="modal-cancel-button" class="action-btn secondary" style="padding: 8px 16px; font-size: 12px;">キャンセル</button>
+      <button id="modal-save" data-testid="modal-save-button" class="action-btn" style="padding: 8px 16px; font-size: 12px;">作成</button>
     </div>
   </div>
 </div>
 
 <!-- モーダル: ルール追加 -->
-<div id="modal-rule" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;">
-  <div class="card" style="width: 90%; max-width: 550px; padding: 16px; max-height: 80vh; overflow-y: auto;">
-    <h3 style="margin: 0 0 12px 0; font-size: 14px; font-weight: 700; color: var(--text);">バリデーションルール追加</h3>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+<div id="modal-add-rule" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: none; z-index: 1000; align-items: center; justify-content: center;">
+  <div class="card" style="width: 90%; max-width: 550px; padding: 20px;">
+    <h3 style="margin: 0 0 16px 0; font-size: 14px; font-weight: 600; color: var(--text);">バリデーションルール追加</h3>
+    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
       <div>
-        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">ルール名</label>
-        <input type="text" id="modal-rule-name" data-testid="modal-rule-name" placeholder="例：受注金額チェック" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box;" />
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">ルール名 *</label>
+        <input type="text" id="modal-rule-name" data-testid="modal-rule-name-input" placeholder="例：受注金額チェック" style="width: 100%; padding: 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box;" />
       </div>
       <div>
-        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">対象カラム</label>
-        <input type="text" id="modal-rule-column" data-testid="modal-rule-column" placeholder="例：受注金額" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box;" />
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">対象カラム *</label>
+        <input type="text" id="modal-rule-column" data-testid="modal-rule-column-input" placeholder="例：受注金額" style="width: 100%; padding: 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box;" />
       </div>
-    </div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
       <div>
-        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">ルールタイプ</label>
-        <select id="modal-rule-type" data-testid="modal-rule-type" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box;">
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">ルールタイプ *</label>
+        <select id="modal-rule-type" data-testid="modal-rule-type-select" style="width: 100%; padding: 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box;">
           <option value="">選択してください</option>
           <option value="必須">必須</option>
           <option value="形式">形式</option>
@@ -324,37 +315,41 @@ canvas { display:block; max-height:280px !important; }
         </select>
       </div>
       <div>
-        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">優先度</label>
-        <input type="number" id="modal-rule-priority" data-testid="modal-rule-priority" placeholder="1" min="1" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box;" />
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">検証条件 *</label>
+        <textarea id="modal-rule-condition" data-testid="modal-rule-condition-input" placeholder="例：0 < value <= 10000000" style="width: 100%; padding: 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box; min-height: 60px; resize: vertical;"></textarea>
+      </div>
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">エラーメッセージ *</label>
+        <input type="text" id="modal-rule-error-msg" data-testid="modal-rule-error-msg-input" placeholder="例：受注金額は1円以上1000万円以下である必要があります" style="width: 100%; padding: 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box;" />
       </div>
     </div>
-    <div style="margin-bottom: 12px;">
-      <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">検証条件</label>
-      <textarea id="modal-rule-condition" data-testid="modal-rule-condition" placeholder="例：^[0-9]{1,10}$ または 1000-999999" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box; min-height: 60px; resize: vertical;"></textarea>
-    </div>
-    <div style="margin-bottom: 12px;">
-      <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">エラーメッセージ</label>
-      <input type="text" id="modal-rule-error-msg" data-testid="modal-rule-error-msg" placeholder="例：受注金額は1000～999999の範囲で入力してください" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; box-sizing: border-box;" />
-    </div>
-    <div style="display: flex; gap: 8px;">
-      <button id="btn-modal-rule-save" data-testid="modal-rule-save" class="action-btn" style="flex: 1; padding: 8px; font-size: 12px;">追加</button>
-      <button id="btn-modal-rule-cancel" data-testid="modal-rule-cancel" class="action-btn secondary" style="flex: 1; padding: 8px; font-size: 12px;">キャンセル</button>
+    <div style="display: flex; gap: 8px; justify-content: flex-end;">
+      <button id="modal-rule-cancel" data-testid="modal-rule-cancel-button" class="action-btn secondary" style="padding: 8px 16px; font-size: 12px;">キャンセル</button>
+      <button id="modal-rule-save" data-testid="modal-rule-save-button" class="action-btn" style="padding: 8px 16px; font-size: 12px;">追加</button>
     </div>
   </div>
 </div>
 
-<style>
-  .tab-btn {
-    transition: all 0.2s ease;
-  }
-  .tab-btn:hover {
-    background: rgba(255,255,255,0.05);
-  }
-  .tab-btn.active {
-    color: var(--primary);
-    border-bottom-color: var(--primary);
-  }
-</style>
+<!-- モーダル: マッピング追加 -->
+<div id="modal-add-mapping" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: none; z-index: 1000; align-items: center; justify-content: center;">
+  <div class="card" style="width: 90%; max-width: 450px; padding: 20px;">
+    <h3 style="margin: 0 0 16px 0; font-size: 14px; font-weight: 600; color: var(--text);">データマッピング追加</h3>
+    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">ローカルカラム *</label>
+        <input type="text" id="modal-mapping-local" data-testid="modal-mapping-local-input" placeholder="例：受注番号" style="width: 100%; padding: 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box;" />
+      </div>
+      <div>
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">基幹システムカラム *</label>
+        <input type="text" id="modal-mapping-external" data-testid="modal-mapping-external-input" placeholder="例：ORDER_NO" style="width: 100%; padding: 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; box-sizing: border-box;" />
+      </div>
+    </div>
+    <div style="display: flex; gap: 8px; justify-content: flex-end;">
+      <button id="modal-mapping-cancel" data-testid="modal-mapping-cancel-button" class="action-btn secondary" style="padding: 8px 16px; font-size: 12px;">キャンセル</button>
+      <button id="modal-mapping-save" data-testid="modal-mapping-save-button" class="action-btn" style="padding: 8px 16px; font-size: 12px;">追加</button>
+    </div>
+  </div>
+</div>
     </section>
   </main>
 </div>
