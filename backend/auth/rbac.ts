@@ -12,83 +12,100 @@ export interface User {
 
 export interface RBACContext {
   user: User;
-  isAuthorized: boolean;
-  permissions: Set<string>;
-}
-
-const rolePermissions: Record<Role, Set<string>> = {
-  admin: new Set([
-    'read:all',
-    'write:all',
-    'delete:all',
-    'approve:all',
-    'audit:read',
-    'bulk:import',
-    'user:manage',
-    'system:config'
-  ]),
-  operator: new Set([
-    'read:all',
-    'write:own',
-    'write:validation',
-    'approve:own',
-    'audit:read',
-    'bulk:import'
-  ]),
-  viewer: new Set([
-    'read:all',
-    'audit:read'
-  ])
-};
-
-export function extractUserFromEvent(event: APIGatewayProxyEvent): User | null {
-  try {
-    const authHeader = event.headers['Authorization'] || event.headers['authorization'];
-    if (!authHeader) return null;
-
-    const token = authHeader.replace('Bearer ', '');
-    const decoded = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-
-    return {
-      userId: decoded.userId || decoded.sub,
-      userName: decoded.userName || decoded.name,
-      role: (decoded.role || 'viewer') as Role,
-      isActive: decoded.isActive !== false,
-      isAccountLocked: decoded.isAccountLocked === true
-    };
-  } catch (error) {
-    return null;
-  }
-}
-
-export function createRBACContext(user: User | null): RBACContext {
-  if (!user || !user.isActive || user.isAccountLocked) {
-    return {
-      user: user || { userId: '', userName: '', role: 'viewer', isActive: false, isAccountLocked: false },
-      isAuthorized: false,
-      permissions: new Set()
-    };
-  }
-
-  return {
-    user,
-    isAuthorized: true,
-    permissions: rolePermissions[user.role]
+  permissions: {
+    canValidateData: boolean;
+    canModifyData: boolean;
+    canApprove: boolean;
+    canViewReports: boolean;
+    canManageUsers: boolean;
+    canModifySystemSettings: boolean;
   };
 }
 
-export function hasPermission(context: RBACContext, permission: string): boolean {
-  return context.isAuthorized && context.permissions.has(permission);
+const rolePermissions: Record<Role, RBACContext['permissions']> = {
+  admin: {
+    canValidateData: true,
+    canModifyData: true,
+    canApprove: true,
+    canViewReports: true,
+    canManageUsers: true,
+    canModifySystemSettings: true,
+  },
+  operator: {
+    canValidateData: true,
+    canModifyData: true,
+    canApprove: false,
+    canViewReports: true,
+    canManageUsers: false,
+    canModifySystemSettings: false,
+  },
+  viewer: {
+    canValidateData: false,
+    canModifyData: false,
+    canApprove: false,
+    canViewReports: true,
+    canManageUsers: false,
+    canModifySystemSettings: false,
+  },
+};
+
+export function extractUserFromEvent(event: APIGatewayProxyEvent): User {
+  const authHeader = event.headers['Authorization'] || '';
+  const token = authHeader.replace('Bearer ', '');
+  
+  // Mock user extraction from token
+  // In production, validate JWT and extract claims
+  const mockUsers: Record<string, User> = {
+    'admin-token': {
+      userId: 'user-001',
+      userName: 'admin-user',
+      role: 'admin',
+      isActive: true,
+      isAccountLocked: false,
+    },
+    'operator-token': {
+      userId: 'user-002',
+      userName: 'operator-user',
+      role: 'operator',
+      isActive: true,
+      isAccountLocked: false,
+    },
+    'viewer-token': {
+      userId: 'user-003',
+      userName: 'viewer-user',
+      role: 'viewer',
+      isActive: true,
+      isAccountLocked: false,
+    },
+  };
+  
+  return mockUsers[token] || {
+    userId: 'unknown',
+    userName: 'unknown',
+    role: 'viewer',
+    isActive: false,
+    isAccountLocked: true,
+  };
 }
 
-export function requirePermission(context: RBACContext, permission: string): void {
-  if (!hasPermission(context, permission)) {
-    throw new Error(`Forbidden: Missing permission ${permission}`);
-  }
+export function buildRBACContext(user: User): RBACContext {
+  return {
+    user,
+    permissions: rolePermissions[user.role],
+  };
 }
 
-export function requireRole(context: RBACContext, ...roles: Role[]): void {
-  if (!context.isAuthorized || !roles.includes(context.user.role)) {
-    throw new Error(`Forbidden: Required role not found`);
-  }
+export function requireRole(context: RBACContext, ...roles: Role[]): boolean {
+  return roles.includes(context.user.role);
+}
+
+export function requirePermission(
+  context: RBACContext,
+  permission: keyof RBACContext['permissions']
+): boolean {
+  return context.permissions[permission];
+}
+
+export function checkUserActive(context: RBACContext): boolean {
+  return context.user.isActive && !context.user.isAccountLocked;
 }
