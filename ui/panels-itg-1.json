@@ -1,7 +1,7 @@
 {
   "systemId": "itg-1",
   "systemName": "受注データ品質管理・検証システム",
-  "cssTheme": "```css\n:root {\n  --primary: #d4af37;\n  --primary-hover: #f4d03f;\n  --bg-main: #0f0f0f;\n  --bg-card: #1a1a1a;\n  --bg-sidebar: #161616;\n  --border: #2a2a2a;\n  --text: #f5f5f5;\n  --text-muted: #a0a0a0;\n  --top-bar-bg: #1a1a1a;\n  --top-bar-border: #2a2a2a;\n  --accent-red: #dc143c;\n  --accent-red-hover: #ff1744;\n  --success: #4caf50;\n  --warning: #ff9800;\n  --error: #f44336;\n  --info: #2196f3;\n}\n```",
+  "cssTheme": "```css\n:root {\n  --primary: #d4af37;\n  --primary-hover: #f0c856;\n  --bg-main: #0f0f0f;\n  --bg-card: #1a1a1a;\n  --bg-sidebar: #161616;\n  --border: #2a2a2a;\n  --text: #f5f5f5;\n  --text-muted: #b0b0b0;\n  --top-bar-bg: #1a1a1a;\n  --top-bar-border: #2a2a2a;\n  --accent-red: #e63946;\n  --accent-red-hover: #f44d5a;\n  --success: #2ecc71;\n  --warning: #f39c12;\n  --error: #e63946;\n  --info: #3498db;\n}\n```",
   "screens": [
     {
       "id": "scr-1781413262699",

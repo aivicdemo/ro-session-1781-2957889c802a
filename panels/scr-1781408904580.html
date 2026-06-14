@@ -11,29 +11,28 @@ window.AIVIC_SYSTEM_NAME = "営業支援・クライアント情報統合ダッ�
 window.AIVIC_TABLES = [{"tableName":"ユーザー","purpose":"営業支援・クライアント情報統合ダッシュボードにおけるユーザー（営業担当者・管理者等）の基本情報と認証情報を管理","columns":[{"name":"ユーザーID","type":"uuid","required":true,"description":"ユーザーの一意識別子"},{"name":"ログインID","type":"varchar(100)","required":true,"description":"ログイン時に使用するID（ユニーク）"},{"name":"メールアドレス","type":"varchar(100)","required":true,"description":"ユーザーのメールアドレス（ユニーク）"},{"name":"氏名","type":"varchar(100)","required":true,"description":"ユーザーの氏名"},{"name":"部門","type":"varchar(100)","required":false,"description":"所属部門（営業部等）"},{"name":"役職","type":"varchar(100)","required":false,"description":"役職名"},{"name":"ロール","type":"varchar(100)","required":true,"description":"システム上のロール（管理者・営業・閲覧者等）"},{"name":"パスワードハッシュ","type":"varchar(100)","required":true,"description":"ログイン用パスワードのハッシュ値"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"ユーザーステータス（有効・無効・休止等）"},{"name":"最終ログイン日時","type":"timestamp","required":false,"description":"最後にログインした日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"ユーザーレコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"ユーザーレコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":false,"description":"ユーザーレコード作成者"}]},{"tableName":"クライアント","purpose":"営業支援における顧客情報の一元管理。営業担当者が顧客の基本情報、連絡先、取引状況を参照・更新し、営業活動の効率化を支援する。","columns":[{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントの一意識別子"},{"name":"クライアント名","type":"varchar(100)","required":true,"description":"顧客企業名または個人名"},{"name":"業種","type":"varchar(100)","required":false,"description":"顧客の業種分類"},{"name":"代表者名","type":"varchar(100)","required":false,"description":"企業の代表者名または主要連絡先"},{"name":"メールアドレス","type":"varchar(100)","required":false,"description":"主要連絡先のメールアドレス"},{"name":"電話番号","type":"varchar(100)","required":false,"description":"主要連絡先の電話番号"},{"name":"住所","type":"text","required":false,"description":"顧客の住所"},{"name":"担当営業ユーザーID","type":"uuid","required":false,"description":"ユーザーテーブルへの外部キー。担当営業者を指定"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"顧客ステータス（見込み客、既存顧客、休止中など）"},{"name":"最終接触日","type":"timestamp","required":false,"description":"営業担当者が最後に接触した日時"},{"name":"契約状況","type":"varchar(100)","required":false,"description":"契約状況（未契約、契約中、契約終了など）"},{"name":"推定売上額","type":"integer","required":false,"description":"見込み売上額（円）"},{"name":"備考","type":"text","required":false,"description":"営業活動に関する備考・メモ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ユーザーID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー。レコード作成者"}]},{"tableName":"対応履歴","purpose":"営業支援・クライアント情報統合ダッシュボードにおいて、クライアントとの全ての対応（接触、商談、提案等）を記録・追跡し、営業活動の進捗管理と顧客関係構築を支援する","columns":[{"name":"対応履歴ID","type":"uuid","required":true,"description":"対応履歴の一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントテーブルへの外部キー"},{"name":"ユーザーID","type":"uuid","required":true,"description":"対応を実施したユーザー（営業担当者）のID"},{"name":"対応種別","type":"varchar(100)","required":true,"description":"対応の種類（電話、メール、訪問、商談、提案等）"},{"name":"対応日時","type":"timestamp","required":true,"description":"対応が実施された日時"},{"name":"対応内容","type":"text","required":true,"description":"対応の詳細内容・メモ"},{"name":"次回対応予定日","type":"timestamp","required":false,"description":"次回の対応予定日時"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"対応のステータス（完了、保留、進行中等）"},{"name":"成果","type":"varchar(100)","required":false,"description":"対応の成果・結果（受注、見積提出、資料送付等）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]},{"tableName":"対応方針","purpose":"クライアントごとの営業対応方針を管理し、営業チームが統一された対応戦略に基づいて活動するための基準を提供する","columns":[{"name":"対応方針ID","type":"uuid","required":true,"description":"対応方針の一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントテーブルへの外部キー"},{"name":"方針名","type":"varchar(100)","required":true,"description":"対応方針の名称（例：積極営業、保守的対応、定期フォローアップ）"},{"name":"方針内容","type":"text","required":true,"description":"対応方針の詳細説明と具体的な対応内容"},{"name":"優先度","type":"integer","required":true,"description":"対応優先度（1=高、2=中、3=低）"},{"name":"対応頻度","type":"varchar(100)","required":false,"description":"推奨される対応頻度（例：週1回、月1回、四半期ごと）"},{"name":"担当者ID","type":"uuid","required":false,"description":"ユーザーテーブルへの外部キー、この方針の主担当者"},{"name":"開始日","type":"timestamp","required":true,"description":"対応方針の適用開始日"},{"name":"終了日","type":"timestamp","required":false,"description":"対応方針の適用終了日（nullの場合は継続中）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"方針のステータス（有効/無効/保留中）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー、作成者"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー、最終更新者"}]},{"tableName":"受注","purpose":"営業支援ダッシュボードにおける受注トランザクション管理。クライアントとの契約成立、金額、ステータス、営業担当者を一元管理し、売上予測・進捗追跡・営業分析を支援する。","columns":[{"name":"受注ID","type":"uuid","required":true,"description":"受注レコードの一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントテーブルへの外部キー"},{"name":"営業担当者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（営業担当者）"},{"name":"受注日","type":"timestamp","required":true,"description":"受注確定日"},{"name":"受注金額","type":"integer","required":true,"description":"受注総額（税抜き、単位：円）"},{"name":"税額","type":"integer","required":false,"description":"消費税額（単位：円）"},{"name":"税込金額","type":"integer","required":false,"description":"受注総額（税込み、単位：円）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"受注ステータス（例：受注確定、納品待ち、完了、キャンセル）"},{"name":"商品・サービス名","type":"varchar(100)","required":true,"description":"受注対象の商品またはサービス名"},{"name":"納期","type":"timestamp","required":false,"description":"納品予定日"},{"name":"納品日","type":"timestamp","required":false,"description":"実際の納品日"},{"name":"備考","type":"text","required":false,"description":"受注に関する特記事項・条件"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（レコード作成者）"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（最終更新者）"}]},{"tableName":"案件","purpose":"営業支援ダッシュボードにおける営業案件の一元管理。クライアント、対応履歴、受注との関連付けを通じて、案件進捗の追跡、営業活動の可視化、受注予測を実現する。","columns":[{"name":"案件ID","type":"uuid","required":true,"description":"案件の一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"関連するクライアントへの外部キー"},{"name":"案件名","type":"varchar(100)","required":true,"description":"案件の名称"},{"name":"案件説明","type":"text","required":false,"description":"案件の詳細説明"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"案件の進捗状況（例：新規、進行中、提案済み、受注、失注）"},{"name":"予想金額","type":"integer","required":false,"description":"案件の予想売上金額（円）"},{"name":"成約確度","type":"integer","required":false,"description":"受注確度（0-100のパーセンテージ）"},{"name":"予想受注日","type":"timestamp","required":false,"description":"予想される受注予定日"},{"name":"担当ユーザーID","type":"uuid","required":true,"description":"案件の担当営業ユーザーへの外部キー"},{"name":"対応方針ID","type":"uuid","required":false,"description":"適用される対応方針への外部キー"},{"name":"作成日時","type":"timestamp","required":true,"description":"案件の作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"案件の最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"案件を作成したユーザーへの外部キー"}]},{"tableName":"クライアント_対応方針","purpose":"クライアント毎の営業対応方針を管理し、営業戦略・アプローチ方法・優先度などを一元化するマスタテーブル","columns":[{"name":"対応方針ID","type":"uuid","required":true,"description":"対応方針の一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントテーブルへの外部キー"},{"name":"対応方針名","type":"varchar(100)","required":true,"description":"対応方針の名称（例：積極営業、定期フォロー、保守対応）"},{"name":"対応方針説明","type":"text","required":false,"description":"対応方針の詳細説明・背景"},{"name":"営業担当者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（担当営業）"},{"name":"優先度","type":"integer","required":true,"description":"営業優先度（1:高、2:中、3:低）"},{"name":"対応頻度","type":"varchar(100)","required":false,"description":"対応頻度（例：週1回、月1回、四半期1回）"},{"name":"次回対応予定日","type":"timestamp","required":false,"description":"次回営業対応の予定日時"},{"name":"対応方針ステータス","type":"varchar(100)","required":true,"description":"ステータス（有効/無効/一時停止）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（作成者）"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（更新者）"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1781408904580";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  let currentStep = 1;\n  const totalSteps = 3;\n  const formData = {};\n\n  // ステップ表示の更新\n  function updateStepDisplay() {\n    container.querySelectorAll(\".step-indicator\").forEach(el => {\n      const step = parseInt(el.dataset.step);\n      const isActive = step === currentStep;\n      el.style.opacity = isActive ? \"1\" : \"0.5\";\n      el.querySelector(\"div\").style.background = isActive ? \"var(--primary)\" : \"rgba(255,255,255,0.1)\";\n      el.querySelector(\"div\").style.color = isActive ? \"#fff\" : \"var(--text-muted)\";\n      el.querySelector(\"span\").style.color = isActive ? \"var(--text)\" : \"var(--text-muted)\";\n    });\n\n    container.querySelectorAll(\".step-form\").forEach(el => {\n      el.style.display = \"none\";\n    });\n    container.querySelector(`#step-${currentStep}-form`).style.display = \"block\";\n\n    // ボタン表示の切り替え\n    const btnBack = container.querySelector(\"#btn-back\");\n    const btnNext = container.querySelector(\"#btn-next\");\n    const btnSave = container.querySelector(\"#btn-save\");\n\n    btnBack.style.display = currentStep > 1 ? \"block\" : \"none\";\n    btnNext.style.display = currentStep < totalSteps ? \"block\" : \"none\";\n    btnSave.style.display = currentStep === totalSteps ? \"block\" : \"none\";\n  }\n\n  // フォームデータの収集\n  function collectFormData() {\n    formData.projectName = container.querySelector(\"#project-name\").value;\n    formData.clientId = container.querySelector(\"#client-select\").value;\n    formData.status = container.querySelector(\"#project-status\").value;\n    formData.type = container.querySelector(\"#project-type\").value;\n    formData.assignedUserId = container.querySelector(\"#assigned-user\").value;\n    formData.expectedAmount = parseInt(container.querySelector(\"#expected-amount\").value) || 0;\n    formData.startDate = container.querySelector(\"#start-date\").value;\n    formData.endDate = container.querySelector(\"#end-date\").value;\n    formData.description = container.querySelector(\"#project-description\").value;\n\n    const policies = [];\n    if (container.querySelector(\"#policy-aggressive\").checked) policies.push(\"積極営業\");\n    if (container.querySelector(\"#policy-regular\").checked) policies.push(\"定期フォローアップ\");\n    if (container.querySelector(\"#policy-conservative\").checked) policies.push(\"保守的対応\");\n    if (container.querySelector(\"#policy-custom\").checked) policies.push(\"カスタム対応\");\n    formData.policies = policies;\n  }\n\n  // サマリー表示の更新\n  function updateSummary() {\n    collectFormData();\n    container.querySelector(\"#summary-name\").textContent = formData.projectName || \"-\";\n    container.querySelector(\"#summary-client\").textContent = container.querySelector(\"#client-select\").options[container.querySelector(\"#client-select\").selectedIndex]?.text || \"-\";\n    container.querySelector(\"#summary-status\").textContent = formData.status || \"-\";\n    container.querySelector(\"#summary-user\").textContent = container.querySelector(\"#assigned-user\").options[container.querySelector(\"#assigned-user\").selectedIndex]?.text || \"-\";\n    container.querySelector(\"#summary-amount\").textContent = formData.expectedAmount ? `¥${formData.expectedAmount.toLocaleString()}` : \"-\";\n    container.querySelector(\"#summary-start\").textContent = formData.startDate || \"-\";\n  }\n\n  // バリデーション\n  function validateStep(step) {\n    if (step === 1) {\n      const name = container.querySelector(\"#project-name\").value.trim();\n      const client = container.querySelector(\"#client-select\").value;\n      const status = container.querySelector(\"#project-status\").value;\n      const type = container.querySelector(\"#project-type\").value;\n      const user = container.querySelector(\"#assigned-user\").value;\n      if (!name || !client || !status || !type || !user) {\n        showError(\"必須項目を入力してください\");\n        return false;\n      }\n    }\n    return true;\n  }\n\n  // エラー表示\n  function showError(msg) {\n    const errorEl = container.querySelector(\"#error-message\");\n    errorEl.textContent = msg;\n    errorEl.style.display = \"block\";\n    setTimeout(() => { errorEl.style.display = \"none\"; }, 3000);\n  }\n\n  // 成功表示\n  function showSuccess() {\n    const successEl = container.querySelector(\"#success-message\");\n    successEl.style.display = \"block\";\n    setTimeout(() => { successEl.style.display = \"none\"; }, 3000);\n  }\n\n  // ファイルドロップゾーン\n  const dropZone = container.querySelector(\"#file-drop-zone\");\n  const fileInput = container.querySelector(\"#file-input\");\n  const fileList = container.querySelector(\"#file-list\");\n\n  dropZone.addEventListener(\"click\", () => fileInput.click());\n  dropZone.addEventListener(\"dragover\", e => {\n    e.preventDefault();\n    dropZone.style.background = \"rgba(255,165,0,0.1)\";\n  });\n  dropZone.addEventListener(\"dragleave\", () => {\n    dropZone.style.background = \"rgba(0,0,0,0.15)\";\n  });\n  dropZone.addEventListener(\"drop\", e => {\n    e.preventDefault();\n    dropZone.style.background = \"rgba(0,0,0,0.15)\";\n    fileInput.files = e.dataTransfer.files;\n    updateFileList();\n  });\n  fileInput.addEventListener(\"change\", updateFileList);\n\n  function updateFileList() {\n    fileList.innerHTML = Array.from(fileInput.files).map(f => `<div>📎 ${f.name}</div>`).join(\"\");\n  }\n\n  // ボタンイベント\n  container.querySelector(\"#btn-next\").addEventListener(\"click\", () => {\n    if (!validateStep(currentStep)) return;\n    if (currentStep === 2) updateSummary();\n    currentStep++;\n    updateStepDisplay();\n  });\n\n  container.querySelector(\"#btn-back\").addEventListener(\"click\", () => {\n    currentStep--;\n    updateStepDisplay();\n  });\n\n  container.querySelector(\"#btn-cancel\").addEventListener(\"click\", () => {\n    if (confirm(\"入力を中止しますか？\")) {\n      window.showScreen(\"scr-1781408811435\"); // クライアント統合ダッシュボード\n    }\n  });\n\n  container.querySelector(\"#btn-save\").addEventListener(\"click\", async () => {\n    collectFormData();\n    if (!formData.projectName || !formData.clientId || !formData.status || !formData.type || !formData.assignedUserId) {\n      showError(\"必須項目を入力してください\");\n      return;\n    }\n\n    const payload = {\n      案件名: formData.projectName,\n      クライアントID: formData.clientId,\n      ステータス: formData.status,\n      案件種別: formData.type,\n      担当ユーザーID: formData.assignedUserId,\n      予想金額: formData.expectedAmount,\n      案件説明: formData.description,\n      開始日: formData.startDate,\n      終了日: formData.endDate,\n      対応方針: formData.policies.join(\", \")\n    };\n\n    const saved = await window.aivicApi.save(6, payload); // tableIndex 6 = 案件テーブル\n    if (saved) {\n      showSuccess();\n      setTimeout(() => {\n        window.showScreen(\"scr-1781408811435\"); // クライアント統合ダッシュボード\n      }, 1500);\n    }\n  });\n\n  container.querySelector(\"#btn-view-history\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1781408840123\"); // 対応履歴・対応方針管理画面\n  });\n\n  // 初期表示\n  updateStepDisplay();\n}";
 </script>
-  <script>window.AIVIC_DB_TYPE = "aurora_postgresql";</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f4d03f;
+  --primary-hover: #f0c856;
   --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
   --bg-sidebar: #161616;
   --border: #2a2a2a;
   --text: #f5f5f5;
-  --text-muted: #a0a0a0;
+  --text-muted: #b0b0b0;
   --top-bar-bg: #1a1a1a;
   --top-bar-border: #2a2a2a;
-  --accent-red: #dc143c;
-  --accent-red-hover: #ff1744;
-  --success: #4caf50;
-  --warning: #ff9800;
-  --error: #f44336;
-  --info: #2196f3;
+  --accent-red: #e63946;
+  --accent-red-hover: #f44d5a;
+  --success: #2ecc71;
+  --warning: #f39c12;
+  --error: #e63946;
+  --info: #3498db;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -100,431 +99,210 @@ canvas { display:block; max-height:280px !important; }
     <section class="card" data-aivic-panel="scr-1781408904580" style="margin-top:0">
 <div style="display: flex; flex-direction: column; height: 100%; background: var(--bg-main); color: var(--text);">
   <!-- ヘッダー -->
-  <div style="padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); background: var(--top-bar-bg);">
-    <h1 style="margin: 0; font-size: 18px; font-weight: 600;">案件登録</h1>
-    <p style="margin: 4px 0 0 0; font-size: 12px; color: var(--text-muted);">新規営業案件の基本情報を入力してください</p>
+  <div style="padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); background: var(--top-bar-bg);">
+    <h1 style="margin: 0; font-size: 1.5rem; font-weight: 600;">案件登録</h1>
+    <p style="margin: 0.25rem 0 0 0; font-size: 0.875rem; color: var(--text-muted);">新規営業案件の基本情報を入力してください</p>
   </div>
 
-  <!-- ステッパー -->
-  <div style="display: flex; gap: 0; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); background: var(--bg-card); overflow-x: auto;">
-    <div class="stepper-item active" data-step="1" style="flex: 1; min-width: 120px; padding: 8px 12px; text-align: center; cursor: pointer; border-bottom: 2px solid var(--primary); font-size: 12px; font-weight: 600; color: var(--primary);">
-      1. 基本情報
+  <!-- ステップインジケーター -->
+  <div style="padding: 1rem 1.5rem; background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; gap: 1rem; align-items: center;">
+    <div class="step-indicator" data-step="1" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; opacity: 1;">
+      <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.875rem;">1</div>
+      <span style="font-size: 0.875rem; font-weight: 500;">基本情報</span>
     </div>
-    <div class="stepper-item" data-step="2" style="flex: 1; min-width: 120px; padding: 8px 12px; text-align: center; cursor: pointer; border-bottom: 2px solid rgba(255,255,255,0.08); font-size: 12px; font-weight: 600; color: var(--text-muted);">
-      2. 詳細情報
+    <div style="flex: 1; height: 2px; background: rgba(255,255,255,0.1);"></div>
+    <div class="step-indicator" data-step="2" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; opacity: 0.5;">
+      <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.1); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.875rem;">2</div>
+      <span style="font-size: 0.875rem; font-weight: 500; color: var(--text-muted);">詳細情報</span>
     </div>
-    <div class="stepper-item" data-step="3" style="flex: 1; min-width: 120px; padding: 8px 12px; text-align: center; cursor: pointer; border-bottom: 2px solid rgba(255,255,255,0.08); font-size: 12px; font-weight: 600; color: var(--text-muted);">
-      3. 対応方針
-    </div>
-    <div class="stepper-item" data-step="4" style="flex: 1; min-width: 120px; padding: 8px 12px; text-align: center; cursor: pointer; border-bottom: 2px solid rgba(255,255,255,0.08); font-size: 12px; font-weight: 600; color: var(--text-muted);">
-      4. 確認
+    <div style="flex: 1; height: 2px; background: rgba(255,255,255,0.1);"></div>
+    <div class="step-indicator" data-step="3" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; opacity: 0.5;">
+      <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.1); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.875rem;">3</div>
+      <span style="font-size: 0.875rem; font-weight: 500; color: var(--text-muted);">確認</span>
     </div>
   </div>
 
-  <!-- メインコンテンツ -->
-  <div style="display: flex; flex: 1; overflow: hidden; gap: 0;">
-    <!-- フォームエリア（左） -->
-    <div style="flex: 1; overflow-y: auto; padding: 16px; background: var(--bg-main);">
-      <!-- ステップ 1: 基本情報 -->
-      <div class="form-step" data-step="1" style="display: block;">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-          <!-- 案件名 -->
-          <div style="grid-column: 1 / -1;">
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">
-              案件名 <span style="color: #ff6a00;">*</span>
-            </label>
-            <input
-              type="text"
-              data-testid="project-name-input"
-              placeholder="例：〇〇システム導入プロジェクト"
-              style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box;"
-            />
-          </div>
+  <!-- フォームコンテナ（スクロール可能） -->
+  <div style="flex: 1; overflow-y: auto; padding: 1.5rem;">
+    <!-- ステップ 1: 基本情報 -->
+    <div id="step-1-form" class="step-form" style="display: block;">
+      <div style="max-width: 600px;">
+        <!-- 案件名 -->
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.375rem;">案件名 <span style="color: #ff6a00;">*</span></label>
+          <input type="text" id="project-name" data-testid="project-name" placeholder="例：○○システム導入プロジェクト" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box;" />
+        </div>
 
-          <!-- クライアント選択 -->
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">
-              クライアント <span style="color: #ff6a00;">*</span>
-            </label>
-            <select
-              data-testid="client-select"
-              style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box; cursor: pointer;"
-            >
-              <option value="">選択してください</option>
-              <option value="client-001">株式会社A</option>
-              <option value="client-002">株式会社B</option>
-              <option value="client-003">株式会社C</option>
-              <option value="client-004">株式会社D</option>
-            </select>
-          </div>
+        <!-- クライアント選択 -->
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.375rem;">クライアント <span style="color: #ff6a00;">*</span></label>
+          <select id="client-select" data-testid="client-select" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box;">
+            <option value="">選択してください</option>
+            <option value="client-001">株式会社ABC</option>
+            <option value="client-002">株式会社XYZ</option>
+            <option value="client-003">株式会社DEF</option>
+          </select>
+        </div>
 
-          <!-- 案件ステータス -->
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">
-              ステータス <span style="color: #ff6a00;">*</span>
-            </label>
-            <select
-              data-testid="status-select"
-              style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box; cursor: pointer;"
-            >
-              <option value="">選択してください</option>
-              <option value="new">新規</option>
-              <option value="in-progress">進行中</option>
-              <option value="proposal">提案済み</option>
-              <option value="won">受注</option>
-              <option value="lost">失注</option>
-            </select>
-          </div>
+        <!-- 案件ステータス -->
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.375rem;">案件ステータス <span style="color: #ff6a00;">*</span></label>
+          <select id="project-status" data-testid="project-status" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box;">
+            <option value="">選択してください</option>
+            <option value="新規">新規</option>
+            <option value="進行中">進行中</option>
+            <option value="提案済み">提案済み</option>
+            <option value="受注">受注</option>
+            <option value="失注">失注</option>
+          </select>
+        </div>
 
-          <!-- 案件種別 -->
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">
-              案件種別 <span style="color: #ff6a00;">*</span>
-            </label>
-            <select
-              data-testid="type-select"
-              style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box; cursor: pointer;"
-            >
-              <option value="">選択してください</option>
-              <option value="system">システム開発</option>
-              <option value="consulting">コンサルティング</option>
-              <option value="support">保守・サポート</option>
-              <option value="training">研修・教育</option>
-            </select>
-          </div>
+        <!-- 案件種別 -->
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.375rem;">案件種別 <span style="color: #ff6a00;">*</span></label>
+          <select id="project-type" data-testid="project-type" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box;">
+            <option value="">選択してください</option>
+            <option value="新規営業">新規営業</option>
+            <option value="既存営業">既存営業</option>
+            <option value="保守契約">保守契約</option>
+            <option value="コンサル">コンサル</option>
+          </select>
+        </div>
 
-          <!-- 予想売上金額 -->
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">
-              予想売上金額（円）
-            </label>
-            <input
-              type="number"
-              data-testid="estimated-amount-input"
-              placeholder="0"
-              style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box;"
-            />
-          </div>
+        <!-- 担当者選択 -->
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.375rem;">担当者 <span style="color: #ff6a00;">*</span></label>
+          <select id="assigned-user" data-testid="assigned-user" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box;">
+            <option value="">選択してください</option>
+            <option value="user-001">田中太郎</option>
+            <option value="user-002">鈴木花子</option>
+            <option value="user-003">佐藤次郎</option>
+          </select>
+        </div>
+      </div>
+    </div>
 
-          <!-- 成約確度 -->
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">
-              成約確度（%）
-            </label>
-            <input
-              type="number"
-              data-testid="confidence-input"
-              placeholder="0"
-              min="0"
-              max="100"
-              style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box;"
-            />
-          </div>
+    <!-- ステップ 2: 詳細情報 -->
+    <div id="step-2-form" class="step-form" style="display: none;">
+      <div style="max-width: 600px;">
+        <!-- 予想売上金額 -->
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.375rem;">予想売上金額（円）</label>
+          <input type="number" id="expected-amount" data-testid="expected-amount" placeholder="例：1000000" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box;" />
+        </div>
 
-          <!-- 案件開始日 -->
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">
-              案件開始日
-            </label>
-            <input
-              type="date"
-              data-testid="start-date-input"
-              style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box;"
-            />
-          </div>
+        <!-- 案件開始日 -->
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.375rem;">案件開始日</label>
+          <input type="date" id="start-date" data-testid="start-date" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box;" />
+        </div>
 
-          <!-- 案件終了日 -->
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">
-              案件終了日
-            </label>
-            <input
-              type="date"
-              data-testid="end-date-input"
-              style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box;"
-            />
+        <!-- 案件終了日 -->
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.375rem;">案件終了日</label>
+          <input type="date" id="end-date" data-testid="end-date" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box;" />
+        </div>
+
+        <!-- 案件説明 -->
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.375rem;">案件説明</label>
+          <textarea id="project-description" data-testid="project-description" placeholder="案件の詳細説明を入力してください" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.875rem; box-sizing: border-box; min-height: 100px; font-family: inherit; resize: vertical;"></textarea>
+        </div>
+
+        <!-- 添付ファイル -->
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.375rem;">添付ファイル</label>
+          <div style="border: 2px dashed rgba(255,255,255,0.2); border-radius: 4px; padding: 1.5rem; text-align: center; cursor: pointer; background: rgba(0,0,0,0.15);" id="file-drop-zone">
+            <input type="file" id="file-input" data-testid="file-input" style="display: none;" multiple />
+            <div style="font-size: 0.875rem; color: var(--text-muted);">ファイルをドラッグ＆ドロップするか、クリックして選択</div>
+            <div id="file-list" style="margin-top: 0.75rem; font-size: 0.8125rem; color: var(--text-muted);"></div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- ステップ 2: 詳細情報 -->
-      <div class="form-step" data-step="2" style="display: none;">
-        <div style="display: grid; grid-template-columns: 1fr; gap: 16px;">
-          <!-- 担当者選択 -->
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">
-              担当者 <span style="color: #ff6a00;">*</span>
-            </label>
-            <select
-              data-testid="assignee-select"
-              style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box; cursor: pointer;"
-            >
-              <option value="">選択してください</option>
-              <option value="user-001">田中太郎</option>
-              <option value="user-002">鈴木花子</option>
-              <option value="user-003">佐藤次郎</option>
-              <option value="user-004">伊藤美咲</option>
-            </select>
-          </div>
-
-          <!-- 案件説明 -->
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">
-              案件説明
-            </label>
-            <textarea
-              data-testid="description-textarea"
-              placeholder="案件の詳細説明、背景、期待される成果などを記入してください"
-              style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box; min-height: 100px; resize: vertical; font-family: inherit;"
-            ></textarea>
-          </div>
-
-          <!-- 予想受注日 -->
-          <div>
-            <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">
-              予想受注日
-            </label>
-            <input
-              type="date"
-              data-testid="expected-order-date-input"
-              style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box;"
-            />
-          </div>
-        </div>
-      </div>
-
-      <!-- ステップ 3: 対応方針 -->
-      <div class="form-step" data-step="3" style="display: none;">
-        <div style="display: grid; grid-template-columns: 1fr; gap: 16px;">
-          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">
-            このクライアントに適用する対応方針を選択してください
-          </div>
-
-          <!-- 対応方針チェックボックス -->
-          <div style="display: flex; flex-direction: column; gap: 8px;">
-            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px;">
-              <input
-                type="checkbox"
-                data-testid="policy-aggressive"
-                value="aggressive"
-                style="width: 16px; height: 16px; cursor: pointer; accent-color: var(--primary);"
-              />
+    <!-- ステップ 3: 対応方針と確認 -->
+    <div id="step-3-form" class="step-form" style="display: none;">
+      <div style="max-width: 600px;">
+        <!-- 対応方針選択 -->
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); margin-bottom: 0.5rem;">対応方針</label>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.875rem;">
+              <input type="checkbox" id="policy-aggressive" data-testid="policy-aggressive" value="積極営業" style="accent-color: var(--primary);" />
               <span>積極営業</span>
-              <span style="font-size: 11px; color: var(--text-muted);">定期的な営業活動と提案</span>
             </label>
-            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px;">
-              <input
-                type="checkbox"
-                data-testid="policy-regular"
-                value="regular"
-                style="width: 16px; height: 16px; cursor: pointer; accent-color: var(--primary);"
-              />
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.875rem;">
+              <input type="checkbox" id="policy-regular" data-testid="policy-regular" value="定期フォローアップ" style="accent-color: var(--primary);" />
               <span>定期フォローアップ</span>
-              <span style="font-size: 11px; color: var(--text-muted);">月1回程度の接触</span>
             </label>
-            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px;">
-              <input
-                type="checkbox"
-                data-testid="policy-conservative"
-                value="conservative"
-                style="width: 16px; height: 16px; cursor: pointer; accent-color: var(--primary);"
-              />
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.875rem;">
+              <input type="checkbox" id="policy-conservative" data-testid="policy-conservative" value="保守的対応" style="accent-color: var(--primary);" />
               <span>保守的対応</span>
-              <span style="font-size: 11px; color: var(--text-muted);">必要に応じた対応のみ</span>
             </label>
-            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px;">
-              <input
-                type="checkbox"
-                data-testid="policy-priority"
-                value="priority"
-                style="width: 16px; height: 16px; cursor: pointer; accent-color: var(--primary);"
-              />
-              <span>優先対応</span>
-              <span style="font-size: 11px; color: var(--text-muted);">重点顧客として優先対応</span>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.875rem;">
+              <input type="checkbox" id="policy-custom" data-testid="policy-custom" value="カスタム対応" style="accent-color: var(--primary);" />
+              <span>カスタム対応</span>
             </label>
           </div>
         </div>
-      </div>
 
-      <!-- ステップ 4: 確認 -->
-      <div class="form-step" data-step="4" style="display: none;">
-        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
-          入力内容を確認してください。問題がなければ「登録」ボタンをクリックしてください。
-        </div>
-        <div id="confirmation-summary" style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 12px; font-size: 12px; line-height: 1.6;">
-          <!-- 確認内容がここに動的に挿入される -->
-        </div>
-
-        <!-- 添付ファイルアップロード -->
-        <div style="margin-top: 16px;">
-          <label style="display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px;">
-            添付ファイル
-          </label>
-          <div
-            id="file-drop-zone"
-            style="border: 2px dashed rgba(255,255,255,0.18); border-radius: 4px; padding: 16px; text-align: center; cursor: pointer; background: rgba(0,0,0,0.15); transition: all 0.2s;"
-          >
-            <div style="font-size: 12px; color: var(--text-muted);">
-              ファイルをドラッグ＆ドロップするか、クリックして選択
+        <!-- 確認サマリー -->
+        <div style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 1rem; margin-top: 1.5rem;">
+          <h3 style="margin: 0 0 1rem 0; font-size: 0.9375rem; font-weight: 600; color: var(--text);">入力内容の確認</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.8125rem;">
+            <div>
+              <div style="color: var(--text-muted); margin-bottom: 0.25rem;">案件名</div>
+              <div id="summary-name" style="color: var(--text); font-weight: 500;">-</div>
             </div>
-            <input
-              type="file"
-              id="file-input"
-              data-testid="file-upload-input"
-              multiple
-              style="display: none;"
-            />
+            <div>
+              <div style="color: var(--text-muted); margin-bottom: 0.25rem;">クライアント</div>
+              <div id="summary-client" style="color: var(--text); font-weight: 500;">-</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted); margin-bottom: 0.25rem;">ステータス</div>
+              <div id="summary-status" style="color: var(--text); font-weight: 500;">-</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted); margin-bottom: 0.25rem;">担当者</div>
+              <div id="summary-user" style="color: var(--text); font-weight: 500;">-</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted); margin-bottom: 0.25rem;">予想売上</div>
+              <div id="summary-amount" style="color: var(--text); font-weight: 500;">-</div>
+            </div>
+            <div>
+              <div style="color: var(--text-muted); margin-bottom: 0.25rem;">開始日</div>
+              <div id="summary-start" style="color: var(--text); font-weight: 500;">-</div>
+            </div>
           </div>
-          <div id="file-list" style="margin-top: 8px; font-size: 12px;"></div>
-        </div>
-
-        <!-- 対応履歴参照ボタン -->
-        <div style="margin-top: 16px;">
-          <button
-            id="btn-view-history"
-            data-testid="view-history-button"
-            class="action-btn secondary"
-            style="width: 100%; padding: 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: transparent; color: var(--text); cursor: pointer; border-radius: 4px;"
-          >
-            対応履歴を参照
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- プレビューエリア（右） -->
-    <div style="width: 280px; background: var(--bg-card); border-left: 1px solid rgba(255,255,255,0.08); padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;">
-      <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">
-        プレビュー
-      </div>
-
-      <!-- プレビューカード -->
-      <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 12px; font-size: 12px; line-height: 1.6;">
-        <div style="font-weight: 600; color: var(--text); margin-bottom: 8px;">
-          <span id="preview-name" style="color: var(--text-muted);">未入力</span>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr; gap: 8px; font-size: 11px;">
-          <div>
-            <span style="color: var(--text-muted);">クライアント</span>
-            <div style="color: var(--text); font-weight: 500;" id="preview-client">—</div>
-          </div>
-          <div>
-            <span style="color: var(--text-muted);">ステータス</span>
-            <div style="color: var(--text); font-weight: 500;" id="preview-status">—</div>
-          </div>
-          <div>
-            <span style="color: var(--text-muted);">種別</span>
-            <div style="color: var(--text); font-weight: 500;" id="preview-type">—</div>
-          </div>
-          <div>
-            <span style="color: var(--text-muted);">予想売上</span>
-            <div style="color: var(--text); font-weight: 500;" id="preview-amount">—</div>
-          </div>
-          <div>
-            <span style="color: var(--text-muted);">成約確度</span>
-            <div style="color: var(--text); font-weight: 500;" id="preview-confidence">—</div>
-          </div>
-          <div>
-            <span style="color: var(--text-muted);">担当者</span>
-            <div style="color: var(--text); font-weight: 500;" id="preview-assignee">—</div>
-          </div>
-          <div>
-            <span style="color: var(--text-muted);">対応方針</span>
-            <div style="color: var(--text); font-weight: 500;" id="preview-policies">—</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 入力進捗 -->
-      <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 12px;">
-        <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px;">
-          入力進捗
-        </div>
-        <div style="background: rgba(0,0,0,0.5); border-radius: 2px; height: 6px; overflow: hidden;">
-          <div id="progress-bar" style="height: 100%; background: var(--primary); width: 0%; transition: width 0.3s;"></div>
-        </div>
-        <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">
-          <span id="progress-text">0%</span>
         </div>
       </div>
     </div>
   </div>
 
   <!-- フッター（ボタン） -->
-  <div style="padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.08); background: var(--bg-card); display: flex; justify-content: space-between; gap: 8px;">
-    <button
-      id="btn-cancel"
-      data-testid="cancel-button"
-      class="action-btn secondary"
-      style="padding: 8px 16px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: transparent; color: var(--text); cursor: pointer; border-radius: 4px;"
-    >
-      キャンセル
-    </button>
-
-    <div style="display: flex; gap: 8px;">
-      <button
-        id="btn-prev"
-        data-testid="prev-button"
-        class="action-btn secondary"
-        style="padding: 8px 16px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: transparent; color: var(--text); cursor: pointer; border-radius: 4px; display: none;"
-      >
-        戻る
-      </button>
-
-      <button
-        id="btn-next"
-        data-testid="next-button"
-        class="action-btn"
-        style="padding: 8px 16px; font-size: 12px; background: var(--primary); color: #fff; border: none; cursor: pointer; border-radius: 4px; font-weight: 500;"
-      >
-        次へ
-      </button>
-
-      <button
-        id="btn-save"
-        data-testid="save-button"
-        class="action-btn"
-        style="padding: 8px 16px; font-size: 12px; background: var(--primary); color: #fff; border: none; cursor: pointer; border-radius: 4px; font-weight: 500; display: none;"
-      >
-        登録
-      </button>
+  <div style="padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); background: var(--bg-card); display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
+    <div style="display: flex; gap: 0.75rem;">
+      <button id="btn-back" data-testid="btn-back" class="action-btn secondary" style="display: none; padding: 0.5rem 1rem; font-size: 0.875rem;">戻る</button>
+      <button id="btn-cancel" data-testid="btn-cancel" class="action-btn secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">キャンセル</button>
+    </div>
+    <div style="display: flex; gap: 0.75rem;">
+      <button id="btn-next" data-testid="btn-next" class="action-btn" style="padding: 0.5rem 1.5rem; font-size: 0.875rem; background: var(--primary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: 500;">次へ</button>
+      <button id="btn-save" data-testid="btn-save" class="action-btn" style="display: none; padding: 0.5rem 1.5rem; font-size: 0.875rem; background: var(--primary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: 500;">登録</button>
     </div>
   </div>
-</div>
 
-<!-- 対応履歴モーダル -->
-<div id="history-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; overflow-y: auto;">
-  <div style="background: var(--bg-main); margin: 40px auto; border-radius: 6px; max-width: 600px; max-height: 80vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
-    <!-- モーダルヘッダー -->
-    <div style="padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); background: var(--bg-card); display: flex; justify-content: space-between; align-items: center;">
-      <h2 style="margin: 0; font-size: 14px; font-weight: 600;">対応履歴</h2>
-      <button
-        id="btn-close-modal"
-        style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 16px; padding: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;"
-      >
-        ✕
-      </button>
-    </div>
-
-    <!-- モーダルコンテンツ -->
-    <div style="flex: 1; overflow-y: auto; padding: 16px;">
-      <div id="history-list" style="display: flex; flex-direction: column; gap: 12px;">
-        <!-- 対応履歴がここに動的に挿入される -->
-      </div>
-    </div>
-
-    <!-- モーダルフッター -->
-    <div style="padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.08); background: var(--bg-card); text-align: right;">
-      <button
-        id="btn-close-modal-footer"
-        class="action-btn secondary"
-        style="padding: 8px 16px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: transparent; color: var(--text); cursor: pointer; border-radius: 4px;"
-      >
-        閉じる
-      </button>
-    </div>
+  <!-- 対応履歴参照ボタン（ヘッダー右） -->
+  <div style="position: absolute; top: 1rem; right: 1.5rem;">
+    <button id="btn-view-history" data-testid="btn-view-history" class="action-btn secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem; border: 1px solid rgba(255,255,255,0.18); background: transparent; color: var(--text); border-radius: 4px; cursor: pointer;">対応履歴を参照</button>
   </div>
+
+  <!-- エラーメッセージ -->
+  <div id="error-message" style="display: none; position: fixed; bottom: 1.5rem; right: 1.5rem; background: #d32f2f; color: #fff; padding: 1rem 1.5rem; border-radius: 4px; font-size: 0.875rem; max-width: 300px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);"></div>
+
+  <!-- 成功メッセージ -->
+  <div id="success-message" style="display: none; position: fixed; bottom: 1.5rem; right: 1.5rem; background: #388e3c; color: #fff; padding: 1rem 1.5rem; border-radius: 4px; font-size: 0.875rem; max-width: 300px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">案件を登録しました</div>
 </div>
     </section>
   </main>
