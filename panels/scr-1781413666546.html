@@ -28,12 +28,12 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
   --text-muted: #b0b0b0;
   --top-bar-bg: #1a1a1a;
   --top-bar-border: #2a2a2a;
-  --accent-red: #dc2626;
-  --accent-red-hover: #ef4444;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --error: #ef5350;
-  --info: #3b82f6;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -134,272 +134,256 @@ canvas { display:block; max-height:280px !important; }
   
   <!-- ヘッダー / Breadcrumb -->
   <div style="padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);">
-    <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">
+    <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.25rem;">
       ROシステム / 受注データ品質管理・検証システム / データ品質検証処理
     </div>
-    <h1 style="margin: 0; font-size: 1.25rem; font-weight: 600; color: var(--text);">
+    <h1 style="font-size: 1.5rem; font-weight: 600; color: var(--text); margin: 0;">
       データ品質検証処理
     </h1>
   </div>
 
-  <!-- ステッパー（検証ステップ） -->
-  <div style="display: flex; gap: 1rem; align-items: center; padding: 0.75rem; background: var(--bg-card); border-radius: 0.375rem; font-size: 0.875rem;">
-    <div class="step-indicator active" data-step="1" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-      <div style="width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.75rem;">1</div>
-      <span style="color: var(--text);">対象選択</span>
+  <!-- メインコンテンツ: 3 列レイアウト -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 0.75rem; flex: 1; min-height: 0;">
+    
+    <!-- 左: 検証対象受注一覧 -->
+    <div class="card" style="display: flex; flex-direction: column; overflow: hidden;">
+      <div style="font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem;">
+        検証対象受注
+      </div>
+      <div style="display: flex; gap: 0.25rem; margin-bottom: 0.5rem;">
+        <input type="text" id="search-order-id" placeholder="受注ID検索" class="input" 
+               style="flex: 1; padding: 0.4rem 0.5rem; font-size: 0.85rem;" data-testid="search-order-id" />
+        <button class="action-btn" id="btn-search-order" style="padding: 0.4rem 0.75rem; font-size: 0.85rem;" data-testid="search-order-button">
+          検索
+        </button>
+      </div>
+      <div style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 0.375rem;">
+        <table data-testid="order-list" style="width: 100%; font-size: 0.85rem; border-collapse: collapse;">
+          <thead style="position: sticky; top: 0; background: var(--bg-main);">
+            <tr>
+              <th style="width: 2rem; padding: 0.4rem; text-align: center; border-bottom: 1px solid var(--border);">
+                <input type="checkbox" id="check-all-orders" data-testid="check-all-orders" style="accent-color: var(--primary);" />
+              </th>
+              <th style="padding: 0.4rem 0.5rem; text-align: left; border-bottom: 1px solid var(--border); color: var(--text);">
+                受注ID
+              </th>
+              <th style="padding: 0.4rem 0.5rem; text-align: left; border-bottom: 1px solid var(--border); color: var(--text);">
+                ステータス
+              </th>
+            </tr>
+          </thead>
+          <tbody id="order-tbody">
+            <tr style="background: var(--bg-card);">
+              <td colspan="3" style="padding: 1rem; text-align: center; color: var(--text-muted);">
+                読込中...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">
+        選択: <span id="selected-count">0</span> / <span id="total-count">0</span>
+      </div>
     </div>
-    <div style="flex: 1; height: 1px; background: var(--border);"></div>
-    <div class="step-indicator" data-step="2" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-      <div style="width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--border); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.75rem;">2</div>
-      <span style="color: var(--text-muted);">検証実行</span>
+
+    <!-- 中央: 検証実行 + ステータス -->
+    <div class="card" style="display: flex; flex-direction: column; gap: 0.75rem;">
+      <div>
+        <div style="font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem;">
+          検証実行
+        </div>
+        <button class="action-btn" id="btn-execute-validation" style="width: 100%; padding: 0.6rem; font-size: 0.9rem; font-weight: 600;" data-testid="execute-validation-button">
+          検証を実行
+        </button>
+      </div>
+
+      <div style="border-top: 1px solid var(--border); padding-top: 0.75rem;">
+        <div style="font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem;">
+          検証ステータス
+        </div>
+        <div id="validation-status" style="background: var(--bg-main); padding: 0.75rem; border-radius: 0.375rem; font-size: 0.85rem; color: var(--text-muted);">
+          未実行
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid var(--border); padding-top: 0.75rem;">
+        <div style="font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem;">
+          信頼度スコア
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+          <div style="background: var(--bg-main); padding: 0.5rem; border-radius: 0.375rem; text-align: center;">
+            <div style="font-size: 0.75rem; color: var(--text-muted);">総合</div>
+            <div id="score-overall" style="font-size: 1.25rem; font-weight: 700; color: var(--primary);">-</div>
+          </div>
+          <div style="background: var(--bg-main); padding: 0.5rem; border-radius: 0.375rem; text-align: center;">
+            <div style="font-size: 0.75rem; color: var(--text-muted);">警告</div>
+            <div id="score-warning" style="font-size: 1.25rem; font-weight: 700; color: #ff6a00;">-</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid var(--border); padding-top: 0.75rem;">
+        <button class="action-btn secondary" id="btn-view-dashboard" style="width: 100%; padding: 0.5rem; font-size: 0.85rem;" data-testid="view-dashboard-button">
+          ダッシュボードへ
+        </button>
+      </div>
     </div>
-    <div style="flex: 1; height: 1px; background: var(--border);"></div>
-    <div class="step-indicator" data-step="3" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-      <div style="width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--border); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.75rem;">3</div>
-      <span style="color: var(--text-muted);">結果確認</span>
-    </div>
-    <div style="flex: 1; height: 1px; background: var(--border);"></div>
-    <div class="step-indicator" data-step="4" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-      <div style="width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--border); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.75rem;">4</div>
-      <span style="color: var(--text-muted);">修正実行</span>
+
+    <!-- 右: 検証結果詳細（タブ切り替え） -->
+    <div class="card" style="display: flex; flex-direction: column; overflow: hidden;">
+      <div style="font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem;">
+        検証結果詳細
+      </div>
+      
+      <!-- タブ -->
+      <div style="display: flex; gap: 0.25rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+        <button class="tab-btn active" data-tab="errors" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; border: none; background: transparent; color: var(--text); cursor: pointer; border-bottom: 2px solid var(--primary);" data-testid="tab-errors">
+          エラー
+        </button>
+        <button class="tab-btn" data-tab="duplicates" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; border: none; background: transparent; color: var(--text-muted); cursor: pointer;" data-testid="tab-duplicates">
+          重複
+        </button>
+        <button class="tab-btn" data-tab="conflicts" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; border: none; background: transparent; color: var(--text-muted); cursor: pointer;" data-testid="tab-conflicts">
+          矛盾
+        </button>
+        <button class="tab-btn" data-tab="missing" style="padding: 0.4rem 0.75rem; font-size: 0.8rem; border: none; background: transparent; color: var(--text-muted); cursor: pointer;" data-testid="tab-missing">
+          入力漏れ
+        </button>
+      </div>
+
+      <!-- タブコンテンツ -->
+      <div id="tab-errors" class="tab-content" style="flex: 1; overflow-y: auto; font-size: 0.8rem;">
+        <div id="errors-list" style="color: var(--text-muted);">データなし</div>
+      </div>
+      <div id="tab-duplicates" class="tab-content" style="flex: 1; overflow-y: auto; font-size: 0.8rem; display: none;">
+        <div id="duplicates-list" style="color: var(--text-muted);">データなし</div>
+      </div>
+      <div id="tab-conflicts" class="tab-content" style="flex: 1; overflow-y: auto; font-size: 0.8rem; display: none;">
+        <div id="conflicts-list" style="color: var(--text-muted);">データなし</div>
+      </div>
+      <div id="tab-missing" class="tab-content" style="flex: 1; overflow-y: auto; font-size: 0.8rem; display: none;">
+        <div id="missing-list" style="color: var(--text-muted);">データなし</div>
+      </div>
     </div>
   </div>
 
-  <!-- メインコンテンツ（左右分割） -->
-  <div style="display: flex; gap: 0.75rem; flex: 1; min-height: 0;">
+  <!-- 下部: 修正対象優先度リスト + 修正フォーム -->
+  <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 0.75rem; max-height: 35%;">
     
-    <!-- 左側：ステップコンテンツ -->
-    <div style="flex: 1; display: flex; flex-direction: column; gap: 0.75rem; min-width: 0;">
-      
-      <!-- ステップ 1: 対象選択 -->
-      <div id="step-1-content" class="step-content card" style="flex: 1; display: flex; flex-direction: column; gap: 0.5rem;">
-        <h3 style="margin: 0; font-size: 0.95rem; font-weight: 600; color: var(--text);">検証対象受注を選択</h3>
-        
-        <!-- フィルタバー -->
-        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-          <input type="text" id="search-order-id" data-testid="search-order-id" placeholder="受注ID検索" style="flex: 0 1 150px; padding: 0.375rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 0.25rem; color: var(--text); font-size: 0.8rem;" />
-          <select id="filter-channel" data-testid="filter-channel" style="flex: 0 1 120px; padding: 0.375rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 0.25rem; color: var(--text); font-size: 0.8rem;">
-            <option value="">全チャネル</option>
-            <option value="WEB">Web注文</option>
-            <option value="TEL">電話受注</option>
-            <option value="STORE">店舗POS</option>
-            <option value="API">API連携</option>
-          </select>
-          <select id="filter-status" data-testid="filter-status" style="flex: 0 1 120px; padding: 0.375rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 0.25rem; color: var(--text); font-size: 0.8rem;">
-            <option value="">全ステータス</option>
-            <option value="新規">新規</option>
-            <option value="検証中">検証中</option>
-            <option value="エラー">エラー</option>
-            <option value="完了">完了</option>
-          </select>
-          <button id="btn-filter-apply" data-testid="filter-apply-button" class="action-btn" style="flex: 0 0 auto; padding: 0.375rem 0.75rem; font-size: 0.8rem;">フィルタ適用</button>
-        </div>
-
-        <!-- 受注一覧（チェックボックス付き） -->
-        <div style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.15);">
-          <table data-testid="order-selection-list" style="width: 100%; font-size: 0.8rem; border-collapse: collapse;">
-            <thead style="position: sticky; top: 0; background: rgba(0,0,0,0.3);">
-              <tr>
-                <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.18); width: 2rem;"><input type="checkbox" id="select-all-orders" data-testid="select-all-checkbox" style="accent-color: var(--primary);" /></th>
-                <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.18);">受注ID</th>
-                <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.18);">顧客名</th>
-                <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.18);">チャネル</th>
-                <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.18);">金額</th>
-                <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.18);">ステータス</th>
-              </tr>
-            </thead>
-            <tbody id="order-list-tbody">
-              <!-- 動的に行を挿入 -->
-            </tbody>
-          </table>
-        </div>
-
-        <!-- ステップ操作ボタン -->
-        <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
-          <button id="btn-step1-next" data-testid="step1-next-button" class="action-btn" style="padding: 0.375rem 1rem; font-size: 0.8rem;">検証実行へ →</button>
-        </div>
+    <!-- 修正対象優先度リスト -->
+    <div class="card" style="display: flex; flex-direction: column; overflow: hidden;">
+      <div style="font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem;">
+        修正対象優先度リスト
       </div>
-
-      <!-- ステップ 2: 検証実行 -->
-      <div id="step-2-content" class="step-content card" style="flex: 1; display: none; flex-direction: column; gap: 0.5rem;">
-        <h3 style="margin: 0; font-size: 0.95rem; font-weight: 600; color: var(--text);">検証実行</h3>
-        <div style="flex: 1; display: flex; flex-direction: column; gap: 0.5rem; justify-content: center; align-items: center;">
-          <div id="validation-progress" style="width: 100%; max-width: 300px;">
-            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">検証進捗: <span id="progress-text">0/0</span></div>
-            <div style="width: 100%; height: 1.5rem; background: rgba(0,0,0,0.3); border-radius: 0.25rem; overflow: hidden;">
-              <div id="progress-bar" style="width: 0%; height: 100%; background: var(--primary); transition: width 0.3s ease;"></div>
-            </div>
-          </div>
-          <div id="validation-status" style="font-size: 0.85rem; color: var(--text-muted); text-align: center;">
-            検証準備中...
-          </div>
-        </div>
-        <div style="display: flex; gap: 0.5rem; justify-content: space-between;">
-          <button id="btn-step2-prev" data-testid="step2-prev-button" class="action-btn secondary" style="padding: 0.375rem 1rem; font-size: 0.8rem;">← 戻る</button>
-          <button id="btn-step2-execute" data-testid="step2-execute-button" class="action-btn" style="padding: 0.375rem 1rem; font-size: 0.8rem;">検証を開始</button>
-        </div>
+      <div style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 0.375rem;">
+        <table data-testid="priority-list" style="width: 100%; font-size: 0.8rem; border-collapse: collapse;">
+          <thead style="position: sticky; top: 0; background: var(--bg-main);">
+            <tr>
+              <th style="padding: 0.35rem 0.5rem; text-align: left; border-bottom: 1px solid var(--border); color: var(--text);">優先度</th>
+              <th style="padding: 0.35rem 0.5rem; text-align: left; border-bottom: 1px solid var(--border); color: var(--text);">受注ID</th>
+              <th style="padding: 0.35rem 0.5rem; text-align: left; border-bottom: 1px solid var(--border); color: var(--text);">エラー分類</th>
+              <th style="padding: 0.35rem 0.5rem; text-align: center; border-bottom: 1px solid var(--border); color: var(--text);">スコア</th>
+            </tr>
+          </thead>
+          <tbody id="priority-tbody">
+            <tr style="background: var(--bg-card);">
+              <td colspan="4" style="padding: 0.75rem; text-align: center; color: var(--text-muted);">
+                データなし
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-
-      <!-- ステップ 3: 結果確認 -->
-      <div id="step-3-content" class="step-content card" style="flex: 1; display: none; flex-direction: column; gap: 0.5rem;">
-        <h3 style="margin: 0; font-size: 0.95rem; font-weight: 600; color: var(--text);">検証結果</h3>
-        
-        <!-- タブ（エラー種別） -->
-        <div style="display: flex; gap: 0.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
-          <button class="result-tab active" data-tab="all" style="padding: 0.375rem 0.75rem; font-size: 0.8rem; background: transparent; border: none; color: var(--text); border-bottom: 2px solid var(--primary); cursor: pointer;">全て (<span id="count-all">0</span>)</button>
-          <button class="result-tab" data-tab="error" style="padding: 0.375rem 0.75rem; font-size: 0.8rem; background: transparent; border: none; color: var(--text-muted); cursor: pointer;">エラー (<span id="count-error">0</span>)</button>
-          <button class="result-tab" data-tab="duplicate" style="padding: 0.375rem 0.75rem; font-size: 0.8rem; background: transparent; border: none; color: var(--text-muted); cursor: pointer;">重複 (<span id="count-duplicate">0</span>)</button>
-          <button class="result-tab" data-tab="missing" style="padding: 0.375rem 0.75rem; font-size: 0.8rem; background: transparent; border: none; color: var(--text-muted); cursor: pointer;">入力漏れ (<span id="count-missing">0</span>)</button>
-          <button class="result-tab" data-tab="conflict" style="padding: 0.375rem 0.75rem; font-size: 0.8rem; background: transparent; border: none; color: var(--text-muted); cursor: pointer;">矛盾 (<span id="count-conflict">0</span>)</button>
-        </div>
-
-        <!-- 結果テーブル -->
-        <div style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.15);">
-          <table data-testid="validation-result-list" style="width: 100%; font-size: 0.75rem; border-collapse: collapse;">
-            <thead style="position: sticky; top: 0; background: rgba(0,0,0,0.3);">
-              <tr>
-                <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.18);">受注ID</th>
-                <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.18);">エラー種別</th>
-                <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.18);">項目</th>
-                <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.18);">メッセージ</th>
-                <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.18);">重要度</th>
-              </tr>
-            </thead>
-            <tbody id="result-list-tbody">
-              <!-- 動的に行を挿入 -->
-            </tbody>
-          </table>
-        </div>
-
-        <div style="display: flex; gap: 0.5rem; justify-content: space-between;">
-          <button id="btn-step3-prev" data-testid="step3-prev-button" class="action-btn secondary" style="padding: 0.375rem 1rem; font-size: 0.8rem;">← 戻る</button>
-          <button id="btn-step3-next" data-testid="step3-next-button" class="action-btn" style="padding: 0.375rem 1rem; font-size: 0.8rem;">修正実行へ →</button>
-        </div>
-      </div>
-
-      <!-- ステップ 4: 修正実行 -->
-      <div id="step-4-content" class="step-content card" style="flex: 1; display: none; flex-direction: column; gap: 0.5rem;">
-        <h3 style="margin: 0; font-size: 0.95rem; font-weight: 600; color: var(--text);">修正実行</h3>
-        
-        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
-          <label style="font-size: 0.8rem; color: var(--text-muted);">
-            <input type="checkbox" id="auto-fix-enabled" data-testid="auto-fix-checkbox" style="accent-color: var(--primary); margin-right: 0.25rem;" />
-            自動修正可能な項目を自動修正
-          </label>
-        </div>
-
-        <!-- 修正対象リスト -->
-        <div style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.15);">
-          <table data-testid="correction-target-list" style="width: 100%; font-size: 0.75rem; border-collapse: collapse;">
-            <thead style="position: sticky; top: 0; background: rgba(0,0,0,0.3);">
-              <tr>
-                <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.18);">優先度</th>
-                <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.18);">受注ID</th>
-                <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.18);">項目</th>
-                <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.18);">修正内容</th>
-                <th style="padding: 0.375rem 0.5rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.18);">ステータス</th>
-              </tr>
-            </thead>
-            <tbody id="correction-list-tbody">
-              <!-- 動的に行を挿入 -->
-            </tbody>
-          </table>
-        </div>
-
-        <div style="display: flex; gap: 0.5rem; justify-content: space-between;">
-          <button id="btn-step4-prev" data-testid="step4-prev-button" class="action-btn secondary" style="padding: 0.375rem 1rem; font-size: 0.8rem;">← 戻る</button>
-          <button id="btn-step4-execute" data-testid="step4-execute-button" class="action-btn" style="padding: 0.375rem 1rem; font-size: 0.8rem;">修正を実行</button>
-        </div>
-      </div>
-
     </div>
 
-    <!-- 右側：サマリーパネル -->
-    <div style="flex: 0 0 280px; display: flex; flex-direction: column; gap: 0.75rem; min-height: 0;">
+    <!-- 修正フォーム -->
+    <div class="card" style="display: flex; flex-direction: column; gap: 0.5rem;">
+      <div style="font-size: 0.95rem; font-weight: 600; color: var(--text);">
+        修正内容入力
+      </div>
       
-      <!-- 信頼度スコアサマリー -->
-      <div class="card" style="padding: 0.75rem;">
-        <h4 style="margin: 0 0 0.5rem 0; font-size: 0.85rem; font-weight: 600; color: var(--text);">信頼度スコア</h4>
-        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.8rem;">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="color: var(--text-muted);">総合スコア</span>
-            <span id="score-total" style="font-weight: 600; color: var(--primary);">-</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="color: var(--text-muted);">完全性</span>
-            <span id="score-completeness" style="font-weight: 600; color: var(--text);">-</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="color: var(--text-muted);">正確性</span>
-            <span id="score-accuracy" style="font-weight: 600; color: var(--text);">-</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="color: var(--text-muted);">一貫性</span>
-            <span id="score-consistency" style="font-weight: 600; color: var(--text);">-</span>
-          </div>
-        </div>
+      <div>
+        <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">
+          修正項目
+        </label>
+        <select id="correction-field" class="input" style="width: 100%; padding: 0.4rem 0.5rem; font-size: 0.85rem;" data-testid="correction-field-select">
+          <option value="">選択してください</option>
+          <option value="customer_name">顧客名</option>
+          <option value="order_amount">受注金額</option>
+          <option value="quantity">数量</option>
+          <option value="delivery_address">配送先</option>
+          <option value="order_date">受注日時</option>
+        </select>
       </div>
 
-      <!-- エラー分類 -->
-      <div class="card" style="padding: 0.75rem;">
-        <h4 style="margin: 0 0 0.5rem 0; font-size: 0.85rem; font-weight: 600; color: var(--text);">エラー分類</h4>
-        <div style="display: flex; flex-direction: column; gap: 0.375rem; font-size: 0.8rem;">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="color: var(--text-muted);">致命的</span>
-            <span id="error-critical" style="font-weight: 600; background: rgba(255,100,100,0.2); padding: 0.125rem 0.375rem; border-radius: 0.25rem;">0</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="color: var(--text-muted);">高</span>
-            <span id="error-high" style="font-weight: 600; background: rgba(255,150,100,0.2); padding: 0.125rem 0.375rem; border-radius: 0.25rem;">0</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="color: var(--text-muted);">中</span>
-            <span id="error-medium" style="font-weight: 600; background: rgba(255,200,100,0.2); padding: 0.125rem 0.375rem; border-radius: 0.25rem;">0</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="color: var(--text-muted);">低</span>
-            <span id="error-low" style="font-weight: 600; background: rgba(100,200,255,0.2); padding: 0.125rem 0.375rem; border-radius: 0.25rem;">0</span>
-          </div>
-        </div>
+      <div>
+        <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">
+          修正内容
+        </label>
+        <textarea id="correction-content" class="input" placeholder="修正内容を入力" 
+                  style="width: 100%; padding: 0.4rem 0.5rem; font-size: 0.85rem; min-height: 3rem; resize: none;" 
+                  data-testid="correction-content"></textarea>
       </div>
 
-      <!-- 検証統計 -->
-      <div class="card" style="padding: 0.75rem;">
-        <h4 style="margin: 0 0 0.5rem 0; font-size: 0.85rem; font-weight: 600; color: var(--text);">検証統計</h4>
-        <div style="display: flex; flex-direction: column; gap: 0.375rem; font-size: 0.8rem;">
-          <div style="display: flex; justify-content: space-between;">
-            <span style="color: var(--text-muted);">対象件数</span>
-            <span id="stat-total" style="font-weight: 600; color: var(--text);">0</span>
-          </div>
-          <div style="display: flex; justify-content: space-between;">
-            <span style="color: var(--text-muted);">合格</span>
-            <span id="stat-pass" style="font-weight: 600; color: #4ade80;">0</span>
-          </div>
-          <div style="display: flex; justify-content: space-between;">
-            <span style="color: var(--text-muted);">不合格</span>
-            <span id="stat-fail" style="font-weight: 600; color: #ff6b6b;">0</span>
-          </div>
-          <div style="display: flex; justify-content: space-between;">
-            <span style="color: var(--text-muted);">警告</span>
-            <span id="stat-warning" style="font-weight: 600; color: #fbbf24;">0</span>
-          </div>
-        </div>
+      <div>
+        <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">
+          修正理由
+        </label>
+        <select id="correction-reason" class="input" style="width: 100%; padding: 0.4rem 0.5rem; font-size: 0.85rem;" data-testid="correction-reason-select">
+          <option value="">選択してください</option>
+          <option value="input_error">入力誤り</option>
+          <option value="validation_error">検証エラー</option>
+          <option value="customer_confirmation">顧客確認</option>
+          <option value="system_issue">システム不具合</option>
+        </select>
       </div>
 
-      <!-- クイックアクション -->
-      <div class="card" style="padding: 0.75rem;">
-        <h4 style="margin: 0 0 0.5rem 0; font-size: 0.85rem; font-weight: 600; color: var(--text);">クイックアクション</h4>
-        <div style="display: flex; flex-direction: column; gap: 0.375rem;">
-          <button id="btn-export-csv" data-testid="export-csv-button" class="action-btn secondary" style="width: 100%; padding: 0.375rem 0.5rem; font-size: 0.75rem;">CSV エクスポート</button>
-          <button id="btn-dashboard" data-testid="dashboard-button" class="action-btn secondary" style="width: 100%; padding: 0.375rem 0.5rem; font-size: 0.75rem;">ダッシュボード</button>
-        </div>
-      </div>
-
+      <button class="action-btn" id="btn-save-correction" style="width: 100%; padding: 0.5rem; font-size: 0.85rem; margin-top: auto;" data-testid="save-correction-button">
+        修正を保存
+      </button>
     </div>
-
   </div>
 
 </div>
+
+<style>
+  .tab-btn.active {
+    border-bottom: 2px solid var(--primary) !important;
+    color: var(--text) !important;
+  }
+  .tab-btn:hover {
+    color: var(--text);
+  }
+  .tab-content {
+    padding: 0.5rem;
+  }
+  .error-item, .duplicate-item, .conflict-item, .missing-item {
+    background: var(--bg-main);
+    padding: 0.5rem;
+    margin-bottom: 0.35rem;
+    border-radius: 0.25rem;
+    border-left: 3px solid #ff6a00;
+  }
+  .error-item.high, .duplicate-item.high, .conflict-item.high, .missing-item.high {
+    border-left-color: #ff3333;
+  }
+  .error-item.medium, .duplicate-item.medium, .conflict-item.medium, .missing-item.medium {
+    border-left-color: #ff9900;
+  }
+  .error-item.low, .duplicate-item.low, .conflict-item.low, .missing-item.low {
+    border-left-color: #ffcc00;
+  }
+  .error-title, .duplicate-title, .conflict-title, .missing-title {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+  .error-detail, .duplicate-detail, .conflict-detail, .missing-detail {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.3;
+  }
+</style>
     </section>
   </main>
 </div>
