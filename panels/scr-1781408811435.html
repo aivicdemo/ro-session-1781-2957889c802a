@@ -11,9 +11,8 @@ window.AIVIC_SYSTEM_NAME = "営業支援・クライアント情報統合ダッ�
 window.AIVIC_TABLES = [{"tableName":"ユーザー","purpose":"営業支援・クライアント情報統合ダッシュボードにおけるユーザー（営業担当者・管理者等）の基本情報と認証情報を管理","columns":[{"name":"ユーザーID","type":"uuid","required":true,"description":"ユーザーの一意識別子"},{"name":"ログインID","type":"varchar(100)","required":true,"description":"ログイン時に使用するID（ユニーク）"},{"name":"メールアドレス","type":"varchar(100)","required":true,"description":"ユーザーのメールアドレス（ユニーク）"},{"name":"氏名","type":"varchar(100)","required":true,"description":"ユーザーの氏名"},{"name":"部門","type":"varchar(100)","required":false,"description":"所属部門（営業部等）"},{"name":"役職","type":"varchar(100)","required":false,"description":"役職名"},{"name":"ロール","type":"varchar(100)","required":true,"description":"システム上のロール（管理者・営業・閲覧者等）"},{"name":"パスワードハッシュ","type":"varchar(100)","required":true,"description":"ログイン用パスワードのハッシュ値"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"ユーザーステータス（有効・無効・休止等）"},{"name":"最終ログイン日時","type":"timestamp","required":false,"description":"最後にログインした日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"ユーザーレコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"ユーザーレコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":false,"description":"ユーザーレコード作成者"}]},{"tableName":"クライアント","purpose":"営業支援における顧客情報の一元管理。営業担当者が顧客の基本情報、連絡先、取引状況を参照・更新し、営業活動の効率化を支援する。","columns":[{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントの一意識別子"},{"name":"クライアント名","type":"varchar(100)","required":true,"description":"顧客企業名または個人名"},{"name":"業種","type":"varchar(100)","required":false,"description":"顧客の業種分類"},{"name":"代表者名","type":"varchar(100)","required":false,"description":"企業の代表者名または主要連絡先"},{"name":"メールアドレス","type":"varchar(100)","required":false,"description":"主要連絡先のメールアドレス"},{"name":"電話番号","type":"varchar(100)","required":false,"description":"主要連絡先の電話番号"},{"name":"住所","type":"text","required":false,"description":"顧客の住所"},{"name":"担当営業ユーザーID","type":"uuid","required":false,"description":"ユーザーテーブルへの外部キー。担当営業者を指定"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"顧客ステータス（見込み客、既存顧客、休止中など）"},{"name":"最終接触日","type":"timestamp","required":false,"description":"営業担当者が最後に接触した日時"},{"name":"契約状況","type":"varchar(100)","required":false,"description":"契約状況（未契約、契約中、契約終了など）"},{"name":"推定売上額","type":"integer","required":false,"description":"見込み売上額（円）"},{"name":"備考","type":"text","required":false,"description":"営業活動に関する備考・メモ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ユーザーID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー。レコード作成者"}]},{"tableName":"対応履歴","purpose":"営業支援・クライアント情報統合ダッシュボードにおいて、クライアントとの全ての対応（接触、商談、提案等）を記録・追跡し、営業活動の進捗管理と顧客関係構築を支援する","columns":[{"name":"対応履歴ID","type":"uuid","required":true,"description":"対応履歴の一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントテーブルへの外部キー"},{"name":"ユーザーID","type":"uuid","required":true,"description":"対応を実施したユーザー（営業担当者）のID"},{"name":"対応種別","type":"varchar(100)","required":true,"description":"対応の種類（電話、メール、訪問、商談、提案等）"},{"name":"対応日時","type":"timestamp","required":true,"description":"対応が実施された日時"},{"name":"対応内容","type":"text","required":true,"description":"対応の詳細内容・メモ"},{"name":"次回対応予定日","type":"timestamp","required":false,"description":"次回の対応予定日時"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"対応のステータス（完了、保留、進行中等）"},{"name":"成果","type":"varchar(100)","required":false,"description":"対応の成果・結果（受注、見積提出、資料送付等）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]},{"tableName":"対応方針","purpose":"クライアントごとの営業対応方針を管理し、営業チームが統一された対応戦略に基づいて活動するための基準を提供する","columns":[{"name":"対応方針ID","type":"uuid","required":true,"description":"対応方針の一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントテーブルへの外部キー"},{"name":"方針名","type":"varchar(100)","required":true,"description":"対応方針の名称（例：積極営業、保守的対応、定期フォローアップ）"},{"name":"方針内容","type":"text","required":true,"description":"対応方針の詳細説明と具体的な対応内容"},{"name":"優先度","type":"integer","required":true,"description":"対応優先度（1=高、2=中、3=低）"},{"name":"対応頻度","type":"varchar(100)","required":false,"description":"推奨される対応頻度（例：週1回、月1回、四半期ごと）"},{"name":"担当者ID","type":"uuid","required":false,"description":"ユーザーテーブルへの外部キー、この方針の主担当者"},{"name":"開始日","type":"timestamp","required":true,"description":"対応方針の適用開始日"},{"name":"終了日","type":"timestamp","required":false,"description":"対応方針の適用終了日（nullの場合は継続中）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"方針のステータス（有効/無効/保留中）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー、作成者"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー、最終更新者"}]},{"tableName":"受注","purpose":"営業支援ダッシュボードにおける受注トランザクション管理。クライアントとの契約成立、金額、ステータス、営業担当者を一元管理し、売上予測・進捗追跡・営業分析を支援する。","columns":[{"name":"受注ID","type":"uuid","required":true,"description":"受注レコードの一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントテーブルへの外部キー"},{"name":"営業担当者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（営業担当者）"},{"name":"受注日","type":"timestamp","required":true,"description":"受注確定日"},{"name":"受注金額","type":"integer","required":true,"description":"受注総額（税抜き、単位：円）"},{"name":"税額","type":"integer","required":false,"description":"消費税額（単位：円）"},{"name":"税込金額","type":"integer","required":false,"description":"受注総額（税込み、単位：円）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"受注ステータス（例：受注確定、納品待ち、完了、キャンセル）"},{"name":"商品・サービス名","type":"varchar(100)","required":true,"description":"受注対象の商品またはサービス名"},{"name":"納期","type":"timestamp","required":false,"description":"納品予定日"},{"name":"納品日","type":"timestamp","required":false,"description":"実際の納品日"},{"name":"備考","type":"text","required":false,"description":"受注に関する特記事項・条件"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（レコード作成者）"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（最終更新者）"}]},{"tableName":"案件","purpose":"営業支援ダッシュボードにおける営業案件の一元管理。クライアント、対応履歴、受注との関連付けを通じて、案件進捗の追跡、営業活動の可視化、受注予測を実現する。","columns":[{"name":"案件ID","type":"uuid","required":true,"description":"案件の一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"関連するクライアントへの外部キー"},{"name":"案件名","type":"varchar(100)","required":true,"description":"案件の名称"},{"name":"案件説明","type":"text","required":false,"description":"案件の詳細説明"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"案件の進捗状況（例：新規、進行中、提案済み、受注、失注）"},{"name":"予想金額","type":"integer","required":false,"description":"案件の予想売上金額（円）"},{"name":"成約確度","type":"integer","required":false,"description":"受注確度（0-100のパーセンテージ）"},{"name":"予想受注日","type":"timestamp","required":false,"description":"予想される受注予定日"},{"name":"担当ユーザーID","type":"uuid","required":true,"description":"案件の担当営業ユーザーへの外部キー"},{"name":"対応方針ID","type":"uuid","required":false,"description":"適用される対応方針への外部キー"},{"name":"作成日時","type":"timestamp","required":true,"description":"案件の作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"案件の最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"案件を作成したユーザーへの外部キー"}]},{"tableName":"クライアント_対応方針","purpose":"クライアント毎の営業対応方針を管理し、営業戦略・アプローチ方法・優先度などを一元化するマスタテーブル","columns":[{"name":"対応方針ID","type":"uuid","required":true,"description":"対応方針の一意識別子"},{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントテーブルへの外部キー"},{"name":"対応方針名","type":"varchar(100)","required":true,"description":"対応方針の名称（例：積極営業、定期フォロー、保守対応）"},{"name":"対応方針説明","type":"text","required":false,"description":"対応方針の詳細説明・背景"},{"name":"営業担当者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（担当営業）"},{"name":"優先度","type":"integer","required":true,"description":"営業優先度（1:高、2:中、3:低）"},{"name":"対応頻度","type":"varchar(100)","required":false,"description":"対応頻度（例：週1回、月1回、四半期1回）"},{"name":"次回対応予定日","type":"timestamp","required":false,"description":"次回営業対応の予定日時"},{"name":"対応方針ステータス","type":"varchar(100)","required":true,"description":"ステータス（有効/無効/一時停止）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（作成者）"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（更新者）"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1781408811435";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // テーブルインデックスの取得\n  const clientTableIdx = tables.findIndex(t => t.tableName === 'クライアント');\n  const historyTableIdx = tables.findIndex(t => t.tableName === '対応履歴');\n  const policyTableIdx = tables.findIndex(t => t.tableName === 'クライアント_対応方針');\n  const dealTableIdx = tables.findIndex(t => t.tableName === '受注');\n  const projectTableIdx = tables.findIndex(t => t.tableName === '案件');\n\n  let selectedClientId = null;\n  let allClients = [];\n  let allHistories = [];\n  let allPolicies = [];\n  let allDeals = [];\n  let allProjects = [];\n\n  // ===== 1. 初期データ読み込み =====\n  async function loadAllData() {\n    if (clientTableIdx >= 0) allClients = await window.aivicApi.list(clientTableIdx) || tables[clientTableIdx].records || [];\n    if (historyTableIdx >= 0) allHistories = await window.aivicApi.list(historyTableIdx) || tables[historyTableIdx].records || [];\n    if (policyTableIdx >= 0) allPolicies = await window.aivicApi.list(policyTableIdx) || tables[policyTableIdx].records || [];\n    if (dealTableIdx >= 0) allDeals = await window.aivicApi.list(dealTableIdx) || tables[dealTableIdx].records || [];\n    if (projectTableIdx >= 0) allProjects = await window.aivicApi.list(projectTableIdx) || tables[projectTableIdx].records || [];\n    \n    renderKPIs();\n    renderCharts();\n    renderClientList();\n  }\n\n  // ===== 2. KPI 計算・表示 =====\n  function renderKPIs() {\n    // 今月受注額\n    const now = new Date();\n    const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;\n    const monthRevenue = allDeals\n      .filter(d => d.受注日 && d.受注日.startsWith(currentMonth) && d.税込金額)\n      .reduce((sum, d) => sum + (parseInt(d.税込金額) || 0), 0);\n    container.querySelector('[data-testid=\"kpi-revenue\"]').textContent = `¥${monthRevenue.toLocaleString()}`;\n\n    // 対応中案件\n    const activeDeals = allProjects.filter(p => p.ステータス && ['新規', '進行中', '提案済み'].includes(p.ステータス)).length;\n    container.querySelector('[data-testid=\"kpi-active-deals\"]').textContent = activeDeals;\n\n    // クライアント数\n    container.querySelector('[data-testid=\"kpi-client-count\"]').textContent = allClients.length;\n  }\n\n  // ===== 3. チャート描画 =====\n  function renderCharts() {\n    // 月別受注額推移（過去12ヶ月）\n    const monthlyRevenue = {};\n    const now = new Date();\n    for (let i = 11; i >= 0; i--) {\n      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);\n      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;\n      monthlyRevenue[key] = 0;\n    }\n    allDeals.forEach(deal => {\n      if (deal.受注日 && deal.税込金額) {\n        const month = deal.受注日.slice(0, 7);\n        if (monthlyRevenue.hasOwnProperty(month)) {\n          monthlyRevenue[month] += parseInt(deal.税込金額) || 0;\n        }\n      }\n    });\n    const labels = Object.keys(monthlyRevenue);\n    const data = Object.values(monthlyRevenue);\n\n    const ctxRevenue = container.querySelector('#chart-revenue').getContext('2d');\n    new window.Chart(ctxRevenue, {\n      type: 'line',\n      data: {\n        labels: labels,\n        datasets: [{\n          label: '受注額',\n          data: data,\n          borderColor: '#ffa500',\n          backgroundColor: 'rgba(255,165,0,0.08)',\n          borderWidth: 2,\n          tension: 0.3,\n          fill: true,\n          pointRadius: 3,\n          pointBackgroundColor: '#ffa500'\n        }]\n      },\n      options: {\n        responsive: true,\n        maintainAspectRatio: false,\n        plugins: { legend: { display: false } },\n        scales: {\n          y: { beginAtZero: true, ticks: { callback: v => `¥${(v/1000000).toFixed(0)}M` } }\n        }\n      }\n    });\n\n    // 案件ステータス分布\n    const statusCounts = {};\n    allProjects.forEach(p => {\n      const status = p.ステータス || '不明';\n      statusCounts[status] = (statusCounts[status] || 0) + 1;\n    });\n    const statusLabels = Object.keys(statusCounts);\n    const statusData = Object.values(statusCounts);\n    const colors = ['#ffa500', '#ff6464', '#64b5ff', '#64ff96', '#d0a0ff'];\n\n    const ctxStatus = container.querySelector('#chart-status').getContext('2d');\n    new window.Chart(ctxStatus, {\n      type: 'doughnut',\n      data: {\n        labels: statusLabels,\n        datasets: [{\n          data: statusData,\n          backgroundColor: colors.slice(0, statusLabels.length)\n        }]\n      },\n      options: {\n        responsive: true,\n        maintainAspectRatio: false,\n        plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } }\n      }\n    });\n  }\n\n  // ===== 4. クライアント一覧描画 =====\n  function renderClientList(filter = '') {\n    const list = container.querySelector('#client-list');\n    const filtered = allClients.filter(c => \n      !filter || c.クライアント名?.includes(filter) || c.メールアドレス?.includes(filter)\n    );\n    \n    list.innerHTML = filtered.map(client => `\n      <div \n        data-client-id=\"${client.クライアントID}\" \n        style=\"padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); cursor: pointer; transition: background 0.2s; background: ${selectedClientId === client.クライアントID ? 'rgba(255,165,0,0.15)' : 'transparent'};\"\n        class=\"client-item\"\n      >\n        <div style=\"font-weight: 600; color: var(--text); margin-bottom: 2px;\">${client.クライアント名 || '-'}</div>\n        <div style=\"font-size: 11px; color: var(--text-muted);\">${client.業種 || '-'}</div>\n        <div style=\"font-size: 10px; color: var(--text-muted); margin-top: 2px;\">${client.メールアドレス || '-'}</div>\n      </div>\n    `).join('');\n\n    // クライアント項目クリックイベント\n    container.querySelectorAll('.client-item').forEach(item => {\n      item.addEventListener('click', () => {\n        selectedClientId = item.dataset.clientId;\n        renderClientList(filter);\n        renderClientDetail();\n      });\n    });\n  }\n\n  // ===== 5. クライアント詳細表示 =====\n  function renderClientDetail() {\n    const client = allClients.find(c => c.クライアントID === selectedClientId);\n    const detailPanel = container.querySelector('#client-detail-panel');\n    const historyPanel = container.querySelector('#history-panel');\n    const policyPanel = container.querySelector('#policy-panel');\n    const dealsPanel = container.querySelector('#deals-panel');\n\n    if (!client) {\n      detailPanel.style.display = 'none';\n      historyPanel.style.display = 'none';\n      policyPanel.style.display = 'none';\n      dealsPanel.style.display = 'none';\n      return;\n    }\n\n    // 詳細パネル表示\n    detailPanel.style.display = 'block';\n    container.querySelector('#detail-name').textContent = client.クライアント名 || '-';\n    container.querySelector('#detail-industry').textContent = client.業種 || '-';\n    container.querySelector('#detail-rep').textContent = client.代表者名 || '-';\n    container.querySelector('#detail-email').textContent = client.メールアドレス || '-';\n    container.querySelector('#detail-status').textContent = client.ステータス || '-';\n    container.querySelector('#detail-last-contact').textContent = client.最終接触日 ? client.最終接触日.slice(0, 10) : '-';\n    container.querySelector('#detail-revenue').textContent = `¥${(parseInt(client.推定売上額) || 0).toLocaleString()}`;\n\n    // 対応方針表示\n    const policy = allPolicies.find(p => p.クライアントID === selectedClientId);\n    if (policy) {\n      policyPanel.style.display = 'block';\n      container.querySelector('#policy-name').textContent = policy.対応方針名 || '-';\n      const priorityText = { 1: '高', 2: '中', 3: '低' }[policy.優先度] || '-';\n      container.querySelector('#policy-priority').textContent = priorityText;\n      container.querySelector('#policy-frequency').textContent = policy.対応頻度 || '-';\n      container.querySelector('#policy-content').textContent = policy.対応方針説明 || '-';\n    } else {\n      policyPanel.style.display = 'none';\n    }\n\n    // 対応履歴表示\n    const histories = allHistories.filter(h => h.クライアントID === selectedClientId).slice(-5).reverse();\n    historyPanel.style.display = 'block';\n    container.querySelector('#history-list').innerHTML = histories.map(h => `\n      <div style=\"padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.08); line-height: 1.4;\">\n        <div style=\"font-weight: 600; color: var(--text); margin-bottom: 2px;\">${h.対応種別 || '-'}</div>\n        <div style=\"font-size: 10px; color: var(--text-muted); margin-bottom: 2px;\">${h.対応日時 ? h.対応日時.slice(0, 10) : '-'}</div>\n        <div style=\"font-size: 11px; color: var(--text); margin-bottom: 2px;\">${h.対応内容 || '-'}</div>\n        <div style=\"font-size: 10px; color: var(--text-muted);\">成果: ${h.成果 || '-'}</div>\n      </div>\n    `).join('');\n\n    // 受注・案件表示\n    const deals = allDeals.filter(d => d.クライアントID === selectedClientId).slice(-5).reverse();\n    const projects = allProjects.filter(p => p.クライアントID === selectedClientId).slice(-5).reverse();\n    const combined = [...deals.map(d => ({ ...d, type: '受注', date: d.受注日, amount: d.税込金額 })), \n                      ...projects.map(p => ({ ...p, type: '案件', date: p.予想受注日, amount: p.予想金額 }))].sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, 5);\n    \n    dealsPanel.style.display = 'block';\n    container.querySelector('#deals-list').innerHTML = combined.map(item => `\n      <div style=\"padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.08); line-height: 1.4;\">\n        <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;\">\n          <span style=\"font-weight: 600; color: var(--text);\">${item.type === '受注' ? item.商品サービス名 : item.案件名 || '-'}</span>\n          <span style=\"font-size: 10px; padding: 2px 6px; border-radius: 3px; background: rgba(255,165,0,0.15); color: #ffa500;\">¥${(parseInt(item.amount) || 0).toLocaleString()}</span>\n        </div>\n        <div style=\"font-size: 10px; color: var(--text-muted); margin-bottom: 2px;\">${item.type === '受注' ? item.ステータス : item.ステータス || '-'}</div>\n        <div style=\"font-size: 10px; color: var(--text-muted);\">${item.date ? item.date.slice(0, 10) : '-'}</div>\n      </div>\n    `).join('');\n  }\n\n  // ===== 6. イベントリスナー登録 =====\n  container.querySelector('#input-client-search').addEventListener('input', e => {\n    renderClientList(e.target.value);\n  });\n\n  container.querySelector('#btn-new-client').addEventListener('click', () => {\n    window.showScreen('scr-1781408824557'); // クライアント詳細情報画面\n  });\n\n  container.querySelector('#btn-edit-client').addEventListener('click', () => {\n    if (selectedClientId) window.showScreen('scr-1781408824557');\n  });\n\n  container.querySelector('#btn-view-detail').addEventListener('click', () => {\n    if (selectedClientId) window.showScreen('scr-1781408824557');\n  });\n\n  container.querySelector('#btn-edit-policy').addEventListener('click', () => {\n    if (selectedClientId) window.showScreen('scr-1781408878914');\n  });\n\n  container.querySelector('#btn-new-history').addEventListener('click', () => {\n    if (selectedClientId) window.showScreen('scr-1781408865891');\n  });\n\n  container.querySelector('#btn-new-deal').addEventListener('click', () => {\n    if (selectedClientId) window.showScreen('scr-1781408904580');\n  });\n\n  // ===== 7. 初期化実行 =====\n  loadAllData();\n}";
 </script>
-  <script>window.AIVIC_DB_TYPE = "aurora_postgresql";</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 ```css
@@ -25,15 +24,15 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
   --bg-sidebar: #161616;
   --border: #2a2a2a;
   --text: #f5f5f5;
-  --text-muted: #b0b0b0;
+  --text-muted: #a0a0a0;
   --top-bar-bg: #1a1a1a;
   --top-bar-border: #2a2a2a;
-  --accent-red: #e63946;
-  --accent-red-hover: #f77f88;
-  --success: #06d6a0;
-  --warning: #f4a261;
-  --error: #e63946;
-  --info: #457b9d;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -98,141 +97,147 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781408811435" style="margin-top:0">
-<div style="display:flex;flex-direction:column;height:100%;gap:0.5rem;padding:0.75rem;background:var(--bg-main);color:var(--text);">
-  
-  <!-- ヘッダー -->
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.08);">
-    <h1 style="font-size:1.5rem;font-weight:700;margin:0;">クライアント統合ダッシュボード</h1>
-    <div style="display:flex;gap:0.5rem;">
-      <button class="action-btn" data-testid="new-contact-button" style="font-size:0.875rem;padding:0.4rem 0.8rem;">
-        + 新規対応記録
-      </button>
-      <button class="action-btn" data-testid="new-deal-button" style="font-size:0.875rem;padding:0.4rem 0.8rem;">
-        + 案件作成
-      </button>
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+  <div class="card" style="padding: 12px;">
+    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">今月受注額</div>
+    <div style="font-size: 24px; font-weight: 600; color: var(--primary);" data-testid="kpi-revenue">¥0</div>
+  </div>
+  <div class="card" style="padding: 12px;">
+    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">対応中案件</div>
+    <div style="font-size: 24px; font-weight: 600; color: var(--primary);" data-testid="kpi-active-deals">0</div>
+  </div>
+  <div class="card" style="padding: 12px;">
+    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">クライアント数</div>
+    <div style="font-size: 24px; font-weight: 600; color: var(--primary);" data-testid="kpi-client-count">0</div>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+  <div class="card" style="padding: 12px;">
+    <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text);">月別受注額推移</div>
+    <div class="chart-wrap" style="position: relative; height: 240px; max-height: 260px;">
+      <canvas id="chart-revenue"></canvas>
     </div>
   </div>
-
-  <!-- KPI カード群 -->
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;margin-bottom:0.5rem;">
-    <div class="card" style="padding:1rem;border-left:3px solid #ffd700;">
-      <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.3rem;">今月売上</div>
-      <div style="font-size:1.75rem;font-weight:700;color:#ffd700;" data-testid="kpi-revenue">¥0</div>
-      <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.3rem;">前月比: <span data-testid="kpi-revenue-diff">+0%</span></div>
-    </div>
-    <div class="card" style="padding:1rem;border-left:3px solid #ff6b6b;">
-      <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.3rem;">対応件数</div>
-      <div style="font-size:1.75rem;font-weight:700;color:#ff6b6b;" data-testid="kpi-contact-count">0</div>
-      <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.3rem;">今月: <span data-testid="kpi-contact-month">0件</span></div>
-    </div>
-    <div class="card" style="padding:1rem;border-left:3px solid #4ecdc4;">
-      <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.3rem;">案件パイプライン</div>
-      <div style="font-size:1.75rem;font-weight:700;color:#4ecdc4;" data-testid="kpi-pipeline">¥0</div>
-      <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.3rem;">進行中: <span data-testid="kpi-pipeline-count">0件</span></div>
-    </div>
-    <div class="card" style="padding:1rem;border-left:3px solid #95e1d3;">
-      <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.3rem;">クライアント数</div>
-      <div style="font-size:1.75rem;font-weight:700;color:#95e1d3;" data-testid="kpi-client-count">0</div>
-      <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.3rem;">既存: <span data-testid="kpi-client-existing">0社</span></div>
+  <div class="card" style="padding: 12px;">
+    <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text);">案件ステータス分布</div>
+    <div class="chart-wrap" style="position: relative; height: 240px; max-height: 260px;">
+      <canvas id="chart-status"></canvas>
     </div>
   </div>
+</div>
 
-  <!-- グラフ群 -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.5rem;flex-shrink:0;">
-    <div class="card" style="padding:0.75rem;">
-      <div style="font-size:0.875rem;font-weight:600;margin-bottom:0.5rem;color:var(--text);">月別売上推移</div>
-      <div class="chart-wrap" style="position:relative;height:220px;max-height:240px;">
-        <canvas id="chart-revenue"></canvas>
-      </div>
-    </div>
-    <div class="card" style="padding:0.75rem;">
-      <div style="font-size:0.875rem;font-weight:600;margin-bottom:0.5rem;color:var(--text);">案件ステータス分布</div>
-      <div class="chart-wrap" style="position:relative;height:220px;max-height:240px;">
-        <canvas id="chart-status"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <!-- メインコンテンツ: クライアント一覧 + 詳細 -->
-  <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:0.75rem;flex:1;min-height:0;overflow:hidden;">
+<div style="display: grid; grid-template-columns: 320px 1fr; gap: 12px; min-height: 400px;">
+  <!-- 左: クライアント一覧 -->
+  <div class="card" style="padding: 12px; display: flex; flex-direction: column;">
+    <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text);">クライアント一覧</div>
     
-    <!-- 左: クライアント一覧 -->
-    <div class="card" style="display:flex;flex-direction:column;padding:0;overflow:hidden;">
-      <div style="padding:0.75rem;border-bottom:1px solid rgba(255,255,255,0.08);flex-shrink:0;">
-        <div style="font-size:0.875rem;font-weight:600;margin-bottom:0.5rem;color:var(--text);">クライアント一覧</div>
-        <input type="text" id="input-client-search" data-testid="client-search-input" placeholder="クライアント名で検索..." 
-          style="width:100%;padding:0.4rem 0.6rem;border:1px solid rgba(255,255,255,0.18);border-radius:0.25rem;background:rgba(0,0,0,0.25);color:var(--text);font-size:0.8rem;" />
-      </div>
-      <div style="flex:1;overflow-y:auto;min-height:0;">
-        <div id="client-list" data-testid="client-list" style="display:flex;flex-direction:column;gap:0;">
-          <!-- クライアント行が動的に挿入される -->
-        </div>
+    <div style="margin-bottom: 8px;">
+      <input 
+        type="text" 
+        id="input-client-search" 
+        data-testid="client-search-input"
+        placeholder="クライアント名で検索..." 
+        class="input" 
+        style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text);"
+      />
+    </div>
+
+    <div style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; background: rgba(0,0,0,0.15);">
+      <div id="client-list" style="font-size: 12px;">
+        <!-- クライアント項目がここに動的に挿入される -->
       </div>
     </div>
 
-    <!-- 右: 詳細パネル + 対応履歴 -->
-    <div style="display:flex;flex-direction:column;gap:0.75rem;overflow:hidden;">
-      
-      <!-- 詳細パネル -->
-      <div class="card" style="padding:0.75rem;flex-shrink:0;">
-        <div style="font-size:0.875rem;font-weight:600;margin-bottom:0.5rem;color:var(--text);">クライアント詳細</div>
-        <div id="client-detail" data-testid="client-detail" style="font-size:0.8rem;line-height:1.6;">
-          <div style="color:var(--text-muted);text-align:center;padding:1rem;">クライアントを選択してください</div>
-        </div>
-      </div>
+    <button 
+      id="btn-new-client" 
+      data-testid="new-client-button"
+      class="action-btn" 
+      style="margin-top: 8px; width: 100%; padding: 6px; font-size: 12px; background: var(--primary); color: #fff; border: none; border-radius: 4px; cursor: pointer;"
+    >+ 新規クライアント</button>
+  </div>
 
-      <!-- 対応方針 -->
-      <div class="card" style="padding:0.75rem;flex-shrink:0;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-          <div style="font-size:0.875rem;font-weight:600;color:var(--text);">対応方針</div>
-          <button class="action-btn secondary" id="btn-edit-policy" data-testid="edit-policy-button" style="font-size:0.75rem;padding:0.3rem 0.6rem;display:none;">編集</button>
-        </div>
-        <div id="policy-detail" data-testid="policy-detail" style="font-size:0.8rem;color:var(--text-muted);">
-          方針を選択してください
-        </div>
+  <!-- 右: 詳細パネル + 対応履歴 + 案件リスト -->
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <!-- クライアント詳細 -->
+    <div class="card" style="padding: 12px;" id="client-detail-panel" style="display: none;">
+      <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text);">クライアント詳細</div>
+      <div style="font-size: 12px; line-height: 1.6; color: var(--text);">
+        <div style="margin-bottom: 6px;"><span style="color: var(--text-muted);">企業名:</span> <span id="detail-name">-</span></div>
+        <div style="margin-bottom: 6px;"><span style="color: var(--text-muted);">業種:</span> <span id="detail-industry">-</span></div>
+        <div style="margin-bottom: 6px;"><span style="color: var(--text-muted);">代表者:</span> <span id="detail-rep">-</span></div>
+        <div style="margin-bottom: 6px;"><span style="color: var(--text-muted);">メール:</span> <span id="detail-email">-</span></div>
+        <div style="margin-bottom: 6px;"><span style="color: var(--text-muted);">ステータス:</span> <span id="detail-status" style="padding: 2px 6px; border-radius: 3px; background: rgba(255,165,0,0.15); color: #ffa500; font-size: 11px;">-</span></div>
+        <div style="margin-bottom: 6px;"><span style="color: var(--text-muted);">最終接触:</span> <span id="detail-last-contact">-</span></div>
+        <div style="margin-bottom: 6px;"><span style="color: var(--text-muted);">推定売上:</span> <span id="detail-revenue" style="font-weight: 600; color: var(--primary);">¥0</span></div>
       </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px;">
+        <button 
+          id="btn-edit-client" 
+          data-testid="edit-client-button"
+          class="action-btn secondary" 
+          style="padding: 6px; font-size: 11px; border: 1px solid rgba(255,255,255,0.18); background: transparent; color: var(--text); border-radius: 4px; cursor: pointer;"
+        >編集</button>
+        <button 
+          id="btn-view-detail" 
+          data-testid="view-detail-button"
+          class="action-btn secondary" 
+          style="padding: 6px; font-size: 11px; border: 1px solid rgba(255,255,255,0.18); background: transparent; color: var(--text); border-radius: 4px; cursor: pointer;"
+        >詳細画面へ</button>
+      </div>
+    </div>
 
-      <!-- 対応履歴タイムライン -->
-      <div class="card" style="padding:0.75rem;flex:1;display:flex;flex-direction:column;overflow:hidden;">
-        <div style="font-size:0.875rem;font-weight:600;margin-bottom:0.5rem;color:var(--text);flex-shrink:0;">対応履歴（最新5件）</div>
-        <div id="contact-timeline" data-testid="contact-timeline" style="flex:1;overflow-y:auto;min-height:0;font-size:0.8rem;">
-          <div style="color:var(--text-muted);text-align:center;padding:1rem;">履歴がありません</div>
-        </div>
+    <!-- 対応方針 -->
+    <div class="card" style="padding: 12px;" id="policy-panel" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <div style="font-size: 13px; font-weight: 600; color: var(--text);">対応方針</div>
+        <button 
+          id="btn-edit-policy" 
+          data-testid="edit-policy-button"
+          class="action-btn secondary" 
+          style="padding: 4px 8px; font-size: 10px; border: 1px solid rgba(255,255,255,0.18); background: transparent; color: var(--text); border-radius: 3px; cursor: pointer;"
+        >編集</button>
+      </div>
+      <div style="font-size: 12px; line-height: 1.5; color: var(--text);">
+        <div style="margin-bottom: 4px;"><span style="color: var(--text-muted); font-size: 11px;">方針名:</span> <span id="policy-name" style="font-weight: 600;">-</span></div>
+        <div style="margin-bottom: 4px;"><span style="color: var(--text-muted); font-size: 11px;">優先度:</span> <span id="policy-priority" style="padding: 2px 6px; border-radius: 3px; background: rgba(255,100,100,0.15); color: #ff6464; font-size: 11px;">-</span></div>
+        <div style="margin-bottom: 4px;"><span style="color: var(--text-muted); font-size: 11px;">対応頻度:</span> <span id="policy-frequency">-</span></div>
+        <div style="margin-top: 6px; padding: 6px; background: rgba(0,0,0,0.2); border-radius: 3px; font-size: 11px; color: var(--text-muted); line-height: 1.4;" id="policy-content">-</div>
+      </div>
+    </div>
+
+    <!-- 対応履歴タイムライン -->
+    <div class="card" style="padding: 12px; flex: 1; display: flex; flex-direction: column;" id="history-panel" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <div style="font-size: 13px; font-weight: 600; color: var(--text);">対応履歴（最新5件）</div>
+        <button 
+          id="btn-new-history" 
+          data-testid="new-history-button"
+          class="action-btn secondary" 
+          style="padding: 4px 8px; font-size: 10px; border: 1px solid rgba(255,255,255,0.18); background: transparent; color: var(--text); border-radius: 3px; cursor: pointer;"
+        >+ 記録</button>
+      </div>
+      <div id="history-list" style="flex: 1; overflow-y: auto; font-size: 11px;">
+        <!-- 対応履歴がここに動的に挿入される -->
+      </div>
+    </div>
+
+    <!-- 受注・案件リスト -->
+    <div class="card" style="padding: 12px; flex: 1; display: flex; flex-direction: column;" id="deals-panel" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <div style="font-size: 13px; font-weight: 600; color: var(--text);">受注・案件（最新5件）</div>
+        <button 
+          id="btn-new-deal" 
+          data-testid="new-deal-button"
+          class="action-btn secondary" 
+          style="padding: 4px 8px; font-size: 10px; border: 1px solid rgba(255,255,255,0.18); background: transparent; color: var(--text); border-radius: 3px; cursor: pointer;"
+        >+ 新規</button>
+      </div>
+      <div id="deals-list" style="flex: 1; overflow-y: auto; font-size: 11px;">
+        <!-- 受注・案件がここに動的に挿入される -->
       </div>
     </div>
   </div>
-
-  <!-- 受注案件リスト -->
-  <div class="card" style="padding:0.75rem;flex-shrink:0;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <div style="font-size:0.875rem;font-weight:600;color:var(--text);">受注案件（進行中）</div>
-      <select id="filter-deal-status" data-testid="deal-status-filter" style="padding:0.3rem 0.5rem;border:1px solid rgba(255,255,255,0.18);border-radius:0.25rem;background:rgba(0,0,0,0.25);color:var(--text);font-size:0.8rem;">
-        <option value="">全ステータス</option>
-        <option value="新規">新規</option>
-        <option value="進行中">進行中</option>
-        <option value="提案済み">提案済み</option>
-        <option value="受注">受注</option>
-        <option value="失注">失注</option>
-      </select>
-    </div>
-    <div class="table-wrap" style="overflow-x:auto;max-height:200px;overflow-y:auto;">
-      <table data-testid="deal-list" style="width:100%;font-size:0.8rem;border-collapse:collapse;">
-        <thead style="position:sticky;top:0;background:rgba(0,0,0,0.2);">
-          <tr>
-            <th style="padding:0.4rem 0.6rem;text-align:left;border-bottom:1px solid rgba(255,255,255,0.08);color:var(--text);font-weight:600;">案件名</th>
-            <th style="padding:0.4rem 0.6rem;text-align:left;border-bottom:1px solid rgba(255,255,255,0.08);color:var(--text);font-weight:600;">ステータス</th>
-            <th style="padding:0.4rem 0.6rem;text-align:right;border-bottom:1px solid rgba(255,255,255,0.08);color:var(--text);font-weight:600;">予想金額</th>
-            <th style="padding:0.4rem 0.6rem;text-align:center;border-bottom:1px solid rgba(255,255,255,0.08);color:var(--text);font-weight:600;">確度</th>
-            <th style="padding:0.4rem 0.6rem;text-align:left;border-bottom:1px solid rgba(255,255,255,0.08);color:var(--text);font-weight:600;">担当</th>
-          </tr>
-        </thead>
-        <tbody id="deal-tbody">
-          <tr><td colspan="5" style="padding:1rem;text-align:center;color:var(--text-muted);">案件がありません</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
 </div>
     </section>
   </main>

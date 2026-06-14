@@ -25,15 +25,15 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
   --bg-sidebar: #161616;
   --border: #2a2a2a;
   --text: #f5f5f5;
-  --text-muted: #b0b0b0;
+  --text-muted: #a0a0a0;
   --top-bar-bg: #1a1a1a;
   --top-bar-border: #2a2a2a;
-  --accent-red: #e63946;
-  --accent-red-hover: #f77f88;
-  --success: #06d6a0;
-  --warning: #f4a261;
-  --error: #e63946;
-  --info: #457b9d;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -133,189 +133,160 @@ canvas { display:block; max-height:280px !important; }
 <div style="display: flex; flex-direction: column; height: 100%; gap: 0;">
   <!-- ヘッダー領域 -->
   <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--bg-card);">
-    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">
-      ROシステム › 受注データ品質管理・検証システム › 重複検出・マージ処理
+    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">
+      ROシステム・受注データ品質管理・検証システム・重複検出・マージ処理
     </div>
     <h1 style="font-size: 18px; font-weight: 600; color: var(--text); margin: 0;">重複検出・マージ処理</h1>
   </div>
 
   <!-- ステッパー -->
-  <div style="display: flex; gap: 0; padding: 12px 16px; background: var(--bg-main); border-bottom: 1px solid var(--border); align-items: center;">
-    <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
-      <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600;">1</div>
-      <span style="font-size: 12px; color: var(--text); font-weight: 500;">検出</span>
+  <div style="display: flex; gap: 0; padding: 8px 16px; background: var(--bg-main); border-bottom: 1px solid var(--border); align-items: center; font-size: 12px;">
+    <div style="display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 4px; background: var(--primary); color: #fff;">
+      <span style="font-weight: 600;">1</span> 検出
     </div>
-    <div style="width: 20px; height: 1px; background: var(--border);"></div>
-    <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
-      <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600;">2</div>
-      <span style="font-size: 12px; color: var(--text); font-weight: 500;">比較</span>
+    <div style="flex: 1; height: 1px; background: var(--border); margin: 0 8px;"></div>
+    <div style="display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 4px; background: var(--primary); color: #fff;">
+      <span style="font-weight: 600;">2</span> 比較
     </div>
-    <div style="width: 20px; height: 1px; background: var(--border);"></div>
-    <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
-      <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--border); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600;">3</div>
-      <span style="font-size: 12px; color: var(--text-muted);">確認</span>
+    <div style="flex: 1; height: 1px; background: var(--border); margin: 0 8px;"></div>
+    <div style="display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 4px; background: var(--primary); color: #fff;">
+      <span style="font-weight: 600;">3</span> プレビュー
     </div>
-    <div style="width: 20px; height: 1px; background: var(--border);"></div>
-    <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
-      <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--border); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600;">4</div>
-      <span style="font-size: 12px; color: var(--text-muted);">実行</span>
+    <div style="flex: 1; height: 1px; background: var(--border); margin: 0 8px;"></div>
+    <div style="display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 4px; background: rgba(255,255,255,0.2); color: #fff;">
+      <span style="font-weight: 600;">4</span> 実行
     </div>
   </div>
 
   <!-- メインコンテンツ -->
-  <div style="display: flex; flex: 1; gap: 0; overflow: hidden; background: var(--bg-main);">
-    
+  <div style="display: flex; flex: 1; gap: 0; overflow: hidden;">
     <!-- 左パネル：重複グループ一覧 -->
-    <div style="width: 35%; border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden;">
-      <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--bg-card);">
-        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; font-weight: 500;">重複グループ一覧</label>
-        <input type="text" id="search-group" data-testid="search-group" placeholder="グループID・顧客名で検索..." style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;" />
+    <div style="width: 280px; border-right: 1px solid var(--border); background: var(--bg-main); overflow-y: auto; display: flex; flex-direction: column;">
+      <div style="padding: 12px; border-bottom: 1px solid var(--border); background: var(--bg-card);">
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">検出グループ</label>
+        <input type="text" placeholder="グループ検索..." data-testid="group-search" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; box-sizing: border-box;" />
       </div>
       <div style="flex: 1; overflow-y: auto;">
-        <div id="group-list" style="padding: 8px;">
-          <!-- グループアイテムが動的に挿入される -->
+        <div id="duplicate-groups-list" style="padding: 8px;">
+          <!-- 重複グループ一覧がここに描画される -->
         </div>
       </div>
     </div>
 
-    <!-- 中央パネル：グループ詳細・比較 -->
+    <!-- 中央パネル：マスター vs マージ対象の並列比較 -->
     <div style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
-      <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--bg-card);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <h3 style="font-size: 13px; font-weight: 600; color: var(--text); margin: 0;">重複グループ詳細</h3>
-          <span id="group-count" style="font-size: 11px; color: var(--text-muted); background: rgba(255,255,255,0.08); padding: 2px 8px; border-radius: 3px;">-件</span>
+      <!-- 比較ヘッダー -->
+      <div style="padding: 12px 16px; background: var(--bg-card); border-bottom: 1px solid var(--border); display: flex; gap: 16px; align-items: center;">
+        <div style="flex: 1;">
+          <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 2px;">マスター受注</div>
+          <div style="font-size: 13px; font-weight: 600; color: var(--text);" id="master-order-id">未選択</div>
         </div>
-        <div style="display: flex; gap: 8px; align-items: center;">
-          <label style="font-size: 11px; color: var(--text-muted);">マスター受注選択:</label>
-          <select id="master-select" data-testid="master-select" style="flex: 1; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;">
-            <option value="">選択してください</option>
-          </select>
+        <div style="font-size: 12px; color: var(--text-muted);">↔</div>
+        <div style="flex: 1;">
+          <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 2px;">マージ対象受注</div>
+          <div style="font-size: 13px; font-weight: 600; color: var(--text);" id="merge-order-id">未選択</div>
         </div>
       </div>
 
       <!-- 比較テーブル -->
-      <div style="flex: 1; overflow-y: auto; padding: 12px 16px;">
-        <div id="comparison-area" style="display: none;">
-          <table data-testid="comparison-table" style="width: 100%; border-collapse: collapse; font-size: 12px;">
-            <thead>
-              <tr style="border-bottom: 2px solid var(--border);">
-                <th style="text-align: left; padding: 8px 0; color: var(--text); font-weight: 600; width: 20%;">項目</th>
-                <th style="text-align: left; padding: 8px 0; color: var(--text); font-weight: 600; width: 40%;">マスター値</th>
-                <th style="text-align: left; padding: 8px 0; color: var(--text); font-weight: 600; width: 40%;">マージ対象値</th>
-              </tr>
-            </thead>
-            <tbody id="comparison-tbody">
-              <!-- 比較行が動的に挿入される -->
+      <div style="flex: 1; overflow-y: auto; display: flex;">
+        <!-- マスター受注詳細 -->
+        <div style="flex: 1; border-right: 1px solid var(--border); padding: 12px; overflow-y: auto;">
+          <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px;">マスター受注データ</div>
+          <table data-testid="master-order-table" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+            <tbody id="master-order-tbody">
+              <!-- マスター受注の詳細フィールドがここに描画される -->
             </tbody>
           </table>
         </div>
-        <div id="no-selection" style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
-          <div style="font-size: 12px;">グループを選択してください</div>
+
+        <!-- マージ対象受注詳細 -->
+        <div style="flex: 1; padding: 12px; overflow-y: auto;">
+          <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px;">マージ対象受注データ</div>
+          <table data-testid="merge-order-table" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+            <tbody id="merge-order-tbody">
+              <!-- マージ対象受注の詳細フィールドがここに描画される -->
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
 
-    <!-- 右パネル：信頼度・矛盾検出 -->
-    <div style="width: 28%; border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; background: var(--bg-card);">
-      <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--bg-main);">
-        <h3 style="font-size: 13px; font-weight: 600; color: var(--text); margin: 0;">品質指標</h3>
+    <!-- 右パネル：信頼度スコア + チャネル矛盾 -->
+    <div style="width: 320px; border-left: 1px solid var(--border); background: var(--bg-main); overflow-y: auto; display: flex; flex-direction: column;">
+      <!-- 信頼度スコア比較 -->
+      <div style="padding: 12px; border-bottom: 1px solid var(--border); background: var(--bg-card);">
+        <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px;">信頼度スコア</div>
+        <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+          <div style="flex: 1; padding: 8px; background: rgba(255,193,7,0.1); border-radius: 4px; border-left: 3px solid #ffc107;">
+            <div style="font-size: 10px; color: var(--text-muted);">マスター</div>
+            <div style="font-size: 16px; font-weight: 700; color: #ffc107;" id="master-score">--</div>
+          </div>
+          <div style="flex: 1; padding: 8px; background: rgba(76,175,80,0.1); border-radius: 4px; border-left: 3px solid #4caf50;">
+            <div style="font-size: 10px; color: var(--text-muted);">マージ対象</div>
+            <div style="font-size: 16px; font-weight: 700; color: #4caf50;" id="merge-score">--</div>
+          </div>
+        </div>
+        <div style="font-size: 11px; color: var(--text-muted); padding: 6px; background: rgba(0,0,0,0.2); border-radius: 3px;">
+          <strong>推奨:</strong> マスター受注を基準に統合します
+        </div>
       </div>
-      <div style="flex: 1; overflow-y: auto; padding: 12px 16px;">
-        
-        <!-- 信頼度スコア -->
-        <div style="margin-bottom: 16px;">
-          <div style="font-size: 11px; color: var(--text-muted); font-weight: 500; margin-bottom: 6px;">マッチング信頼度</div>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <div style="flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
-              <div id="confidence-bar" style="height: 100%; background: var(--primary); width: 0%;"></div>
-            </div>
-            <span id="confidence-score" style="font-size: 13px; font-weight: 600; color: var(--text); min-width: 35px;">0%</span>
-          </div>
-        </div>
 
-        <!-- マスター信頼度 -->
-        <div style="margin-bottom: 16px; padding: 8px; background: rgba(255,255,255,0.04); border-radius: 4px;">
-          <div style="font-size: 11px; color: var(--text-muted); font-weight: 500; margin-bottom: 4px;">マスター受注スコア</div>
-          <div style="display: flex; justify-content: space-between;">
-            <span style="font-size: 12px; color: var(--text);">総合:</span>
-            <span id="master-total-score" style="font-size: 12px; font-weight: 600; color: var(--primary);">-</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; margin-top: 4px;">
-            <span style="font-size: 12px; color: var(--text);">完全性:</span>
-            <span id="master-completeness" style="font-size: 12px; color: var(--text-muted);">-</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; margin-top: 4px;">
-            <span style="font-size: 12px; color: var(--text);">正確性:</span>
-            <span id="master-accuracy" style="font-size: 12px; color: var(--text-muted);">-</span>
-          </div>
+      <!-- チャネル間矛盾検出 -->
+      <div style="padding: 12px; border-bottom: 1px solid var(--border);">
+        <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px;">チャネル矛盾検出</div>
+        <div id="channel-conflicts-list" style="font-size: 11px; display: flex; flex-direction: column; gap: 6px;">
+          <!-- チャネル矛盾がここに描画される -->
         </div>
+      </div>
 
-        <!-- チャネル間矛盾 -->
-        <div style="margin-bottom: 16px;">
-          <div style="font-size: 11px; color: var(--text-muted); font-weight: 500; margin-bottom: 6px;">チャネル間矛盾</div>
-          <div id="contradiction-list" style="display: flex; flex-direction: column; gap: 6px;">
-            <!-- 矛盾アイテムが動的に挿入される -->
-          </div>
-          <div id="no-contradiction" style="font-size: 11px; color: var(--text-muted); text-align: center; padding: 12px;">矛盾なし</div>
+      <!-- 修正対象優先度 -->
+      <div style="padding: 12px; border-bottom: 1px solid var(--border);">
+        <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px;">修正対象優先度</div>
+        <div id="priority-list" style="font-size: 11px; display: flex; flex-direction: column; gap: 4px;">
+          <!-- 優先度リストがここに描画される -->
         </div>
+      </div>
 
-        <!-- マッチング理由 -->
-        <div style="margin-bottom: 16px; padding: 8px; background: rgba(255,255,255,0.04); border-radius: 4px;">
-          <div style="font-size: 11px; color: var(--text-muted); font-weight: 500; margin-bottom: 6px;">マッチング理由</div>
-          <div id="match-reason" style="font-size: 11px; color: var(--text); line-height: 1.5;">-</div>
+      <!-- 承認者判定履歴 -->
+      <div style="padding: 12px; flex: 1; overflow-y: auto;">
+        <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px;">承認者判定履歴</div>
+        <div id="approval-history" style="font-size: 10px; display: flex; flex-direction: column; gap: 6px;">
+          <!-- 承認者判定履歴がここに描画される -->
         </div>
-
       </div>
     </div>
-
   </div>
 
-  <!-- フッター：マージプレビュー＆実行 -->
-  <div style="padding: 12px 16px; border-top: 1px solid var(--border); background: var(--bg-card); display: flex; flex-direction: column; gap: 8px;">
-    
-    <!-- マージプレビュー展開ボタン -->
-    <button id="toggle-preview" data-testid="toggle-preview" style="width: 100%; padding: 8px 12px; background: transparent; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; color: var(--text); font-size: 12px; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center;">
-      <span>マージプレビュー</span>
-      <span style="font-size: 10px;">▼</span>
-    </button>
-
-    <!-- マージプレビュー詳細（初期非表示） -->
-    <div id="preview-detail" style="display: none; padding: 12px; background: rgba(255,255,255,0.04); border-radius: 4px; border: 1px solid var(--border); max-height: 200px; overflow-y: auto;">
-      <div style="font-size: 11px; color: var(--text-muted); font-weight: 500; margin-bottom: 8px;">マージ後の受注データ</div>
-      <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
-        <tbody id="preview-tbody">
-          <!-- プレビュー行が動的に挿入される -->
+  <!-- マージ前プレビュー + 実行ボタン -->
+  <div style="padding: 12px 16px; background: var(--bg-card); border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px;">
+    <div style="font-size: 12px; font-weight: 600; color: var(--text);">マージ前プレビュー</div>
+    <div style="max-height: 120px; overflow-y: auto; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 4px; border: 1px solid var(--border);">
+      <table data-testid="merge-preview-table" style="width: 100%; font-size: 11px; border-collapse: collapse;">
+        <tbody id="merge-preview-tbody">
+          <!-- マージ後の統合データプレビューがここに描画される -->
         </tbody>
       </table>
     </div>
-
-    <!-- アクションボタン -->
-    <div style="display: flex; gap: 8px;">
-      <button id="btn-cancel" data-testid="cancel-button" style="flex: 1; padding: 8px 12px; background: transparent; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; color: var(--text); font-size: 12px; font-weight: 500; cursor: pointer;">キャンセル</button>
-      <button id="btn-merge" data-testid="merge-button" style="flex: 1; padding: 8px 12px; background: var(--primary); color: #fff; border: none; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer;">マージ実行</button>
+    <div style="display: flex; gap: 8px; justify-content: flex-end;">
+      <button class="action-btn secondary" data-testid="cancel-merge-button" style="padding: 6px 12px; font-size: 12px;">キャンセル</button>
+      <button class="action-btn" data-testid="execute-merge-button" style="padding: 6px 12px; font-size: 12px; background: var(--primary); color: #fff; border: none; border-radius: 3px; cursor: pointer;">マージ実行</button>
     </div>
   </div>
-
 </div>
 
 <!-- マージ確認ダイアログ -->
 <div id="merge-confirm-dialog" hidden style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;">
-  <div style="background: var(--bg-card); border-radius: 6px; padding: 20px; max-width: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
-    <h2 style="font-size: 14px; font-weight: 600; color: var(--text); margin: 0 0 12px 0;">マージ実行確認</h2>
-    <div style="font-size: 12px; color: var(--text); margin-bottom: 16px; line-height: 1.6;">
-      <p style="margin: 0 0 8px 0;">以下の受注データをマージします。</p>
-      <div style="background: rgba(255,255,255,0.04); padding: 8px; border-radius: 4px; margin-bottom: 8px;">
-        <div style="font-size: 11px; color: var(--text-muted);">マスター受注:</div>
-        <div id="confirm-master" style="font-weight: 600; color: var(--text);">-</div>
-      </div>
-      <div style="background: rgba(255,255,255,0.04); padding: 8px; border-radius: 4px;">
-        <div style="font-size: 11px; color: var(--text-muted);">マージ対象:</div>
-        <div id="confirm-merge" style="font-weight: 600; color: var(--text);">-</div>
-      </div>
+  <div style="background: var(--bg-card); border-radius: 6px; padding: 20px; max-width: 500px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+    <h2 style="font-size: 16px; font-weight: 600; color: var(--text); margin: 0 0 12px 0;">マージ実行確認</h2>
+    <div style="font-size: 13px; color: var(--text); margin-bottom: 16px; line-height: 1.5;">
+      <p style="margin: 0 0 8px 0;"><strong>マスター受注:</strong> <span id="confirm-master-id">--</span></p>
+      <p style="margin: 0 0 8px 0;"><strong>マージ対象:</strong> <span id="confirm-merge-id">--</span></p>
+      <p style="margin: 0; color: var(--text-muted);">この操作は取り消せません。よろしいですか？</p>
     </div>
-    <div style="display: flex; gap: 8px;">
-      <button id="btn-confirm-cancel" data-testid="confirm-cancel" style="flex: 1; padding: 8px 12px; background: transparent; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; color: var(--text); font-size: 12px; font-weight: 500; cursor: pointer;">キャンセル</button>
-      <button id="btn-confirm-merge" data-testid="confirm-merge" style="flex: 1; padding: 8px 12px; background: var(--primary); color: #fff; border: none; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer;">マージ実行</button>
+    <div style="display: flex; gap: 8px; justify-content: flex-end;">
+      <button class="action-btn secondary" data-testid="confirm-cancel-button" style="padding: 6px 12px; font-size: 12px;">キャンセル</button>
+      <button class="action-btn" data-testid="confirm-execute-button" style="padding: 6px 12px; font-size: 12px; background: var(--primary); color: #fff; border: none; border-radius: 3px; cursor: pointer;">実行</button>
     </div>
   </div>
 </div>

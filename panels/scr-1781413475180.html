@@ -11,8 +11,9 @@ window.AIVIC_SYSTEM_NAME = "受注データ品質管理・検証システム";
 window.AIVIC_TABLES = [{"tableName":"受注データ検証結果","purpose":"受注データの品質検証結果を記録・管理し、検証ルール違反や異常データを追跡するための検証履歴テーブル","columns":[{"name":"検証結果ID","type":"uuid","required":true,"description":"検証結果の一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"検証対象の受注データID（受注データテーブルへの外部キー）"},{"name":"検証ステータス","type":"varchar(100)","required":true,"description":"検証結果のステータス（合格/不合格/警告/保留等）"},{"name":"検証ルールID","type":"varchar(100)","required":true,"description":"適用された検証ルールの識別子"},{"name":"エラーコード","type":"varchar(100)","required":false,"description":"検出されたエラーコード"},{"name":"エラーメッセージ","type":"text","required":false,"description":"検証失敗時の詳細なエラーメッセージ"},{"name":"検証項目","type":"varchar(100)","required":true,"description":"検証対象となったデータ項目名"},{"name":"検証値","type":"text","required":false,"description":"検証時に検出された実際の値"},{"name":"期待値","type":"text","required":false,"description":"検証ルールで期待される値"},{"name":"重要度","type":"varchar(100)","required":true,"description":"エラーの重要度レベル（致命的/高/中/低等）"},{"name":"検証実行日時","type":"timestamp","required":true,"description":"検証が実行された日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"検証結果レコードの作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"検証結果レコードの最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"検証を実行したユーザーID（ログインユーザーテーブルへの外部キー）"},{"name":"対応状況","type":"varchar(100)","required":false,"description":"エラーへの対応状況（未対応/対応中/完了/却下等）"},{"name":"対応者ID","type":"uuid","required":false,"description":"エラーに対応したユーザーID（ログインユーザーテーブルへの外部キー）"},{"name":"対応完了日時","type":"timestamp","required":false,"description":"エラー対応が完了した日時"},{"name":"備考","type":"text","required":false,"description":"検証結果に関する追加情報や対応内容"}]},{"tableName":"受注データ修正履歴","purpose":"受注データの修正内容を追跡・監査するための履歴管理テーブル。いつ、誰が、何を、どのように修正したかを記録し、データ品質管理と検証プロセスの透明性を確保する。","columns":[{"name":"修正履歴ID","type":"uuid","required":true,"description":"修正履歴レコードの一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"修正対象の受注データを特定するための外部キー"},{"name":"修正項目名","type":"varchar(100)","required":true,"description":"修正されたカラム/項目の名称（例：受注金額、顧客名）"},{"name":"修正前値","type":"text","required":false,"description":"修正前のデータ値"},{"name":"修正後値","type":"text","required":false,"description":"修正後のデータ値"},{"name":"修正理由","type":"varchar(100)","required":true,"description":"修正の理由分類（例：入力誤り、検証エラー、顧客確認、システム不具合）"},{"name":"修正備考","type":"text","required":false,"description":"修正に関する詳細な説明やコメント"},{"name":"修正ユーザーID","type":"uuid","required":true,"description":"修正を実施したユーザーを特定するための外部キー（ログインユーザーテーブル参照）"},{"name":"修正日時","type":"timestamp","required":true,"description":"修正が実施された日時"},{"name":"検証結果ID","type":"uuid","required":false,"description":"この修正のきっかけとなった検証結果への参照（受注データ検証結果テーブル参照）"},{"name":"作成日時","type":"timestamp","required":true,"description":"履歴レコードが作成された日時"}]},{"tableName":"信頼度スコア","purpose":"受注データの品質・信頼度を数値化・管理し、検証結果と紐付けて、データ品質の可視化と改善追跡を支援する","columns":[{"name":"信頼度スコアID","type":"uuid","required":true,"description":"信頼度スコアの一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"対象となる受注データの外部キー"},{"name":"検証結果ID","type":"uuid","required":false,"description":"関連する受注データ検証結果の外部キー"},{"name":"総合スコア","type":"integer","required":true,"description":"0～100の総合信頼度スコア"},{"name":"完全性スコア","type":"integer","required":true,"description":"必須項目の充足度スコア（0～100）"},{"name":"正確性スコア","type":"integer","required":true,"description":"データ形式・値の妥当性スコア（0～100）"},{"name":"一貫性スコア","type":"integer","required":true,"description":"他データとの整合性スコア（0～100）"},{"name":"スコア計算日時","type":"timestamp","required":true,"description":"スコア算出時刻"},{"name":"スコア有効期限","type":"timestamp","required":false,"description":"スコアの有効期限（再計算が必要になる時刻）"},{"name":"警告フラグ","type":"boolean","required":true,"description":"スコアが閾値以下の場合true"},{"name":"警告レベル","type":"varchar(100)","required":false,"description":"警告の重要度（高/中/低）"},{"name":"備考","type":"text","required":false,"description":"スコア低下の理由や改善提案など"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ログインユーザーの外部キー"}]},{"tableName":"AI_OCR読み込み結果","purpose":"AI OCRエンジンによる受注データの読み込み結果を記録し、品質検証・修正履歴の基点となるトランザクションテーブル","columns":[{"name":"ocr_result_id","type":"uuid","required":true,"description":"OCR読み込み結果の一意識別子"},{"name":"order_id","type":"uuid","required":true,"description":"対応する受注データID（受注データテーブルへの外部キー）"},{"name":"source_document_type","type":"varchar(100)","required":true,"description":"読み込み元ドキュメント種別（例：注文書、請求書、納品書）"},{"name":"ocr_engine_version","type":"varchar(100)","required":true,"description":"使用したOCRエンジンのバージョン"},{"name":"raw_ocr_text","type":"text","required":true,"description":"OCRエンジンが抽出した生テキスト"},{"name":"extracted_fields","type":"text","required":true,"description":"抽出されたフィールド情報（構造化データ、別テーブルで管理する場合は参照ID）"},{"name":"confidence_score_id","type":"uuid","required":false,"description":"信頼度スコアテーブルへの外部キー"},{"name":"overall_confidence","type":"integer","required":true,"description":"全体信頼度スコア（0-100）"},{"name":"processing_status","type":"varchar(100)","required":true,"description":"処理ステータス（例：成功、部分成功、失敗）"},{"name":"error_message","type":"text","required":false,"description":"処理失敗時のエラーメッセージ"},{"name":"requires_manual_review","type":"boolean","required":true,"description":"手動レビューが必要かどうか"},{"name":"processing_timestamp","type":"timestamp","required":true,"description":"OCR処理実行日時"},{"name":"created_at","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"updated_at","type":"timestamp","required":true,"description":"レコード更新日時"},{"name":"created_by","type":"uuid","required":true,"description":"作成者ユーザーID（ログインユーザーテーブルへの外部キー）"}]},{"tableName":"音声ガイダンス記録","purpose":"受注データ品質管理プロセスにおける音声ガイダンス（IVR応答、オペレータ指示等）の記録・追跡。検証結果との紐付けにより、データ品質問題の原因特定と改善に活用。","columns":[{"name":"音声ガイダンス記録ID","type":"uuid","required":true,"description":"音声ガイダンス記録の一意識別子"},{"name":"受注ID","type":"uuid","required":true,"description":"関連する受注データの外部キー"},{"name":"ガイダンスタイプ","type":"varchar(100)","required":true,"description":"ガイダンスの種類（例：IVR_確認、オペレータ_指示、自動応答等）"},{"name":"ガイダンス内容","type":"text","required":true,"description":"音声ガイダンスの実際のテキスト内容またはスクリプト"},{"name":"再生開始時刻","type":"timestamp","required":true,"description":"ガイダンス再生開始日時"},{"name":"再生終了時刻","type":"timestamp","required":false,"description":"ガイダンス再生終了日時"},{"name":"再生時間秒","type":"integer","required":false,"description":"ガイダンス再生時間（秒単位）"},{"name":"ユーザー応答","type":"varchar(100)","required":false,"description":"ユーザーの応答内容（例：ボタン入力、音声認識結果等）"},{"name":"応答確認状態","type":"varchar(100)","required":false,"description":"応答の確認状態（例：確認済、未確認、エラー等）"},{"name":"検証結果ID","type":"uuid","required":false,"description":"関連する受注データ検証結果の外部キー"},{"name":"品質問題フラグ","type":"boolean","required":true,"description":"品質問題が検出されたかどうか"},{"name":"問題分類","type":"varchar(100)","required":false,"description":"検出された問題の分類（例：聞き取り困難、応答エラー、データ不整合等）"},{"name":"備考","type":"text","required":false,"description":"追加の説明やコメント"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"uuid","required":true,"description":"レコード作成者のユーザーID（ログインユーザーテーブルへの外部キー）"}]},{"tableName":"チャネル情報","purpose":"受注データの入力元チャネル（Web、電話、店舗、API等）を管理し、チャネル別の受注データ品質検証ルールや信頼度スコア調整に使用","columns":[{"name":"チャネルID","type":"uuid","required":true,"description":"チャネル情報の一意識別子"},{"name":"チャネル名","type":"varchar(100)","required":true,"description":"チャネルの名称（例：Web注文、電話受注、店舗POS、API連携）"},{"name":"チャネルコード","type":"varchar(100)","required":true,"description":"チャネルの一意コード（例：WEB、TEL、STORE、API）"},{"name":"説明","type":"text","required":false,"description":"チャネルの詳細説明"},{"name":"デフォルト信頼度スコア","type":"integer","required":true,"description":"このチャネルから入力されたデータの初期信頼度スコア（0-100）"},{"name":"OCR処理対象フラグ","type":"boolean","required":true,"description":"AI_OCR読み込み処理の対象チャネルかどうか"},{"name":"音声ガイダンス対応フラグ","type":"boolean","required":true,"description":"音声ガイダンス記録の対象チャネルかどうか"},{"name":"有効フラグ","type":"boolean","required":true,"description":"チャネルが有効かどうか"},{"name":"作成日時","type":"timestamp","required":true,"description":"チャネル情報の作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"チャネル情報の最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"チャネル情報を作成したユーザーID"},{"name":"更新者","type":"varchar(100)","required":true,"description":"チャネル情報を最後に更新したユーザーID"}]},{"tableName":"重複受注検出結果","purpose":"受注データ内の重複を検出・管理し、検出ルール、マッチング詳細、対応状況を記録するテーブル","columns":[{"name":"重複受注検出結果ID","type":"uuid","required":true,"description":"重複受注検出結果の一意識別子"},{"name":"主受注ID","type":"uuid","required":true,"description":"重複グループの主となる受注データID（受注データテーブルへの外部キー）"},{"name":"副受注ID","type":"uuid","required":true,"description":"重複と判定された受注データID（受注データテーブルへの外部キー）"},{"name":"検出ルールID","type":"varchar(100)","required":true,"description":"適用された重複検出ルールの識別子"},{"name":"マッチング信頼度","type":"integer","required":true,"description":"重複判定の信頼度スコア（0-100）"},{"name":"マッチング理由","type":"text","required":true,"description":"重複と判定された理由（顧客名一致、電話番号一致など）"},{"name":"検出ステータス","type":"varchar(100)","required":true,"description":"検出結果のステータス（未確認/確認済み/統合済み/誤検出）"},{"name":"対応方針","type":"varchar(100)","required":false,"description":"対応方針（統合/分離/保留/却下）"},{"name":"確認者ID","type":"uuid","required":false,"description":"検出結果を確認したユーザーID（ログインユーザーテーブルへの外部キー）"},{"name":"確認日時","type":"timestamp","required":false,"description":"検出結果が確認された日時"},{"name":"備考","type":"text","required":false,"description":"対応に関する備考やコメント"},{"name":"作成日時","type":"timestamp","required":true,"description":"検出結果が作成された日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"検出結果が最後に更新された日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"検出結果を作成したシステムまたはユーザーID"}]},{"tableName":"チャネル間矛盾検出結果","purpose":"複数チャネル（Web、電話、店舗等）から受注された同一商品・顧客の矛盾を検出・記録し、データ品質管理と重複排除を支援する","columns":[{"name":"矛盾検出結果ID","type":"uuid","required":true,"description":"チャネル間矛盾検出結果の一意識別子"},{"name":"受注ID_1","type":"uuid","required":true,"description":"矛盾を検出した最初の受注データのID"},{"name":"受注ID_2","type":"uuid","required":true,"description":"矛盾を検出した2番目の受注データのID"},{"name":"チャネルID_1","type":"uuid","required":true,"description":"最初の受注のチャネル情報ID"},{"name":"チャネルID_2","type":"uuid","required":true,"description":"2番目の受注のチャネル情報ID"},{"name":"矛盾タイプ","type":"varchar(100)","required":true,"description":"矛盾の種類（例：金額相違、数量相違、顧客情報相違、配送先相違、受注日時相違）"},{"name":"矛盾内容","type":"text","required":true,"description":"矛盾の詳細説明（具体的な相違内容）"},{"name":"重要度","type":"varchar(100)","required":true,"description":"矛盾の重要度レベル（高/中/低）"},{"name":"検出日時","type":"timestamp","required":true,"description":"矛盾が検出された日時"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"対応状況（未対応/確認中/解決済み/却下）"},{"name":"対応内容","type":"text","required":false,"description":"矛盾に対する対応内容・判断理由"},{"name":"対応日時","type":"timestamp","required":false,"description":"矛盾が対応された日時"},{"name":"対応者ID","type":"uuid","required":false,"description":"対応を実施したユーザーのID"},{"name":"信頼度スコア","type":"integer","required":false,"description":"矛盾検出の信頼度スコア（0-100）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]},{"tableName":"入力漏れ検出結果","purpose":"受注データの入力漏れ項目を検出・記録し、データ品質管理と修正追跡を実現するテーブル","columns":[{"name":"入力漏れ検出結果ID","type":"uuid","required":true,"description":"入力漏れ検出結果の一意識別子"},{"name":"受注ID","type":"uuid","required":true,"description":"受注データテーブルへの外部キー"},{"name":"検出日時","type":"timestamp","required":true,"description":"入力漏れが検出された日時"},{"name":"漏れ項目名","type":"varchar(100)","required":true,"description":"入力漏れが検出された項目名"},{"name":"漏れ項目区分","type":"varchar(100)","required":true,"description":"漏れ項目の区分（必須項目/推奨項目等）"},{"name":"検出ルール","type":"varchar(100)","required":true,"description":"入力漏れを検出したルール名またはルールID"},{"name":"重要度","type":"varchar(100)","required":true,"description":"入力漏れの重要度レベル（高/中/低）"},{"name":"検出ステータス","type":"varchar(100)","required":true,"description":"検出結果のステータス（未対応/対応中/完了/除外）"},{"name":"修正済みフラグ","type":"boolean","required":true,"description":"入力漏れが修正されたかどうか"},{"name":"修正日時","type":"timestamp","required":false,"description":"入力漏れが修正された日時"},{"name":"修正者ID","type":"uuid","required":false,"description":"ログインユーザーテーブルへの外部キー（修正を実施したユーザー）"},{"name":"修正内容","type":"text","required":false,"description":"実施された修正内容の詳細"},{"name":"備考","type":"text","required":false,"description":"入力漏れに関する追加情報やコメント"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ログインユーザーテーブルへの外部キー（レコード作成者）"}]},{"tableName":"連携承認フロー","purpose":"受注データの品質検証結果に対する承認・却下フローを管理し、各段階の承認者、判定、コメント、タイムスタンプを記録する","columns":[{"name":"フロー_ID","type":"uuid","required":true,"description":"連携承認フローの一意識別子"},{"name":"受注データ_ID","type":"uuid","required":true,"description":"対象となる受注データの外部キー"},{"name":"検証結果_ID","type":"uuid","required":true,"description":"受注データ検証結果の外部キー"},{"name":"フロー段階","type":"varchar(100)","required":true,"description":"承認フローの段階（初期検証、品質確認、最終承認等）"},{"name":"現在ステータス","type":"varchar(100)","required":true,"description":"フローの現在状態（待機中、承認済、却下、差戻し等）"},{"name":"承認者_ID","type":"uuid","required":false,"description":"現在の承認者のログインユーザーID"},{"name":"承認判定","type":"varchar(100)","required":false,"description":"承認者の判定（承認、却下、条件付承認等）"},{"name":"承認コメント","type":"text","required":false,"description":"承認者による判定理由やコメント"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認者が判定を実施した日時"},{"name":"優先度","type":"varchar(100)","required":false,"description":"フロー処理の優先度（高、中、低等）"},{"name":"期限日時","type":"timestamp","required":false,"description":"承認完了の期限"},{"name":"作成日時","type":"timestamp","required":true,"description":"フロー作成日時"},{"name":"作成者_ID","type":"uuid","required":true,"description":"フロー作成者のログインユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"フロー最終更新日時"},{"name":"更新者_ID","type":"uuid","required":true,"description":"フロー最終更新者のログインユーザーID"}]},{"tableName":"承認者判定履歴","purpose":"受注データの承認プロセスにおける承認者の判定内容、判定理由、判定結果を記録し、承認フロー全体の監査証跡を管理する","columns":[{"name":"承認者判定履歴ID","type":"uuid","required":true,"description":"承認者判定履歴の一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"対象となる受注データの識別子"},{"name":"連携承認フローID","type":"uuid","required":true,"description":"この判定が属する承認フローの識別子"},{"name":"承認者ユーザーID","type":"uuid","required":true,"description":"判定を実施した承認者のユーザーID"},{"name":"判定結果","type":"varchar(100)","required":true,"description":"承認/却下/条件付き承認/保留等の判定結果"},{"name":"判定理由","type":"text","required":false,"description":"判定の根拠となった理由や説明"},{"name":"参照検証結果ID","type":"uuid","required":false,"description":"判定の根拠となった受注データ検証結果の識別子"},{"name":"参照重複検出結果ID","type":"uuid","required":false,"description":"判定の根拠となった重複受注検出結果の識別子"},{"name":"参照矛盾検出結果ID","type":"uuid","required":false,"description":"判定の根拠となったチャネル間矛盾検出結果の識別子"},{"name":"判定日時","type":"timestamp","required":true,"description":"承認者が判定を実施した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"この履歴レコードが作成された日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"この履歴レコードが最後に更新された日時"}]},{"tableName":"基幹システム連携ログ","purpose":"基幹システムとの受注データ連携処理の実行履歴を記録し、連携状況の追跡、エラー分析、監査証跡を管理するトランザクションログテーブル","columns":[{"name":"連携ログID","type":"uuid","required":true,"description":"連携ログの一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"連携対象の受注データID（受注データテーブルへの外部キー）"},{"name":"連携方向","type":"varchar(100)","required":true,"description":"連携方向（送信/受信）"},{"name":"連携ステータス","type":"varchar(100)","required":true,"description":"連携処理のステータス（成功/失敗/保留中/再試行中）"},{"name":"基幹システム側参照ID","type":"varchar(100)","required":false,"description":"基幹システム側での受注ID等の参照識別子"},{"name":"連携リクエスト内容","type":"text","required":false,"description":"基幹システムへ送信したリクエストデータ（JSON形式）"},{"name":"連携レスポンス内容","type":"text","required":false,"description":"基幹システムから受信したレスポンスデータ（JSON形式）"},{"name":"エラーコード","type":"varchar(100)","required":false,"description":"連携失敗時のエラーコード"},{"name":"エラーメッセージ","type":"text","required":false,"description":"連携失敗時の詳細エラーメッセージ"},{"name":"再試行回数","type":"integer","required":true,"description":"連携処理の再試行回数"},{"name":"次回再試行予定日時","type":"timestamp","required":false,"description":"失敗時の次回再試行予定日時"},{"name":"連携処理時間_ミリ秒","type":"integer","required":false,"description":"連携処理にかかった時間（ミリ秒）"},{"name":"作成日時","type":"timestamp","required":true,"description":"ログレコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"ログレコード最終更新日時"},{"name":"作成者ユーザーID","type":"uuid","required":false,"description":"ログを作成したユーザーID（自動連携の場合はシステム）"}]},{"tableName":"クライアント情報","purpose":"受注データ品質管理システムにおけるクライアント（顧客・取引先）のマスタ情報を管理し、受注データの検証・承認フロー・基幹システム連携時のクライアント属性参照を支援する","columns":[{"name":"クライアントID","type":"uuid","required":true,"description":"クライアントの一意識別子"},{"name":"クライアント名","type":"varchar(100)","required":true,"description":"クライアント（顧客・取引先）の正式名称"},{"name":"クライアント名カナ","type":"varchar(100)","required":false,"description":"クライアント名のカナ表記（検索・ソート用）"},{"name":"クライアントコード","type":"varchar(100)","required":true,"description":"基幹システム連携用のクライアント識別コード"},{"name":"業種","type":"varchar(100)","required":false,"description":"クライアントの業種分類"},{"name":"住所","type":"text","required":false,"description":"クライアントの住所"},{"name":"電話番号","type":"varchar(100)","required":false,"description":"クライアントの連絡先電話番号"},{"name":"メールアドレス","type":"varchar(100)","required":false,"description":"クライアントの連絡先メールアドレス"},{"name":"担当者名","type":"varchar(100)","required":false,"description":"クライアント側の主要担当者名"},{"name":"信用度レベル","type":"varchar(100)","required":false,"description":"クライアントの信用度ランク（高/中/低など）"},{"name":"受注チャネル","type":"varchar(100)","required":false,"description":"主要な受注チャネル（複数チャネルの場合は別テーブルで管理）"},{"name":"基幹システムID","type":"varchar(100)","required":false,"description":"基幹システム側のクライアント識別ID"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"クライアントのステータス（有効/無効/休止など）"},{"name":"作成日時","type":"timestamp","required":true,"description":"クライアント情報の作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"クライアント情報の最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"クライアント情報を作成したユーザーID"},{"name":"更新者","type":"varchar(100)","required":false,"description":"クライアント情報を最後に更新したユーザーID"}]},{"tableName":"修正対象優先度リスト","purpose":"受注データの修正対象を優先度付けして管理し、修正作業の効率化と品質向上を実現するマスタテーブル","columns":[{"name":"優先度リストID","type":"uuid","required":true,"description":"優先度リストの一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"修正対象の受注データID（受注データテーブルへの外部キー）"},{"name":"検証結果ID","type":"uuid","required":true,"description":"検証結果ID（受注データ検証結果テーブルへの外部キー）"},{"name":"優先度レベル","type":"integer","required":true,"description":"優先度（1=最高、5=最低）"},{"name":"優先度判定理由","type":"varchar(100)","required":true,"description":"優先度決定の理由カテゴリ（例：エラー重大度、ビジネスインパクト、検出時期）"},{"name":"信頼度スコア","type":"integer","required":false,"description":"修正必要性の信頼度スコア（0-100）"},{"name":"エラー分類","type":"varchar(100)","required":true,"description":"エラーの分類（例：重複受注、入力漏れ、チャネル矛盾、OCR誤認識）"},{"name":"修正ステータス","type":"varchar(100)","required":true,"description":"修正状況（未対応、対応中、完了、保留）"},{"name":"割り当て先ユーザーID","type":"uuid","required":false,"description":"修正作業の割り当て先ユーザーID（ログインユーザーテーブルへの外部キー）"},{"name":"期限日時","type":"timestamp","required":false,"description":"修正完了の期限"},{"name":"推定修正時間分","type":"integer","required":false,"description":"修正に要する推定時間（分単位）"},{"name":"ビジネスインパクト度","type":"integer","required":false,"description":"ビジネスへの影響度（1-10）"},{"name":"自動修正可能フラグ","type":"boolean","required":true,"description":"AI/自動ルールで修正可能かどうか"},{"name":"備考","type":"text","required":false,"description":"修正対象に関する追加情報"},{"name":"作成日時","type":"timestamp","required":true,"description":"優先度リスト作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"優先度リスト最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"優先度リスト作成者のユーザーID"}]},{"tableName":"操作履歴","purpose":"受注データ品質管理システムにおけるユーザー操作、システム処理、データ変更を時系列で記録し、監査証跡、トレーサビリティ、不正検知を実現する","columns":[{"name":"操作履歴ID","type":"uuid","required":true,"description":"操作履歴の一意識別子"},{"name":"ユーザーID","type":"uuid","required":true,"description":"操作を実行したユーザーID（ログインユーザーテーブルへの外部キー）"},{"name":"操作種別","type":"varchar(100)","required":true,"description":"操作の種類（例：受注データ登録、データ修正、検証実行、承認、却下、削除、エクスポート等）"},{"name":"対象テーブル名","type":"varchar(100)","required":true,"description":"操作対象のテーブル名（例：受注データ、受注データ修正履歴等）"},{"name":"対象レコードID","type":"uuid","required":false,"description":"操作対象のレコードID（テーブルに応じて受注データID等）"},{"name":"操作内容","type":"text","required":false,"description":"操作の詳細内容（変更前後の値、パラメータ等）"},{"name":"変更前値","type":"text","required":false,"description":"変更操作の場合の変更前の値"},{"name":"変更後値","type":"text","required":false,"description":"変更操作の場合の変更後の値"},{"name":"操作ステータス","type":"varchar(100)","required":true,"description":"操作の実行結果（成功、失敗、部分成功等）"},{"name":"エラーメッセージ","type":"text","required":false,"description":"操作失敗時のエラーメッセージ"},{"name":"IPアドレス","type":"varchar(100)","required":false,"description":"操作実行元のIPアドレス"},{"name":"セッションID","type":"varchar(100)","required":false,"description":"ユーザーセッションID"},{"name":"操作実行日時","type":"timestamp","required":true,"description":"操作が実行された日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"操作履歴レコードが作成された日時"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1781413475180";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // ステップ管理\n  let currentStep = 1;\n  const totalSteps = 4;\n\n  // ステッパークリック\n  container.querySelectorAll(\".stepper-step\").forEach(step => {\n    step.addEventListener(\"click\", () => {\n      const stepNum = parseInt(step.dataset.step);\n      if (stepNum <= currentStep) {\n        currentStep = stepNum;\n        updateStepper();\n      }\n    });\n  });\n\n  function updateStepper() {\n    container.querySelectorAll(\".stepper-step\").forEach(step => {\n      const stepNum = parseInt(step.dataset.step);\n      if (stepNum === currentStep) {\n        step.classList.add(\"active\");\n        step.style.background = \"rgba(255, 215, 0, 0.1)\";\n        step.style.border = \"1px solid rgba(255, 215, 0, 0.3)\";\n        step.style.opacity = \"1\";\n      } else if (stepNum < currentStep) {\n        step.classList.remove(\"active\");\n        step.style.background = \"transparent\";\n        step.style.border = \"1px solid var(--border)\";\n        step.style.opacity = \"1\";\n      } else {\n        step.classList.remove(\"active\");\n        step.style.background = \"transparent\";\n        step.style.border = \"1px solid var(--border)\";\n        step.style.opacity = \"0.6\";\n      }\n    });\n  }\n\n  // タブ切り替え\n  container.querySelectorAll(\".tab-btn\").forEach(btn => {\n    btn.addEventListener(\"click\", () => {\n      const tabName = btn.dataset.tab;\n      container.querySelectorAll(\".tab-btn\").forEach(b => {\n        b.classList.remove(\"active\");\n        b.style.color = \"var(--text-muted)\";\n        b.style.borderBottomColor = \"transparent\";\n      });\n      btn.classList.add(\"active\");\n      btn.style.color = \"var(--text)\";\n      btn.style.borderBottomColor = \"var(--primary)\";\n\n      container.querySelectorAll(\".tab-content\").forEach(content => {\n        content.style.display = \"none\";\n      });\n      container.querySelector(`#tab-${tabName}`).style.display = \"block\";\n    });\n  });\n\n  // ボタンイベント\n  container.querySelector(\"[data-testid='next-button']\").addEventListener(\"click\", () => {\n    if (currentStep < totalSteps) {\n      currentStep++;\n      updateStepper();\n    }\n  });\n\n  container.querySelector(\"[data-testid='back-button']\").addEventListener(\"click\", () => {\n    if (currentStep > 1) {\n      currentStep--;\n      updateStepper();\n    }\n  });\n\n  container.querySelector(\"[data-testid='cancel-button']\").addEventListener(\"click\", () => {\n    if (confirm(\"キャンセルしますか？\")) {\n      window.showScreen(\"scr-1781413262699\");\n    }\n  });\n\n  container.querySelector(\"[data-testid='register-button']\").addEventListener(\"click\", async () => {\n    if (confirm(\"受注データを基幹システムに登録します。よろしいですか？\")) {\n      // 基幹システム連携ログを記録\n      const logData = {\n        order_id: \"ORD-2024-001234\",\n        direction: \"送信\",\n        status: \"成功\",\n        timestamp: new Date().toISOString()\n      };\n      \n      const saved = await window.aivicApi.save(0, logData);\n      if (saved) {\n        alert(\"受注データを登録しました。\");\n        window.showScreen(\"scr-1781413262699\");\n      }\n    }\n  });\n\n  container.querySelector(\"[data-testid='approve-button']\").addEventListener(\"click\", async () => {\n    const comment = prompt(\"承認コメントを入力してください:\");\n    if (comment !== null) {\n      alert(\"承認しました: \" + comment);\n      // 承認者判定履歴を記録\n      const historyData = {\n        order_id: \"ORD-2024-001234\",\n        result: \"承認\",\n        reason: comment,\n        timestamp: new Date().toISOString()\n      };\n      await window.aivicApi.save(0, historyData);\n    }\n  });\n\n  container.querySelector(\"[data-testid='reject-button']\").addEventListener(\"click\", async () => {\n    const reason = prompt(\"却下理由を入力してください:\");\n    if (reason !== null) {\n      alert(\"却下しました: \" + reason);\n      const historyData = {\n        order_id: \"ORD-2024-001234\",\n        result: \"却下\",\n        reason: reason,\n        timestamp: new Date().toISOString()\n      };\n      await window.aivicApi.save(0, historyData);\n    }\n  });\n}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 </script>
+  <script>window.AIVIC_DB_TYPE = "aurora_postgresql";</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 ```css
@@ -24,15 +25,15 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // ステ�
   --bg-sidebar: #161616;
   --border: #2a2a2a;
   --text: #f5f5f5;
-  --text-muted: #b0b0b0;
+  --text-muted: #a0a0a0;
   --top-bar-bg: #1a1a1a;
   --top-bar-border: #2a2a2a;
-  --accent-red: #e63946;
-  --accent-red-hover: #f77f88;
-  --success: #06d6a0;
-  --warning: #f4a261;
-  --error: #e63946;
-  --info: #457b9d;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -130,213 +131,196 @@ canvas { display:block; max-height:280px !important; }
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781413475180" style="margin-top:0">
 <div style="display: flex; flex-direction: column; height: 100%; gap: 0;">
-  <!-- ヘッダー: パンくず + タイトル -->
-  <div style="padding: 12px 16px; border-bottom: 1px solid var(--border);">
-    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">
+  <!-- ヘッダー領域 -->
+  <div style="padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); background: var(--bg-card);">
+    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">
       ROシステム / 受注データ品質管理・検証システム / 受注確定登録画面
     </div>
-    <div style="font-size: 18px; font-weight: 600; color: var(--text);">
-      受注確定登録
+    <div style="font-size: 18px; font-weight: 600; color: var(--text);">受注確定登録</div>
+  </div>
+
+  <!-- ステッパー（進捗表示） -->
+  <div style="padding: 12px 16px; background: var(--bg-main); border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; gap: 8px; align-items: center; font-size: 12px;">
+    <div style="display: flex; align-items: center; gap: 6px;">
+      <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 600;">1</div>
+      <span style="color: var(--text-muted);">検証完了</span>
+    </div>
+    <div style="width: 20px; height: 1px; background: rgba(255,255,255,0.1);"></div>
+    <div style="display: flex; align-items: center; gap: 6px;">
+      <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 600;">2</div>
+      <span style="color: var(--text);">最終確認</span>
+    </div>
+    <div style="width: 20px; height: 1px; background: rgba(255,255,255,0.1);"></div>
+    <div style="display: flex; align-items: center; gap: 6px;">
+      <div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.1); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-weight: 600;">3</div>
+      <span style="color: var(--text-muted);">承認待機</span>
+    </div>
+    <div style="width: 20px; height: 1px; background: rgba(255,255,255,0.1);"></div>
+    <div style="display: flex; align-items: center; gap: 6px;">
+      <div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.1); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-weight: 600;">4</div>
+      <span style="color: var(--text-muted);">登録完了</span>
     </div>
   </div>
 
-  <!-- ステッパー -->
-  <div style="display: flex; align-items: center; padding: 12px 16px; background: var(--bg-card); border-bottom: 1px solid var(--border); gap: 8px; overflow-x: auto;">
-    <div class="stepper-step active" data-step="1" style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 4px; background: rgba(255, 215, 0, 0.1); border: 1px solid rgba(255, 215, 0, 0.3); cursor: pointer;">
-      <span style="font-weight: 600; color: var(--primary);">1</span>
-      <span style="font-size: 13px; color: var(--text);">検証結果確認</span>
+  <!-- メインコンテンツ（スクロール可能） -->
+  <div style="flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 16px;">
+    
+    <!-- 受注情報パネル -->
+    <div class="card" style="padding: 12px; border-left: 3px solid var(--primary);">
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; font-size: 12px;">
+        <div>
+          <div style="color: var(--text-muted); margin-bottom: 2px;">受注ID</div>
+          <div style="font-weight: 600; color: var(--text);" data-testid="order-id">ORD-2025-001234</div>
+        </div>
+        <div>
+          <div style="color: var(--text-muted); margin-bottom: 2px;">ステータス</div>
+          <div style="display: inline-block; padding: 2px 8px; border-radius: 3px; background: rgba(76, 175, 80, 0.15); color: #4caf50; font-weight: 600;">検証完了</div>
+        </div>
+        <div>
+          <div style="color: var(--text-muted); margin-bottom: 2px;">顧客名</div>
+          <div style="font-weight: 600; color: var(--text);" data-testid="customer-name">株式会社ABC商事</div>
+        </div>
+        <div>
+          <div style="color: var(--text-muted); margin-bottom: 2px;">受注日</div>
+          <div style="color: var(--text);">2025-01-15</div>
+        </div>
+      </div>
     </div>
-    <div style="width: 20px; height: 1px; background: var(--border);"></div>
-    <div class="stepper-step" data-step="2" style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 4px; background: transparent; border: 1px solid var(--border); cursor: pointer; opacity: 0.6;">
-      <span style="font-weight: 600; color: var(--text-muted);">2</span>
-      <span style="font-size: 13px; color: var(--text-muted);">修正内容確認</span>
+
+    <!-- 信頼度スコア + 検証結果サマリー（KPI カード） -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px;">
+      <div class="card" style="padding: 12px; text-align: center;">
+        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">総合信頼度</div>
+        <div style="font-size: 28px; font-weight: 700; color: var(--primary);" data-testid="trust-score">87</div>
+        <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">/ 100</div>
+      </div>
+      <div class="card" style="padding: 12px; text-align: center;">
+        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">検証結果</div>
+        <div style="font-size: 24px; font-weight: 700; color: #4caf50;" data-testid="validation-count">12</div>
+        <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">項目検証済</div>
+      </div>
+      <div class="card" style="padding: 12px; text-align: center;">
+        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">警告</div>
+        <div style="font-size: 24px; font-weight: 700; color: #ff9800;" data-testid="warning-count">2</div>
+        <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">要確認</div>
+      </div>
+      <div class="card" style="padding: 12px; text-align: center;">
+        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">修正履歴</div>
+        <div style="font-size: 24px; font-weight: 700; color: var(--text);" data-testid="history-count">5</div>
+        <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">件</div>
+      </div>
     </div>
-    <div style="width: 20px; height: 1px; background: var(--border);"></div>
-    <div class="stepper-step" data-step="3" style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 4px; background: transparent; border: 1px solid var(--border); cursor: pointer; opacity: 0.6;">
-      <span style="font-weight: 600; color: var(--text-muted);">3</span>
-      <span style="font-size: 13px; color: var(--text-muted);">承認判定</span>
+
+    <!-- 検証結果詳細（タブ） -->
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <div style="display: flex; border-bottom: 1px solid rgba(255,255,255,0.08); background: var(--bg-main);">
+        <button class="validation-tab" data-tab="all" style="flex: 1; padding: 10px; text-align: left; background: transparent; border: none; color: var(--text); font-size: 12px; font-weight: 600; border-bottom: 2px solid var(--primary); cursor: pointer;">全検証結果</button>
+        <button class="validation-tab" data-tab="errors" style="flex: 1; padding: 10px; text-align: left; background: transparent; border: none; color: var(--text-muted); font-size: 12px; font-weight: 600; border-bottom: 2px solid transparent; cursor: pointer;">エラー (3)</button>
+        <button class="validation-tab" data-tab="warnings" style="flex: 1; padding: 10px; text-align: left; background: transparent; border: none; color: var(--text-muted); font-size: 12px; font-weight: 600; border-bottom: 2px solid transparent; cursor: pointer;">警告 (2)</button>
+        <button class="validation-tab" data-tab="duplicates" style="flex: 1; padding: 10px; text-align: left; background: transparent; border: none; color: var(--text-muted); font-size: 12px; font-weight: 600; border-bottom: 2px solid transparent; cursor: pointer;">重複検出 (1)</button>
+      </div>
+      <div style="padding: 12px; max-height: 200px; overflow-y: auto;">
+        <table data-testid="validation-list" style="width: 100%; font-size: 11px; border-collapse: collapse;">
+          <thead style="background: rgba(255,255,255,0.02);">
+            <tr>
+              <th style="text-align: left; padding: 6px; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">検証項目</th>
+              <th style="text-align: left; padding: 6px; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">ステータス</th>
+              <th style="text-align: left; padding: 6px; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">重要度</th>
+              <th style="text-align: left; padding: 6px; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">対応状況</th>
+            </tr>
+          </thead>
+          <tbody id="validation-tbody">
+            <tr>
+              <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);">顧客名形式</td>
+              <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);"><span style="display: inline-block; padding: 2px 6px; border-radius: 2px; background: rgba(76, 175, 80, 0.15); color: #4caf50; font-size: 10px;">合格</span></td>
+              <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);">高</td>
+              <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-muted);">完了</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);">受注金額妥当性</td>
+              <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);"><span style="display: inline-block; padding: 2px 6px; border-radius: 2px; background: rgba(255, 152, 0, 0.15); color: #ff9800; font-size: 10px;">警告</span></td>
+              <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);">中</td>
+              <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-muted);">確認済</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);">配送先住所</td>
+              <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);"><span style="display: inline-block; padding: 2px 6px; border-radius: 2px; background: rgba(76, 175, 80, 0.15); color: #4caf50; font-size: 10px;">合格</span></td>
+              <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);">高</td>
+              <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-muted);">完了</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div style="width: 20px; height: 1px; background: var(--border);"></div>
-    <div class="stepper-step" data-step="4" style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 4px; background: transparent; border: 1px solid var(--border); cursor: pointer; opacity: 0.6;">
-      <span style="font-weight: 600; color: var(--text-muted);">4</span>
-      <span style="font-size: 13px; color: var(--text-muted);">登録実行</span>
+
+    <!-- 修正履歴タイムライン -->
+    <div class="card" style="padding: 12px;">
+      <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 10px;">修正履歴</div>
+      <div style="display: flex; flex-direction: column; gap: 10px; max-height: 180px; overflow-y: auto;">
+        <div style="display: flex; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.04);">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--primary); margin-top: 4px; flex-shrink: 0;"></div>
+          <div style="flex: 1; font-size: 11px;">
+            <div style="color: var(--text); font-weight: 600;">受注金額修正</div>
+            <div style="color: var(--text-muted); margin-top: 2px;">修正前: ¥150,000 → 修正後: ¥145,000</div>
+            <div style="color: var(--text-muted); font-size: 10px; margin-top: 2px;">2025-01-15 14:32 by 田中太郎</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.04);">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--primary); margin-top: 4px; flex-shrink: 0;"></div>
+          <div style="flex: 1; font-size: 11px;">
+            <div style="color: var(--text); font-weight: 600;">配送先住所補正</div>
+            <div style="color: var(--text-muted); margin-top: 2px;">郵便番号形式エラーを修正</div>
+            <div style="color: var(--text-muted); font-size: 10px; margin-top: 2px;">2025-01-15 13:18 by 鈴木花子</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--primary); margin-top: 4px; flex-shrink: 0;"></div>
+          <div style="flex: 1; font-size: 11px;">
+            <div style="color: var(--text); font-weight: 600;">初期検証実行</div>
+            <div style="color: var(--text-muted); margin-top: 2px;">AI-OCR読み込み完了、12項目検証実施</div>
+            <div style="color: var(--text-muted); font-size: 10px; margin-top: 2px;">2025-01-15 10:45 by システム</div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- 修正対象優先度リスト -->
+    <div class="card" style="padding: 12px;">
+      <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 10px;">修正対象優先度</div>
+      <table data-testid="priority-list" style="width: 100%; font-size: 11px; border-collapse: collapse;">
+        <thead style="background: rgba(255,255,255,0.02);">
+          <tr>
+            <th style="text-align: left; padding: 6px; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">優先度</th>
+            <th style="text-align: left; padding: 6px; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">エラー分類</th>
+            <th style="text-align: left; padding: 6px; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">修正状況</th>
+            <th style="text-align: left; padding: 6px; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">ビジネスインパクト</th>
+          </tr>
+        </thead>
+        <tbody id="priority-tbody">
+          <tr>
+            <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);"><span style="display: inline-block; padding: 2px 6px; border-radius: 2px; background: rgba(244, 67, 54, 0.15); color: #f44336; font-weight: 600; font-size: 10px;">1</span></td>
+            <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);">重複受注検出</td>
+            <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);"><span style="display: inline-block; padding: 2px 6px; border-radius: 2px; background: rgba(76, 175, 80, 0.15); color: #4caf50; font-size: 10px;">完了</span></td>
+            <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);">高 (9/10)</td>
+          </tr>
+          <tr>
+            <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);"><span style="display: inline-block; padding: 2px 6px; border-radius: 2px; background: rgba(255, 152, 0, 0.15); color: #ff9800; font-weight: 600; font-size: 10px;">2</span></td>
+            <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);">入力漏れ検出</td>
+            <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);"><span style="display: inline-block; padding: 2px 6px; border-radius: 2px; background: rgba(76, 175, 80, 0.15); color: #4caf50; font-size: 10px;">完了</span></td>
+            <td style="padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.04);">中 (6/10)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 
-  <!-- メインコンテンツ -->
-  <div style="flex: 1; overflow-y: auto; display: flex; gap: 0;">
-    <!-- 左パネル: 検証結果サマリー -->
-    <div style="flex: 0 0 45%; padding: 16px; border-right: 1px solid var(--border); overflow-y: auto;">
-      <!-- 受注基本情報 -->
-      <div class="card" style="margin-bottom: 12px; padding: 12px;">
-        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">受注情報</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-          <div>
-            <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">受注ID</label>
-            <div style="font-size: 14px; font-weight: 600; color: var(--text);" data-testid="order-id">ORD-2024-001234</div>
-          </div>
-          <div>
-            <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">ステータス</label>
-            <div style="display: inline-block; padding: 4px 8px; border-radius: 3px; background: rgba(255, 215, 0, 0.15); color: #d4a500; font-size: 12px; font-weight: 600;">検証完了</div>
-          </div>
-        </div>
-        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border);">
-          <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">顧客名</label>
-          <div style="font-size: 13px; color: var(--text);" data-testid="customer-name">株式会社ABC商事</div>
-        </div>
-      </div>
-
-      <!-- 信頼度スコア -->
-      <div class="card" style="margin-bottom: 12px; padding: 12px;">
-        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">信頼度スコア</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-          <div style="text-align: center; padding: 8px; background: var(--bg-main); border-radius: 4px;">
-            <div style="font-size: 24px; font-weight: 700; color: #d4a500;" data-testid="overall-score">92</div>
-            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">総合スコア</div>
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 4px; font-size: 12px;">
-            <div style="display: flex; justify-content: space-between;">
-              <span style="color: var(--text-muted);">完全性</span>
-              <span style="color: var(--text); font-weight: 600;">95</span>
-            </div>
-            <div style="display: flex; justify-content: space-between;">
-              <span style="color: var(--text-muted);">正確性</span>
-              <span style="color: var(--text); font-weight: 600;">88</span>
-            </div>
-            <div style="display: flex; justify-content: space-between;">
-              <span style="color: var(--text-muted);">一貫性</span>
-              <span style="color: var(--text); font-weight: 600;">92</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 検証結果サマリー -->
-      <div class="card" style="margin-bottom: 12px; padding: 12px;">
-        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">検証結果</div>
-        <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px; background: var(--bg-main); border-radius: 3px;">
-            <span style="color: var(--text-muted);">AI_OCR読み込み</span>
-            <span style="padding: 2px 6px; border-radius: 2px; background: rgba(76, 175, 80, 0.2); color: #4caf50; font-weight: 600; font-size: 11px;">合格</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px; background: var(--bg-main); border-radius: 3px;">
-            <span style="color: var(--text-muted);">重複受注検出</span>
-            <span style="padding: 2px 6px; border-radius: 2px; background: rgba(76, 175, 80, 0.2); color: #4caf50; font-weight: 600; font-size: 11px;">検出なし</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px; background: var(--bg-main); border-radius: 3px;">
-            <span style="color: var(--text-muted);">チャネル間矛盾</span>
-            <span style="padding: 2px 6px; border-radius: 2px; background: rgba(255, 152, 0, 0.2); color: #ff9800; font-weight: 600; font-size: 11px;">警告 1件</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px; background: var(--bg-main); border-radius: 3px;">
-            <span style="color: var(--text-muted);">入力漏れ検出</span>
-            <span style="padding: 2px 6px; border-radius: 2px; background: rgba(76, 175, 80, 0.2); color: #4caf50; font-weight: 600; font-size: 11px;">完了</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 修正対象優先度 -->
-      <div class="card" style="padding: 12px;">
-        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">修正対象優先度</div>
-        <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px; background: var(--bg-main); border-radius: 3px;">
-            <div>
-              <div style="color: var(--text); font-weight: 600;">配送先住所 (優先度1)</div>
-              <div style="color: var(--text-muted); font-size: 11px;">チャネル矛盾 - 高</div>
-            </div>
-            <span style="padding: 2px 6px; border-radius: 2px; background: rgba(244, 67, 54, 0.2); color: #f44336; font-weight: 600; font-size: 11px;">未対応</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 右パネル: 修正履歴タイムライン + 承認フロー -->
-    <div style="flex: 1; padding: 16px; overflow-y: auto;">
-      <!-- タブ: 修正履歴 / 承認フロー -->
-      <div style="display: flex; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
-        <button class="tab-btn active" data-tab="history" style="padding: 6px 12px; border: none; background: transparent; color: var(--text); font-size: 13px; font-weight: 600; cursor: pointer; border-bottom: 2px solid var(--primary); margin-bottom: -8px;">修正履歴</button>
-        <button class="tab-btn" data-tab="approval" style="padding: 6px 12px; border: none; background: transparent; color: var(--text-muted); font-size: 13px; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -8px;">承認フロー</button>
-      </div>
-
-      <!-- 修正履歴タイムライン -->
-      <div id="tab-history" class="tab-content" style="display: block;">
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <!-- タイムラインアイテム -->
-          <div style="display: flex; gap: 12px;">
-            <div style="flex: 0 0 24px; display: flex; flex-direction: column; align-items: center;">
-              <div style="width: 12px; height: 12px; border-radius: 50%; background: #d4a500; border: 2px solid var(--bg-main);"></div>
-              <div style="width: 2px; height: 40px; background: var(--border); margin-top: 4px;"></div>
-            </div>
-            <div style="flex: 1; padding: 8px; background: var(--bg-card); border-radius: 4px; border-left: 3px solid #d4a500;">
-              <div style="font-size: 12px; font-weight: 600; color: var(--text);">配送先住所 修正</div>
-              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">修正前: 東京都渋谷区</div>
-              <div style="font-size: 11px; color: var(--text-muted);">修正後: 東京都渋谷区道玄坂1-2-3</div>
-              <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">2024-01-15 14:32 | 田中太郎</div>
-            </div>
-          </div>
-
-          <!-- タイムラインアイテム -->
-          <div style="display: flex; gap: 12px;">
-            <div style="flex: 0 0 24px; display: flex; flex-direction: column; align-items: center;">
-              <div style="width: 12px; height: 12px; border-radius: 50%; background: #4caf50; border: 2px solid var(--bg-main);"></div>
-              <div style="width: 2px; height: 40px; background: var(--border); margin-top: 4px;"></div>
-            </div>
-            <div style="flex: 1; padding: 8px; background: var(--bg-card); border-radius: 4px; border-left: 3px solid #4caf50;">
-              <div style="font-size: 12px; font-weight: 600; color: var(--text);">受注金額 確認</div>
-              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">値: ¥150,000 (OCR信頼度 98%)</div>
-              <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">2024-01-15 13:45 | システム自動</div>
-            </div>
-          </div>
-
-          <!-- タイムラインアイテム -->
-          <div style="display: flex; gap: 12px;">
-            <div style="flex: 0 0 24px; display: flex; flex-direction: column; align-items: center;">
-              <div style="width: 12px; height: 12px; border-radius: 50%; background: #ff9800; border: 2px solid var(--bg-main);"></div>
-            </div>
-            <div style="flex: 1; padding: 8px; background: var(--bg-card); border-radius: 4px; border-left: 3px solid #ff9800;">
-              <div style="font-size: 12px; font-weight: 600; color: var(--text);">チャネル間矛盾 検出</div>
-              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Web注文と電話受注で配送先が相違</div>
-              <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">2024-01-15 12:20 | システム自動</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 承認フロー -->
-      <div id="tab-approval" class="tab-content" style="display: none;">
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <!-- 承認段階 1 -->
-          <div style="padding: 12px; background: var(--bg-card); border-radius: 4px; border-left: 4px solid #4caf50;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <div style="font-size: 12px; font-weight: 600; color: var(--text);">品質確認</div>
-              <span style="padding: 2px 6px; border-radius: 2px; background: rgba(76, 175, 80, 0.2); color: #4caf50; font-weight: 600; font-size: 11px;">承認済</span>
-            </div>
-            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">承認者: 品質管理チーム</div>
-            <div style="font-size: 11px; color: var(--text-muted);">2024-01-15 13:00 | 承認コメント: データ品質基準を満たしています</div>
-          </div>
-
-          <!-- 承認段階 2 -->
-          <div style="padding: 12px; background: var(--bg-card); border-radius: 4px; border-left: 4px solid #ff9800;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <div style="font-size: 12px; font-weight: 600; color: var(--text);">最終承認</div>
-              <span style="padding: 2px 6px; border-radius: 2px; background: rgba(255, 152, 0, 0.2); color: #ff9800; font-weight: 600; font-size: 11px;">待機中</span>
-            </div>
-            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">承認者: 営業部長</div>
-            <div style="display: flex; gap: 6px; margin-top: 8px;">
-              <button class="action-btn" data-testid="approve-button" style="flex: 1; padding: 6px 8px; font-size: 12px;">承認</button>
-              <button class="action-btn secondary" data-testid="reject-button" style="flex: 1; padding: 6px 8px; font-size: 12px;">却下</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- フッター: アクションボタン -->
-  <div style="padding: 12px 16px; border-top: 1px solid var(--border); background: var(--bg-card); display: flex; gap: 8px; justify-content: flex-end;">
-    <button class="action-btn secondary" data-testid="cancel-button" style="padding: 8px 16px; font-size: 13px;">キャンセル</button>
-    <button class="action-btn secondary" data-testid="back-button" style="padding: 8px 16px; font-size: 13px;">前へ</button>
-    <button class="action-btn" data-testid="next-button" style="padding: 8px 16px; font-size: 13px;">次へ</button>
-    <button class="action-btn" data-testid="register-button" style="padding: 8px 16px; font-size: 13px; background: #d4a500; color: #1a1a1a;">登録実行</button>
+  <!-- フッター（アクションボタン） -->
+  <div style="padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.08); background: var(--bg-card); display: flex; gap: 8px; justify-content: flex-end;">
+    <button class="action-btn secondary" data-testid="cancel-button" style="padding: 8px 16px; font-size: 12px;">キャンセル</button>
+    <button class="action-btn secondary" data-testid="back-button" style="padding: 8px 16px; font-size: 12px;">戻る</button>
+    <button class="action-btn" data-testid="submit-approval-button" style="padding: 8px 16px; font-size: 12px;">承認フローへ</button>
+    <button class="action-btn" data-testid="register-button" style="padding: 8px 16px; font-size: 12px; background: var(--primary);">確定登録</button>
   </div>
 </div>
     </section>

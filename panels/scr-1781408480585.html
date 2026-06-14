@@ -11,9 +11,8 @@ window.AIVIC_SYSTEM_NAME = "基幹システム連携・データ検証インタ�
 window.AIVIC_TABLES = [{"tableName":"受注データ","purpose":"受注の基本情報を管理し、品質検証・監査対象となる顧客注文の記録を保持する","columns":[{"name":"受注ID","type":"uuid","required":true,"description":"受注の一意識別子"},{"name":"受注番号","type":"varchar(100)","required":true,"description":"ビジネス上の受注番号（外部参照用）"},{"name":"顧客ID","type":"uuid","required":true,"description":"顧客マスタへの外部キー"},{"name":"受注日","type":"timestamp","required":true,"description":"受注が発生した日時"},{"name":"納期","type":"timestamp","required":true,"description":"納品予定日時"},{"name":"受注金額","type":"integer","required":true,"description":"受注総額（単位：円）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"受注ステータス（未処理/処理中/完了/キャンセル等）"},{"name":"備考","type":"text","required":false,"description":"受注に関する特記事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者ID"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者ID"}]},{"tableName":"ログインユーザー","purpose":"受注データ品質管理・検証システムのユーザー認証・認可管理。ユーザーの基本情報、ロール、アクセス権限、ログイン履歴を管理する。","columns":[{"name":"ユーザーID","type":"uuid","required":true,"description":"ユーザーの一意識別子"},{"name":"ユーザー名","type":"varchar(100)","required":true,"description":"ログイン時に使用するユーザー名"},{"name":"メールアドレス","type":"varchar(100)","required":true,"description":"ユーザーのメールアドレス"},{"name":"パスワードハッシュ","type":"varchar(255)","required":true,"description":"暗号化されたパスワード"},{"name":"ロール","type":"varchar(50)","required":true,"description":"ユーザーのロール（管理者/検証者/承認者/閲覧者等）"},{"name":"部門","type":"varchar(100)","required":false,"description":"ユーザーが属する部門"},{"name":"有効フラグ","type":"boolean","required":true,"description":"ユーザーアカウントの有効/無効状態"},{"name":"最終ログイン日時","type":"timestamp","required":false,"description":"最後にログインした日時"},{"name":"ログイン失敗回数","type":"integer","required":true,"description":"連続ログイン失敗回数（アカウントロック判定用）"},{"name":"アカウントロック状態","type":"boolean","required":true,"description":"セキュリティ上の理由によるアカウントロック状態"},{"name":"作成日時","type":"timestamp","required":true,"description":"ユーザーアカウント作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"ユーザー情報最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"ユーザーアカウント作成者"}]},{"tableName":"ユーザー権限","purpose":"ユーザーのシステムアクセス権限と機能利用権限を管理し、受注データ品質管理・検証システムにおける操作制御を実現する","columns":[{"name":"ユーザー権限ID","type":"uuid","required":true,"description":"ユーザー権限レコードの一意識別子"},{"name":"ユーザーID","type":"uuid","required":true,"description":"ログインユーザーテーブルへの外部キー"},{"name":"権限コード","type":"varchar(100)","required":true,"description":"権限の種類を示すコード（例：ADMIN、VALIDATOR、APPROVER、VIEWER）"},{"name":"権限名","type":"varchar(100)","required":true,"description":"権限の日本語名称"},{"name":"データ検証実行権限","type":"boolean","required":true,"description":"受注データ検証の実行可否"},{"name":"データ修正権限","type":"boolean","required":true,"description":"受注データ修正の実行可否"},{"name":"承認権限","type":"boolean","required":true,"description":"修正内容の承認可否"},{"name":"レポート閲覧権限","type":"boolean","required":true,"description":"検証結果レポートの閲覧可否"},{"name":"ユーザー管理権限","type":"boolean","required":true,"description":"ユーザーおよび権限管理の実行可否"},{"name":"システム設定権限","type":"boolean","required":true,"description":"システム設定変更の実行可否"},{"name":"有効フラグ","type":"boolean","required":true,"description":"権限の有効/無効状態"},{"name":"作成日時","type":"timestamp","required":true,"description":"権限レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"権限レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"権限レコード作成者のユーザーID"},{"name":"更新者","type":"varchar(100)","required":true,"description":"権限レコード最終更新者のユーザーID"}]},{"tableName":"バリデーションルール","purpose":"基幹システム連携時のデータ検証ルールを一元管理し、受注データ等の入力値妥当性チェックを制御する","columns":[{"name":"ルールID","type":"uuid","required":true,"description":"バリデーションルールの一意識別子"},{"name":"ルール名","type":"varchar(100)","required":true,"description":"ルールの名称（例：受注金額チェック、顧客コード形式検証）"},{"name":"対象テーブル名","type":"varchar(100)","required":true,"description":"検証対象のテーブル名（例：受注データ）"},{"name":"対象カラム名","type":"varchar(100)","required":true,"description":"検証対象のカラム名"},{"name":"ルールタイプ","type":"varchar(50)","required":true,"description":"検証タイプ（例：必須、形式、範囲、リスト値、カスタム）"},{"name":"検証条件","type":"text","required":true,"description":"検証ロジック（例：正規表現、数値範囲、許可値リスト）"},{"name":"エラーメッセージ","type":"varchar(255)","required":true,"description":"検証失敗時に表示するエラーメッセージ"},{"name":"有効フラグ","type":"boolean","required":true,"description":"ルールが有効か否か"},{"name":"優先度","type":"integer","required":false,"description":"複数ルール適用時の実行順序（小さい値から実行）"},{"name":"作成日時","type":"timestamp","required":true,"description":"ルール作成日時"},{"name":"作成者","type":"uuid","required":true,"description":"ルール作成者のユーザーID（ログインユーザーテーブルへの外部キー）"},{"name":"更新日時","type":"timestamp","required":true,"description":"ルール最終更新日時"},{"name":"更新者","type":"uuid","required":true,"description":"ルール最終更新者のユーザーID（ログインユーザーテーブルへの外部キー）"}]},{"tableName":"バリデーション結果","purpose":"受注データおよび基幹システム連携時のバリデーション実行結果を記録・追跡するトランザクションテーブル。検証ルール適用状況、エラー内容、再検証履歴を管理し、データ品質保証と監査証跡を実現する。","columns":[{"name":"バリデーション結果ID","type":"uuid","required":true,"description":"バリデーション結果の一意識別子"},{"name":"受注データID","type":"uuid","required":true,"description":"対象となる受注データの外部キー"},{"name":"バリデーションルールID","type":"uuid","required":true,"description":"適用されたバリデーションルールの外部キー"},{"name":"検証ステータス","type":"varchar(100)","required":true,"description":"検証結果ステータス（成功/失敗/警告/スキップ）"},{"name":"エラーメッセージ","type":"text","required":false,"description":"バリデーション失敗時の詳細エラーメッセージ"},{"name":"エラーフィールド","type":"varchar(100)","required":false,"description":"エラーが発生したデータフィールド名"},{"name":"エラー値","type":"text","required":false,"description":"バリデーション失敗の原因となった実際の値"},{"name":"実行ユーザーID","type":"uuid","required":true,"description":"バリデーション実行者のログインユーザーID"},{"name":"実行日時","type":"timestamp","required":true,"description":"バリデーション実行日時"},{"name":"再検証フラグ","type":"boolean","required":true,"description":"再検証対象かどうかを示すフラグ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"}]},{"tableName":"エラーログ","purpose":"基幹システム連携時のデータ検証エラーを記録・追跡し、問題解析と再処理管理を支援する","columns":[{"name":"エラーログID","type":"uuid","required":true,"description":"エラーログの一意識別子"},{"name":"受注データID","type":"uuid","required":false,"description":"関連する受注データの識別子（エラー発生元）"},{"name":"バリデーション結果ID","type":"uuid","required":false,"description":"関連するバリデーション結果の識別子"},{"name":"バリデーションルールID","type":"uuid","required":false,"description":"違反したバリデーションルールの識別子"},{"name":"エラーコード","type":"varchar(100)","required":true,"description":"エラーの分類コード（例：VAL_001, SYS_002）"},{"name":"エラーメッセージ","type":"text","required":true,"description":"エラーの詳細説明"},{"name":"エラー詳細","type":"text","required":false,"description":"スタックトレースやシステム詳細情報"},{"name":"エラー種別","type":"varchar(100)","required":true,"description":"エラーの種類（例：バリデーションエラー、システムエラー、連携エラー）"},{"name":"重要度","type":"varchar(100)","required":true,"description":"エラーの重要度レベル（例：INFO, WARNING, ERROR, CRITICAL）"},{"name":"発生モジュール","type":"varchar(100)","required":true,"description":"エラーが発生したシステムモジュール名"},{"name":"ユーザーID","type":"uuid","required":false,"description":"エラーを引き起こしたユーザーの識別子"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"エラーの状態（例：未対応, 対応中, 解決済み, 無視）"},{"name":"再処理可能フラグ","type":"boolean","required":true,"description":"エラー解決後の再処理が可能かどうか"},{"name":"再処理日時","type":"timestamp","required":false,"description":"エラーが再処理された日時"},{"name":"対応者ID","type":"uuid","required":false,"description":"エラーに対応したユーザーの識別子"},{"name":"対応コメント","type":"text","required":false,"description":"対応者による対応内容のコメント"},{"name":"作成日時","type":"timestamp","required":true,"description":"エラーログが記録された日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"エラーログが最後に更新された日時"}]},{"tableName":"エラー分類マスタ","purpose":"システム連携・データ検証時に発生するエラーを分類・管理し、バリデーション結果やエラーログで参照される基準マスタ","columns":[{"name":"エラー分類ID","type":"uuid","required":true,"description":"エラー分類の一意識別子"},{"name":"エラーコード","type":"varchar(100)","required":true,"description":"エラーを識別するコード（例：ERR_001、VAL_INVALID_FORMAT）"},{"name":"エラー分類名","type":"varchar(100)","required":true,"description":"エラー分類の名称（例：データ型エラー、必須項目エラー）"},{"name":"エラー説明","type":"text","required":true,"description":"エラーの詳細説明と対応方法"},{"name":"重要度レベル","type":"varchar(100)","required":true,"description":"エラーの重要度（例：CRITICAL、WARNING、INFO）"},{"name":"対象システム","type":"varchar(100)","required":false,"description":"このエラーが適用されるシステム名"},{"name":"自動復旧可能フラグ","type":"boolean","required":true,"description":"自動復旧が可能かどうか"},{"name":"有効フラグ","type":"boolean","required":true,"description":"エラー分類が有効かどうか"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者","type":"varchar(100)","required":false,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"責任者マスタ","purpose":"受注データおよびバリデーション業務における責任者情報を一元管理し、権限管理・監査証跡・エスカレーション対象の特定に使用","columns":[{"name":"責任者ID","type":"uuid","required":true,"description":"責任者の一意識別子"},{"name":"責任者名","type":"varchar(100)","required":true,"description":"責任者の氏名"},{"name":"部門コード","type":"varchar(100)","required":true,"description":"所属部門を識別するコード"},{"name":"部門名","type":"varchar(100)","required":true,"description":"所属部門の名称"},{"name":"メールアドレス","type":"varchar(100)","required":true,"description":"連絡用メールアドレス"},{"name":"電話番号","type":"varchar(100)","required":false,"description":"連絡用電話番号"},{"name":"権限レベル","type":"integer","required":true,"description":"バリデーション・承認権限のレベル（1:確認者、2:承認者、3:管理者）"},{"name":"ユーザーID","type":"uuid","required":false,"description":"ログインユーザーテーブルへの外部キー"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"責任者の状態（有効/無効）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者ID","type":"uuid","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"通知履歴","purpose":"基幹システムのデータ検証結果に基づく通知の送受信履歴を記録し、通知の追跡、再送、ステータス管理を実現する","columns":[{"name":"通知履歴ID","type":"uuid","required":true,"description":"通知履歴の一意識別子"},{"name":"バリデーション結果ID","type":"uuid","required":true,"description":"バリデーション結果テーブルへの外部キー"},{"name":"受注データID","type":"uuid","required":true,"description":"受注データテーブルへの外部キー"},{"name":"エラー分類ID","type":"uuid","required":false,"description":"エラー分類マスタへの外部キー（エラー時のみ）"},{"name":"責任者ID","type":"uuid","required":true,"description":"責任者マスタへの外部キー（通知先）"},{"name":"通知タイプ","type":"varchar(100)","required":true,"description":"通知の種類（例：エラー通知、警告通知、完了通知）"},{"name":"通知ステータス","type":"varchar(100)","required":true,"description":"通知の状態（例：未送信、送信済、既読、失敗）"},{"name":"通知内容","type":"text","required":true,"description":"通知の本文内容"},{"name":"送信日時","type":"timestamp","required":false,"description":"実際の送信日時"},{"name":"既読日時","type":"timestamp","required":false,"description":"受信者が既読にした日時"},{"name":"再送回数","type":"integer","required":true,"description":"再送の試行回数"},{"name":"最終送信日時","type":"timestamp","required":false,"description":"最後の送信試行日時"},{"name":"送信失敗理由","type":"text","required":false,"description":"送信失敗時の理由"},{"name":"作成日時","type":"timestamp","required":true,"description":"通知履歴レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"通知履歴レコード更新日時"},{"name":"作成者","type":"uuid","required":true,"description":"ログインユーザーへの外部キー（作成者）"}]},{"tableName":"チャネルマスタ","purpose":"販売チャネル（オンライン、店舗、卸売等）の基本情報を管理し、受注データの紐付けやバリデーションルールの適用対象を定義するマスタテーブル","columns":[{"name":"チャネルID","type":"uuid","required":true,"description":"チャネルの一意識別子（主キー）"},{"name":"チャネルコード","type":"varchar(100)","required":true,"description":"チャネルの業務コード（例：ONLINE、STORE、WHOLESALE）"},{"name":"チャネル名","type":"varchar(100)","required":true,"description":"チャネルの表示名"},{"name":"説明","type":"text","required":false,"description":"チャネルの詳細説明"},{"name":"責任者ID","type":"uuid","required":false,"description":"責任者マスタへの外部キー"},{"name":"有効フラグ","type":"boolean","required":true,"description":"チャネルが有効か否か（受注データ検証時に使用）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者（ログインユーザーID）"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者（ログインユーザーID）"}]},{"tableName":"顧客マスタ","purpose":"顧客の基本情報を一元管理し、受注データ、バリデーション、通知などの基幹システム連携の起点となるマスタテーブル","columns":[{"name":"顧客ID","type":"uuid","required":true,"description":"顧客を一意に識別するプライマリキー"},{"name":"顧客コード","type":"varchar(100)","required":true,"description":"顧客の業務用コード（ユニーク）"},{"name":"顧客名","type":"varchar(100)","required":true,"description":"顧客の正式名称"},{"name":"顧客名カナ","type":"varchar(100)","required":false,"description":"顧客名のカナ表記"},{"name":"郵便番号","type":"varchar(100)","required":false,"description":"顧客の郵便番号"},{"name":"住所","type":"text","required":false,"description":"顧客の住所"},{"name":"電話番号","type":"varchar(100)","required":false,"description":"顧客の電話番号"},{"name":"メールアドレス","type":"varchar(100)","required":false,"description":"顧客のメールアドレス（通知先として使用）"},{"name":"チャネルID","type":"uuid","required":false,"description":"チャネルマスタへの外部キー（販売チャネル分類）"},{"name":"責任者ID","type":"uuid","required":false,"description":"責任者マスタへの外部キー（担当営業など）"},{"name":"顧客ステータス","type":"varchar(100)","required":true,"description":"顧客ステータス（有効/無効/休止など）"},{"name":"与信限度額","type":"integer","required":false,"description":"顧客の与信限度額（バリデーション用）"},{"name":"バリデーション対象フラグ","type":"boolean","required":true,"description":"この顧客のデータをバリデーション対象とするか"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者（ユーザーID）"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者（ユーザーID）"}]},{"tableName":"受注集計","purpose":"受注データの集計結果を保持し、ビジネス分析・レポーティング・データ検証の基盤となる集計テーブル","columns":[{"name":"集計ID","type":"uuid","required":true,"description":"集計レコードの一意識別子"},{"name":"集計日","type":"timestamp","required":true,"description":"集計対象の日付"},{"name":"チャネルID","type":"uuid","required":true,"description":"チャネルマスタへの外部キー"},{"name":"受注件数","type":"integer","required":true,"description":"当日の受注件数"},{"name":"受注金額合計","type":"integer","required":true,"description":"当日の受注金額の合計（単位：円）"},{"name":"キャンセル件数","type":"integer","required":true,"description":"当日のキャンセル件数"},{"name":"キャンセル金額合計","type":"integer","required":true,"description":"当日のキャンセル金額の合計（単位：円）"},{"name":"返品件数","type":"integer","required":true,"description":"当日の返品件数"},{"name":"返品金額合計","type":"integer","required":true,"description":"当日の返品金額の合計（単位：円）"},{"name":"検証ステータス","type":"varchar(100)","required":true,"description":"集計データの検証状態（未検証/検証済/エラー）"},{"name":"エラー件数","type":"integer","required":false,"description":"検証時に検出されたエラー件数"},{"name":"責任者ID","type":"uuid","required":false,"description":"責任者マスタへの外部キー"},{"name":"作成日時","type":"timestamp","required":true,"description":"集計レコード作成日時"},{"name":"作成者","type":"uuid","required":true,"description":"ログインユーザーへの外部キー（作成者）"},{"name":"更新日時","type":"timestamp","required":true,"description":"集計レコード最終更新日時"},{"name":"更新者","type":"uuid","required":true,"description":"ログインユーザーへの外部キー（更新者）"},{"name":"備考","type":"text","required":false,"description":"集計に関する備考・説明"}]},{"tableName":"月次差異検証","purpose":"月次の受注データと基幹システムデータの差異を検証・記録し、差異内容の追跡と責任者への通知を管理するトランザクションテーブル","columns":[{"name":"差異検証ID","type":"uuid","required":true,"description":"月次差異検証レコードの一意識別子"},{"name":"検証年月","type":"varchar(7)","required":true,"description":"検証対象の年月（YYYY-MM形式）"},{"name":"受注データID","type":"uuid","required":true,"description":"受注データテーブルへの外部キー"},{"name":"基幹システム参照ID","type":"varchar(100)","required":true,"description":"基幹システム側の対応レコード識別子"},{"name":"差異タイプ","type":"varchar(50)","required":true,"description":"差異の種類（金額差異/数量差異/日付差異/ステータス差異等）"},{"name":"差異内容","type":"text","required":true,"description":"差異の詳細説明"},{"name":"受注側値","type":"varchar(100)","required":false,"description":"受注データ側の値"},{"name":"基幹側値","type":"varchar(100)","required":false,"description":"基幹システム側の値"},{"name":"差異金額","type":"integer","required":false,"description":"金額差異の場合の差異額（単位：円）"},{"name":"検証ステータス","type":"varchar(50)","required":true,"description":"検証状態（未確認/確認中/解決済/保留中）"},{"name":"責任者ID","type":"uuid","required":false,"description":"責任者マスタへの外部キー"},{"name":"対応内容","type":"text","required":false,"description":"差異に対する対応内容・備考"},{"name":"解決日時","type":"timestamp","required":false,"description":"差異が解決された日時"},{"name":"バリデーションルールID","type":"uuid","required":false,"description":"バリデーションルールテーブルへの外部キー"},{"name":"通知済フラグ","type":"boolean","required":true,"description":"責任者への通知が完了したかどうか"},{"name":"作成日時","type":"timestamp","required":true,"description":"差異検証レコード作成日時"},{"name":"作成者","type":"uuid","required":true,"description":"ログインユーザーテーブルへの外部キー"},{"name":"更新日時","type":"timestamp","required":true,"description":"差異検証レコード最終更新日時"},{"name":"更新者","type":"uuid","required":true,"description":"最終更新を行ったログインユーザーへの外部キー"}]},{"tableName":"基幹システム連携履歴","purpose":"基幹システムとの連携処理の実行履歴を記録し、データ同期状況、エラー発生、処理結果を追跡・検証するための履歴管理テーブル","columns":[{"name":"連携履歴ID","type":"uuid","required":true,"description":"連携履歴の一意識別子"},{"name":"連携種別","type":"varchar(100)","required":true,"description":"連携の種類（受注同期、在庫同期、顧客同期等）"},{"name":"連携方向","type":"varchar(100)","required":true,"description":"連携の方向（送信、受信、双方向）"},{"name":"処理ステータス","type":"varchar(100)","required":true,"description":"処理状態（実行中、成功、失敗、部分成功、キャンセル）"},{"name":"送信データ件数","type":"integer","required":true,"description":"連携対象のデータ件数"},{"name":"成功件数","type":"integer","required":true,"description":"正常に処理された件数"},{"name":"失敗件数","type":"integer","required":true,"description":"処理に失敗した件数"},{"name":"エラーログID","type":"uuid","required":false,"description":"エラーログテーブルへの外部キー"},{"name":"エラー詳細","type":"text","required":false,"description":"エラーの詳細情報・メッセージ"},{"name":"実行開始日時","type":"timestamp","required":true,"description":"連携処理の開始日時"},{"name":"実行終了日時","type":"timestamp","required":false,"description":"連携処理の終了日時"},{"name":"処理時間秒","type":"integer","required":false,"description":"処理にかかった時間（秒）"},{"name":"実行ユーザーID","type":"uuid","required":false,"description":"連携を実行したユーザーID"},{"name":"実行トリガー","type":"varchar(100)","required":true,"description":"実行のきっかけ（手動、スケジュール、API、イベント）"},{"name":"基幹システムレスポンスコード","type":"varchar(100)","required":false,"description":"基幹システムから返却されたレスポンスコード"},{"name":"リトライ回数","type":"integer","required":true,"description":"失敗時のリトライ実行回数"},{"name":"リトライ予定日時","type":"timestamp","required":false,"description":"次回リトライ予定日時"},{"name":"備考","type":"text","required":false,"description":"連携に関する備考・補足情報"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]},{"tableName":"連携仕様マスタ","purpose":"基幹システムとの連携における仕様定義・マッピング・バリデーションルールを一元管理するマスタテーブル","columns":[{"name":"連携仕様ID","type":"uuid","required":true,"description":"連携仕様の一意識別子"},{"name":"連携仕様名","type":"varchar(100)","required":true,"description":"連携仕様の名称（例：受注データ連携、顧客マスタ連携）"},{"name":"連携方向","type":"varchar(100)","required":true,"description":"連携方向（受信/送信/双方向）"},{"name":"連携対象システム","type":"varchar(100)","required":true,"description":"連携対象の基幹システム名"},{"name":"連携対象テーブル","type":"varchar(100)","required":true,"description":"連携対象のテーブル名"},{"name":"連携周期","type":"varchar(100)","required":true,"description":"連携周期（リアルタイム/日次/週次/月次等）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"連携仕様のステータス（有効/無効/テスト中）"},{"name":"説明","type":"text","required":false,"description":"連携仕様の詳細説明"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"作成者のユーザーID"},{"name":"更新者","type":"varchar(100)","required":true,"description":"更新者のユーザーID"}]},{"tableName":"承認済み受注","purpose":"承認済みの受注データを管理し、基幹システム連携前の最終検証状態を記録するテーブル。受注の承認履歴、承認者情報、連携ステータスを追跡する。","columns":[{"name":"承認済み受注ID","type":"uuid","required":true,"description":"承認済み受注の一意識別子"},{"name":"受注ID","type":"uuid","required":true,"description":"受注データテーブルへの外部キー"},{"name":"承認ステータス","type":"varchar(100)","required":true,"description":"承認状態（承認済み、却下、保留中等）"},{"name":"承認者ID","type":"uuid","required":true,"description":"ログインユーザーテーブルへの外部キー"},{"name":"承認日時","type":"timestamp","required":true,"description":"承認が実施された日時"},{"name":"承認コメント","type":"text","required":false,"description":"承認者による承認時のコメント"},{"name":"連携ステータス","type":"varchar(100)","required":true,"description":"基幹システム連携状態（未連携、連携済み、連携失敗等）"},{"name":"基幹システム連携履歴ID","type":"uuid","required":false,"description":"基幹システム連携履歴テーブルへの外部キー"},{"name":"最終連携日時","type":"timestamp","required":false,"description":"基幹システムへの最後の連携実施日時"},{"name":"バリデーション結果ID","type":"uuid","required":false,"description":"バリデーション結果テーブルへの外部キー"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"ログインユーザーテーブルへの外部キー"}]},{"tableName":"連携反映状況","purpose":"基幹システムからの受注データ連携の反映状況を追跡・管理し、各連携バッチの成功/失敗、反映済み件数、エラー内容を記録する","columns":[{"name":"連携反映状況ID","type":"uuid","required":true,"description":"連携反映状況の一意識別子"},{"name":"基幹システム連携履歴ID","type":"uuid","required":true,"description":"基幹システム連携履歴テーブルへの外部キー"},{"name":"連携バッチ番号","type":"varchar(100)","required":true,"description":"基幹システムから送信されたバッチの一意識別番号"},{"name":"反映ステータス","type":"varchar(100)","required":true,"description":"反映状況：処理中/成功/部分成功/失敗"},{"name":"受信件数","type":"integer","required":true,"description":"基幹システムから受信した受注データの総件数"},{"name":"反映成功件数","type":"integer","required":true,"description":"正常に反映された受注データの件数"},{"name":"反映失敗件数","type":"integer","required":true,"description":"反映に失敗した受注データの件数"},{"name":"スキップ件数","type":"integer","required":false,"description":"バリデーション不合格等でスキップされた件数"},{"name":"反映開始日時","type":"timestamp","required":true,"description":"連携反映処理の開始日時"},{"name":"反映完了日時","type":"timestamp","required":false,"description":"連携反映処理の完了日時"},{"name":"処理時間秒","type":"integer","required":false,"description":"反映処理にかかった時間（秒）"},{"name":"エラー内容","type":"text","required":false,"description":"反映失敗時の詳細エラーメッセージ"},{"name":"エラー分類マスタID","type":"uuid","required":false,"description":"エラー分類マスタテーブルへの外部キー"},{"name":"責任者ID","type":"uuid","required":false,"description":"対応責任者（責任者マスタへの外部キー）"},{"name":"対応状況","type":"varchar(100)","required":false,"description":"エラー対応状況：未対応/対応中/対応完了"},{"name":"対応完了日時","type":"timestamp","required":false,"description":"エラー対応の完了日時"},{"name":"備考","type":"text","required":false,"description":"連携反映に関する備考・メモ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"uuid","required":true,"description":"ログインユーザーテーブルへの外部キー（作成者）"},{"name":"更新者","type":"uuid","required":true,"description":"ログインユーザーテーブルへの外部キー（更新者）"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1781408480585";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // テーブルインデックス: 0=エラーログ, 1=責任者マスタ, 2=エラー分類マスタ, 3=通知履歴\n  const errorTableIndex = 0;\n  const responsibleTableIndex = 1;\n  const categoryTableIndex = 2;\n\n  let allErrors = [];\n  let selectedErrorId = null;\n\n  // ===== 1. 再描画関数 =====\n  function renderErrorRows(rows) {\n    const tbody = container.querySelector(\"#error-tbody\");\n    if (!rows || rows.length === 0) {\n      tbody.innerHTML = '<tr style=\"background: rgba(0,0,0,0.2); height: 40px;\"><td colspan=\"8\" style=\"padding: 0.5rem; text-align: center; color: var(--text-muted);\">エラーがありません</td></tr>';\n      return;\n    }\n\n    tbody.innerHTML = rows.map(r => {\n      const priorityColor = r.重要度 === 'CRITICAL' ? '#ff6a00' : r.重要度 === 'WARNING' ? '#fbbf24' : '#9fb0d1';\n      const statusBg = r.ステータス === '未対応' ? 'rgba(255,106,0,0.15)' : r.ステータス === '対応中' ? 'rgba(239,68,68,0.15)' : 'rgba(74,222,128,0.15)';\n      const statusColor = r.ステータス === '未対応' ? '#ff6a00' : r.ステータス === '対応中' ? '#ef4444' : '#4ade80';\n\n      return `\n        <tr data-id=\"${r.id || ''}\" style=\"border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: background 0.2s;\" onmouseover=\"this.style.background='rgba(255,255,255,0.05)'\" onmouseout=\"this.style.background=''\">\n          <td style=\"padding: 0.5rem; color: var(--text); font-family: monospace; font-size: 0.8rem;\">${(r.id || '').substring(0, 8)}</td>\n          <td style=\"padding: 0.5rem; color: var(--text);\">${r.受注番号 || '-'}</td>\n          <td style=\"padding: 0.5rem; color: var(--text); font-size: 0.8rem;\">${r.エラー分類 || '-'}</td>\n          <td style=\"padding: 0.5rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;\" title=\"${r.エラーメッセージ || ''}\">${r.エラーメッセージ || '-'}</td>\n          <td style=\"padding: 0.5rem; color: ${priorityColor}; font-weight: 600;\">${r.重要度 || '-'}</td>\n          <td style=\"padding: 0.5rem; background: ${statusBg}; color: ${statusColor}; border-radius: 0.25rem; text-align: center; font-size: 0.8rem; font-weight: 600;\">${r.ステータス || '-'}</td>\n          <td style=\"padding: 0.5rem; color: var(--text-muted); font-size: 0.8rem;\">${r.発生日時 ? new Date(r.発生日時).toLocaleString('ja-JP') : '-'}</td>\n          <td style=\"padding: 0.5rem; text-align: center;\">\n            <button class=\"action-btn secondary edit-btn\" data-id=\"${r.id || ''}\" style=\"padding: 0.25rem 0.5rem; font-size: 0.75rem;\">詳細</button>\n          </td>\n        </tr>\n      `;\n    }).join(\"\");\n  }\n\n  // ===== 2. KPI 更新関数 =====\n  function updateKpis(rows) {\n    const pending = rows.filter(r => r.ステータス === '未対応').length;\n    const inProgress = rows.filter(r => r.ステータス === '対応中').length;\n    const resolved = rows.filter(r => r.ステータス === '解決済み').length;\n    const today = rows.filter(r => {\n      const d = new Date(r.発生日時);\n      const now = new Date();\n      return d.toDateString() === now.toDateString();\n    }).length;\n\n    container.querySelector('[data-testid=\"kpi-pending\"]').textContent = pending;\n    container.querySelector('[data-testid=\"kpi-in-progress\"]').textContent = inProgress;\n    container.querySelector('[data-testid=\"kpi-resolved\"]').textContent = resolved;\n    container.querySelector('[data-testid=\"kpi-today\"]').textContent = today;\n  }\n\n  // ===== 3. フィルタ適用関数 =====\n  function applyFilters() {\n    const responsible = container.querySelector('[data-testid=\"filter-responsible\"]').value;\n    const category = container.querySelector('[data-testid=\"filter-category\"]').value;\n    const priority = container.querySelector('[data-testid=\"filter-priority\"]').value;\n    const status = container.querySelector('[data-testid=\"filter-status\"]').value;\n    const dateFrom = container.querySelector('[data-testid=\"filter-date-from\"]').value;\n\n    let filtered = allErrors.filter(r => {\n      if (responsible && r.責任者 !== responsible) return false;\n      if (category && r.エラー分類 !== category) return false;\n      if (priority && r.重要度 !== priority) return false;\n      if (status && r.ステータス !== status) return false;\n      if (dateFrom) {\n        const rDate = new Date(r.発生日時).toISOString().split('T')[0];\n        if (rDate < dateFrom) return false;\n      }\n      return true;\n    });\n\n    renderErrorRows(filtered);\n    updateKpis(filtered);\n  }\n\n  // ===== 4. 詳細パネル表示関数 =====\n  function showDetailPanel(errorId) {\n    const error = allErrors.find(e => e.id === errorId);\n    if (!error) return;\n\n    selectedErrorId = errorId;\n    const panel = container.querySelector('#detail-panel');\n    container.querySelector('[data-testid=\"detail-handler\"]').value = error.対応者ID || '';\n    container.querySelector('[data-testid=\"detail-status\"]').value = error.ステータス === '未対応' ? 'pending' : error.ステータス === '対応中' ? 'in-progress' : 'resolved';\n    container.querySelector('[data-testid=\"detail-comment\"]').value = error.対応コメント || '';\n    panel.style.display = 'block';\n  }\n\n  // ===== 5. 初期データ読み込み =====\n  window.aivicApi.list(errorTableIndex).then(rows => {\n    allErrors = rows || [];\n    renderErrorRows(allErrors);\n    updateKpis(allErrors);\n  });\n\n  // ===== 6. イベントリスナー登録 =====\n\n  // 検索ボタン\n  container.querySelector('[data-testid=\"search-button\"]').addEventListener('click', applyFilters);\n\n  // リセットボタン\n  container.querySelector('[data-testid=\"reset-button\"]').addEventListener('click', () => {\n    container.querySelector('[data-testid=\"filter-responsible\"]').value = '';\n    container.querySelector('[data-testid=\"filter-category\"]').value = '';\n    container.querySelector('[data-testid=\"filter-priority\"]').value = '';\n    container.querySelector('[data-testid=\"filter-status\"]').value = '';\n    container.querySelector('[data-testid=\"filter-date-from\"]').value = '';\n    renderErrorRows(allErrors);\n    updateKpis(allErrors);\n  });\n\n  // 更新ボタン\n  container.querySelector('[data-testid=\"refresh-button\"]').addEventListener('click', () => {\n    window.aivicApi.list(errorTableIndex).then(rows => {\n      allErrors = rows || [];\n      renderErrorRows(allErrors);\n      updateKpis(allErrors);\n    });\n  });\n\n  // 詳細ボタン（イベントデリゲーション）\n  container.addEventListener('click', e => {\n    const editBtn = e.target.closest('.edit-btn');\n    if (editBtn) {\n      showDetailPanel(editBtn.dataset.id);\n    }\n  });\n\n  // 詳細パネル閉じるボタン\n  container.querySelector('[data-testid=\"close-detail\"]').addEventListener('click', () => {\n    container.querySelector('#detail-panel').style.display = 'none';\n    selectedErrorId = null;\n  });\n\n  // 詳細パネル保存ボタン\n  container.querySelector('[data-testid=\"save-detail-button\"]').addEventListener('click', async () => {\n    if (!selectedErrorId) return;\n\n    const handler = container.querySelector('[data-testid=\"detail-handler\"]').value;\n    const statusMap = { 'pending': '未対応', 'in-progress': '対応中', 'resolved': '解決済み' };\n    const status = statusMap[container.querySelector('[data-testid=\"detail-status\"]').value] || '未対応';\n    const comment = container.querySelector('[data-testid=\"detail-comment\"]').value;\n\n    const updated = await window.aivicApi.update(errorTableIndex, selectedErrorId, {\n      対応者ID: handler,\n      ステータス: status,\n      対応コメント: comment\n    });\n\n    if (updated) {\n      window.aivicApi.list(errorTableIndex).then(rows => {\n        allErrors = rows || [];\n        renderErrorRows(allErrors);\n        updateKpis(allErrors);\n        container.querySelector('#detail-panel').style.display = 'none';\n        selectedErrorId = null;\n      });\n    }\n  });\n\n  // エスカレーションボタン\n  container.querySelector('[data-testid=\"escalate-button\"]').addEventListener('click', async () => {\n    if (!selectedErrorId) return;\n    if (!confirm('このエラーをエスカレーションしますか？')) return;\n\n    const updated = await window.aivicApi.update(errorTableIndex, selectedErrorId, {\n      ステータス: '対応中',\n      重要度: 'CRITICAL'\n    });\n\n    if (updated) {\n      window.aivicApi.list(errorTableIndex).then(rows => {\n        allErrors = rows || [];\n        renderErrorRows(allErrors);\n        updateKpis(allErrors);\n        container.querySelector('#detail-panel').style.display = 'none';\n        selectedErrorId = null;\n      });\n    }\n  });\n\n  // 行クリックで詳細表示\n  container.addEventListener('click', e => {\n    const row = e.target.closest('tbody tr');\n    if (row && !e.target.closest('.edit-btn')) {\n      const id = row.dataset.id;\n      if (id) showDetailPanel(id);\n    }\n  });\n}";
 </script>
-  <script>window.AIVIC_DB_TYPE = "aurora_postgresql";</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 ```css
@@ -25,15 +24,15 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
   --bg-sidebar: #161616;
   --border: #2a2a2a;
   --text: #f5f5f5;
-  --text-muted: #b0b0b0;
+  --text-muted: #a0a0a0;
   --top-bar-bg: #1a1a1a;
   --top-bar-border: #2a2a2a;
-  --accent-red: #e63946;
-  --accent-red-hover: #f77f88;
-  --success: #06d6a0;
-  --warning: #f4a261;
-  --error: #e63946;
-  --info: #457b9d;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -102,191 +101,142 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781408480585" style="margin-top:0">
-<div style="display: flex; flex-direction: column; gap: 1rem; padding: 1rem;">
+<div style="display: flex; flex-direction: column; height: 100%; gap: 0.75rem; padding: 0.75rem;">
+  
   <!-- ヘッダー -->
-  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
     <h1 style="font-size: 1.5rem; font-weight: 700; color: var(--text); margin: 0;">エラー通知・責任者別対応</h1>
-    <button class="action-btn" data-testid="refresh-button" style="font-size: 0.875rem; padding: 0.5rem 1rem;">更新</button>
+    <button class="action-btn" data-testid="refresh-button" style="font-size: 0.875rem; padding: 0.4rem 0.8rem;">🔄 更新</button>
   </div>
 
   <!-- KPI サマリーパネル -->
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-    <div class="card" style="padding: 1rem; border-left: 4px solid #d4af37;">
-      <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem;">総エラー件数</div>
-      <div style="font-size: 1.75rem; font-weight: 700; color: #d4af37;" data-testid="kpi-total-errors">0</div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem;">
+    <div class="card" style="padding: 0.75rem; border-left: 3px solid #ff6a00;">
+      <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.25rem;">未対応エラー</div>
+      <div style="font-size: 1.75rem; font-weight: 700; color: #ff6a00;" data-testid="kpi-pending">0</div>
     </div>
-    <div class="card" style="padding: 1rem; border-left: 4px solid #e74c3c;">
-      <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem;">緊急（未対応）</div>
-      <div style="font-size: 1.75rem; font-weight: 700; color: #e74c3c;" data-testid="kpi-critical-errors">0</div>
+    <div class="card" style="padding: 0.75rem; border-left: 3px solid var(--primary);">
+      <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.25rem;">対応中</div>
+      <div style="font-size: 1.75rem; font-weight: 700; color: var(--primary);" data-testid="kpi-in-progress">0</div>
     </div>
-    <div class="card" style="padding: 1rem; border-left: 4px solid #f39c12;">
-      <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem;">対応中</div>
-      <div style="font-size: 1.75rem; font-weight: 700; color: #f39c12;" data-testid="kpi-in-progress">0</div>
+    <div class="card" style="padding: 0.75rem; border-left: 3px solid #4ade80;">
+      <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.25rem;">解決済み</div>
+      <div style="font-size: 1.75rem; font-weight: 700; color: #4ade80;" data-testid="kpi-resolved">0</div>
     </div>
-    <div class="card" style="padding: 1rem; border-left: 4px solid #27ae60;">
-      <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem;">解決済み</div>
-      <div style="font-size: 1.75rem; font-weight: 700; color: #27ae60;" data-testid="kpi-resolved">0</div>
+    <div class="card" style="padding: 0.75rem; border-left: 3px solid #fbbf24;">
+      <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.25rem;">本日発生</div>
+      <div style="font-size: 1.75rem; font-weight: 700; color: #fbbf24;" data-testid="kpi-today">0</div>
     </div>
   </div>
 
   <!-- フィルタバー -->
-  <div class="card" style="padding: 1rem; background: var(--bg-card);">
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; align-items: flex-end;">
-      <!-- 責任者フィルタ -->
-      <div>
-        <label style="display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.375rem; font-weight: 500;">責任者</label>
-        <select data-testid="filter-responsible" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9375rem;">
-          <option value="">全員</option>
-          <option value="営業部">営業部</option>
-          <option value="物流部">物流部</option>
-          <option value="経理部">経理部</option>
-          <option value="システム部">システム部</option>
-        </select>
-      </div>
-
-      <!-- エラー分類フィルタ -->
-      <div>
-        <label style="display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.375rem; font-weight: 500;">エラー分類</label>
-        <select data-testid="filter-error-type" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9375rem;">
-          <option value="">全て</option>
-          <option value="バリデーションエラー">バリデーションエラー</option>
-          <option value="データ型エラー">データ型エラー</option>
-          <option value="必須項目エラー">必須項目エラー</option>
-          <option value="連携エラー">連携エラー</option>
-          <option value="システムエラー">システムエラー</option>
-        </select>
-      </div>
-
-      <!-- 優先度フィルタ -->
-      <div>
-        <label style="display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.375rem; font-weight: 500;">優先度</label>
-        <select data-testid="filter-priority" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9375rem;">
-          <option value="">全て</option>
-          <option value="CRITICAL">緊急</option>
-          <option value="WARNING">警告</option>
-          <option value="INFO">情報</option>
-        </select>
-      </div>
-
-      <!-- ステータスフィルタ -->
-      <div>
-        <label style="display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.375rem; font-weight: 500;">ステータス</label>
-        <select data-testid="filter-status" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9375rem;">
-          <option value="">全て</option>
-          <option value="未対応">未対応</option>
-          <option value="対応中">対応中</option>
-          <option value="解決済み">解決済み</option>
-          <option value="無視">無視</option>
-        </select>
-      </div>
-
-      <!-- 日付範囲 -->
-      <div>
-        <label style="display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.375rem; font-weight: 500;">発生日時（開始）</label>
-        <input type="date" data-testid="filter-date-from" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9375rem;" />
-      </div>
-
-      <div>
-        <label style="display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.375rem; font-weight: 500;">発生日時（終了）</label>
-        <input type="date" data-testid="filter-date-to" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9375rem;" />
-      </div>
-
-      <!-- 検索ボタン -->
-      <div style="display: flex; gap: 0.5rem;">
-        <button class="action-btn" data-testid="search-button" style="flex: 1; padding: 0.5rem 1rem; font-size: 0.9375rem;">検索</button>
-        <button class="action-btn secondary" data-testid="reset-button" style="flex: 1; padding: 0.5rem 1rem; font-size: 0.9375rem;">リセット</button>
-      </div>
+  <div class="card" style="padding: 0.75rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.5rem; align-items: end;">
+    <div>
+      <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">責任者</label>
+      <select data-testid="filter-responsible" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;">
+        <option value="">全員</option>
+        <option value="sales">営業部</option>
+        <option value="logistics">物流部</option>
+        <option value="accounting">経理部</option>
+      </select>
+    </div>
+    <div>
+      <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">エラー分類</label>
+      <select data-testid="filter-category" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;">
+        <option value="">全て</option>
+        <option value="validation">バリデーション</option>
+        <option value="format">形式エラー</option>
+        <option value="range">範囲エラー</option>
+        <option value="system">システムエラー</option>
+      </select>
+    </div>
+    <div>
+      <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">優先度</label>
+      <select data-testid="filter-priority" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;">
+        <option value="">全て</option>
+        <option value="critical">緊急</option>
+        <option value="high">高</option>
+        <option value="medium">中</option>
+        <option value="low">低</option>
+      </select>
+    </div>
+    <div>
+      <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ステータス</label>
+      <select data-testid="filter-status" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;">
+        <option value="">全て</option>
+        <option value="pending">未対応</option>
+        <option value="in-progress">対応中</option>
+        <option value="resolved">解決済み</option>
+      </select>
+    </div>
+    <div>
+      <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">日付範囲</label>
+      <input type="date" data-testid="filter-date-from" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;" />
+    </div>
+    <div style="display: flex; gap: 0.5rem;">
+      <button class="action-btn" data-testid="search-button" style="flex: 1; padding: 0.4rem; font-size: 0.875rem;">検索</button>
+      <button class="action-btn secondary" data-testid="reset-button" style="flex: 1; padding: 0.4rem; font-size: 0.875rem;">リセット</button>
     </div>
   </div>
 
   <!-- エラー一覧テーブル -->
-  <div class="table-wrap" style="overflow-x: auto;">
-    <table data-testid="error-list" style="width: 100%; border-collapse: collapse; font-size: 0.9375rem;">
-      <thead>
-        <tr style="background: var(--bg-sidebar); border-bottom: 2px solid var(--border);">
-          <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 120px;">エラーID</th>
-          <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 120px;">受注番号</th>
-          <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 140px;">エラー分類</th>
-          <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 200px;">エラー内容</th>
-          <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 100px;">優先度</th>
-          <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 100px;">ステータス</th>
-          <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 140px;">責任者</th>
-          <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 160px;">発生日時</th>
-          <th style="padding: 0.75rem; text-align: center; color: var(--text); font-weight: 600; width: 120px;">操作</th>
+  <div class="table-wrap" style="flex: 1; overflow-y: auto;">
+    <table data-testid="error-list" style="width: 100%; font-size: 0.875rem;">
+      <thead style="position: sticky; top: 0; background: var(--bg-card); border-bottom: 2px solid rgba(255,255,255,0.1);">
+        <tr>
+          <th style="padding: 0.5rem; text-align: left; color: var(--text); font-weight: 600; width: 80px;">エラーID</th>
+          <th style="padding: 0.5rem; text-align: left; color: var(--text); font-weight: 600; width: 100px;">受注番号</th>
+          <th style="padding: 0.5rem; text-align: left; color: var(--text); font-weight: 600; width: 100px;">分類</th>
+          <th style="padding: 0.5rem; text-align: left; color: var(--text); font-weight: 600; flex: 1; min-width: 200px;">エラー内容</th>
+          <th style="padding: 0.5rem; text-align: left; color: var(--text); font-weight: 600; width: 80px;">優先度</th>
+          <th style="padding: 0.5rem; text-align: left; color: var(--text); font-weight: 600; width: 80px;">ステータス</th>
+          <th style="padding: 0.5rem; text-align: left; color: var(--text); font-weight: 600; width: 120px;">発生日時</th>
+          <th style="padding: 0.5rem; text-align: center; color: var(--text); font-weight: 600; width: 60px;">操作</th>
         </tr>
       </thead>
-      <tbody id="error-tbody" style="background: var(--bg-main);">
-        <!-- 動的に生成 -->
+      <tbody id="error-tbody">
+        <tr style="background: rgba(0,0,0,0.2); height: 40px;">
+          <td colspan="8" style="padding: 0.5rem; text-align: center; color: var(--text-muted);">読込中...</td>
+        </tr>
       </tbody>
     </table>
   </div>
 
-  <!-- ページネーション（簡易版） -->
-  <div style="display: flex; justify-content: center; align-items: center; gap: 0.5rem; padding: 0.75rem; color: var(--text-muted); font-size: 0.875rem;">
-    <span data-testid="pagination-info">全 0 件</span>
-  </div>
-</div>
-
-<!-- 詳細・対応モーダル（初期非表示） -->
-<div id="detail-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1000; display: flex; align-items: center; justify-content: center;">
-  <div class="card" style="width: 90%; max-width: 600px; padding: 1.5rem; max-height: 80vh; overflow-y: auto;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
-      <h2 style="font-size: 1.125rem; font-weight: 700; color: var(--text); margin: 0;">エラー詳細</h2>
-      <button id="close-modal" class="action-btn secondary" style="padding: 0.375rem 0.75rem; font-size: 0.875rem;">×</button>
+  <!-- 詳細パネル（選択行の対応状況） -->
+  <div id="detail-panel" class="card" style="padding: 0.75rem; display: none; border-top: 2px solid var(--primary);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+      <h3 style="font-size: 1rem; font-weight: 600; color: var(--text); margin: 0;">対応詳細</h3>
+      <button class="action-btn secondary" data-testid="close-detail" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;">✕ 閉じる</button>
     </div>
-
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
       <div>
-        <label style="display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem;">エラーID</label>
-        <div style="font-size: 0.9375rem; color: var(--text); font-family: monospace;" id="detail-error-id">-</div>
+        <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">対応者</label>
+        <select data-testid="detail-handler" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;">
+          <option value="">未割当</option>
+          <option value="user1">田中太郎</option>
+          <option value="user2">鈴木花子</option>
+          <option value="user3">佐藤次郎</option>
+        </select>
       </div>
       <div>
-        <label style="display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem;">受注番号</label>
-        <div style="font-size: 0.9375rem; color: var(--text);" id="detail-order-no">-</div>
-      </div>
-      <div>
-        <label style="display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem;">エラー分類</label>
-        <div style="font-size: 0.9375rem; color: var(--text);" id="detail-error-type">-</div>
-      </div>
-      <div>
-        <label style="display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem;">優先度</label>
-        <div style="font-size: 0.9375rem; color: var(--text);" id="detail-priority">-</div>
-      </div>
-      <div>
-        <label style="display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem;">責任者</label>
-        <div style="font-size: 0.9375rem; color: var(--text);" id="detail-responsible">-</div>
-      </div>
-      <div>
-        <label style="display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem;">発生日時</label>
-        <div style="font-size: 0.9375rem; color: var(--text);" id="detail-occurred-at">-</div>
+        <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">対応ステータス</label>
+        <select data-testid="detail-status" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;">
+          <option value="pending">未対応</option>
+          <option value="in-progress">対応中</option>
+          <option value="resolved">解決済み</option>
+        </select>
       </div>
     </div>
-
-    <div style="margin-bottom: 1rem;">
-      <label style="display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">エラー内容</label>
-      <div style="font-size: 0.9375rem; color: var(--text); background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 0.375rem; word-break: break-word;" id="detail-error-message">-</div>
+    <div style="margin-bottom: 0.75rem;">
+      <label style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">対応コメント</label>
+      <textarea data-testid="detail-comment" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem; min-height: 60px; resize: vertical;" placeholder="対応内容を記入してください..."></textarea>
     </div>
-
-    <div style="margin-bottom: 1rem;">
-      <label style="display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">対応ステータス</label>
-      <select id="detail-status" data-testid="detail-status-select" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9375rem;">
-        <option value="未対応">未対応</option>
-        <option value="対応中">対応中</option>
-        <option value="解決済み">解決済み</option>
-        <option value="無視">無視</option>
-      </select>
-    </div>
-
-    <div style="margin-bottom: 1rem;">
-      <label style="display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">対応コメント</label>
-      <textarea id="detail-comment" data-testid="detail-comment" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9375rem; min-height: 80px; resize: vertical;"></textarea>
-    </div>
-
-    <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
-      <button class="action-btn secondary" id="cancel-detail" style="padding: 0.5rem 1rem; font-size: 0.9375rem;">キャンセル</button>
-      <button class="action-btn" id="save-detail" data-testid="save-detail-button" style="padding: 0.5rem 1rem; font-size: 0.9375rem;">保存</button>
+    <div style="display: flex; gap: 0.5rem;">
+      <button class="action-btn" data-testid="save-detail-button" style="flex: 1; padding: 0.4rem; font-size: 0.875rem;">💾 保存</button>
+      <button class="action-btn secondary" data-testid="escalate-button" style="flex: 1; padding: 0.4rem; font-size: 0.875rem;">📢 エスカレーション</button>
     </div>
   </div>
+
 </div>
     </section>
   </main>

@@ -25,15 +25,15 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
   --bg-sidebar: #161616;
   --border: #2a2a2a;
   --text: #f5f5f5;
-  --text-muted: #b0b0b0;
+  --text-muted: #a0a0a0;
   --top-bar-bg: #1a1a1a;
   --top-bar-border: #2a2a2a;
-  --accent-red: #e63946;
-  --accent-red-hover: #f77f88;
-  --success: #06d6a0;
-  --warning: #f4a261;
-  --error: #e63946;
-  --info: #457b9d;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -98,163 +98,171 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781408853048" style="margin-top:0">
-<div style="display: grid; grid-template-columns: 1fr 320px; gap: 12px; height: 100%; overflow: hidden;">
-  <!-- メインエリア -->
-  <div style="display: flex; flex-direction: column; gap: 12px; overflow: hidden;">
-    
-    <!-- 統合検索バー -->
-    <div class="card" style="padding: 12px; display: flex; gap: 8px; align-items: center;">
-      <input 
-        type="text" 
-        id="search-keyword" 
-        data-testid="search-keyword"
-        placeholder="クライアント名、受注ID、案件名で検索..." 
-        style="flex: 1; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;"
-      />
-      <button id="btn-search" data-testid="search-button" class="action-btn" style="padding: 8px 16px; font-size: 13px;">検索</button>
-      <button id="btn-export" data-testid="export-button" class="action-btn secondary" style="padding: 8px 16px; font-size: 13px;">CSVエクスポート</button>
+<div style="display: flex; flex-direction: column; height: 100%; gap: 0.75rem; padding: 0.75rem;">
+  
+  <!-- ヘッダー -->
+  <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.75rem;">
+    <h1 style="font-size: 1.5rem; font-weight: 700; color: var(--text); margin: 0;">受注・案件統合検索</h1>
+    <div style="display: flex; gap: 0.5rem;">
+      <button class="action-btn" data-testid="new-order-button" style="font-size: 0.875rem; padding: 0.5rem 1rem;">+ 受注登録</button>
+      <button class="action-btn" data-testid="new-project-button" style="font-size: 0.875rem; padding: 0.5rem 1rem;">+ 案件登録</button>
     </div>
-
-    <!-- フィルターバー（折りたたみ可能） -->
-    <div class="card" style="padding: 12px; display: none;" id="filter-panel">
-      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; font-size: 12px;">
-        <div>
-          <label style="display: block; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">クライアント</label>
-          <select id="filter-client" data-testid="filter-client" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;">
-            <option value="">全て</option>
-            <option value="">サンプルクライアント1</option>
-            <option value="">サンプルクライアント2</option>
-          </select>
-        </div>
-        <div>
-          <label style="display: block; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">受注ステータス</label>
-          <select id="filter-order-status" data-testid="filter-order-status" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;">
-            <option value="">全て</option>
-            <option value="受注確定">受注確定</option>
-            <option value="納品待ち">納品待ち</option>
-            <option value="完了">完了</option>
-            <option value="キャンセル">キャンセル</option>
-          </select>
-        </div>
-        <div>
-          <label style="display: block; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">案件ステータス</label>
-          <select id="filter-project-status" data-testid="filter-project-status" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;">
-            <option value="">全て</option>
-            <option value="新規">新規</option>
-            <option value="進行中">進行中</option>
-            <option value="提案済み">提案済み</option>
-            <option value="受注">受注</option>
-            <option value="失注">失注</option>
-          </select>
-        </div>
-        <div>
-          <label style="display: block; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">対応方針</label>
-          <select id="filter-policy" data-testid="filter-policy" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;">
-            <option value="">全て</option>
-            <option value="積極営業">積極営業</option>
-            <option value="定期フォロー">定期フォロー</option>
-            <option value="保守対応">保守対応</option>
-          </select>
-        </div>
-        <div>
-          <label style="display: block; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">担当者</label>
-          <select id="filter-owner" data-testid="filter-owner" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;">
-            <option value="">全て</option>
-            <option value="">営業太郎</option>
-            <option value="">営業花子</option>
-          </select>
-        </div>
-        <div>
-          <label style="display: block; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">日付範囲（開始）</label>
-          <input type="date" id="filter-date-from" data-testid="filter-date-from" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;" />
-        </div>
-        <div>
-          <label style="display: block; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">日付範囲（終了）</label>
-          <input type="date" id="filter-date-to" data-testid="filter-date-to" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;" />
-        </div>
-        <div style="display: flex; align-items: flex-end;">
-          <button id="btn-filter-apply" data-testid="filter-apply-button" class="action-btn" style="width: 100%; padding: 6px 12px; font-size: 12px;">フィルター適用</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- フィルター展開ボタン -->
-    <div style="display: flex; gap: 8px;">
-      <button id="btn-toggle-filter" data-testid="toggle-filter-button" class="action-btn secondary" style="padding: 6px 12px; font-size: 12px;">▼ 詳細フィルター</button>
-      <button id="btn-new-order" data-testid="new-order-button" class="action-btn" style="padding: 6px 12px; font-size: 12px; background: var(--primary);">+ 受注登録</button>
-      <button id="btn-new-project" data-testid="new-project-button" class="action-btn" style="padding: 6px 12px; font-size: 12px; background: var(--primary);">+ 案件登録</button>
-    </div>
-
-    <!-- タブ切り替え -->
-    <div style="display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
-      <button id="tab-orders" data-testid="tab-orders" style="flex: 1; padding: 10px 12px; background: transparent; border: none; border-bottom: 2px solid var(--primary); color: var(--text); font-size: 13px; font-weight: 600; cursor: pointer;">受注一覧</button>
-      <button id="tab-projects" data-testid="tab-projects" style="flex: 1; padding: 10px 12px; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-size: 13px; font-weight: 600; cursor: pointer;">案件一覧</button>
-    </div>
-
-    <!-- 受注テーブル -->
-    <div id="orders-container" style="flex: 1; overflow: auto;">
-      <div class="table-wrap">
-        <table data-testid="orders-list" style="width: 100%; font-size: 12px;">
-          <thead>
-            <tr style="background: rgba(0,0,0,0.2);">
-              <th style="padding: 8px 12px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">受注ID</th>
-              <th style="padding: 8px 12px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">クライアント</th>
-              <th style="padding: 8px 12px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">商品・サービス</th>
-              <th style="padding: 8px 12px; text-align: right; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">受注金額</th>
-              <th style="padding: 8px 12px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">ステータス</th>
-              <th style="padding: 8px 12px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">受注日</th>
-              <th style="padding: 8px 12px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">担当者</th>
-              <th style="padding: 8px 12px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">操作</th>
-            </tr>
-          </thead>
-          <tbody id="orders-tbody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- 案件テーブル（初期非表示） -->
-    <div id="projects-container" style="flex: 1; overflow: auto; display: none;">
-      <div class="table-wrap">
-        <table data-testid="projects-list" style="width: 100%; font-size: 12px;">
-          <thead>
-            <tr style="background: rgba(0,0,0,0.2);">
-              <th style="padding: 8px 12px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">案件ID</th>
-              <th style="padding: 8px 12px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">案件名</th>
-              <th style="padding: 8px 12px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">クライアント</th>
-              <th style="padding: 8px 12px; text-align: right; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">予想金額</th>
-              <th style="padding: 8px 12px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">成約確度</th>
-              <th style="padding: 8px 12px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">ステータス</th>
-              <th style="padding: 8px 12px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">予想受注日</th>
-              <th style="padding: 8px 12px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">担当者</th>
-              <th style="padding: 8px 12px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">操作</th>
-            </tr>
-          </thead>
-          <tbody id="projects-tbody"></tbody>
-        </table>
-      </div>
-    </div>
-
   </div>
 
-  <!-- 右側パネル（クライアント情報 + 対応履歴） -->
-  <div style="display: flex; flex-direction: column; gap: 12px; overflow: hidden;">
+  <!-- 検索フィルターバー -->
+  <div style="display: grid; grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr 1.5fr 1fr; gap: 0.5rem; background: var(--bg-card); padding: 0.75rem; border-radius: 0.375rem; border: 1px solid rgba(255,255,255,0.1);">
     
-    <!-- クライアント情報パネル -->
-    <div class="card" style="padding: 12px; overflow: auto; flex: 0 0 auto; max-height: 45%;">
-      <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px;">クライアント情報</div>
-      <div id="client-info-panel" style="font-size: 11px; color: var(--text-muted); line-height: 1.6;">
-        <p style="color: var(--text-muted); margin: 0;">選択してください</p>
+    <!-- 統合検索 -->
+    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+      <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">検索キーワード</label>
+      <input type="text" id="input-search-keyword" data-testid="search-keyword" placeholder="クライアント名・案件名・受注ID" style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;" />
+    </div>
+
+    <!-- クライアント名フィルター -->
+    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+      <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">クライアント</label>
+      <select id="filter-client" data-testid="client-filter" style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;">
+        <option value="">全て</option>
+        <option value="client-a">株式会社A</option>
+        <option value="client-b">株式会社B</option>
+        <option value="client-c">株式会社C</option>
+      </select>
+    </div>
+
+    <!-- 受注ステータス -->
+    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+      <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">受注ステータス</label>
+      <select id="filter-order-status" data-testid="order-status-filter" style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;">
+        <option value="">全て</option>
+        <option value="受注確定">受注確定</option>
+        <option value="納品待ち">納品待ち</option>
+        <option value="完了">完了</option>
+        <option value="キャンセル">キャンセル</option>
+      </select>
+    </div>
+
+    <!-- 案件ステータス -->
+    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+      <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">案件ステータス</label>
+      <select id="filter-project-status" data-testid="project-status-filter" style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;">
+        <option value="">全て</option>
+        <option value="新規">新規</option>
+        <option value="進行中">進行中</option>
+        <option value="提案済み">提案済み</option>
+        <option value="受注">受注</option>
+        <option value="失注">失注</option>
+      </select>
+    </div>
+
+    <!-- 対応方針 -->
+    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+      <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">対応方針</label>
+      <select id="filter-policy" data-testid="policy-filter" style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;">
+        <option value="">全て</option>
+        <option value="積極営業">積極営業</option>
+        <option value="定期フォロー">定期フォロー</option>
+        <option value="保守対応">保守対応</option>
+      </select>
+    </div>
+
+    <!-- 検索ボタン -->
+    <div style="display: flex; align-items: flex-end;">
+      <button id="btn-search" data-testid="search-button" class="action-btn" style="width: 100%; padding: 0.5rem; font-size: 0.875rem;">検索</button>
+    </div>
+  </div>
+
+  <!-- 日付範囲フィルター（折りたたみ可能） -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 0.5rem; background: var(--bg-card); padding: 0.5rem 0.75rem; border-radius: 0.375rem; border: 1px solid rgba(255,255,255,0.1);">
+    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+      <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">対応日付（開始）</label>
+      <input type="date" id="filter-date-from" data-testid="date-from" style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;" />
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+      <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">対応日付（終了）</label>
+      <input type="date" id="filter-date-to" data-testid="date-to" style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;" />
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+      <label style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">担当者</label>
+      <select id="filter-owner" data-testid="owner-filter" style="padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;">
+        <option value="">全て</option>
+        <option value="user-1">営業太郎</option>
+        <option value="user-2">営業花子</option>
+        <option value="user-3">営業次郎</option>
+      </select>
+    </div>
+    <div style="display: flex; align-items: flex-end;">
+      <button id="btn-reset-filters" data-testid="reset-button" class="action-btn secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">リセット</button>
+    </div>
+  </div>
+
+  <!-- メインコンテンツ：並列表示（受注 / 案件） -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; flex: 1; overflow: hidden;">
+    
+    <!-- 受注一覧 -->
+    <div style="display: flex; flex-direction: column; gap: 0.5rem; overflow: hidden;">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <h2 style="font-size: 1rem; font-weight: 600; color: var(--text); margin: 0;">受注一覧</h2>
+        <span style="font-size: 0.75rem; color: var(--text-muted);" id="order-count">0件</span>
+      </div>
+      <div class="table-wrap" style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.1); border-radius: 0.375rem;">
+        <table data-testid="order-list" style="width: 100%; font-size: 0.875rem;">
+          <thead style="position: sticky; top: 0; background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <tr>
+              <th style="padding: 0.5rem; text-align: left; color: var(--text); font-weight: 600; width: 25%;">受注ID</th>
+              <th style="padding: 0.5rem; text-align: left; color: var(--text); font-weight: 600; width: 25%;">クライアント</th>
+              <th style="padding: 0.5rem; text-align: right; color: var(--text); font-weight: 600; width: 20%;">金額</th>
+              <th style="padding: 0.5rem; text-align: center; color: var(--text); font-weight: 600; width: 15%;">ステータス</th>
+              <th style="padding: 0.5rem; text-align: center; color: var(--text); font-weight: 600; width: 15%;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="order-tbody">
+            <tr style="background: var(--bg-main); color: var(--text-muted);">
+              <td colspan="5" style="padding: 1rem; text-align: center;">読込中...</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <!-- 対応履歴タイムライン -->
-    <div class="card" style="padding: 12px; overflow: auto; flex: 1; min-height: 0;">
-      <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px;">対応履歴</div>
-      <div id="timeline-container" style="font-size: 11px; color: var(--text-muted);">
-        <p style="color: var(--text-muted); margin: 0;">対応履歴がありません</p>
+    <!-- 案件一覧 -->
+    <div style="display: flex; flex-direction: column; gap: 0.5rem; overflow: hidden;">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <h2 style="font-size: 1rem; font-weight: 600; color: var(--text); margin: 0;">案件一覧</h2>
+        <span style="font-size: 0.75rem; color: var(--text-muted);" id="project-count">0件</span>
+      </div>
+      <div class="table-wrap" style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.1); border-radius: 0.375rem;">
+        <table data-testid="project-list" style="width: 100%; font-size: 0.875rem;">
+          <thead style="position: sticky; top: 0; background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <tr>
+              <th style="padding: 0.5rem; text-align: left; color: var(--text); font-weight: 600; width: 25%;">案件名</th>
+              <th style="padding: 0.5rem; text-align: left; color: var(--text); font-weight: 600; width: 20%;">クライアント</th>
+              <th style="padding: 0.5rem; text-align: right; color: var(--text); font-weight: 600; width: 15%;">予想金額</th>
+              <th style="padding: 0.5rem; text-align: center; color: var(--text); font-weight: 600; width: 12%;">確度</th>
+              <th style="padding: 0.5rem; text-align: center; color: var(--text); font-weight: 600; width: 15%;">ステータス</th>
+              <th style="padding: 0.5rem; text-align: center; color: var(--text); font-weight: 600; width: 13%;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="project-tbody">
+            <tr style="background: var(--bg-main); color: var(--text-muted);">
+              <td colspan="6" style="padding: 1rem; text-align: center;">読込中...</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
+  </div>
 
+  <!-- 対応履歴タイムライン（折りたたみ可能） -->
+  <div style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 35%; overflow: hidden; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.75rem;">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <h2 style="font-size: 1rem; font-weight: 600; color: var(--text); margin: 0;">対応履歴・対応方針</h2>
+      <button id="btn-toggle-timeline" data-testid="toggle-timeline" class="action-btn secondary" style="padding: 0.25rem 0.75rem; font-size: 0.75rem;">展開</button>
+    </div>
+    <div id="timeline-container" style="flex: 1; overflow-y: auto; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.375rem; padding: 0.75rem; display: none;">
+      <div id="timeline-content" style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <div style="color: var(--text-muted); font-size: 0.875rem; text-align: center;">クライアントを選択してください</div>
+      </div>
+    </div>
   </div>
 
 </div>

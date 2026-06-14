@@ -25,15 +25,15 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
   --bg-sidebar: #161616;
   --border: #2a2a2a;
   --text: #f5f5f5;
-  --text-muted: #b0b0b0;
+  --text-muted: #a0a0a0;
   --top-bar-bg: #1a1a1a;
   --top-bar-border: #2a2a2a;
-  --accent-red: #e63946;
-  --accent-red-hover: #f77f88;
-  --success: #06d6a0;
-  --warning: #f4a261;
-  --error: #e63946;
-  --info: #457b9d;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -98,231 +98,205 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781408824557" style="margin-top:0">
-<div style="display: flex; flex-direction: column; height: 100%; gap: 0;">
+<div style="display: flex; flex-direction: column; height: 100%; gap: 0.75rem; padding: 1rem;">
+  
   <!-- ヘッダー: クライアント基本情報パネル -->
-  <div style="background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 16px 20px; flex-shrink: 0;">
-    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;">
-      <div style="flex: 1;">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 12px;">
-          <!-- クライアント名 -->
-          <div>
-            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">クライアント名</label>
-            <div id="client-name-display" style="font-size: 16px; font-weight: 600; color: var(--text);">-</div>
-          </div>
-          <!-- 業種 -->
-          <div>
-            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">業種</label>
-            <div id="client-industry-display" style="font-size: 14px; color: var(--text);">-</div>
-          </div>
-          <!-- 代表者名 -->
-          <div>
-            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">代表者名</label>
-            <div id="client-representative-display" style="font-size: 14px; color: var(--text);">-</div>
-          </div>
-          <!-- ステータス -->
-          <div>
-            <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">ステータス</label>
-            <div id="client-status-display" style="font-size: 14px; color: var(--text); padding: 4px 8px; background: rgba(255,165,0,0.15); border-radius: 4px; width: fit-content;">-</div>
-          </div>
-        </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; font-size: 13px;">
-          <!-- 電話番号 -->
-          <div>
-            <span style="color: var(--text-muted);">電話:</span>
-            <span id="client-phone-display" style="color: var(--text); margin-left: 4px;">-</span>
-          </div>
-          <!-- メールアドレス -->
-          <div>
-            <span style="color: var(--text-muted);">メール:</span>
-            <span id="client-email-display" style="color: var(--text); margin-left: 4px;">-</span>
-          </div>
-          <!-- 住所 -->
-          <div>
-            <span style="color: var(--text-muted);">住所:</span>
-            <span id="client-address-display" style="color: var(--text); margin-left: 4px;">-</span>
-          </div>
-        </div>
+  <div class="card" style="padding: 1.25rem; border-left: 4px solid var(--primary);">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+      <div>
+        <h1 style="margin: 0; font-size: 1.5rem; color: var(--text); font-weight: 600;" data-testid="client-name-display" id="client-name-display">クライアント名</h1>
+        <p style="margin: 0.25rem 0 0 0; font-size: 0.875rem; color: var(--text-muted);" id="client-status-display">ステータス: 見込み客</p>
       </div>
-      <!-- アクションボタン -->
-      <div style="display: flex; gap: 8px; flex-shrink: 0;">
-        <button id="btn-edit-client" class="action-btn" data-testid="edit-client-button" style="background: var(--primary); color: #fff; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 13px;">編集</button>
-        <button id="btn-back" class="action-btn secondary" data-testid="back-button" style="background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 13px;">戻る</button>
+      <button class="action-btn" data-testid="edit-client-button" id="btn-edit-client" style="padding: 0.5rem 1rem; font-size: 0.875rem;">編集</button>
+    </div>
+    
+    <!-- 基本情報グリッド -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; font-size: 0.875rem;">
+      <div>
+        <label style="display: block; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.25rem; font-weight: 500;">業種</label>
+        <p style="margin: 0; color: var(--text);" id="client-industry-display">—</p>
+      </div>
+      <div>
+        <label style="display: block; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.25rem; font-weight: 500;">代表者名</label>
+        <p style="margin: 0; color: var(--text);" id="client-representative-display">—</p>
+      </div>
+      <div>
+        <label style="display: block; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.25rem; font-weight: 500;">電話番号</label>
+        <p style="margin: 0; color: var(--text);" id="client-phone-display">—</p>
+      </div>
+      <div>
+        <label style="display: block; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.25rem; font-weight: 500;">メールアドレス</label>
+        <p style="margin: 0; color: var(--text); word-break: break-all;" id="client-email-display">—</p>
+      </div>
+      <div style="grid-column: 1 / -1;">
+        <label style="display: block; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.25rem; font-weight: 500;">住所</label>
+        <p style="margin: 0; color: var(--text); line-height: 1.4;" id="client-address-display">—</p>
       </div>
     </div>
   </div>
 
   <!-- タブナビゲーション -->
-  <div style="background: var(--bg-main); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 0 20px; display: flex; gap: 0; flex-shrink: 0;">
-    <button id="tab-history" class="tab-btn active" data-tab="history" style="padding: 12px 16px; border: none; background: transparent; color: var(--text); cursor: pointer; border-bottom: 2px solid var(--primary); font-size: 13px; font-weight: 500;">対応履歴</button>
-    <button id="tab-policy" class="tab-btn" data-tab="policy" style="padding: 12px 16px; border: none; background: transparent; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; font-size: 13px; font-weight: 500;">対応方針</button>
-    <button id="tab-orders" class="tab-btn" data-tab="orders" style="padding: 12px 16px; border: none; background: transparent; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; font-size: 13px; font-weight: 500;">受注</button>
-    <button id="tab-projects" class="tab-btn" data-tab="projects" style="padding: 12px 16px; border: none; background: transparent; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; font-size: 13px; font-weight: 500;">案件</button>
+  <div style="display: flex; gap: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0;">
+    <button class="tab-btn active" data-tab="history" style="padding: 0.75rem 1.25rem; background: none; border: none; color: var(--text); font-size: 0.875rem; font-weight: 500; cursor: pointer; border-bottom: 2px solid var(--primary); margin-bottom: -1px;" data-testid="tab-history">対応履歴</button>
+    <button class="tab-btn" data-tab="policy" style="padding: 0.75rem 1.25rem; background: none; border: none; color: var(--text-muted); font-size: 0.875rem; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;" data-testid="tab-policy">対応方針</button>
+    <button class="tab-btn" data-tab="orders" style="padding: 0.75rem 1.25rem; background: none; border: none; color: var(--text-muted); font-size: 0.875rem; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;" data-testid="tab-orders">受注</button>
+    <button class="tab-btn" data-tab="projects" style="padding: 0.75rem 1.25rem; background: none; border: none; color: var(--text-muted); font-size: 0.875rem; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;" data-testid="tab-projects">案件</button>
   </div>
 
-  <!-- タブコンテンツ -->
-  <div style="flex: 1; overflow: auto; padding: 16px 20px;">
-    <!-- 対応履歴タブ -->
-    <div id="tab-content-history" class="tab-content" style="display: block;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <h3 style="font-size: 14px; font-weight: 600; color: var(--text); margin: 0;">対応履歴一覧</h3>
-        <button id="btn-add-history" class="action-btn" data-testid="add-history-button" style="background: var(--primary); color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">+ 新規登録</button>
-      </div>
-      <div class="table-wrap" style="border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
-        <table data-testid="history-list" style="width: 100%; border-collapse: collapse; font-size: 13px;">
-          <thead style="background: rgba(255,165,0,0.08); border-bottom: 1px solid rgba(255,255,255,0.1);">
-            <tr>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 120px;">対応日時</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 80px;">対応種別</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; flex: 1;">対応内容</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 80px;">ステータス</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 80px;">成果</th>
-              <th style="padding: 10px 12px; text-align: center; color: var(--text); font-weight: 600; width: 60px;">操作</th>
-            </tr>
-          </thead>
-          <tbody id="history-tbody" style="background: var(--bg-card);">
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-              <td colspan="6" style="padding: 20px; text-align: center; color: var(--text-muted);">読込中...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <!-- タブコンテンツ: 対応履歴 -->
+  <div class="tab-content active" data-tab="history" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column;">
+    <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
+      <button class="action-btn" data-testid="add-history-button" id="btn-add-history" style="padding: 0.5rem 1rem; font-size: 0.875rem;">+ 対応履歴追加</button>
     </div>
-
-    <!-- 対応方針タブ -->
-    <div id="tab-content-policy" class="tab-content" style="display: none;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <h3 style="font-size: 14px; font-weight: 600; color: var(--text); margin: 0;">対応方針</h3>
-        <button id="btn-add-policy" class="action-btn" data-testid="add-policy-button" style="background: var(--primary); color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">+ 新規設定</button>
-      </div>
-      <div class="table-wrap" style="border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
-        <table data-testid="policy-list" style="width: 100%; border-collapse: collapse; font-size: 13px;">
-          <thead style="background: rgba(255,165,0,0.08); border-bottom: 1px solid rgba(255,255,255,0.1);">
-            <tr>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 120px;">方針名</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; flex: 1;">方針内容</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 70px;">優先度</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 100px;">対応頻度</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 80px;">ステータス</th>
-              <th style="padding: 10px 12px; text-align: center; color: var(--text); font-weight: 600; width: 60px;">操作</th>
-            </tr>
-          </thead>
-          <tbody id="policy-tbody" style="background: var(--bg-card);">
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-              <td colspan="6" style="padding: 20px; text-align: center; color: var(--text-muted);">読込中...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- 受注タブ -->
-    <div id="tab-content-orders" class="tab-content" style="display: none;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <h3 style="font-size: 14px; font-weight: 600; color: var(--text); margin: 0;">受注一覧</h3>
-        <button id="btn-add-order" class="action-btn" data-testid="add-order-button" style="background: var(--primary); color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">+ 新規登録</button>
-      </div>
-      <div class="table-wrap" style="border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
-        <table data-testid="order-list" style="width: 100%; border-collapse: collapse; font-size: 13px;">
-          <thead style="background: rgba(255,165,0,0.08); border-bottom: 1px solid rgba(255,255,255,0.1);">
-            <tr>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 100px;">受注日</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; flex: 1;">商品・サービス名</th>
-              <th style="padding: 10px 12px; text-align: right; color: var(--text); font-weight: 600; width: 100px;">受注金額</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 80px;">ステータス</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 100px;">納期</th>
-              <th style="padding: 10px 12px; text-align: center; color: var(--text); font-weight: 600; width: 60px;">操作</th>
-            </tr>
-          </thead>
-          <tbody id="order-tbody" style="background: var(--bg-card);">
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-              <td colspan="6" style="padding: 20px; text-align: center; color: var(--text-muted);">読込中...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- 案件タブ -->
-    <div id="tab-content-projects" class="tab-content" style="display: none;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <h3 style="font-size: 14px; font-weight: 600; color: var(--text); margin: 0;">案件一覧</h3>
-        <button id="btn-add-project" class="action-btn" data-testid="add-project-button" style="background: var(--primary); color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">+ 新規登録</button>
-      </div>
-      <div class="table-wrap" style="border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
-        <table data-testid="project-list" style="width: 100%; border-collapse: collapse; font-size: 13px;">
-          <thead style="background: rgba(255,165,0,0.08); border-bottom: 1px solid rgba(255,255,255,0.1);">
-            <tr>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; flex: 1;">案件名</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 80px;">ステータス</th>
-              <th style="padding: 10px 12px; text-align: right; color: var(--text); font-weight: 600; width: 100px;">予想金額</th>
-              <th style="padding: 10px 12px; text-align: center; color: var(--text); font-weight: 600; width: 80px;">成約確度</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 100px;">予想受注日</th>
-              <th style="padding: 10px 12px; text-align: center; color: var(--text); font-weight: 600; width: 60px;">操作</th>
-            </tr>
-          </thead>
-          <tbody id="project-tbody" style="background: var(--bg-card);">
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-              <td colspan="6" style="padding: 20px; text-align: center; color: var(--text-muted);">読込中...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="table-wrap" style="flex: 1; overflow-y: auto;">
+      <table data-testid="history-list" style="width: 100%; font-size: 0.875rem;">
+        <thead>
+          <tr style="background: rgba(0,0,0,0.1);">
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">対応日時</th>
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">対応種別</th>
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">対応内容</th>
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">成果</th>
+            <th style="padding: 0.75rem; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">操作</th>
+          </tr>
+        </thead>
+        <tbody id="history-tbody">
+          <tr style="background: rgba(0,0,0,0.05);">
+            <td colspan="5" style="padding: 2rem; text-align: center; color: var(--text-muted);">対応履歴がありません</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+
+  <!-- タブコンテンツ: 対応方針 -->
+  <div class="tab-content" data-tab="policy" style="flex: 1; overflow-y: auto; display: none; flex-direction: column;">
+    <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
+      <button class="action-btn" data-testid="add-policy-button" id="btn-add-policy" style="padding: 0.5rem 1rem; font-size: 0.875rem;">+ 対応方針追加</button>
+    </div>
+    <div class="table-wrap" style="flex: 1; overflow-y: auto;">
+      <table data-testid="policy-list" style="width: 100%; font-size: 0.875rem;">
+        <thead>
+          <tr style="background: rgba(0,0,0,0.1);">
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">方針名</th>
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">優先度</th>
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">対応頻度</th>
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">ステータス</th>
+            <th style="padding: 0.75rem; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">操作</th>
+          </tr>
+        </thead>
+        <tbody id="policy-tbody">
+          <tr style="background: rgba(0,0,0,0.05);">
+            <td colspan="5" style="padding: 2rem; text-align: center; color: var(--text-muted);">対応方針がありません</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- タブコンテンツ: 受注 -->
+  <div class="tab-content" data-tab="orders" style="flex: 1; overflow-y: auto; display: none; flex-direction: column;">
+    <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
+      <button class="action-btn" data-testid="add-order-button" id="btn-add-order" style="padding: 0.5rem 1rem; font-size: 0.875rem;">+ 受注追加</button>
+    </div>
+    <div class="table-wrap" style="flex: 1; overflow-y: auto;">
+      <table data-testid="orders-list" style="width: 100%; font-size: 0.875rem;">
+        <thead>
+          <tr style="background: rgba(0,0,0,0.1);">
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">受注日</th>
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">商品・サービス名</th>
+            <th style="padding: 0.75rem; text-align: right; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">受注金額</th>
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">ステータス</th>
+            <th style="padding: 0.75rem; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">操作</th>
+          </tr>
+        </thead>
+        <tbody id="orders-tbody">
+          <tr style="background: rgba(0,0,0,0.05);">
+            <td colspan="5" style="padding: 2rem; text-align: center; color: var(--text-muted);">受注がありません</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- タブコンテンツ: 案件 -->
+  <div class="tab-content" data-tab="projects" style="flex: 1; overflow-y: auto; display: none; flex-direction: column;">
+    <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
+      <button class="action-btn" data-testid="add-project-button" id="btn-add-project" style="padding: 0.5rem 1rem; font-size: 0.875rem;">+ 案件追加</button>
+    </div>
+    <div class="table-wrap" style="flex: 1; overflow-y: auto;">
+      <table data-testid="projects-list" style="width: 100%; font-size: 0.875rem;">
+        <thead>
+          <tr style="background: rgba(0,0,0,0.1);">
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">案件名</th>
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">ステータス</th>
+            <th style="padding: 0.75rem; text-align: right; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">予想金額</th>
+            <th style="padding: 0.75rem; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">成約確度</th>
+            <th style="padding: 0.75rem; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">操作</th>
+          </tr>
+        </thead>
+        <tbody id="projects-tbody">
+          <tr style="background: rgba(0,0,0,0.05);">
+            <td colspan="5" style="padding: 2rem; text-align: center; color: var(--text-muted);">案件がありません</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
 
-<!-- モーダル: クライアント編集 -->
-<div id="modal-edit-client" hidden style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;">
-  <div style="background: var(--bg-card); border-radius: 8px; padding: 24px; width: 90%; max-width: 500px; max-height: 90vh; overflow: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
-    <h2 style="font-size: 16px; font-weight: 600; color: var(--text); margin: 0 0 16px 0;">クライアント情報編集</h2>
-    <div style="display: flex; flex-direction: column; gap: 12px;">
-      <!-- クライアント名 -->
+<!-- 編集モーダル -->
+<div id="edit-modal" hidden style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+  <div class="card" style="width: 90%; max-width: 600px; padding: 1.5rem; max-height: 90vh; overflow-y: auto;">
+    <h2 style="margin: 0 0 1.25rem 0; font-size: 1.25rem; color: var(--text); font-weight: 600;">クライアント情報編集</h2>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
       <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">クライアント名 *</label>
-        <input id="edit-client-name" type="text" class="input" data-testid="edit-client-name" style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box;" />
+        <label style="display: block; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.5rem; font-weight: 500;">クライアント名 *</label>
+        <input type="text" data-testid="edit-client-name" id="edit-client-name" class="input" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.875rem;" />
       </div>
-      <!-- 業種 -->
       <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">業種</label>
-        <input id="edit-client-industry" type="text" class="input" data-testid="edit-client-industry" style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box;" />
+        <label style="display: block; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.5rem; font-weight: 500;">業種</label>
+        <input type="text" data-testid="edit-client-industry" id="edit-client-industry" class="input" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.875rem;" />
       </div>
-      <!-- 代表者名 -->
       <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">代表者名</label>
-        <input id="edit-client-representative" type="text" class="input" data-testid="edit-client-representative" style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box;" />
+        <label style="display: block; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.5rem; font-weight: 500;">代表者名</label>
+        <input type="text" data-testid="edit-client-representative" id="edit-client-representative" class="input" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.875rem;" />
       </div>
-      <!-- 電話番号 -->
       <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">電話番号</label>
-        <input id="edit-client-phone" type="tel" class="input" data-testid="edit-client-phone" style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box;" />
+        <label style="display: block; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.5rem; font-weight: 500;">電話番号</label>
+        <input type="tel" data-testid="edit-client-phone" id="edit-client-phone" class="input" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.875rem;" />
       </div>
-      <!-- メールアドレス -->
-      <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">メールアドレス</label>
-        <input id="edit-client-email" type="email" class="input" data-testid="edit-client-email" style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box;" />
+      <div style="grid-column: 1 / -1;">
+        <label style="display: block; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.5rem; font-weight: 500;">メールアドレス</label>
+        <input type="email" data-testid="edit-client-email" id="edit-client-email" class="input" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.875rem;" />
       </div>
-      <!-- 住所 -->
-      <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">住所</label>
-        <textarea id="edit-client-address" class="input" data-testid="edit-client-address" style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box; min-height: 60px; resize: vertical;"></textarea>
+      <div style="grid-column: 1 / -1;">
+        <label style="display: block; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.5rem; font-weight: 500;">住所</label>
+        <textarea data-testid="edit-client-address" id="edit-client-address" class="input" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.875rem; min-height: 3rem; resize: vertical;"></textarea>
       </div>
-      <!-- ステータス -->
-      <div>
-        <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">ステータス</label>
-        <select id="edit-client-status" class="input" data-testid="edit-client-status" style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; box-sizing: border-box;">
+      <div style="grid-column: 1 / -1;">
+        <label style="display: block; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 0.5rem; font-weight: 500;">ステータス</label>
+        <select data-testid="edit-client-status" id="edit-client-status" class="input" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.875rem;">
           <option value="">選択してください</option>
           <option value="見込み客">見込み客</option>
           <option value="既存顧客">既存顧客</option>
           <option value="休止中">休止中</option>
-          <option value="失注">失注</option>
         </select>
       </div>
     </div>
-    <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px;">
-      <button id="btn-cancel-edit" class="action-btn secondary" data-testid="cancel-edit-button" style="background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 13px;">キャンセル</button>
-      <button id="btn-save-edit" class="action-btn" data-testid="save-edit-button" style="background: var(--primary); color: #fff; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 13px;">保存</button>
+
+    <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+      <button class="action-btn secondary" data-testid="cancel-edit-button" id="btn-cancel-edit" style="padding: 0.5rem 1.25rem; font-size: 0.875rem;">キャンセル</button>
+      <button class="action-btn" data-testid="save-edit-button" id="btn-save-edit" style="padding: 0.5rem 1.25rem; font-size: 0.875rem;">保存</button>
     </div>
   </div>
+</div>
+
+<!-- ナビゲーションボタン（画面下部） -->
+<div style="display: flex; gap: 0.75rem; padding: 0.75rem 1rem; border-top: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.05);">
+  <button class="action-btn secondary" data-testid="back-to-dashboard-button" id="btn-back-dashboard" style="padding: 0.5rem 1rem; font-size: 0.875rem;">ダッシュボードへ</button>
+  <button class="action-btn secondary" data-testid="back-to-list-button" id="btn-back-list" style="padding: 0.5rem 1rem; font-size: 0.875rem;">クライアント一覧へ</button>
 </div>
     </section>
   </main>
