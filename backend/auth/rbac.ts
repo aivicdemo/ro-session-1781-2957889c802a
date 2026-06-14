@@ -4,99 +4,91 @@ export type Role = 'admin' | 'operator' | 'viewer';
 
 export interface User {
   userId: string;
+  userName: string;
   role: Role;
-  permissions: Permission[];
+  isActive: boolean;
+  isAccountLocked: boolean;
 }
 
-export interface Permission {
-  resource: string;
-  actions: string[];
+export interface RBACContext {
+  user: User;
+  isAuthorized: boolean;
+  permissions: Set<string>;
 }
 
-const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
-  admin: [
-    { resource: 'orders', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'validationResults', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'correctionHistory', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'trustScores', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'ocrResults', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'voiceGuidance', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'duplicateDetection', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'channelDiscrepancy', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'approvalFlow', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'approverHistory', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'integrationLog', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'users', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'userPermissions', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'auditLog', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'clients', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'channels', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'priorityRanks', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'trustThresholds', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'validationRules', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-    { resource: 'pastOrderHistory', actions: ['read', 'create', 'update', 'delete', 'bulk'] },
-  ],
-  operator: [
-    { resource: 'orders', actions: ['read', 'create', 'update', 'bulk'] },
-    { resource: 'validationResults', actions: ['read', 'create', 'update', 'bulk'] },
-    { resource: 'correctionHistory', actions: ['read', 'create', 'update', 'bulk'] },
-    { resource: 'trustScores', actions: ['read', 'create', 'update', 'bulk'] },
-    { resource: 'ocrResults', actions: ['read', 'create', 'update', 'bulk'] },
-    { resource: 'voiceGuidance', actions: ['read', 'create', 'update', 'bulk'] },
-    { resource: 'duplicateDetection', actions: ['read', 'create', 'update', 'bulk'] },
-    { resource: 'channelDiscrepancy', actions: ['read', 'create', 'update', 'bulk'] },
-    { resource: 'approvalFlow', actions: ['read', 'create', 'update', 'bulk'] },
-    { resource: 'approverHistory', actions: ['read', 'create', 'update', 'bulk'] },
-    { resource: 'integrationLog', actions: ['read', 'create', 'update', 'bulk'] },
-    { resource: 'auditLog', actions: ['read', 'create', 'bulk'] },
-    { resource: 'clients', actions: ['read'] },
-    { resource: 'channels', actions: ['read'] },
-    { resource: 'priorityRanks', actions: ['read'] },
-    { resource: 'trustThresholds', actions: ['read'] },
-    { resource: 'validationRules', actions: ['read'] },
-    { resource: 'pastOrderHistory', actions: ['read'] },
-  ],
-  viewer: [
-    { resource: 'orders', actions: ['read'] },
-    { resource: 'validationResults', actions: ['read'] },
-    { resource: 'correctionHistory', actions: ['read'] },
-    { resource: 'trustScores', actions: ['read'] },
-    { resource: 'ocrResults', actions: ['read'] },
-    { resource: 'voiceGuidance', actions: ['read'] },
-    { resource: 'duplicateDetection', actions: ['read'] },
-    { resource: 'channelDiscrepancy', actions: ['read'] },
-    { resource: 'approvalFlow', actions: ['read'] },
-    { resource: 'approverHistory', actions: ['read'] },
-    { resource: 'integrationLog', actions: ['read'] },
-    { resource: 'clients', actions: ['read'] },
-    { resource: 'channels', actions: ['read'] },
-    { resource: 'priorityRanks', actions: ['read'] },
-    { resource: 'trustThresholds', actions: ['read'] },
-    { resource: 'validationRules', actions: ['read'] },
-    { resource: 'pastOrderHistory', actions: ['read'] },
-  ],
+const rolePermissions: Record<Role, Set<string>> = {
+  admin: new Set([
+    'read:all',
+    'write:all',
+    'delete:all',
+    'approve:all',
+    'audit:read',
+    'bulk:import',
+    'user:manage',
+    'system:config'
+  ]),
+  operator: new Set([
+    'read:all',
+    'write:own',
+    'write:validation',
+    'approve:own',
+    'audit:read',
+    'bulk:import'
+  ]),
+  viewer: new Set([
+    'read:all',
+    'audit:read'
+  ])
 };
 
-export function extractUserFromEvent(event: APIGatewayProxyEvent): User {
-  const authHeader = event.headers['Authorization'] || '';
-  const token = authHeader.replace('Bearer ', '');
-  const role = (token as Role) || 'viewer';
-  const userId = event.requestContext?.authorizer?.principalId || 'anonymous';
+export function extractUserFromEvent(event: APIGatewayProxyEvent): User | null {
+  try {
+    const authHeader = event.headers['Authorization'] || event.headers['authorization'];
+    if (!authHeader) return null;
+
+    const token = authHeader.replace('Bearer ', '');
+    const decoded = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+
+    return {
+      userId: decoded.userId || decoded.sub,
+      userName: decoded.userName || decoded.name,
+      role: (decoded.role || 'viewer') as Role,
+      isActive: decoded.isActive !== false,
+      isAccountLocked: decoded.isAccountLocked === true
+    };
+  } catch (error) {
+    return null;
+  }
+}
+
+export function createRBACContext(user: User | null): RBACContext {
+  if (!user || !user.isActive || user.isAccountLocked) {
+    return {
+      user: user || { userId: '', userName: '', role: 'viewer', isActive: false, isAccountLocked: false },
+      isAuthorized: false,
+      permissions: new Set()
+    };
+  }
 
   return {
-    userId,
-    role: ['admin', 'operator', 'viewer'].includes(role) ? (role as Role) : 'viewer',
-    permissions: ROLE_PERMISSIONS[role as Role] || ROLE_PERMISSIONS.viewer,
+    user,
+    isAuthorized: true,
+    permissions: rolePermissions[user.role]
   };
 }
 
-export function hasPermission(user: User, resource: string, action: string): boolean {
-  const permission = user.permissions.find((p) => p.resource === resource);
-  return permission ? permission.actions.includes(action) : false;
+export function hasPermission(context: RBACContext, permission: string): boolean {
+  return context.isAuthorized && context.permissions.has(permission);
 }
 
-export function requirePermission(user: User, resource: string, action: string): void {
-  if (!hasPermission(user, resource, action)) {
-    throw new Error(`Forbidden: User does not have ${action} permission on ${resource}`);
+export function requirePermission(context: RBACContext, permission: string): void {
+  if (!hasPermission(context, permission)) {
+    throw new Error(`Forbidden: Missing permission ${permission}`);
+  }
+}
+
+export function requireRole(context: RBACContext, ...roles: Role[]): void {
+  if (!context.isAuthorized || !roles.includes(context.user.role)) {
+    throw new Error(`Forbidden: Required role not found`);
   }
 }
