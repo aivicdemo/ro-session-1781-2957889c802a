@@ -22,18 +22,18 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
   --primary-hover: #f0c856;
   --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
-  --bg-sidebar: #151515;
+  --bg-sidebar: #161616;
   --border: #2a2a2a;
   --text: #f5f5f5;
   --text-muted: #b0b0b0;
   --top-bar-bg: #1a1a1a;
   --top-bar-border: #2a2a2a;
-  --accent-red: #e63946;
-  --accent-red-hover: #f77f88;
-  --success: #2a9d8f;
-  --warning: #e76f51;
-  --error: #d62828;
-  --info: #457b9d;
+  --accent-red: #dc2626;
+  --accent-red-hover: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef5350;
+  --info: #3b82f6;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -77,6 +77,7 @@ canvas { display:block; max-height:280px !important; }
 <header class="top-bar">
   <span class="app-name">ROシステム</span>
     <a href="./scr-1781408454309.html" class="sys-tab" data-aivic-nav-system="itg-2">基幹システム連携・データ検証インターフェース</a>
+    <a href="./scr-1781408811435.html" class="sys-tab" data-aivic-nav-system="itg-3">営業支援・クライアント情報統合ダッシュボード</a>
     <a href="./scr-1781413262699.html" class="sys-tab active" data-aivic-nav-system="itg-1">受注データ品質管理・検証システム</a>
 </header>
 <div class="app-body">
@@ -130,43 +131,93 @@ canvas { display:block; max-height:280px !important; }
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781413885787" style="margin-top:0">
 <div style="display: flex; flex-direction: column; height: 100%; gap: 0;">
-  <!-- ヘッダー領域 -->
-  <div style="padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); background: var(--bg-card);">
-    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; letter-spacing: 0.5px;">
+  <!-- ヘッダー / Breadcrumb -->
+  <div style="padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); background: var(--bg-main);">
+    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">
       ROシステム / 受注データ品質管理・検証システム / 受注入力・検証画面
     </div>
-    <h1 style="font-size: 18px; font-weight: 600; color: var(--text); margin: 0;">受注入力・検証</h1>
+    <div style="font-size: 18px; font-weight: 600; color: var(--text);">
+      受注入力・検証
+    </div>
   </div>
 
   <!-- メインコンテンツ（2列レイアウト） -->
-  <div style="display: flex; flex: 1; overflow: hidden; gap: 12px; padding: 12px;">
+  <div style="display: flex; flex: 1; gap: 12px; padding: 12px; overflow: hidden; background: var(--bg-main);">
     
-    <!-- 左列：入力フォーム + OCR読み込み -->
-    <div style="flex: 0 0 45%; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; padding-right: 8px;">
+    <!-- 左パネル: 入力フォーム -->
+    <div style="flex: 0 0 45%; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; padding-right: 4px;">
       
-      <!-- 入力フォームセクション -->
+      <!-- セクション: 基本情報 -->
       <div class="card" style="padding: 12px;">
-        <h3 style="font-size: 13px; font-weight: 600; color: var(--text); margin: 0 0 12px 0;">受注基本情報</h3>
+        <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">
+          基本情報
+        </div>
         
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
           <div>
-            <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">受注番号</label>
-            <input type="text" data-testid="order-number" name="order_number" class="input" placeholder="ORD-2024-001" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);" />
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">受注番号</label>
+            <input type="text" data-testid="order-number" name="orderNumber" placeholder="ORD-2024-001" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;" />
           </div>
           <div>
-            <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">注文日付</label>
-            <input type="date" data-testid="order-date" name="order_date" class="input" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);" />
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">注文日付</label>
+            <input type="date" data-testid="order-date" name="orderDate" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;" />
           </div>
         </div>
 
         <div style="margin-bottom: 10px;">
-          <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">顧客名</label>
-          <input type="text" data-testid="customer-name" name="customer_name" class="input" placeholder="山田商事" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);" />
+          <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">顧客名</label>
+          <input type="text" data-testid="customer-name" name="customerName" placeholder="山田太郎" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;" />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">電話番号</label>
+            <input type="tel" data-testid="phone-number" name="phoneNumber" placeholder="090-1234-5678" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;" />
+          </div>
+          <div>
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">メールアドレス</label>
+            <input type="email" data-testid="email-address" name="emailAddress" placeholder="user@example.com" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;" />
+          </div>
+        </div>
+      </div>
+
+      <!-- セクション: 商品情報 -->
+      <div class="card" style="padding: 12px;">
+        <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">
+          商品情報
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+          <div>
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">商品コード</label>
+            <input type="text" data-testid="product-code" name="productCode" placeholder="PRD-001" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;" />
+          </div>
+          <div>
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">数量</label>
+            <input type="number" data-testid="quantity" name="quantity" placeholder="1" min="1" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;" />
+          </div>
         </div>
 
         <div style="margin-bottom: 10px;">
-          <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">チャネル</label>
-          <select data-testid="channel-select" name="channel" class="input" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);">
+          <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">金額</label>
+          <input type="number" data-testid="amount" name="amount" placeholder="10000" min="0" step="0.01" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;" />
+        </div>
+      </div>
+
+      <!-- セクション: 配送情報 -->
+      <div class="card" style="padding: 12px;">
+        <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">
+          配送情報
+        </div>
+
+        <div style="margin-bottom: 10px;">
+          <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">配送先住所</label>
+          <textarea data-testid="delivery-address" name="deliveryAddress" placeholder="東京都渋谷区..." style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; min-height: 60px; resize: vertical;" />
+        </div>
+
+        <div style="margin-bottom: 10px;">
+          <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">チャネル</label>
+          <select data-testid="channel-select" name="channel" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px;">
             <option value="">選択してください</option>
             <option value="WEB">Web注文</option>
             <option value="TEL">電話受注</option>
@@ -176,143 +227,119 @@ canvas { display:block; max-height:280px !important; }
         </div>
       </div>
 
-      <!-- 商品・数量・金額セクション -->
-      <div class="card" style="padding: 12px;">
-        <h3 style="font-size: 13px; font-weight: 600; color: var(--text); margin: 0 0 12px 0;">商品情報</h3>
-        
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-          <div>
-            <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">商品コード</label>
-            <input type="text" data-testid="product-code" name="product_code" class="input" placeholder="SKU-12345" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);" />
-          </div>
-          <div>
-            <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">数量</label>
-            <input type="number" data-testid="quantity" name="quantity" class="input" placeholder="10" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);" />
-          </div>
+      <!-- セクション: AI-OCR読み込み -->
+      <div class="card" style="padding: 12px; background: rgba(255,165,0,0.08); border-left: 3px solid #ff9800;">
+        <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">
+          AI-OCR読み込み
         </div>
 
         <div style="margin-bottom: 10px;">
-          <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">金額（税抜）</label>
-          <input type="number" data-testid="amount" name="amount" class="input" placeholder="50000" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);" />
-        </div>
-      </div>
-
-      <!-- 配送・連絡先セクション -->
-      <div class="card" style="padding: 12px;">
-        <h3 style="font-size: 13px; font-weight: 600; color: var(--text); margin: 0 0 12px 0;">配送・連絡先</h3>
-        
-        <div style="margin-bottom: 10px;">
-          <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">配送先住所</label>
-          <input type="text" data-testid="shipping-address" name="shipping_address" class="input" placeholder="東京都渋谷区..." style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);" />
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-          <div>
-            <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">電話番号</label>
-            <input type="tel" data-testid="phone" name="phone" class="input" placeholder="090-1234-5678" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);" />
+          <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; font-weight: 500;">画像ファイル</label>
+          <div style="border: 2px dashed rgba(255,255,255,0.2); border-radius: 4px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s;" id="ocr-drop-zone">
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">
+              ドラッグ＆ドロップまたはクリック
+            </div>
+            <input type="file" data-testid="ocr-file-input" id="ocr-file-input" accept="image/*" style="display: none;" />
+            <button type="button" class="action-btn secondary" style="font-size: 11px; padding: 6px 12px;" onclick="document.getElementById('ocr-file-input').click();">
+              ファイル選択
+            </button>
           </div>
-          <div>
-            <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">メールアドレス</label>
-            <input type="email" data-testid="email" name="email" class="input" placeholder="user@example.com" style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);" />
-          </div>
-        </div>
-      </div>
-
-      <!-- AI-OCR読み込みセクション -->
-      <div class="card" style="padding: 12px; background: rgba(255,165,0,0.08); border: 1px solid rgba(255,165,0,0.2);">
-        <h3 style="font-size: 13px; font-weight: 600; color: var(--text); margin: 0 0 12px 0;">📸 AI-OCR読み込み</h3>
-        
-        <div style="margin-bottom: 10px;">
-          <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 6px;">ドキュメント画像をアップロード</label>
-          <div id="ocr-drop-zone" style="border: 2px dashed rgba(255,165,0,0.4); border-radius: 4px; padding: 16px; text-align: center; cursor: pointer; background: rgba(255,165,0,0.04); transition: all 0.2s;">
-            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">ドラッグ＆ドロップまたはクリック</div>
-            <input type="file" id="ocr-file-input" accept="image/*,.pdf" style="display: none;" />
-            <button type="button" data-testid="ocr-upload-btn" class="action-btn secondary" style="font-size: 11px; padding: 6px 12px;">ファイル選択</button>
-          </div>
+          <div id="ocr-file-name" style="font-size: 11px; color: var(--text-muted); margin-top: 6px;"></div>
         </div>
 
-        <button type="button" data-testid="ocr-read-btn" class="action-btn" style="width: 100%; padding: 8px; font-size: 12px; background: var(--primary); color: #fff; border: none; border-radius: 3px; cursor: pointer;">🔍 OCR読み込み実行</button>
+        <button type="button" data-testid="ocr-read-button" id="btn-ocr-read" class="action-btn" style="width: 100%; padding: 8px; font-size: 12px; font-weight: 600;">
+          AI-OCR読み込み実行
+        </button>
       </div>
 
       <!-- アクションボタン -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: auto;">
-        <button type="button" data-testid="cancel-button" class="action-btn secondary" style="padding: 8px; font-size: 12px; border-radius: 3px;">キャンセル</button>
-        <button type="button" data-testid="save-button" class="action-btn" style="padding: 8px; font-size: 12px; background: var(--primary); color: #fff; border: none; border-radius: 3px; cursor: pointer;">保存・検証</button>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <button type="button" data-testid="save-button" id="btn-save" class="action-btn" style="padding: 10px; font-size: 12px; font-weight: 600;">
+          保存・検証
+        </button>
+        <button type="button" data-testid="cancel-button" id="btn-cancel" class="action-btn secondary" style="padding: 10px; font-size: 12px; font-weight: 600;">
+          キャンセル
+        </button>
       </div>
     </div>
 
-    <!-- 右列：検証結果 + 信頼度スコア -->
-    <div style="flex: 0 0 55%; display: flex; flex-direction: column; gap: 12px; overflow-y: auto;">
+    <!-- 右パネル: 検証結果・プレビュー -->
+    <div style="flex: 0 0 55%; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; padding-left: 4px;">
       
-      <!-- 信頼度スコアカード -->
-      <div class="card" style="padding: 12px; background: linear-gradient(135deg, rgba(255,165,0,0.1), rgba(255,69,0,0.1));">
-        <h3 style="font-size: 13px; font-weight: 600; color: var(--text); margin: 0 0 12px 0;">📊 信頼度スコア</h3>
-        
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-          <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 3px; text-align: center;">
-            <div style="font-size: 24px; font-weight: 700; color: var(--primary); margin-bottom: 4px;" data-testid="total-score">—</div>
-            <div style="font-size: 10px; color: var(--text-muted);">総合スコア</div>
-          </div>
-          <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 3px;">
-            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">完全性</div>
-            <div style="font-size: 13px; font-weight: 600; color: var(--text);" data-testid="completeness-score">—</div>
-            <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">正確性</div>
-            <div style="font-size: 13px; font-weight: 600; color: var(--text);" data-testid="accuracy-score">—</div>
-          </div>
+      <!-- 信頼度スコア表示 -->
+      <div class="card" style="padding: 12px; background: linear-gradient(135deg, rgba(255,165,0,0.1) 0%, rgba(255,69,0,0.1) 100%);">
+        <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 10px;">
+          信頼度スコア
         </div>
-
-        <div style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 3px; border-left: 3px solid var(--primary);">
-          <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 2px;">一貫性スコア</div>
-          <div style="font-size: 13px; font-weight: 600; color: var(--text);" data-testid="consistency-score">—</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div style="text-align: center; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 4px;">
+            <div style="font-size: 24px; font-weight: 700; color: #ffb74d;" id="score-total">-</div>
+            <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">総合スコア</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 11px; color: var(--text-muted);">完全性</span>
+              <span style="font-size: 12px; font-weight: 600; color: var(--text);" id="score-completeness">-</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 11px; color: var(--text-muted);">正確性</span>
+              <span style="font-size: 12px; font-weight: 600; color: var(--text);" id="score-accuracy">-</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 11px; color: var(--text-muted);">一貫性</span>
+              <span style="font-size: 12px; font-weight: 600; color: var(--text);" id="score-consistency">-</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- 検証結果テーブル -->
-      <div class="card" style="padding: 12px; display: flex; flex-direction: column; flex: 1; overflow: hidden;">
-        <h3 style="font-size: 13px; font-weight: 600; color: var(--text); margin: 0 0 10px 0;">✓ 検証結果</h3>
-        
-        <div style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.08); border-radius: 3px;">
-          <table data-testid="validation-results" style="width: 100%; font-size: 11px; border-collapse: collapse;">
-            <thead style="position: sticky; top: 0; background: rgba(0,0,0,0.3);">
-              <tr>
-                <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">項目</th>
-                <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">ステータス</th>
-                <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">メッセージ</th>
-              </tr>
-            </thead>
-            <tbody id="validation-tbody">
-              <tr style="background: rgba(0,0,0,0.1);">
-                <td colspan="3" style="padding: 20px 8px; text-align: center; color: var(--text-muted); font-size: 11px;">検証待機中...</td>
-              </tr>
-            </tbody>
-          </table>
+      <!-- 検証結果 -->
+      <div class="card" style="padding: 12px; flex: 1; overflow-y: auto;">
+        <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 10px;">
+          検証結果
+        </div>
+        <div id="validation-results" style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="padding: 8px; background: rgba(0,0,0,0.2); border-radius: 3px; border-left: 3px solid rgba(255,255,255,0.2); font-size: 11px; color: var(--text-muted);">
+            入力後に検証結果が表示されます
+          </div>
         </div>
       </div>
 
-      <!-- 検出問題サマリー -->
+      <!-- 修正履歴 -->
       <div class="card" style="padding: 12px;">
-        <h3 style="font-size: 13px; font-weight: 600; color: var(--text); margin: 0 0 10px 0;">⚠️ 検出問題</h3>
-        
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-          <div style="background: rgba(255,69,0,0.15); padding: 8px; border-radius: 3px; border-left: 3px solid #ff4500;">
-            <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 2px;">致命的エラー</div>
-            <div style="font-size: 16px; font-weight: 700; color: #ff4500;" data-testid="critical-count">0</div>
-          </div>
-          <div style="background: rgba(255,165,0,0.15); padding: 8px; border-radius: 3px; border-left: 3px solid #ffa500;">
-            <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 2px;">警告</div>
-            <div style="font-size: 16px; font-weight: 700; color: #ffa500;" data-testid="warning-count">0</div>
-          </div>
+        <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px;">
+          修正履歴
         </div>
-
-        <div id="issues-list" style="margin-top: 10px; max-height: 120px; overflow-y: auto;">
-          <!-- 問題リストが動的に挿入される -->
+        <div id="edit-history" style="display: flex; flex-direction: column; gap: 6px; max-height: 150px; overflow-y: auto;">
+          <div style="font-size: 11px; color: var(--text-muted);">修正履歴なし</div>
         </div>
       </div>
 
-      <!-- 修正・承認ボタン -->
+      <!-- 関連検出結果 -->
+      <div class="card" style="padding: 12px;">
+        <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px;">
+          関連検出結果
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div style="padding: 8px; background: rgba(0,0,0,0.2); border-radius: 3px; text-align: center;">
+            <div style="font-size: 14px; font-weight: 700; color: #ffb74d;" id="count-duplicates">0</div>
+            <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">重複検出</div>
+          </div>
+          <div style="padding: 8px; background: rgba(0,0,0,0.2); border-radius: 3px; text-align: center;">
+            <div style="font-size: 14px; font-weight: 700; color: #ff6b6b;" id="count-discrepancies">0</div>
+            <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">矛盾検出</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ナビゲーション -->
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-        <button type="button" data-testid="edit-button" class="action-btn secondary" style="padding: 8px; font-size: 12px; border-radius: 3px;">修正</button>
-        <button type="button" data-testid="approve-button" class="action-btn" style="padding: 8px; font-size: 12px; background: var(--primary); color: #fff; border: none; border-radius: 3px; cursor: pointer;">承認</button>
+        <button type="button" data-testid="nav-dashboard" class="action-btn secondary" style="padding: 8px; font-size: 11px;">
+          ダッシュボード
+        </button>
+        <button type="button" data-testid="nav-detail" class="action-btn secondary" style="padding: 8px; font-size: 11px;">
+          詳細確認
+        </button>
       </div>
     </div>
   </div>
